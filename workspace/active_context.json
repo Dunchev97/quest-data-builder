@@ -2,30 +2,30 @@
   "version": 1,
   "mode": "quest_generation",
   "mode_name_ru": "Генерация квестов",
-  "campaign_id": "MeatballRain_2026",
-  "pack_id": "pack_002",
-  "stage": "6",
+  "campaign_id": "CucumberFestival_2026",
+  "pack_id": "pack_001",
+  "stage": "3",
   "quest_number": null,
   "task_number": null,
   "source": "manual",
-  "last_request": "правки по 4 этапу, которые нужно добавить в инструкцию",
+  "last_request": "",
   "matched_keywords": [],
-  "notes": "Stage 6 CSV exported from pack artifacts after stage 5 approval. CSV: campaigns/MeatballRain_2026/pack_002/generated_quests.csv.",
-  "updated_at": "2026-04-28T21:03:46.548755+00:00",
+  "notes": "Stage 3 quest plan generated and resolved. Awaiting user approval before stage 3.1 context_pack.",
   "stage_approvals": {
-    "4": {
+    "1": {
       "approved": true,
-      "approved_at": "2026-04-28T20:33:21.961930+00:00",
-      "campaign_id": "MeatballRain_2026",
-      "pack_id": "pack_002",
-      "notes": "Пользователь запросил проверку и создание этапа 5; stage 4 validation errors=0 warnings=0."
+      "approved_at": "2026-04-28T21:27:24.420177+00:00",
+      "campaign_id": "CucumberFestival_2026",
+      "pack_id": "pack_001",
+      "notes": "Пользователь утвердил этап 1 и запросил этап 2."
     },
-    "5": {
+    "2": {
       "approved": true,
-      "approved_at": "2026-04-28T21:03:31.929137+00:00",
-      "campaign_id": "MeatballRain_2026",
-      "pack_id": "pack_002",
-      "notes": "Пользователь явно утвердил этап 5: квестовая группа pack_002 approved for stage 6 CSV."
+      "approved_at": "2026-04-28T21:30:18.431445+00:00",
+      "campaign_id": "CucumberFestival_2026",
+      "pack_id": "pack_001",
+      "notes": "Пользователь утвердил этап 2 и запросил этап 3."
     }
-  }
+  },
+  "updated_at": "2026-04-28T21:31:17.095398+00:00"
 }

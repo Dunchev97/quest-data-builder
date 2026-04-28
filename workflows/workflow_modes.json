@@ -56,7 +56,7 @@
         "python src/create_pack.py <campaign_id>",
         "python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>",
         "python src/build_context_pack.py output/quest_plan.resolved.json --campaign <campaign_id> --current-pack <pack_id>",
-        "python src/validate_task_objects.py output/filled_tasks.json --campaign <campaign_id> --current-pack <pack_id>",
+        "python src/validate_task_objects.py campaigns/<campaign_id>/<pack_id>/filled_tasks.json --context-pack campaigns/<campaign_id>/<pack_id>/context_pack.json --campaign <campaign_id> --current-pack <pack_id> --output-json campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json --preview campaigns/<campaign_id>/<pack_id>/filled_tasks.preview.md",
         "python src/workflow_context.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>",
         "python src/build_quest_group.py --campaign <campaign_id> --current-pack <pack_id>",
         "python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>"
@@ -91,7 +91,7 @@
         "этап 4 правка"
       ],
       "entrypoints": [
-        "python src/validate_task_objects.py output/filled_tasks.json --campaign <campaign_id> --current-pack <pack_id>",
+        "python src/validate_task_objects.py campaigns/<campaign_id>/<pack_id>/filled_tasks.json --context-pack campaigns/<campaign_id>/<pack_id>/context_pack.json --campaign <campaign_id> --current-pack <pack_id> --output-json campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json --preview campaigns/<campaign_id>/<pack_id>/filled_tasks.preview.md",
         "python src/export_csv.py --campaign <campaign_id> --current-pack <pack_id>",
         "python src/update_campaign_memory.py <campaign_id> --pack <pack_id> --from-output"
       ]
@@ -134,7 +134,7 @@
         "структура csv"
       ],
       "entrypoints": [
-        "python src/validate_task_objects.py output/filled_tasks.json --campaign <campaign_id> --current-pack <pack_id>",
+        "python src/validate_task_objects.py campaigns/<campaign_id>/<pack_id>/filled_tasks.json --context-pack campaigns/<campaign_id>/<pack_id>/context_pack.json --campaign <campaign_id> --current-pack <pack_id> --output-json campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json --preview campaigns/<campaign_id>/<pack_id>/filled_tasks.preview.md",
         "python src/build_quest_group.py --campaign <campaign_id> --current-pack <pack_id>",
         "python src/export_csv.py --campaign <campaign_id> --current-pack <pack_id>"
       ]

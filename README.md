@@ -1,15 +1,19 @@
 # quest-data-builder
 
-Парсер raw-данных легаси-игры для построения игровых индексов, quest-ready данных и рабочих файлов квестового пайплайна.
+Проект собирает quest-ready индексы из legacy game data и помогает вести поэтапный workflow создания quest pack: от сюжета до CSV.
 
-Код индексирует реальные игровые данные, проверяет их и помогает вести этапы 3-5. Полная творческая генерация квестов остается ручным/ИИ-этапом: код не должен сам придумывать сюжет или task object без отдельного указания.
-
-## Быстрый старт
+## Быстрый Старт
 
 Пересобрать игровые индексы:
 
 ```bash
 python src/build_index.py
+```
+
+Показать текущий рабочий контекст:
+
+```bash
+python src/workflow_context.py show
 ```
 
 Запустить тесты:
@@ -18,53 +22,36 @@ python src/build_index.py
 python -m unittest discover -s tests
 ```
 
-Файлы в `raw/` не изменяются.
+## Документы
 
-## Активный контекст
+- `AGENTS.md` - короткие обязательные правила для Codex.
+- `README.md` - краткая карта проекта и команды.
+- `workflows/WORKFLOW_GUIDE.md` - основной подробный workflow создания квестов.
+- `workflows/workflow_modes.json` - машинная карта режимов и ключевиков.
+- `Инструкция этап 1.txt` ... `Инструкция этап 6.txt` - подробные playbook-и конкретных этапов.
 
-Актуальная рабочая сессия хранится здесь:
+`PLAN.md` удален: это был устаревший roadmap разработки, а не рабочая инструкция.
+
+## Основные Папки
+
+- `raw/` - исходные игровые данные, не редактировать.
+- `data/` - generated indexes и quest-ready данные.
+- `input/` - временный ручной ввод для текущего прогона.
+- `output/` - временный рабочий прогон.
+- `campaigns/` - постоянные campaign/pack артефакты.
+- `workspace/` - текущий active context.
+- `src/` - CLI и Python-код.
+- `tests/` - unit tests.
+
+Постоянным источником правды для quest pack является:
 
 ```text
-workspace/active_context.json
+campaigns/<campaign_id>/<pack_id>/
 ```
 
-Если пользователь спрашивает про текущую сессию, campaign, pack, stage, quest, task или выбранные шаблоны, сначала смотри этот файл.
+`output/` можно использовать как временную витрину, но не как место хранения актуального pack.
 
-Показать активный контекст:
-
-```bash
-python src/workflow_context.py show
-```
-
-Выставить контекст вручную:
-
-```bash
-python src/workflow_context.py set --mode quest_edit --campaign MeatballRain_2026 --pack pack_001 --stage 4 --quest 2 --task 1
-```
-
-Определить режим по тексту запроса и записать его:
-
-```bash
-python src/workflow_context.py detect --text "создай csv для текущего пака" --apply --campaign MeatballRain_2026 --pack pack_001
-```
-
-Подробный порядок workflow, режимы и approval gates описаны в:
-
-- `workflows/WORKFLOW_GUIDE.md`
-- `workflows/workflow_modes.json`
-
-## Основные папки
-
-- `raw/` — исходные игровые данные, не редактировать.
-- `data/` — generated indexes и quest-ready данные.
-- `input/` — ручной ввод для текущего прогона.
-- `output/` — последний рабочий прогон.
-- `campaigns/` — сохраненные campaign/pack артефакты.
-- `workspace/` — активный контекст локальной сессии.
-- `src/` — CLI и Python-код.
-- `tests/` — unit-тесты.
-
-## Индексы
+## Quest-Ready Индексы
 
 `python src/build_index.py` читает:
 
@@ -73,7 +60,7 @@ python src/workflow_context.py detect --text "создай csv для текущ
 - `raw/flowers/`
 - `raw/collections/`
 
-И создает базовые файлы:
+И создает:
 
 - `data/master_index.json`
 - `data/garbage.index.json`
@@ -81,9 +68,6 @@ python src/workflow_context.py detect --text "создай csv для текущ
 - `data/collections.index.json`
 - `data/drops.index.json`
 - `data/validation_report.json`
-
-Quest-ready файлы:
-
 - `data/quest_ready_index.json`
 - `data/quest_ready_drops.index.json`
 - `data/critical_issues.json`
@@ -91,83 +75,14 @@ Quest-ready файлы:
 - `data/excluded_entities.json`
 - `data/validation_summary.md`
 
-`quest_ready_index.json` и `quest_ready_drops.index.json` — единственные индексы, которые будущая генерация квестов и CSV должна использовать как источник игровых данных.
+Генерация quest/task data должна использовать только:
 
-Если нужно пересобрать только Markdown summary из уже созданных JSON:
-
-```bash
-python src/analyze_validation.py
+```text
+data/quest_ready_index.json
+data/quest_ready_drops.index.json
 ```
 
-## Квестовый пайплайн
-
-Этап 3: распарсить текстовый план квестов:
-
-```bash
-python src/parse_stage3.py input/stage3_quests.txt
-```
-
-Проверить выбранные `Task template ID`, русские названия и `Task type`:
-
-```bash
-python src/task_type_resolver.py output/quest_plan.json
-```
-
-После показа результата этапа 3 и явного апрува пользователя записать approval gate:
-
-```bash
-python src/workflow_context.py approve --stage 3 --campaign MeatballRain_2026 --pack pack_002
-```
-
-Применить ручные overrides, если нужны:
-
-```bash
-python src/apply_overrides.py output/quest_plan.json input/manual_overrides.json
-```
-
-Этап 3.1: собрать compact context pack для заполнения task objects:
-
-```bash
-python src/build_context_pack.py output/quest_plan.resolved.json --campaign MeatballRain_2026 --current-pack pack_002
-```
-
-`build_context_pack.py` не собирает `context_pack` без записанного approval stage 3 для того же `campaign_id/pack_id`.
-
-Этап 4: проверить заполненный `output/filled_tasks.json`:
-
-```bash
-python src/validate_task_objects.py output/filled_tasks.json --campaign MeatballRain_2026 --current-pack pack_002
-```
-
-После показа результата этапа 4 и явного апрува пользователя записать gate:
-
-```bash
-python src/workflow_context.py approve --stage 4 --campaign MeatballRain_2026 --pack pack_002
-```
-
-Этап 5: создать квестовую группу по контексту всего pack:
-
-```bash
-python src/build_quest_group.py --campaign MeatballRain_2026 --current-pack pack_002 --title "..." --description "..." --description-complete "..." --description-spoil "..."
-```
-
-Поля `title`, `description`, `description_complete`, `description_spoil` пишет ИИ по смыслу всех квестов pack. `quest_group.json`, validation и preview сохраняются в `campaigns/<campaign_id>/<pack_id>/`, потому что квестовая группа привязана к pack. После показа `campaigns/<campaign_id>/<pack_id>/quest_group.json` и preview нужен явный апрув пользователя:
-
-```bash
-python src/workflow_context.py approve --stage 5 --campaign MeatballRain_2026 --pack pack_002
-```
-
-Этап 6: экспортировать CSV после approval stage 5:
-
-```bash
-python src/export_csv.py --campaign MeatballRain_2026 --current-pack pack_002
-```
-
-CSV не создается, если `campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json` или `campaigns/<campaign_id>/<pack_id>/quest_group.validation.json` содержит errors, устарел относительно входных JSON, либо approval stage 5 не записан.
-
-## Кампании и паки
-
-`output/` — последний рабочий прогон. Долгая сюжетная линия хранится в `campaigns/`.
+## Campaign И Pack
 
 Создать или открыть campaign:
 
@@ -181,20 +96,85 @@ python src/start_campaign.py MeatballRain_2026 --title "У нас дождь и�
 python src/create_pack.py MeatballRain_2026 --title "Пак 1"
 ```
 
-Если этапы 3-4 делались во временном `output/`, сохранить текущий `output/` в campaign и обновить память:
+Обновить память campaign по готовому pack:
 
 ```bash
-python src/update_campaign_memory.py MeatballRain_2026 --pack pack_001 --from-output
+python src/update_campaign_memory.py MeatballRain_2026 --pack pack_002
 ```
 
-Generated-объекты (`HOG`, `GR`, `ASK`, `PER`, `CL`, `FA`, `R`) нумеруются в пределах всей campaign, а не отдельного pack.
+Если часть артефактов была сделана во временном `output/`, их можно скопировать в pack и обновить память:
 
-## Ограничения
+```bash
+python src/update_campaign_memory.py MeatballRain_2026 --pack pack_002 --from-output
+```
+
+## Workflow 1-6
+
+Подробные правила и точки approval описаны в `workflows/WORKFLOW_GUIDE.md`. Краткая карта:
+
+| Этап | Что Делает | Главный Результат | Approval |
+| --- | --- | --- | --- |
+| 1 | Сюжетная структура pack | `stage1_story.txt` | нужен |
+| 2 | Реплики начала/завершения | `stage2_story.txt` | нужен |
+| 3 | План квестов и task templates | `stage3_quests.txt`, `quest_plan*.json` | нужен |
+| 3.1 | Context pack для ИИ | `context_pack.json` | нужен |
+| 4 | Filled task objects + validation | `filled_tasks.json`, `filled_tasks.validation.json` | нужен |
+| 5 | Quest group pack | `quest_group.json` | нужен |
+| 6 | CSV export | `generated_quests.csv` | запускается только после approval stage 5 |
+
+Технические gates:
+
+```bash
+python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_context.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
+```
+
+## Основные Команды Этапов
+
+Этап 3:
+
+```bash
+python src/parse_stage3.py input/stage3_quests.txt
+python src/task_type_resolver.py output/quest_plan.json
+```
+
+Этап 3.1:
+
+```bash
+python src/build_context_pack.py output/quest_plan.resolved.json --campaign <campaign_id> --current-pack <pack_id>
+```
+
+Этап 4:
+
+```bash
+python src/validate_task_objects.py campaigns/<campaign_id>/<pack_id>/filled_tasks.json --context-pack campaigns/<campaign_id>/<pack_id>/context_pack.json --campaign <campaign_id> --current-pack <pack_id> --output-json campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json --preview campaigns/<campaign_id>/<pack_id>/filled_tasks.preview.md
+```
+
+Этап 5:
+
+```bash
+python src/build_quest_group.py --campaign <campaign_id> --current-pack <pack_id> --title "..." --description "..." --description-complete "..." --description-spoil "..."
+```
+
+Этап 6:
+
+```bash
+python src/export_csv.py --campaign <campaign_id> --current-pack <pack_id>
+```
+
+Stage 6 читает `filled_tasks.json` и `quest_group.json` из папки pack и пишет:
+
+```text
+campaigns/<campaign_id>/<pack_id>/generated_quests.csv
+```
+
+## Жесткие Ограничения
 
 - Не изменять `raw/`.
-- Не придумывать игровые факты: classname, title, tags и связи берутся из parsed/generated data.
-- Новый pack делается поэтапно и требует approval после каждого этапа.
-- CSV создается только из валидного `output/filled_tasks.json`.
-- `quest_group.json` хранится в папке конкретного pack: `campaigns/<campaign_id>/<pack_id>/quest_group.json`.
+- Не выдумывать игровые факты.
+- Новый pack делается поэтапно, с approval после каждого творческого этапа.
+- `quest_group.json` хранится в папке конкретного pack.
+- Generated-объекты (`HOG`, `GR`, `ASK`, `PER`, `CL`, `FA`, `R`) нумеруются в пределах всей campaign.
 - `TT-035` помечен как `not_ready` и не должен использоваться.
 - Используется только стандартная библиотека Python.
