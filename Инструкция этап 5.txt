@@ -12,7 +12,9 @@ python src/validate_task_objects.py output/filled_tasks.json
 
 Если в `output/filled_tasks.validation.json` есть `errors > 0`, CSV не создавать. Нужно вернуться к этапу 4 и исправить task object.
 
-Этап 5 не должен творчески переписывать данные. Он только разворачивает уже готовый `task_object` в CSV.
+Этап 5 не должен творчески переписывать данные. Он только разворачивает уже готовые данные этапа 4 в CSV:
+- верхний блок квеста из полей `classname_quests`, `title_quest`, `description`, `congratulation`, `Character/character`, `helper`, `extra.sequence_icon`;
+- блоки задач из уже готовых `task_object`.
 
 Нельзя на этапе 5:
 - менять `title`;
@@ -24,7 +26,42 @@ python src/validate_task_objects.py output/filled_tasks.json
 
 Если в task object видна смысловая ошибка, этап 5 должен остановиться и вернуть задачу на этап 4.
 
-Упрощенный шаблон для создания CSV:
+СТРУКТУРА CSV
+
+Для каждого квеста нужен отдельный quest-блок, а под ним его задачи:
+
+```text
+Квест 1
+  Таск 1
+  Таск 2
+  Таск 3
+
+Квест 2
+  Таск 1
+  Таск 2
+  Таск 3
+```
+
+Важно: номера в заголовках задач CSV локальные внутри квеста. Даже если во входном `filled_tasks.json` `task_number` идет глобально как `4`, `5`, `6`, в блоке второго квеста CSV должен писать `Таск 1`, `Таск 2`, `Таск 3`, а поля остаются `tasks.0`, `tasks.1`, `tasks.2`.
+
+Quest-блок должен идти перед task-блоками:
+
+```csv
+;Квест 1;;;;;;
+sl;string;string;string;string;string;string;string
+;input;output;title;description;congratulation;helper;extra.sequence_icon
+;/quest/generated/Labor_2025/story_1/Labor_2025_Story_1.proto.js;/quest/generated/Labor_2025/story_1/Labor_2025_Story_1.proto.js;Потерянный мангал;...;...;Labor_2025_Character_1;MagazinePage_Labor_2025_QuestIcon_1
+```
+
+Поля quest-блока:
+- `input` и `output` берутся из `proto_path`, если он есть, иначе строятся из `classname_quests/classname` и `quest_number`;
+- `title` берется из `title_quest`;
+- `description` берется из `description`;
+- `congratulation` берется из `congratulation`;
+- `helper` берется из `helper`, `quest_helper`, `character_classname`, `extra.helper` или из первого `task_object.go_to_location[].classname`/`icon`, похожего на `Character`;
+- `extra.sequence_icon` берется из `extra.sequence_icon`, `sequence_icon`, `quest_sequence_icon`; если поля нет, строится по classname квеста как `MagazinePage_[base]_QuestIcon_1`.
+
+Упрощенный шаблон для task-блока:
 ;Таск 1;Уборка конкретного мусора в гостях;;;;;;;;;;;;;;;;;;;;;;;;
 ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;
 ;input;output;tasks.0;;;;;;;;;;;;;;;;;;;;;;
@@ -36,6 +73,18 @@ ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;
 ;;;title;Убери мусор Солонка в гостях;;;;;;;;;;;;;;;;;;;;;
 ;;;hint;Убери мусор Солонка в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Горница
 ;;;identifier;;;;;;;;;;;;;;;;;;;;;
+
+Для диалоговых тасков (`TT-001`, `Диалог`, `action dialog`) реплика персонажа пишется в этой же заголовочной строке task-блока:
+
+```csv
+;Таск 1;Диалог;;;РЕПЛИКА ДИАЛОГА: Домовёнок, кажется, у нас снова переполох. Давай разберёмся, пока всё не стало ещё страннее.;;
+```
+
+Правила:
+- реплика берется из `task.dialogue_replica`;
+- длина `dialogue_replica` в JSON должна быть не более 360 символов с пробелами;
+- этап 5 не придумывает, не расширяет и не сокращает реплику;
+- если у диалогового таска нет `dialogue_replica` или она длиннее 360 символов, валидатор этапа 4 должен вернуть ошибку, а CSV создавать нельзя.
 
 Пример:
 Входные данные:
@@ -62,6 +111,11 @@ congratulation: "Ай да молодец! Нашёл мой боевой ман
 Character: Григорий Борщов
 
 Результат на выходе:
+;Квест 1;;;;;;
+sl;string;string;string;string;string;string;string
+;input;output;title;description;congratulation;helper;extra.sequence_icon
+;/quest/generated/Labor_2025/story_1/Labor_2025_Story_1.proto.js;/quest/generated/Labor_2025/story_1/Labor_2025_Story_1.proto.js;Потерянный мангал;"Эй, домовёночек! Первомай на носу, а я мангал найти не могу! Представляешь, куда-то на чердаке запропастился мой красавец складной. Без него какой пикник? Сам понимаешь — шашлык без правильного мангала, что свадьба без жениха! Поможешь отыскать? У меня там, правда, небольшой творческий беспорядок...";"Ай да молодец! Нашёл мой боевой мангал! Теперь-то наш Первомай будет с шашлыками — пальчики оближешь! Жаль только, что я все шампуры растерял... Шучу-шучу, они в сарае лежат, проверял!";;MagazinePage_Labor_2025_QuestIcon_1
+
 ;Таск 1;Уборка конкретного мусора в гостях;;;;;;;;;;;;;;;;;;;;;;;;
 ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;
 ;input;output;tasks.0;;;;;;;;;;;;;;;;;;;;;;

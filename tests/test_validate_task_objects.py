@@ -83,8 +83,9 @@ def filled_task(
     task_type: str,
     selected_candidate_id: str | None,
     task_object: dict[str, object],
+    dialogue_replica: str | None = None,
 ) -> dict[str, object]:
-    return {
+    task = {
         "task_number": task_number,
         "task_template_id": task_template_id,
         "task_template_name": task_template_name,
@@ -93,6 +94,9 @@ def filled_task(
         "choice_reason": "Подходит по контексту.",
         "task_object": task_object,
     }
+    if dialogue_replica is not None:
+        task["dialogue_replica"] = dialogue_replica
+    return task
 
 
 def filled_tasks(*tasks: dict[str, object]) -> dict[str, object]:
@@ -284,6 +288,7 @@ class ValidateTaskObjectsTests(unittest.TestCase):
                         "hint": "Поговори с Домовенком. Для этого просто кликни на него. Он находится у крыльца под тучей.",
                         "go_to_location": [{"classname": "Event_2026_Character_1"}],
                     },
+                    dialogue_replica="Посмотри, где начинается этот странный переполох.",
                 )
             ),
             context_pack(),
@@ -292,6 +297,59 @@ class ValidateTaskObjectsTests(unittest.TestCase):
 
         codes = [error["code"] for error in validation["errors"]]
         self.assertIn("unknown_location_in_hint", codes)
+
+    def test_reports_missing_dialogue_replica(self) -> None:
+        validation = validate_filled_tasks(
+            filled_tasks(
+                filled_task(
+                    1,
+                    "TT-001",
+                    "Диалог",
+                    "action dialog",
+                    None,
+                    {
+                        "type": "action",
+                        "icon": "Event_2026_Character_1",
+                        "action": "Event_2026_Character_1_Dialog_1",
+                        "title": "Поговори с Домовенком",
+                        "hint": "Поговори с Домовенком.",
+                        "go_to_location": [{"classname": "Event_2026_Character_1"}],
+                    },
+                )
+            ),
+            context_pack(),
+            templates(),
+        )
+
+        codes = [error["code"] for error in validation["errors"]]
+        self.assertIn("missing_dialogue_replica", codes)
+
+    def test_reports_too_long_dialogue_replica(self) -> None:
+        validation = validate_filled_tasks(
+            filled_tasks(
+                filled_task(
+                    1,
+                    "TT-001",
+                    "Диалог",
+                    "action dialog",
+                    None,
+                    {
+                        "type": "action",
+                        "icon": "Event_2026_Character_1",
+                        "action": "Event_2026_Character_1_Dialog_1",
+                        "title": "Поговори с Домовенком",
+                        "hint": "Поговори с Домовенком.",
+                        "go_to_location": [{"classname": "Event_2026_Character_1"}],
+                    },
+                    dialogue_replica="а" * 361,
+                )
+            ),
+            context_pack(),
+            templates(),
+        )
+
+        codes = [error["code"] for error in validation["errors"]]
+        self.assertIn("dialogue_replica_too_long", codes)
 
     def test_reports_collection_source_reusing_selected_garbage(self) -> None:
         conflict_context = context_pack()

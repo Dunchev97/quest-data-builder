@@ -24,6 +24,8 @@ def sample_filled_tasks() -> dict[str, object]:
                 "classname_quests": "Event_2026_Story_2",
                 "title_quest": "Проверка",
                 "quest_number": 2,
+                "description": "Описание квеста.",
+                "congratulation": "Поздравление квеста.",
                 "tasks": [
                     {
                         "task_number": 4,
@@ -48,6 +50,7 @@ def sample_filled_tasks() -> dict[str, object]:
                         "task_template_name": "Диалог",
                         "task_type": "action dialog",
                         "selected_candidate_id": None,
+                        "dialogue_replica": "Нужно проверить, всё ли готово к запуску квеста.",
                         "task_object": {
                             "type": "action",
                             "icon": "Event_2026_Character_1",
@@ -76,12 +79,22 @@ class ExportCsvTests(unittest.TestCase):
             with output_path.open("r", encoding="utf-8-sig", newline="") as stream:
                 rows = list(csv.reader(stream, delimiter=";"))
 
-            self.assertEqual(rows[0][1], "Таск 4")
-            self.assertEqual(rows[0][2], "Уборка конкретного мусора в гостях")
-            self.assertEqual(rows[2][3], "tasks.0")
-            self.assertEqual(rows[3][1], "/quest/generated/Event_2026/story_2/Event_2026_Story_2.proto.js")
-            self.assertEqual(rows[3][3], "type")
-            self.assertEqual(rows[3][4], "garbage")
+            self.assertEqual(rows[0][1], "Квест 2")
+            self.assertEqual(rows[1][:8], ["sl", "string", "string", "string", "string", "string", "string", "string"])
+            self.assertEqual(rows[2][1:8], ["input", "output", "title", "description", "congratulation", "helper", "extra.sequence_icon"])
+            self.assertEqual(rows[3][3], "Проверка")
+            self.assertEqual(rows[3][4], "Описание квеста.")
+            self.assertEqual(rows[3][5], "Поздравление квеста.")
+            self.assertEqual(rows[3][6], "Event_2026_Character_1")
+            self.assertEqual(rows[3][7], "MagazinePage_Event_2026_QuestIcon_1")
+            self.assertEqual(rows[5][1], "Таск 1")
+            self.assertEqual(rows[5][2], "Уборка конкретного мусора в гостях")
+            self.assertEqual(rows[7][3], "tasks.0")
+            self.assertEqual(rows[8][1], "/quest/generated/Event_2026/story_2/Event_2026_Story_2.proto.js")
+            self.assertEqual(rows[8][3], "type")
+            self.assertEqual(rows[8][4], "garbage")
+            dialog_header = next(row for row in rows if row[1] == "Таск 2" and row[2] == "Диалог")
+            self.assertEqual(dialog_header[5], "РЕПЛИКА ДИАЛОГА: Нужно проверить, всё ли готово к запуску квеста.")
             self.assertTrue(any(row[3] == "identifier" for row in rows))
             self.assertTrue(any(row[3] == "go_to_location" and "Event_2026_Character_1" in row[4] for row in rows))
 

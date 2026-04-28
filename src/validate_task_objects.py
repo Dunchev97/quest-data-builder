@@ -13,6 +13,9 @@ DEFAULT_CONTEXT_PACK_PATH = PROJECT_ROOT / "output" / "context_pack.json"
 DEFAULT_TEMPLATES_PATH = PROJECT_ROOT / "data" / "task_templates.json"
 DEFAULT_OUTPUT_JSON_PATH = PROJECT_ROOT / "output" / "filled_tasks.validation.json"
 DEFAULT_PREVIEW_PATH = PROJECT_ROOT / "output" / "filled_tasks.preview.md"
+DIALOGUE_TEMPLATE_IDS = {"TT-001"}
+DIALOGUE_REPLICA_KEYS = ("dialogue_replica", "dialogue", "replica", "dialogue_text")
+DIALOGUE_REPLICA_MAX_CHARS = 360
 
 
 REQUIRED_FIELDS_BY_TEMPLATE = {
@@ -257,6 +260,63 @@ def build_filled_task_rows(filled_tasks: dict[str, Any]) -> list[tuple[dict[str,
 
 def is_missing(value: Any) -> bool:
     return value is None or value == "" or value == []
+
+
+def is_dialogue_task(task: dict[str, Any], task_object: dict[str, Any]) -> bool:
+    template_id = str(task.get("task_template_id") or "")
+    template_name = str(task.get("task_template_name") or "").lower()
+    task_type = str(task.get("task_type") or "").lower()
+    action = str(task_object.get("action") or "").lower()
+    return (
+        template_id in DIALOGUE_TEMPLATE_IDS
+        or template_name == "диалог"
+        or "dialog" in task_type
+        or "_dialog_" in action
+    )
+
+
+def dialogue_replica(task: dict[str, Any], task_object: dict[str, Any]) -> str | None:
+    for source in (task, task_object):
+        for key in DIALOGUE_REPLICA_KEYS:
+            value = source.get(key)
+            if value not in (None, ""):
+                return str(value).strip()
+    return None
+
+
+def validate_dialogue_replica(
+    task_object: dict[str, Any],
+    quest: dict[str, Any],
+    task: dict[str, Any],
+) -> list[dict[str, Any]]:
+    if not is_dialogue_task(task, task_object):
+        return []
+
+    replica = dialogue_replica(task, task_object)
+    if not replica:
+        return [
+            issue(
+                "error",
+                "missing_dialogue_replica",
+                "Dialogue task must include dialogue_replica for the CSV task header row.",
+                quest,
+                task,
+            )
+        ]
+
+    if len(replica) > DIALOGUE_REPLICA_MAX_CHARS:
+        return [
+            issue(
+                "error",
+                "dialogue_replica_too_long",
+                "Dialogue replica must be no longer than 360 characters including spaces.",
+                quest,
+                task,
+                limit=DIALOGUE_REPLICA_MAX_CHARS,
+                actual=len(replica),
+            )
+        ]
+    return []
 
 
 def candidate_by_id(context_task: dict[str, Any], candidate_id: str | None) -> dict[str, Any] | None:
@@ -682,6 +742,7 @@ def validate_task(
 
     issues.extend(validate_required_fields(task_object, template_id, quest, task))
     issues.extend(validate_expected_values(task_object, template_id, quest, task))
+    issues.extend(validate_dialogue_replica(task_object, quest, task))
     if selected_candidate is not None:
         issues.extend(validate_candidate_match(task_object, template_id, selected_candidate, quest, task))
     issues.extend(validate_generated_naming(task_object, template_id, quest, task))
