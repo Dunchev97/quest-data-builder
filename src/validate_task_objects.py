@@ -6,6 +6,19 @@ import re
 from pathlib import Path
 from typing import Any
 
+try:
+    from .campaigns import (
+        DEFAULT_CAMPAIGNS_DIR,
+        campaign_memory_path as campaign_memory_path_for,
+        generated_sequence_offsets,
+    )
+except ImportError:
+    from campaigns import (
+        DEFAULT_CAMPAIGNS_DIR,
+        campaign_memory_path as campaign_memory_path_for,
+        generated_sequence_offsets,
+    )
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_INPUT_PATH = PROJECT_ROOT / "output" / "filled_tasks.json"
@@ -570,8 +583,12 @@ def quest_prefix(classname_quests: Any) -> str:
     return value
 
 
-def validate_generated_sequences(filled_tasks: dict[str, Any]) -> list[dict[str, Any]]:
+def validate_generated_sequences(
+    filled_tasks: dict[str, Any],
+    sequence_offsets: dict[tuple[str, str], int] | None = None,
+) -> list[dict[str, Any]]:
     issues: list[dict[str, Any]] = []
+    sequence_offsets = sequence_offsets or {}
     counters: dict[tuple[str, str], int] = {}
     for quest in filled_tasks.get("quests", []):
         prefix = quest_prefix(quest.get("classname_quests"))
@@ -582,7 +599,7 @@ def validate_generated_sequences(filled_tasks: dict[str, Any]) -> list[dict[str,
                 continue
             kind, field_name = rule
             key = (prefix, kind)
-            counters[key] = counters.get(key, 0) + 1
+            counters[key] = counters.get(key, sequence_offsets.get(key, 0)) + 1
             expected = f"{prefix}_{kind}_{counters[key]}"
             task_object = task.get("task_object") or {}
             actual = task_object.get(field_name)
@@ -595,6 +612,7 @@ def validate_generated_sequences(filled_tasks: dict[str, Any]) -> list[dict[str,
                         quest,
                         task,
                         field=field_name,
+                        sequence_offset=sequence_offsets.get(key, 0),
                         expected=expected,
                         actual=actual,
                     )
@@ -769,6 +787,7 @@ def validate_filled_tasks(
     filled_tasks: dict[str, Any],
     context_pack: dict[str, Any],
     templates: dict[str, dict[str, Any]],
+    sequence_offsets: dict[tuple[str, str], int] | None = None,
 ) -> dict[str, Any]:
     context_index = build_context_task_index(context_pack)
     context_quest_index = build_context_quest_index(context_pack)
@@ -789,7 +808,7 @@ def validate_filled_tasks(
         all_issues.extend(issues)
 
     all_issues.extend(validate_cross_task_source_conflicts(filled_tasks, context_index))
-    all_issues.extend(validate_generated_sequences(filled_tasks))
+    all_issues.extend(validate_generated_sequences(filled_tasks, sequence_offsets=sequence_offsets))
 
     errors = [item for item in all_issues if item["severity"] == "error"]
     warnings = [item for item in all_issues if item["severity"] == "warning"]
@@ -858,11 +877,15 @@ def validate_file(
     templates_path: Path,
     output_json_path: Path,
     preview_path: Path,
+    campaign_memory_path: Path | None = None,
+    current_pack_id: str | None = None,
 ) -> dict[str, Any]:
+    campaign_memory = read_json(campaign_memory_path) if campaign_memory_path and campaign_memory_path.exists() else None
     validation = validate_filled_tasks(
         filled_tasks=read_json(input_path),
         context_pack=read_json(context_pack_path),
         templates=build_template_catalog(templates_path),
+        sequence_offsets=generated_sequence_offsets(campaign_memory, current_pack_id=current_pack_id),
     )
     write_json(output_json_path, validation)
     preview_path.parent.mkdir(parents=True, exist_ok=True)
@@ -903,6 +926,28 @@ def main(argv: list[str] | None = None) -> int:
         default=DEFAULT_PREVIEW_PATH,
         help="Output validation Markdown preview.",
     )
+    parser.add_argument(
+        "--campaign",
+        default="",
+        help="Campaign id. If set, uses campaigns/<campaign_id>/campaign_memory.json for campaign-wide generated numbering.",
+    )
+    parser.add_argument(
+        "--campaign-memory",
+        type=Path,
+        default=None,
+        help="Explicit campaign_memory.json path. Overrides --campaign.",
+    )
+    parser.add_argument(
+        "--current-pack",
+        default="",
+        help="Current pack id to ignore when reading campaign memory, useful during edits.",
+    )
+    parser.add_argument(
+        "--campaigns-dir",
+        type=Path,
+        default=DEFAULT_CAMPAIGNS_DIR,
+        help="Campaigns directory used with --campaign.",
+    )
     args = parser.parse_args(argv)
 
     if not args.input.exists():
@@ -914,7 +959,22 @@ def main(argv: list[str] | None = None) -> int:
         print("Сначала запусти: python src/build_context_pack.py output/quest_plan.resolved.json")
         return 1
 
-    validation = validate_file(args.input, args.context_pack, args.templates, args.output_json, args.preview)
+    campaign_memory_path = args.campaign_memory
+    if campaign_memory_path is None and args.campaign:
+        campaign_memory_path = campaign_memory_path_for(args.campaign, args.campaigns_dir)
+    if campaign_memory_path is not None and not campaign_memory_path.exists():
+        print(f"campaign memory file not found: {campaign_memory_path}")
+        return 1
+
+    validation = validate_file(
+        args.input,
+        args.context_pack,
+        args.templates,
+        args.output_json,
+        args.preview,
+        campaign_memory_path=campaign_memory_path,
+        current_pack_id=args.current_pack or None,
+    )
     summary = validation["summary"]
     print(f"quests found: {summary['quests_found']}")
     print(f"tasks found: {summary['tasks_found']}")
@@ -923,6 +983,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"warnings: {summary['warnings']}")
     print(f"json written: {args.output_json}")
     print(f"preview written: {args.preview}")
+    if campaign_memory_path is not None:
+        print(f"campaign memory used: {campaign_memory_path}")
     return 0 if summary["errors"] == 0 else 2
 
 

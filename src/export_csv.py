@@ -378,7 +378,12 @@ def main(argv: list[str] | None = None) -> int:
         print(str(exc))
         return 2
 
-    summary = export_filled_tasks_to_csv(read_json(args.input), args.output_csv)
+    try:
+        summary = export_filled_tasks_to_csv(read_json(args.input), args.output_csv)
+    except OSError as exc:
+        print(f"could not write csv: {args.output_csv}")
+        print(str(exc))
+        return 3
     print(f"quests found: {summary['quests_found']}")
     print(f"quest blocks exported: {summary['quest_blocks_exported']}")
     print(f"tasks exported: {summary['tasks_exported']}")

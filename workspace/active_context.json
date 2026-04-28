@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "mode": "quest_generation",
+  "mode_name_ru": "Генерация квестов",
+  "campaign_id": "MeatballRain_2026",
+  "pack_id": "pack_002",
+  "stage": "3",
+  "quest_number": null,
+  "task_number": null,
+  "source": "manual",
+  "last_request": "",
+  "matched_keywords": [],
+  "notes": "Stage 3 ready for user approval: выбранные TT-шаблоны проверены, issues=0.",
+  "updated_at": "2026-04-28T12:31:50.310164+00:00"
+}

@@ -1,0 +1,210 @@
+{
+  "quests": [
+    {
+      "classname_quests": "MeatballRain_2026_Story_1",
+      "title_quest": "Первый мясной осадок",
+      "quest_number": 1,
+      "description": "Ох ты ж сковородка небесная! Я только вышел проверить, не скрипит ли крыльцо, а мне на шапку упала фрикаделька. Потом ещё одна. А потом целая туча с подливкой! Надо разобраться, это погодное явление или кто-то опять колдует натощак.",
+      "congratulation": "Так, первые улики собраны: фрикадельки тёплые, подливка бодрая, а туча пахнет обедом. Это точно не обычный дождь. Но шапку я всё равно оставлю, вдруг ещё гарнир пойдёт.",
+      "Character": "Дедушка Домовед",
+      "tasks": [
+        {
+          "task_number": 1,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "dialogue_replica": "Домовёнок, на мою шапку только что упала фрикаделька, а за ней целая туча с подливкой! Давай быстро разберёмся, это погодная напасть или кто-то снова колдует натощак.",
+          "choice_reason": "Начало истории должно дать игроку комичный сигнал тревоги от Дедушки Домоведа. Для игровой привязки использована реальная локация из кандидатов этого квеста.",
+          "task_object": {
+            "type": "action",
+            "icon": "MeatballRain_2026_Character_1",
+            "action": "MeatballRain_2026_Character_1_Dialog_1",
+            "title": "Поговори с Дедушкой Домоведом",
+            "hint": "Поговори с Дедушкой Домоведом. Для этого просто кликни на него. Он находится в локации Барная комната.",
+            "go_to_location": [
+              {
+                "classname": "MeatballRain_2026_Character_1"
+              }
+            ],
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 2,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "После первого диалога логично искать следы фрикаделькового дождя в той же реальной локации, где есть подходящий липкий беспорядок.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "MeatballRain_2026_HOG_1",
+            "search_action": "search_MeatballRain_2026_HOG_1",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "MeatballRain_2026_HOG_1"
+              }
+            ],
+            "amount": 15,
+            "price": 20,
+            "title": "Найди следы мясного дождя",
+            "hint": "Найди следы мясного дождя. Место поиска: Барная комната. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 3,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "selected_candidate_id": "garbage:BigHome_Garbage_Bar_BrokenCocktail",
+          "choice_reason": "Разлитый коктейль лучше всего похож на липкую подливку после фрикаделькового дождя и дает бытовой комический след катастрофы.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "BigHome_Garbage_Bar_BrokenCocktail",
+            "in_guest": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Убери мусор Разлитый коктейль в гостях",
+            "hint": "Убери мусор Разлитый коктейль в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Барная комната.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "title_quest": "Фрикадельковый фронт",
+      "quest_number": 2,
+      "description": "Мои медные горы видали обвалы, камнепады и даже самоварное землетрясение, но чтобы с неба падали мясные шары — это уже геология с гарниром. Нужно срочно найти место небесной трещины, пока вся долина не превратилась в праздничный тефтельный карьер.",
+      "congratulation": "След найден: фрикадельки сыплются не просто так, их будто проталкивает через облака чья-то слишком старательная магия. Придётся искать кухню, где готовят погоду.",
+      "Character": "Царевна медной горы",
+      "tasks": [
+        {
+          "task_number": 4,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname",
+          "selected_candidate_id": "garbage:BigHome_Garbage_Overview_LizardTooth",
+          "choice_reason": "Зуб ящера звучит как странная и заметная геологическая находка после фрикаделькового фронта и не пересекается с источником выбранной коллекции.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "BigHome_Garbage_Overview_LizardTooth",
+            "amount": 15,
+            "price": 20,
+            "title": "Убери мусор Зуб ящера дома",
+            "hint": "Убери мусор Зуб ящера дома. Для этого просто кликни на нужный мусор дома. Место поиска: Обзорная.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 5,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:ApricotStoneCollection2:ApricotStone:home",
+          "choice_reason": "Абрикосовое варенье звучит как густая сладкая проба странной небесной подливки, но выпадает из другого source_classname, не из выбранного мусора.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "ApricotStoneCollection2",
+            "icon": "ApricotStoneCollection2",
+            "amount": 8,
+            "price": 20,
+            "title": "Найди Абрикосовое варенье",
+            "hint": "Абрикосовое варенье - элемент коллекции, выпадает при уборке мусора Абрикосовая косточка дома и в гостях. Место поиска: Двор Чинга.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 6,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "selected_candidate_id": "gr_garbage:Barometer:guest",
+          "choice_reason": "Разбитый барометр напрямую связан с погодной аномалией, а ресурс оформлен как конкретная деталь прибора, которую можно отрисовать.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "MeatballRain_2026_GR_1",
+            "icon": "MeatballRain_2026_GR_1",
+            "amount": 25,
+            "price": 30,
+            "title": "Найди Латунную стрелку барометра",
+            "hint": "Убирай мусор Разбитый барометр в гостях, чтобы найти. Место поиска: Каюта капитана, Чародейная.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_3",
+      "title_quest": "Котёл с характером",
+      "quest_number": 3,
+      "description": "Это не я! То есть почти не я. Я всего лишь варила супчик на три капли грома, щепотку перца и одно маленькое заклинание сытости. Кто же знал, что котёл примет слово «насытить всех» буквально и начнёт кормить округу с неба? Помогите его утихомирить, пока он не перешёл к компоту.",
+      "congratulation": "Котёл притих, фрикадельковая туча рассосалась, а небо наконец перестало пахнуть столовой. Если он снова спросит, кто хочет добавки, отвечайте шёпотом. Очень шёпотом.",
+      "Character": "Баба яга",
+      "tasks": [
+        {
+          "task_number": 7,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "selected_candidate_id": null,
+          "choice_reason": "Перед финальным усмирением котла Бабе яге нужна помощь друзей с предметом, который можно представить и добавить в игру.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "MeatballRain_2026_ASK_1",
+            "icon": "MeatballRain_2026_ASK_1",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей Крышку для непослушного котла",
+            "hint": "Попроси у друзей или купи.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 8,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower",
+          "selected_candidate_id": "flower:FlowerCvetikSemicvetik",
+          "choice_reason": "Цветик-семицветик звучит как магический цветок, подходящий для заклинания, которое должно уговорить котёл перестать кормить небо.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "MeatballRain_2026_GR_2",
+            "icon": "MeatballRain_2026_GR_2",
+            "amount": 40,
+            "price": 25,
+            "title": "Получи Лепесток сытости",
+            "hint": "Собирай цветы Цветик-семицветик в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 9,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Финальный квест должен завершиться созданием физического предмета, который утихомирит котёл и остановит фрикадельковую тучу.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "MeatballRain_2026_R_1",
+            "icon": "MeatballRain_2026_R_1",
+            "amount": 1,
+            "title": "Создай Усмиритель котла",
+            "go_to_location": [
+              {
+                "classname": "MeatballRain_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй закопченную ступу Бабы яги.",
+            "identifier": ""
+          }
+        }
+      ]
+    }
+  ]
+}

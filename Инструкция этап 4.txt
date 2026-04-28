@@ -47,6 +47,7 @@ ASK (просьба) | [Тема]_[Год]_ASK_[Номер] | Easter_2025_ASK_1
 - `output/context_pack.json` — основной вход для ИИ. В нем есть квесты, таски, выбранные `task_template_id`, контекст сюжета и компактные списки реальных кандидатов.
 - `data/task_templates.json` — машинный каталог актуальных шаблонов `TT-001` ... `TT-035`.
 - `output/filled_tasks.example.json` — пример формата ответа.
+- если работа идет внутри campaign, `context_pack.json` должен быть собран командой `python src/build_context_pack.py output/quest_plan.resolved.json --campaign [campaign_id]`.
 
 Результат этапа 4:
 - `output/filled_tasks.json`
@@ -73,6 +74,8 @@ python src/validate_task_objects.py output/filled_tasks.json
 - реальные location title
 
 Все эти значения должны быть взяты только из `candidates` внутри `output/context_pack.json`.
+
+Если в `context_pack` есть note `Campaign memory excluded ...`, значит часть кандидатов уже использовалась в предыдущих pack этой campaign. Не пытайся вернуть их вручную: выбирай из свежих кандидатов, которые остались в списке.
 
 Можно создавать по неймингу пакета:
 - `GR`
@@ -1168,6 +1171,18 @@ Tasks:
 
 congratulation: "Смотрите, как они светятся! Земля им подходит идеально. Спасибо, что помогли! Теперь у вас будет частичка моей планеты."
 Character: Кролус
+
+Дополнение для campaign/pack workflow:
+
+Правило human approval gate:
+
+Этап 4 можно начинать только после явного апрува этапа 3.1/context_pack в чате. После результата этапа 4 нужно остановиться, показать пользователю заполненные task objects, выбранные реальные данные и результат валидации. Нельзя запускать CSV-экспорт этапа 5 без апрува пользователя.
+
+Generated-объекты `HOG`, `GR`, `ASK`, `PER`, `CL`, `FA`, `R` нумеруются по всей campaign, а не внутри отдельного pack. Перед заполнением task object смотри `context_pack.generated_sequence_offsets` и `context_pack.next_generated_numbers`.
+
+Если первый pack уже использовал `MeatballRain_2026_HOG_1`, `MeatballRain_2026_GR_1`, `MeatballRain_2026_GR_2`, `MeatballRain_2026_ASK_1`, `MeatballRain_2026_R_1`, то следующий pack должен продолжать как `MeatballRain_2026_HOG_2`, `MeatballRain_2026_GR_3`, `MeatballRain_2026_ASK_2`, `MeatballRain_2026_R_2`.
+
+Нельзя начинать нумерацию generated-объектов заново в pack 2 и нельзя добавлять `Pack2` в prefix classname, если это та же сюжетная campaign.
 
 Classname quests: CosmoDay_2025_Story_6
 title_quest: Обшивка корабля

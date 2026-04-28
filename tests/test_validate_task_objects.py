@@ -462,6 +462,66 @@ class ValidateTaskObjectsTests(unittest.TestCase):
         codes = [error["code"] for error in validation["errors"]]
         self.assertIn("generated_classname_sequence_mismatch", codes)
 
+    def test_generated_sequence_can_continue_after_campaign_offset(self) -> None:
+        gr_context = {
+            "quests": [
+                {
+                    "classname_quests": "Event_2026_Story_2",
+                    "quest_number": 2,
+                    "tasks": [
+                        {
+                            "task_number": 1,
+                            "task_template_id": "TT-014",
+                            "candidate_domain": "gr_garbage",
+                            "candidates": [
+                                {
+                                    "candidate_id": "gr_garbage:Ashes:guest",
+                                    "garbage_classname": "Ashes",
+                                    "garbage_title": "Пепел",
+                                    "mode": "guest",
+                                    "locations": [{"code": "loc1", "title": "Котельная"}],
+                                }
+                            ],
+                        }
+                    ],
+                }
+            ]
+        }
+
+        validation = validate_filled_tasks(
+            {
+                "quests": [
+                    {
+                        "classname_quests": "Event_2026_Story_2",
+                        "quest_number": 2,
+                        "tasks": [
+                            filled_task(
+                                1,
+                                "TT-014",
+                                "GR с конкретного мусора в гостях",
+                                "get_asset GR in_guest garbage classname",
+                                "gr_garbage:Ashes:guest",
+                                {
+                                    "type": "get_asset",
+                                    "classname": "Event_2026_GR_3",
+                                    "icon": "Event_2026_GR_3",
+                                    "amount": 1,
+                                    "price": 1,
+                                    "title": "Найди Латунную стрелку",
+                                    "hint": "Убирай мусор Пепел в гостях, чтобы найти. Место поиска: Котельная.",
+                                },
+                            )
+                        ],
+                    }
+                ]
+            },
+            gr_context,
+            templates(),
+            sequence_offsets={("Event_2026", "GR"): 2},
+        )
+
+        self.assertEqual(validation["summary"]["errors"], 0)
+
     def test_reports_abstract_generated_item(self) -> None:
         gr_context = {
             "quests": [

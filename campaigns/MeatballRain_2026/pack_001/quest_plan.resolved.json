@@ -1,0 +1,257 @@
+{
+  "quests": [
+    {
+      "classname_quests": "MeatballRain_2026_Story_1",
+      "title_quest": "Первый мясной осадок",
+      "quest_number": 1,
+      "task_numbers": [
+        1,
+        2,
+        3
+      ],
+      "task_template_ids": [
+        "TT-001",
+        "TT-004",
+        "TT-020"
+      ],
+      "task_template_names": [
+        "Диалог",
+        "HOG на локации",
+        "Уборка конкретного мусора в гостях"
+      ],
+      "task_types": [
+        "action dialog",
+        "HOG clean_debris location",
+        "garbage classname in_guest"
+      ],
+      "description": "Ох ты ж сковородка небесная! Я только вышел проверить, не скрипит ли крыльцо, а мне на шапку упала фрикаделька. Потом ещё одна. А потом целая туча с подливкой! Надо разобраться, это погодное явление или кто-то опять колдует натощак.",
+      "congratulation": "Так, первые улики собраны: фрикадельки тёплые, подливка бодрая, а туча пахнет обедом. Это точно не обычный дождь. Но шапку я всё равно оставлю, вдруг ещё гарнир пойдёт.",
+      "character": "Дедушка Домовед",
+      "raw_text": "Classname quests: MeatballRain_2026_Story_1\ntitle_quest: Первый мясной осадок\n№ quest: 1\n№ task: 1 2 3\nTask template ID: TT-001 / TT-003 / TT-020\nTask template name: Диалог / HOG в мире / Уборка конкретного мусора в гостях\nTask type: action dialog / HOG clean_debris world / garbage classname in_guest\ndescription: \"Ох ты ж сковородка небесная! Я только вышел проверить, не скрипит ли крыльцо, а мне на шапку упала фрикаделька. Потом ещё одна. А потом целая туча с подливкой! Надо разобраться, это погодное явление или кто-то опять колдует натощак.\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Так, первые улики собраны: фрикадельки тёплые, подливка бодрая, а туча пахнет обедом. Это точно не обычный дождь. Но шапку я всё равно оставлю, вдруг ещё гарнир пойдёт.\"\nCharacter: Дедушка Домовед\n\nОбоснование:\n1. Контекст: Царевна медной горы видит угрозу в масштабе всей долины и ищет небесную трещину, через которую сыплются фрикадельки.\n2. Логика выбора: HOG помогает искать место разрыва, коллекционный предмет может стать важной уликой, GR из мусора в гостях добавляет активный сбор материалов для расследования.\n3. Проверка паттернов: используются разные механики, есть гостевое задание, шаблоны не повторяют квест 1 дословно.\n4. Уникальность: повторов шаблонов в квесте нет.",
+      "tasks": [
+        {
+          "task_number": 1,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "resolved_template_id": "TT-001",
+          "canonical_task_template_name": "Диалог",
+          "canonical_task_type": "action dialog",
+          "category": "dialog",
+          "data_needs": [
+            "quest_context",
+            "character"
+          ],
+          "status": "ok",
+          "issues": []
+        },
+        {
+          "task_number": 2,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "resolved_template_id": "TT-004",
+          "canonical_task_template_name": "HOG на локации",
+          "canonical_task_type": "HOG clean_debris location",
+          "category": "hog",
+          "data_needs": [
+            "quest_context",
+            "generated_hog"
+          ],
+          "status": "ok",
+          "issues": []
+        },
+        {
+          "task_number": 3,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "resolved_template_id": "TT-020",
+          "canonical_task_template_name": "Уборка конкретного мусора в гостях",
+          "canonical_task_type": "garbage classname in_guest",
+          "category": "garbage",
+          "data_needs": [
+            "quest_context",
+            "garbage",
+            "location"
+          ],
+          "status": "ok",
+          "issues": []
+        }
+      ]
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "title_quest": "Фрикадельковый фронт",
+      "quest_number": 2,
+      "task_numbers": [
+        4,
+        5,
+        6
+      ],
+      "task_template_ids": [
+        "TT-021",
+        "TT-011",
+        "TT-014"
+      ],
+      "task_template_names": [
+        "Уборка конкретного мусора дома",
+        "Получить элемент коллекции (зависит от редкости)",
+        "GR с конкретного мусора в гостях"
+      ],
+      "task_types": [
+        "garbage classname",
+        "get_asset Collection",
+        "get_asset GR in_guest garbage classname"
+      ],
+      "description": "Мои медные горы видали обвалы, камнепады и даже самоварное землетрясение, но чтобы с неба падали мясные шары — это уже геология с гарниром. Нужно срочно найти место небесной трещины, пока вся долина не превратилась в праздничный тефтельный карьер.",
+      "congratulation": "След найден: фрикадельки сыплются не просто так, их будто проталкивает через облака чья-то слишком старательная магия. Придётся искать кухню, где готовят погоду.",
+      "character": "Царевна медной горы",
+      "raw_text": "Classname quests: MeatballRain_2026_Story_2\ntitle_quest: Фрикадельковый фронт\n№ quest: 2\n№ task: 4 5 6\nTask template ID: TT-004 / TT-011 / TT-014\nTask template name: HOG на локации / Получить элемент коллекции (зависит от редкости) / GR с конкретного мусора в гостях\nTask type: HOG clean_debris location / get_asset Collection / get_asset GR in_guest garbage classname\ndescription: \"Мои медные горы видали обвалы, камнепады и даже самоварное землетрясение, но чтобы с неба падали мясные шары — это уже геология с гарниром. Нужно срочно найти место небесной трещины, пока вся долина не превратилась в праздничный тефтельный карьер.\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"След найден: фрикадельки сыплются не просто так, их будто проталкивает через облака чья-то слишком старательная магия. Придётся искать кухню, где готовят погоду.\"\nCharacter: Царевна медной горы\n\nОбоснование:\n1. Контекст: финал раскрывает виновника — котёл Бабы яги, который буквально понял заклинание сытости и кормит округу с неба.\n2. Логика выбора: сначала просим у друзей нужную вещь, затем добываем ресурс через цветы в гостях, а в финале создаем средство, чтобы утихомирить котёл.\n3. Проверка паттернов: крафт стоит третьим заданием после двух подготовительных ресурсных задач.\n4. Уникальность: повторов шаблонов в квесте нет.",
+      "tasks": [
+        {
+          "task_number": 4,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname",
+          "resolved_template_id": "TT-021",
+          "canonical_task_template_name": "Уборка конкретного мусора дома",
+          "canonical_task_type": "garbage classname",
+          "category": "garbage",
+          "data_needs": [
+            "quest_context",
+            "garbage",
+            "location"
+          ],
+          "status": "ok",
+          "issues": []
+        },
+        {
+          "task_number": 5,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "resolved_template_id": "TT-011",
+          "canonical_task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "canonical_task_type": "get_asset Collection",
+          "category": "collection",
+          "data_needs": [
+            "quest_context",
+            "collection_drop"
+          ],
+          "status": "ok",
+          "issues": []
+        },
+        {
+          "task_number": 6,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "resolved_template_id": "TT-014",
+          "canonical_task_template_name": "GR с конкретного мусора в гостях",
+          "canonical_task_type": "get_asset GR in_guest garbage classname",
+          "category": "gr_garbage",
+          "data_needs": [
+            "quest_context",
+            "garbage",
+            "location"
+          ],
+          "status": "ok",
+          "issues": []
+        }
+      ]
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_3",
+      "title_quest": "Котёл с характером",
+      "quest_number": 3,
+      "task_numbers": [
+        7,
+        8,
+        9
+      ],
+      "task_template_ids": [
+        "TT-008",
+        "TT-016",
+        "TT-002"
+      ],
+      "task_template_names": [
+        "Получить ASK",
+        "GR с цветов в гостях",
+        "Крафт"
+      ],
+      "task_types": [
+        "get_asset ASK",
+        "get_asset GR in_guest flower",
+        "get_and_decrease_asset craft"
+      ],
+      "description": "Это не я! То есть почти не я. Я всего лишь варила супчик на три капли грома, щепотку перца и одно маленькое заклинание сытости. Кто же знал, что котёл примет слово «насытить всех» буквально и начнёт кормить округу с неба? Помогите его утихомирить, пока он не перешёл к компоту.",
+      "congratulation": "Котёл притих, фрикадельковая туча рассосалась, а небо наконец перестало пахнуть столовой. Если он снова спросит, кто хочет добавки, отвечайте шёпотом. Очень шёпотом.",
+      "character": "Баба яга",
+      "raw_text": "Classname quests: MeatballRain_2026_Story_3\ntitle_quest: Котёл с характером\n№ quest: 3\n№ task: 7 8 9\nTask template ID: TT-008 / TT-016 / TT-002\nTask template name: Получить ASK / GR с цветов в гостях / Крафт\nTask type: get_asset ASK / get_asset GR in_guest flower / get_and_decrease_asset craft\ndescription: \"Это не я! То есть почти не я. Я всего лишь варила супчик на три капли грома, щепотку перца и одно маленькое заклинание сытости. Кто же знал, что котёл примет слово «насытить всех» буквально и начнёт кормить округу с неба? Помогите его утихомирить, пока он не перешёл к компоту.\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Котёл притих, фрикадельковая туча рассосалась, а небо наконец перестало пахнуть столовой. Если он снова спросит, кто хочет добавки, отвечайте шёпотом. Очень шёпотом.\"\nCharacter: Баба яга",
+      "tasks": [
+        {
+          "task_number": 7,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "resolved_template_id": "TT-008",
+          "canonical_task_template_name": "Получить ASK",
+          "canonical_task_type": "get_asset ASK",
+          "category": "request",
+          "data_needs": [
+            "quest_context",
+            "generated_resource"
+          ],
+          "status": "ok",
+          "issues": []
+        },
+        {
+          "task_number": 8,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower",
+          "resolved_template_id": "TT-016",
+          "canonical_task_template_name": "GR с цветов в гостях",
+          "canonical_task_type": "get_asset GR in_guest flower",
+          "category": "gr_flower",
+          "data_needs": [
+            "quest_context",
+            "flower"
+          ],
+          "status": "ok",
+          "issues": []
+        },
+        {
+          "task_number": 9,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "resolved_template_id": "TT-002",
+          "canonical_task_template_name": "Крафт",
+          "canonical_task_type": "get_and_decrease_asset craft",
+          "category": "craft",
+          "data_needs": [
+            "quest_context",
+            "generated_resource"
+          ],
+          "status": "ok",
+          "issues": []
+        }
+      ]
+    }
+  ],
+  "issues": [],
+  "summary": {
+    "quests_found": 3,
+    "tasks_found": 9,
+    "resolved_tasks": 9,
+    "issues": 0
+  },
+  "templates_summary": {
+    "templates_found": 35,
+    "not_ready_templates": [
+      "TT-035"
+    ]
+  }
+}

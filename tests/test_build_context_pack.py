@@ -222,6 +222,54 @@ class BuildContextPackTests(unittest.TestCase):
         self.assertEqual(candidate_ids[0], "garbage:CandyWrapper")
         self.assertTrue(any("Manual instruction" in note for note in context_task["notes"]))
 
+    def test_campaign_memory_filters_already_used_entities(self) -> None:
+        context_pack, _emitted = build_context_pack(
+            resolved_plan(
+                [
+                    task(1, "TT-020", "Уборка конкретного мусора в гостях", "garbage classname in_guest", "garbage"),
+                    task(2, "TT-011", "Получить элемент коллекции (зависит от редкости)", "get_asset Collection", "collection"),
+                ]
+            ),
+            sample_quest_ready_index(),
+            sample_drops(),
+            {"version": 1, "candidate_counts": {}, "runs": []},
+            candidate_limit=1,
+            campaign_memory={
+                "used_garbage": {"Ashes": {"title": "Пепел"}},
+                "used_collections": {},
+                "used_flowers": {},
+                "used_candidate_ids": {},
+            },
+        )
+
+        tasks = context_pack["quests"][0]["tasks"]
+        self.assertNotEqual(tasks[0]["candidates"][0]["garbage_classname"], "Ashes")
+        self.assertNotEqual(tasks[1]["candidates"][0]["source_classname"], "Ashes")
+        self.assertTrue(any("Campaign memory excluded" in note for note in tasks[0]["notes"]))
+
+    def test_context_pack_reports_next_campaign_generated_numbers(self) -> None:
+        context_pack, _emitted = build_context_pack(
+            resolved_plan([task(1, "TT-008", "Получить ASK", "get_asset ASK", "request")]),
+            sample_quest_ready_index(),
+            sample_drops(),
+            {"version": 1, "candidate_counts": {}, "runs": []},
+            candidate_limit=1,
+            campaign_memory={
+                "used_generated_assets": {
+                    "Event_2026_HOG_2": {"pack_id": "pack_001"},
+                    "Event_2026_GR_5": {"pack_id": "pack_001"},
+                    "Event_2026_ASK_1": {"pack_id": "pack_001"},
+                    "Event_2026_R_1": {"pack_id": "pack_002"},
+                }
+            },
+            current_pack_id="pack_002",
+        )
+
+        self.assertEqual(context_pack["generated_sequence_offsets"]["Event_2026"]["HOG"], 2)
+        self.assertEqual(context_pack["next_generated_numbers"]["Event_2026"]["GR"], 6)
+        self.assertEqual(context_pack["next_generated_numbers"]["Event_2026"]["ASK"], 2)
+        self.assertNotIn("R", context_pack["generated_sequence_offsets"]["Event_2026"])
+
 
 if __name__ == "__main__":
     unittest.main()
