@@ -166,7 +166,8 @@ Character: Григорий
 
             with (root / "generated_quests.csv").open("r", encoding="utf-8-sig", newline="") as stream:
                 rows = list(csv.reader(stream, delimiter=";"))
-            self.assertIn("tasks.0", rows[2])
+            self.assertEqual(rows[0][1], "Квест 1")
+            self.assertTrue(any("tasks.0" in row for row in rows))
             self.assertTrue(any("AshesCollection1" in row for row in rows))
 
 

@@ -272,7 +272,11 @@ python src/export_csv.py output/filled_tasks.json
 
 - `output/generated_quests.csv`
 
-Если в `output/filled_tasks.validation.json` есть errors или validation-файл старее `filled_tasks.json`, CSV не будет создан. Этап 5 не меняет `title`, `hint`, `classname`, `param`, `icon`, локации и нумерацию generated-сущностей; он только раскладывает готовый `task_object` в CSV-строки `tasks.N`.
+Если в `output/filled_tasks.validation.json` есть errors или validation-файл старее `filled_tasks.json`, CSV не будет создан. Этап 5 не меняет `title`, `hint`, `classname`, `param`, `icon`, локации и нумерацию generated-сущностей; он раскладывает готовые данные в структуру `Квест N -> Таск 1..N`.
+
+Для каждого квеста CSV теперь содержит верхний `sl`-блок с полями `title`, `description`, `congratulation`, `helper`, `extra.sequence_icon`, а затем локальные task-блоки `tasks.0`, `tasks.1`, `tasks.2`. Заголовки задач в CSV нумеруются внутри каждого квеста: второй квест снова начинается с `Таск 1`, даже если `task_number` во входном JSON глобальный.
+
+Для диалоговых задач (`TT-001`/`Диалог`) в `filled_tasks.json` должно быть поле `dialogue_replica` на уровне task-записи. Валидатор проверяет, что реплика есть и не длиннее 360 символов с пробелами, а CSV exporter пишет ее в заголовочную строку таска: `;Таск 1;Диалог;;;РЕПЛИКА ДИАЛОГА: ...`.
 
 ## Заполнение первых task templates
 
