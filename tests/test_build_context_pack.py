@@ -8,7 +8,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.build_context_pack import build_context_pack, build_context_pack_file
+from src.build_context_pack import build_context_pack, build_context_pack_file, main as build_context_pack_main
 
 
 def write_json(path: Path, value: object) -> None:
@@ -167,6 +167,104 @@ class BuildContextPackTests(unittest.TestCase):
             second_candidate = second_pack["quests"][0]["tasks"][0]["candidates"][0]["candidate_id"]
             self.assertNotEqual(first_candidate, second_candidate)
             self.assertTrue(history_path.exists())
+
+    def test_cli_refuses_without_stage3_approval(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "quest_plan.resolved.json"
+            index_path = root / "quest_ready_index.json"
+            drops_path = root / "quest_ready_drops.index.json"
+            history_path = root / "context_candidate_history.json"
+            output_path = root / "context_pack.json"
+            preview_path = root / "context_pack.preview.md"
+            context_path = root / "active_context.json"
+            write_json(input_path, resolved_plan([task(1, "TT-020", "Уборка конкретного мусора в гостях", "garbage classname in_guest", "garbage")]))
+            write_json(index_path, sample_quest_ready_index())
+            write_json(drops_path, sample_drops())
+            write_json(
+                context_path,
+                {
+                    "version": 1,
+                    "campaign_id": "Event_2026",
+                    "pack_id": "pack_001",
+                    "stage_approvals": {},
+                },
+            )
+
+            exit_code = build_context_pack_main(
+                [
+                    str(input_path),
+                    "--quest-ready-index",
+                    str(index_path),
+                    "--quest-ready-drops",
+                    str(drops_path),
+                    "--history",
+                    str(history_path),
+                    "--output-json",
+                    str(output_path),
+                    "--preview",
+                    str(preview_path),
+                    "--approval-context",
+                    str(context_path),
+                    "--current-pack",
+                    "pack_001",
+                ]
+            )
+
+            self.assertEqual(exit_code, 1)
+            self.assertFalse(output_path.exists())
+
+    def test_cli_builds_after_stage3_approval(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "quest_plan.resolved.json"
+            index_path = root / "quest_ready_index.json"
+            drops_path = root / "quest_ready_drops.index.json"
+            history_path = root / "context_candidate_history.json"
+            output_path = root / "context_pack.json"
+            preview_path = root / "context_pack.preview.md"
+            context_path = root / "active_context.json"
+            write_json(input_path, resolved_plan([task(1, "TT-020", "Уборка конкретного мусора в гостях", "garbage classname in_guest", "garbage")]))
+            write_json(index_path, sample_quest_ready_index())
+            write_json(drops_path, sample_drops())
+            write_json(
+                context_path,
+                {
+                    "version": 1,
+                    "campaign_id": "Event_2026",
+                    "pack_id": "pack_001",
+                    "stage_approvals": {
+                        "3": {
+                            "approved": True,
+                            "campaign_id": "Event_2026",
+                            "pack_id": "pack_001",
+                        }
+                    },
+                },
+            )
+
+            exit_code = build_context_pack_main(
+                [
+                    str(input_path),
+                    "--quest-ready-index",
+                    str(index_path),
+                    "--quest-ready-drops",
+                    str(drops_path),
+                    "--history",
+                    str(history_path),
+                    "--output-json",
+                    str(output_path),
+                    "--preview",
+                    str(preview_path),
+                    "--approval-context",
+                    str(context_path),
+                    "--current-pack",
+                    "pack_001",
+                ]
+            )
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue(output_path.exists())
 
     def test_builds_collection_and_flower_candidate_domains(self) -> None:
         context_pack, _emitted = build_context_pack(

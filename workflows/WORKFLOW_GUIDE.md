@@ -33,7 +33,7 @@ workspace/active_context.json
 1. Сначала прочитать `workspace/active_context.json`.
 2. Взять оттуда `mode`, `campaign_id`, `pack_id`, `stage`, `quest_number`, `task_number`.
 3. Если пользователь спрашивает про выбранные шаблоны этапа 3, открыть `campaigns/<campaign_id>/<pack_id>/stage3_quests.txt`.
-4. Если пользователь спрашивает про кандидатов или заполненные task objects, искать соответствующие файлы в `campaigns/<campaign_id>/<pack_id>/` и затем в `output/`.
+4. Если пользователь спрашивает про кандидатов, заполненные task objects или `quest_group`, искать соответствующие файлы в `campaigns/<campaign_id>/<pack_id>/` и затем в `output/`.
 5. Если active context отсутствует или неполный, сказать это явно и только потом делать осторожный вывод по ближайшим campaign/output файлам.
 
 Показать:
@@ -91,9 +91,15 @@ python src/workflow_context.py list-modes
 - После этапа 1 нужно показать пользователю сюжетную структуру и ждать явный апрув в чате.
 - После этапа 2 нужно показать реплики начала/завершения и ждать явный апрув.
 - После этапа 3 нужно показать выбранные `Task template ID`, русские названия шаблонов и `Task type`, затем ждать апрув.
+- После апрува этапа 3 нужно записать gate: `python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>`.
+- `python src/build_context_pack.py ...` технически откажется собирать `context_pack`, если approval stage 3 не записан для того же campaign/pack.
 - После этапа 3.1 нужно показать `context_pack`/подбор кандидатов и ждать апрув.
 - После этапа 4 нужно показать `filled_tasks`, итог валидации и ждать апрув.
-- Этап 5 и CSV запускать только после апрува этапа 4.
+- После апрува этапа 4 нужно записать gate: `python src/workflow_context.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>`.
+- Этап 5 создает `campaigns/<campaign_id>/<pack_id>/quest_group.json`: ИИ анализирует все квесты pack и пишет `title`, `description`, `description_complete`, `description_spoil`.
+- После этапа 5 нужно показать `quest_group`/preview и ждать явный апрув пользователя.
+- После апрува этапа 5 нужно записать gate: `python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>`.
+- Этап 6 и CSV запускать только после апрува этапа 5; CSV берет `quest_group.json` из папки того же pack.
 - Нельзя выполнять новый pack целиком одним прогоном, даже если технически все команды уже известны.
 
 Нумерация generated-объектов внутри одной campaign не начинается заново в новом pack. Если `pack_001` уже использовал `MeatballRain_2026_HOG_1`, `MeatballRain_2026_GR_1`, `MeatballRain_2026_ASK_1` и `MeatballRain_2026_R_1`, то следующий pack продолжает с `HOG_2`, `GR_2`, `ASK_2` и `R_2` для того же campaign prefix. Для этого этап 4 и валидатор читают `campaign_memory.json`.
@@ -129,15 +135,28 @@ python src/workflow_context.py list-modes
 
 ### csv_export
 
-Валидация и экспорт CSV.
+Валидация и экспорт CSV на этапе 6.
 
 Ключевики:
 
 - создай csv
 - экспорт csv
-- этап 5
+- этап 6
 - сгенерируй таблицу
 - generated_quests.csv
+
+### quest_group_creation
+
+Создание квестовой группы на этапе 5.
+
+Ключевики:
+
+- квестовая группа
+- quest group
+- quest_group
+- этап 5
+- описание квестовой группы
+- журнал квестов
 
 ### campaign_management
 

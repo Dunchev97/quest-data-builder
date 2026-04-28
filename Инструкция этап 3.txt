@@ -377,6 +377,14 @@ Character: Кролус
 
 Этап 3 можно начинать только после явного апрува этапа 2 в чате. После результата этапа 3 нужно остановиться, показать пользователю выбранные `Task template ID`, русские названия шаблонов и `Task type` по каждому квесту. Нельзя собирать `context_pack` и нельзя переходить к этапу 4 без апрува пользователя.
 
+После явного апрува этапа 3 нужно записать technical gate:
+
+```bash
+python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
+```
+
+Без этого `python src/build_context_pack.py ...` должен отказаться собирать `context_pack`.
+
 Если pack продолжает уже существующую campaign, не добавляй номер pack в `Classname quests`. Для одной сюжетки должен сохраняться общий prefix campaign. Например, после `MeatballRain_2026_Story_1`, `MeatballRain_2026_Story_2`, `MeatballRain_2026_Story_3` следующий pack продолжает как `MeatballRain_2026_Story_4`, `MeatballRain_2026_Story_5`, `MeatballRain_2026_Story_6`, а не `MeatballRain_2026_Pack2_Story_1`.
 
 Нумерация generated-объектов `HOG`, `GR`, `ASK`, `PER`, `CL`, `FA`, `R` относится к всей campaign и будет проверяться на этапе 4 по `campaign_memory.json`.

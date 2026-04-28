@@ -1,0 +1,104 @@
+# ЭТАП 6: ПРЕОБРАЗОВАНИЕ В ФОРМАТ CSV
+
+Этап 6 является техническим разворачиванием уже утвержденных данных:
+
+- `campaigns/<campaign_id>/<pack_id>/quest_group.json` из этапа 5;
+- `campaigns/<campaign_id>/<pack_id>/filled_tasks.json` из этапа 4.
+
+Перед стартом этапа 6 нужен явный апрув этапа 5 в чате и technical gate:
+
+```bash
+python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
+```
+
+## Обязательные проверки
+
+CSV можно создавать только если:
+
+- `campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json` существует;
+- `campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json` содержит `errors = 0`;
+- `campaigns/<campaign_id>/<pack_id>/quest_group.validation.json` существует;
+- `campaigns/<campaign_id>/<pack_id>/quest_group.validation.json` содержит `errors = 0`;
+- validation-файлы не устарели относительно входных JSON;
+- approval stage 5 записан для того же `campaign_id/pack_id`.
+
+Если валидация нашла ошибки, этап 6 должен остановиться:
+
+- ошибки в task object возвращают работу на этап 4;
+- ошибки в quest group возвращают работу на этап 5.
+
+## Что делает этап 6
+
+Этап 6 не должен творчески переписывать данные.
+
+Он только разворачивает данные в CSV:
+
+1. Верхний блок `Квест группа` из `quest_group.json`.
+2. Затем quest-блок каждого квеста из `filled_tasks.json`.
+3. Затем task-блоки каждого квеста из `task_object`.
+
+Нельзя на этапе 6:
+
+- менять `title`;
+- менять `hint`;
+- менять `classname`, `param`, `icon`;
+- менять location title после фраз `Место поиска:` или `Он находится`;
+- перенумеровывать generated-сущности;
+- заменять мусор, цветок, коллекцию или выбранного кандидата;
+- переписывать квестовую группу.
+
+## Блок квестовой группы
+
+В начале CSV должен быть блок:
+
+```csv
+;Квест группа;;;;;;Перечислить квесты текущей квест группы награды которых будут отображены на странице журнала.;Условие старта квеста на странице журанала;Текст на странице журанала после завршения квеста.
+ml;string;string;string;string;string;string;array_of_values;string;string
+;input;output;title;description;description_complete;description_spoil;extra.quest_reward_prewiew;extra.description_condition;extra.description_complete
+;/quest_group/fun/Fun13_Story_1.proto.js;/quest_group/fun/Fun14_Story_1.proto.js;...;...;...;...;;...;...
+;;;;;;;
+;;;;;;;
+```
+
+`extra.quest_reward_prewiew` оставляется тремя пустыми строками.
+
+## Quest-блоки
+
+Для каждого квеста нужен отдельный quest-блок, а под ним его задачи:
+
+```text
+Квест 1
+  Таск 1
+  Таск 2
+  Таск 3
+
+Квест 2
+  Таск 1
+  Таск 2
+  Таск 3
+```
+
+Номера в заголовках задач CSV локальные внутри квеста. Даже если во входном `filled_tasks.json` `task_number` идет глобально как `4`, `5`, `6`, в блоке второго квеста CSV должен писать `Таск 1`, `Таск 2`, `Таск 3`, а поля остаются `tasks.0`, `tasks.1`, `tasks.2`.
+
+Quest-блок должен идти перед task-блоками:
+
+```csv
+;Квест 1;;;;;;
+sl;string;string;string;string;string;string;string
+;input;output;title;description;congratulation;helper;extra.sequence_icon
+;/quest/generated/Labor_2025/story_1/Labor_2025_Story_1.proto.js;/quest/generated/Labor_2025/story_1/Labor_2025_Story_1.proto.js;Потерянный мангал;...;...;Labor_2025_Character_1;MagazinePage_Labor_2025_QuestIcon_1
+```
+
+## CLI
+
+```bash
+python src/export_csv.py --campaign <campaign_id> --current-pack <pack_id>
+```
+
+Скрипт по умолчанию берет `filled_tasks.json` и `quest_group.json` из папки текущего pack и пишет CSV туда же:
+
+```text
+campaigns/<campaign_id>/<pack_id>/generated_quests.csv
+```
+
+После успешного CSV-экспорта нужно обновить память campaign по pack, чтобы в `campaign_memory.json` были актуальные ссылки на `filled_tasks`, `context_pack` и `quest_group`.

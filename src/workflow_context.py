@@ -53,6 +53,7 @@ def default_context() -> dict[str, Any]:
         "last_request": "",
         "matched_keywords": [],
         "notes": "",
+        "stage_approvals": {},
         "updated_at": now_iso(),
     }
 
@@ -60,7 +61,47 @@ def default_context() -> dict[str, Any]:
 def load_context(path: Path = DEFAULT_CONTEXT_PATH) -> dict[str, Any]:
     if not path.exists():
         return default_context()
-    return read_json(path)
+    context = read_json(path)
+    context.setdefault("stage_approvals", {})
+    return context
+
+
+def approve_stage(
+    context: dict[str, Any],
+    stage: str,
+    campaign_id: str | None = None,
+    pack_id: str | None = None,
+    notes: str = "",
+) -> dict[str, Any]:
+    stage = str(stage)
+    updated = dict(context)
+    approvals = dict(updated.get("stage_approvals") or {})
+    approvals[stage] = {
+        "approved": True,
+        "approved_at": now_iso(),
+        "campaign_id": campaign_id if campaign_id is not None else updated.get("campaign_id") or "",
+        "pack_id": pack_id if pack_id is not None else updated.get("pack_id") or "",
+        "notes": notes,
+    }
+    updated["stage_approvals"] = approvals
+    updated["updated_at"] = now_iso()
+    return updated
+
+
+def stage_is_approved(
+    context: dict[str, Any],
+    stage: str,
+    campaign_id: str | None = None,
+    pack_id: str | None = None,
+) -> bool:
+    approval = (context.get("stage_approvals") or {}).get(str(stage)) or {}
+    if not approval.get("approved"):
+        return False
+    if campaign_id is not None and approval.get("campaign_id") != campaign_id:
+        return False
+    if pack_id is not None and approval.get("pack_id") != pack_id:
+        return False
+    return True
 
 
 def keyword_score(keyword: str) -> int:
@@ -187,6 +228,19 @@ def detect_context(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, 
     return detection, applied_context
 
 
+def approve_context(args: argparse.Namespace) -> dict[str, Any]:
+    existing = load_context(args.context)
+    context = approve_stage(
+        existing,
+        str(args.stage),
+        campaign_id=args.campaign or existing.get("campaign_id") or "",
+        pack_id=args.pack or existing.get("pack_id") or "",
+        notes=args.notes or "",
+    )
+    write_json(args.context, context)
+    return context
+
+
 def print_context(context: dict[str, Any]) -> None:
     print(f"mode: {context.get('mode') or ''}")
     print(f"mode name: {context.get('mode_name_ru') or ''}")
@@ -203,6 +257,14 @@ def print_context(context: dict[str, Any]) -> None:
         print(f"matched keywords: {', '.join(context['matched_keywords'])}")
     if context.get("notes"):
         print(f"notes: {context['notes']}")
+    approvals = context.get("stage_approvals") or {}
+    approved_stages = [
+        str(stage)
+        for stage, approval in sorted(approvals.items())
+        if isinstance(approval, dict) and approval.get("approved")
+    ]
+    if approved_stages:
+        print(f"approved stages: {', '.join(approved_stages)}")
 
 
 def print_modes(modes_data: dict[str, Any]) -> None:
@@ -258,6 +320,12 @@ def build_parser() -> argparse.ArgumentParser:
     detect_parser.add_argument("--quest", type=int, default=None)
     detect_parser.add_argument("--task", type=int, default=None)
 
+    approve_parser = subparsers.add_parser("approve", help="Record a human approval for a workflow stage.")
+    approve_parser.add_argument("--stage", required=True, help="Approved stage number, for example 3.")
+    approve_parser.add_argument("--campaign", default="")
+    approve_parser.add_argument("--pack", default="")
+    approve_parser.add_argument("--notes", default="")
+
     subparsers.add_parser("clear", help="Reset active context.")
     return parser
 
@@ -284,6 +352,12 @@ def main(argv: list[str] | None = None) -> int:
             if applied_context is not None:
                 print(f"context written: {args.context}")
             return 0 if detection.get("mode") else 2
+        if args.command == "approve":
+            context = approve_context(args)
+            print_context(context)
+            print(f"stage approved: {args.stage}")
+            print(f"context written: {args.context}")
+            return 0
         if args.command == "clear":
             context = default_context()
             context["source"] = "cleared"

@@ -15,6 +15,7 @@ try:
         candidate_is_used_by_campaign,
         generated_sequence_offsets_for_json,
     )
+    from .workflow_context import DEFAULT_CONTEXT_PATH, load_context, stage_is_approved
 except ImportError:
     from campaigns import (
         DEFAULT_CAMPAIGNS_DIR,
@@ -23,6 +24,7 @@ except ImportError:
         candidate_is_used_by_campaign,
         generated_sequence_offsets_for_json,
     )
+    from workflow_context import DEFAULT_CONTEXT_PATH, load_context, stage_is_approved
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -33,6 +35,7 @@ DEFAULT_OUTPUT_JSON_PATH = PROJECT_ROOT / "output" / "context_pack.json"
 DEFAULT_OUTPUT_PREVIEW_PATH = PROJECT_ROOT / "output" / "context_pack.preview.md"
 DEFAULT_HISTORY_PATH = PROJECT_ROOT / "output" / "context_candidate_history.json"
 DEFAULT_CANDIDATE_LIMIT = 12
+REQUIRED_APPROVAL_STAGE = "3"
 
 
 STOPWORDS = {
@@ -732,6 +735,31 @@ def build_context_pack_file(
     return context_pack
 
 
+def stage3_approval_error(
+    context_path: Path,
+    campaign_id: str | None = None,
+    pack_id: str | None = None,
+) -> str | None:
+    context = load_context(context_path)
+    expected_campaign_id = campaign_id or context.get("campaign_id") or ""
+    expected_pack_id = pack_id or context.get("pack_id") or ""
+    if stage_is_approved(
+        context,
+        REQUIRED_APPROVAL_STAGE,
+        campaign_id=expected_campaign_id,
+        pack_id=expected_pack_id,
+    ):
+        return None
+
+    approval = (context.get("stage_approvals") or {}).get(REQUIRED_APPROVAL_STAGE) or {}
+    if approval.get("approved"):
+        return (
+            "stage 3 approval belongs to another campaign/pack: "
+            f"{approval.get('campaign_id') or '-'} / {approval.get('pack_id') or '-'}"
+        )
+    return "stage 3 approval is missing"
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build compact real-data context pack for stage 4 AI filling.")
     parser.add_argument(
@@ -804,6 +832,17 @@ def main(argv: list[str] | None = None) -> int:
         default=DEFAULT_CAMPAIGNS_DIR,
         help="Campaigns directory used with --campaign.",
     )
+    parser.add_argument(
+        "--approval-context",
+        type=Path,
+        default=DEFAULT_CONTEXT_PATH,
+        help="Active context JSON with recorded stage approvals.",
+    )
+    parser.add_argument(
+        "--allow-unapproved-stage3",
+        action="store_true",
+        help="Emergency override: build context_pack without recorded stage 3 approval.",
+    )
     args = parser.parse_args(argv)
 
     if args.candidate_limit < 1:
@@ -821,6 +860,22 @@ def main(argv: list[str] | None = None) -> int:
         print(f"campaign memory file not found: {campaign_memory_path}")
         print("Сначала создай campaign: python src/start_campaign.py <campaign_id>")
         return 1
+
+    if not args.allow_unapproved_stage3:
+        approval_error = stage3_approval_error(
+            args.approval_context,
+            campaign_id=args.campaign or None,
+            pack_id=args.current_pack or None,
+        )
+        if approval_error is not None:
+            print(f"context_pack was not built: {approval_error}.")
+            print("Сначала покажи пользователю результат этапа 3 и получи явный апрув в чате.")
+            print(
+                "Затем запиши апрув командой: "
+                "python src/workflow_context.py approve --stage 3 "
+                "--campaign <campaign_id> --pack <pack_id>"
+            )
+            return 1
 
     context_pack = build_context_pack_file(
         input_path=args.input,

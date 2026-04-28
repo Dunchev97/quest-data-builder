@@ -140,6 +140,8 @@ class CampaignTests(unittest.TestCase):
             target = pack_dir("Event_2026", "pack_001", root)
             write_json(target / "context_pack.json", sample_context_pack())
             write_json(target / "filled_tasks.json", sample_filled_tasks())
+            write_json(target / "quest_group.json", {"title": "Проверочная группа"})
+            write_json(target / "quest_group.validation.json", {"summary": {"errors": 0, "warnings": 0}})
 
             memory = update_memory_from_pack("Event_2026", "pack_001", root)
 
@@ -149,6 +151,7 @@ class CampaignTests(unittest.TestCase):
             self.assertIn("Котельная", memory["used_locations"])
             self.assertIn("Event_2026_ASK_1", memory["used_generated_assets"])
             self.assertEqual(memory["packs"]["pack_001"]["tasks_found"], 3)
+            self.assertEqual(memory["packs"]["pack_001"]["quest_group"], str(target / "quest_group.json"))
 
     def test_rebuild_memory_removes_replaced_entities(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

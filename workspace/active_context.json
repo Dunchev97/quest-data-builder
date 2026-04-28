@@ -4,12 +4,28 @@
   "mode_name_ru": "Генерация квестов",
   "campaign_id": "MeatballRain_2026",
   "pack_id": "pack_002",
-  "stage": "4",
+  "stage": "6",
   "quest_number": null,
   "task_number": null,
   "source": "manual",
   "last_request": "правки по 4 этапу, которые нужно добавить в инструкцию",
   "matched_keywords": [],
-  "notes": "Stage 4 instruction updated: all candidate locations in hints, formal candidate logic, no location/item names in mystery riddles. filled_tasks/context_pack regenerated, validation errors=0 warnings=0. CSV stage 5 not generated yet.",
-  "updated_at": "2026-04-28T14:04:27.481177+00:00"
+  "notes": "Stage 6 CSV exported from pack artifacts after stage 5 approval. CSV: campaigns/MeatballRain_2026/pack_002/generated_quests.csv.",
+  "updated_at": "2026-04-28T21:03:46.548755+00:00",
+  "stage_approvals": {
+    "4": {
+      "approved": true,
+      "approved_at": "2026-04-28T20:33:21.961930+00:00",
+      "campaign_id": "MeatballRain_2026",
+      "pack_id": "pack_002",
+      "notes": "Пользователь запросил проверку и создание этапа 5; stage 4 validation errors=0 warnings=0."
+    },
+    "5": {
+      "approved": true,
+      "approved_at": "2026-04-28T21:03:31.929137+00:00",
+      "campaign_id": "MeatballRain_2026",
+      "pack_id": "pack_002",
+      "notes": "Пользователь явно утвердил этап 5: квестовая группа pack_002 approved for stage 6 CSV."
+    }
+  }
 }

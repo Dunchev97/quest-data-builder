@@ -13,9 +13,14 @@
         "После этапа 1 нужно показать пользователю сюжетную структуру и ждать явный апрув.",
         "После этапа 2 нужно показать реплики начала/завершения и ждать явный апрув.",
         "После этапа 3 нужно показать выбранные шаблоны тасков и ждать явный апрув.",
+        "После апрува этапа 3 нужно записать gate командой python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>.",
+        "build_context_pack.py не собирает context_pack без записанного approval stage 3 для того же campaign/pack.",
         "После этапа 3.1 нужно показать context_pack/кандидатов и ждать явный апрув.",
         "После этапа 4 нужно показать filled_tasks/валидацию и ждать явный апрув.",
-        "Этап 5 и CSV запускать только после апрува этапа 4.",
+        "После апрува этапа 4 нужно записать gate командой python src/workflow_context.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>.",
+        "Этап 5 создает campaigns/<campaign_id>/<pack_id>/quest_group.json по контексту всех квестов pack и требует отдельного апрува пользователя.",
+        "После апрува этапа 5 нужно записать gate командой python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>.",
+        "Этап 6 и CSV запускать только после апрува этапа 5; quest_group.json берется из папки того же pack.",
         "Нельзя выполнять все этапы нового pack подряд без человеческой проверки."
       ],
       "keywords_ru": [
@@ -34,6 +39,8 @@
         "этап 2",
         "этап 3",
         "этап 4",
+        "этап 5",
+        "этап 6",
         "пройди этапы",
         "3 квеста",
         "три квеста",
@@ -47,8 +54,12 @@
       ],
       "entrypoints": [
         "python src/create_pack.py <campaign_id>",
+        "python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>",
         "python src/build_context_pack.py output/quest_plan.resolved.json --campaign <campaign_id> --current-pack <pack_id>",
-        "python src/validate_task_objects.py output/filled_tasks.json --campaign <campaign_id> --current-pack <pack_id>"
+        "python src/validate_task_objects.py output/filled_tasks.json --campaign <campaign_id> --current-pack <pack_id>",
+        "python src/workflow_context.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>",
+        "python src/build_quest_group.py --campaign <campaign_id> --current-pack <pack_id>",
+        "python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>"
       ]
     },
     {
@@ -81,22 +92,42 @@
       ],
       "entrypoints": [
         "python src/validate_task_objects.py output/filled_tasks.json --campaign <campaign_id> --current-pack <pack_id>",
-        "python src/export_csv.py output/filled_tasks.json",
+        "python src/export_csv.py --campaign <campaign_id> --current-pack <pack_id>",
         "python src/update_campaign_memory.py <campaign_id> --pack <pack_id> --from-output"
+      ]
+    },
+    {
+      "id": "quest_group_creation",
+      "name_ru": "Создание квестовой группы",
+      "description_ru": "Этап 5: ИИ анализирует все квесты pack и создает campaigns/<campaign_id>/<pack_id>/quest_group.json для страницы журнала.",
+      "default_stage": "5",
+      "requires_context": ["campaign_id", "pack_id", "stage_4_approval"],
+      "keywords_ru": [
+        "квестовая группа",
+        "quest group",
+        "quest_group",
+        "этап 5",
+        "описание квестовой группы",
+        "журнал квестов",
+        "страница журнала"
+      ],
+      "entrypoints": [
+        "python src/build_quest_group.py --campaign <campaign_id> --current-pack <pack_id>",
+        "python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>"
       ]
     },
     {
       "id": "csv_export",
       "name_ru": "CSV-экспорт",
-      "description_ru": "Проверка этапа 4 и разворачивание filled_tasks.json в CSV.",
-      "default_stage": "5",
-      "requires_context": ["campaign_id", "pack_id"],
+      "description_ru": "Этап 6: проверка этапов 4-5 и разворачивание quest_group.json + filled_tasks.json из папки pack в CSV.",
+      "default_stage": "6",
+      "requires_context": ["campaign_id", "pack_id", "stage_5_approval"],
       "keywords_ru": [
         "создай csv",
         "сделай csv",
         "экспорт csv",
         "разверни csv",
-        "этап 5",
+        "этап 6",
         "сгенерируй таблицу",
         "выгрузи csv",
         "generated_quests.csv",
@@ -104,7 +135,8 @@
       ],
       "entrypoints": [
         "python src/validate_task_objects.py output/filled_tasks.json --campaign <campaign_id> --current-pack <pack_id>",
-        "python src/export_csv.py output/filled_tasks.json"
+        "python src/build_quest_group.py --campaign <campaign_id> --current-pack <pack_id>",
+        "python src/export_csv.py --campaign <campaign_id> --current-pack <pack_id>"
       ]
     },
     {

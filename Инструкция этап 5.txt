@@ -1,143 +1,124 @@
-# ЭТАП 5: ПРЕОБРАЗОВАНИЕ В ФОРМАТ CSV
+# ЭТАП 5: СОЗДАНИЕ КВЕСТОВОЙ ГРУППЫ
 
-Инструкция по созданию CSV для квестов:
+Этап 5 выполняется после этапа 4, когда `filled_tasks.json` уже создан для текущего pack, проверен валидатором и показан пользователю.
 
-ОБЯЗАТЕЛЬНОЕ УСЛОВИЕ ПЕРЕД CSV
-
-Этап 5 можно запускать только после успешной проверки этапа 4:
+Перед стартом этапа 5 нужен явный апрув этапа 4 в чате и technical gate:
 
 ```bash
-python src/validate_task_objects.py output/filled_tasks.json
+python src/workflow_context.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>
 ```
 
-Если в `output/filled_tasks.validation.json` есть `errors > 0`, CSV не создавать. Нужно вернуться к этапу 4 и исправить task object.
+Цель этапа 5: ИИ анализирует контекст всех квестов текущего pack и пишет общую квестовую группу для страницы журнала.
 
-Этап 5 не должен творчески переписывать данные. Он только разворачивает уже готовые данные этапа 4 в CSV:
-- верхний блок квеста из полей `classname_quests`, `title_quest`, `description`, `congratulation`, `Character/character`, `helper`, `extra.sequence_icon`;
-- блоки задач из уже готовых `task_object`.
+Входные файлы:
 
-Нельзя на этапе 5:
-- менять `title`;
-- менять `hint`;
-- менять `classname`, `param`, `icon`;
-- менять location title после фраз `Место поиска:` или `Он находится`;
-- перенумеровывать generated-сущности;
-- заменять мусор, цветок, коллекцию или выбранного кандидата.
+- `campaigns/<campaign_id>/<pack_id>/filled_tasks.json`
+- `campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json`
+- при необходимости `campaigns/<campaign_id>/<pack_id>/stage1_story.txt`
+- при необходимости `campaigns/<campaign_id>/<pack_id>/stage2_story.txt`
+- при необходимости `campaigns/<campaign_id>/<pack_id>/stage3_quests.txt`
 
-Если в task object видна смысловая ошибка, этап 5 должен остановиться и вернуть задачу на этап 4.
+Выходные файлы:
 
-После успешного CSV-экспорта для campaign нужно сохранить pack и обновить память:
+- `campaigns/<campaign_id>/<pack_id>/quest_group.json`
+- `campaigns/<campaign_id>/<pack_id>/quest_group.validation.json`
+- `campaigns/<campaign_id>/<pack_id>/quest_group.preview.md`
 
-```bash
-python src/update_campaign_memory.py [campaign_id] --pack pack_001 --from-output
-```
+`quest_group` привязан к pack, поэтому постоянным источником правды является папка pack в `campaigns/`, а не временная папка `output/`.
 
-СТРУКТУРА CSV
+## Поля квестовой группы
 
-Для каждого квеста нужен отдельный quest-блок, а под ним его задачи:
+Структура соответствует верхнему `ml`-блоку CSV:
 
-```text
-Квест 1
-  Таск 1
-  Таск 2
-  Таск 3
-
-Квест 2
-  Таск 1
-  Таск 2
-  Таск 3
-```
-
-Важно: номера в заголовках задач CSV локальные внутри квеста. Даже если во входном `filled_tasks.json` `task_number` идет глобально как `4`, `5`, `6`, в блоке второго квеста CSV должен писать `Таск 1`, `Таск 2`, `Таск 3`, а поля остаются `tasks.0`, `tasks.1`, `tasks.2`.
-
-Quest-блок должен идти перед task-блоками:
-
-```csv
-;Квест 1;;;;;;
-sl;string;string;string;string;string;string;string
-;input;output;title;description;congratulation;helper;extra.sequence_icon
-;/quest/generated/Labor_2025/story_1/Labor_2025_Story_1.proto.js;/quest/generated/Labor_2025/story_1/Labor_2025_Story_1.proto.js;Потерянный мангал;...;...;Labor_2025_Character_1;MagazinePage_Labor_2025_QuestIcon_1
-```
-
-Поля quest-блока:
-- `input` и `output` берутся из `proto_path`, если он есть, иначе строятся из `classname_quests/classname` и `quest_number`;
-- `title` берется из `title_quest`;
-- `description` берется из `description`;
-- `congratulation` берется из `congratulation`;
-- `helper` берется из `helper`, `quest_helper`, `character_classname`, `extra.helper` или из первого `task_object.go_to_location[].classname`/`icon`, похожего на `Character`;
-- `extra.sequence_icon` берется из `extra.sequence_icon`, `sequence_icon`, `quest_sequence_icon`; если поля нет, строится по classname квеста как `MagazinePage_[base]_QuestIcon_1`.
-
-Упрощенный шаблон для task-блока:
-;Таск 1;Уборка конкретного мусора в гостях;;;;;;;;;;;;;;;;;;;;;;;;
-ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;
-;input;output;tasks.0;;;;;;;;;;;;;;;;;;;;;;
-;/quest/fun/Fun13/story_1/Fun13_Story_1_2.proto.js;/quest/fun/Fun13/story_1/Fun13_Story_1_2.proto.js;type;garbage;;;;;;;;;;;;;;;;;;;;;
-;;;classname;SaltShakerWithSpilledSalt;;;;;;;;;;;;;;;;;;;;;
-;;;in_guest;1;;;;;;;;;;;;;;;;;;;;;
-;;;amount;20;;;;;;;;;;;;;;;;;;;;;
-;;;price;20;;;;;;;;;;;;;;;;;;;;;
-;;;title;Убери мусор Солонка в гостях;;;;;;;;;;;;;;;;;;;;;
-;;;hint;Убери мусор Солонка в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Горница
-;;;identifier;;;;;;;;;;;;;;;;;;;;;
-
-Дополнение для campaign/pack workflow:
-
-Правило human approval gate:
-
-Этап 5 можно запускать только после явного апрува этапа 4 в чате. Если пользователь еще не видел `filled_tasks.json`, выбранные реальные данные и результат валидации, CSV не создавать. Этап 5 является финальным техническим разворачиванием уже утвержденных task objects.
-
-Этап 5 не меняет `classname`, `param`, `icon` и нумерацию generated-объектов. CSV должен сохранять те значения, которые прошли валидацию этапа 4. Нумерация `HOG`, `GR`, `ASK`, `PER`, `CL`, `FA`, `R` должна уже продолжать `campaign_memory.json`.
-
-Для диалоговых тасков (`TT-001`, `Диалог`, `action dialog`) реплика персонажа пишется в этой же заголовочной строке task-блока:
-
-```csv
-;Таск 1;Диалог;;;РЕПЛИКА ДИАЛОГА: Домовёнок, кажется, у нас снова переполох. Давай разберёмся, пока всё не стало ещё страннее.;;
+```json
+{
+  "input": "/quest_group/fun/Fun13_Story_1.proto.js",
+  "output": "/quest_group/fun/<CurrentQuestGroup>.proto.js",
+  "title": "...",
+  "description": "...",
+  "description_complete": "...",
+  "description_spoil": "...",
+  "extra": {
+    "quest_reward_prewiew": ["", "", ""],
+    "description_condition": "...",
+    "description_complete": "..."
+  }
+}
 ```
 
 Правила:
-- реплика берется из `task.dialogue_replica`;
-- длина `dialogue_replica` в JSON должна быть не более 360 символов с пробелами;
-- этап 5 не придумывает, не расширяет и не сокращает реплику;
-- если у диалогового таска нет `dialogue_replica` или она длиннее 360 символов, валидатор этапа 4 должен вернуть ошибку, а CSV создавать нельзя.
 
-Пример:
-Входные данные:
-Classname quests: Labor_2025_Story_1
-title_quest: Потерянный мангал
-№ quest: 1
-№ task: 1 2 3
-Task type: HOG, clean_debris / garbage, classname, in_guest / get_asset, GR, garbage
-description: "Эй, домовёночек! Первомай на носу, а я мангал найти не могу! Представляешь, куда-то на чердаке запропастился мой красавец складной. Без него какой пикник? Сам понимаешь — шашлык без правильного мангала, что свадьба без жениха! Поможешь отыскать? У меня там, правда, небольшой творческий беспорядок..."
-Tasks: 
-[
-  {
-    "type": "garbage",
-    "classname": "SaltShakerWithSpilledSalt",
-    "in_guest": "1",
-    "amount": 1,
-    "price": 20,
-    "title": "Убери мусор Солонка в гостях",
-    "hint": "Убери мусор Солонка в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Горница, Погребок.",
-	"identifier": ""
-  }
-]
-congratulation: "Ай да молодец! Нашёл мой боевой мангал! Теперь-то наш Первомай будет с шашлыками — пальчики оближешь! Жаль только, что я все шампуры растерял... Шучу-шучу, они в сарае лежат, проверял!"
-Character: Григорий Борщов
+- `input` всегда строго `/quest_group/fun/Fun13_Story_1.proto.js`.
+- `output` строится из текущих `campaign_id` и `pack_id`: `/quest_group/fun/<campaign_id>_<pack_id>.proto.js`, например `/quest_group/fun/MeatballRain_2026_pack_002.proto.js`.
+- `title` пишет ИИ по смыслу всего pack.
+- `description` — краткая завязка всего pack.
+- `description_complete` — краткое успешное завершение всего pack.
+- `description_spoil` — краткое провальное/неуспешное завершение всего pack.
+- `extra.quest_reward_prewiew` всегда содержит три пустые строки: `["", "", ""]`.
+- `extra.description_condition` должно полностью совпадать с `description`.
+- `extra.description_complete` должно полностью совпадать с `description_complete`.
 
-Результат на выходе:
-;Квест 1;;;;;;
-sl;string;string;string;string;string;string;string
-;input;output;title;description;congratulation;helper;extra.sequence_icon
-;/quest/generated/Labor_2025/story_1/Labor_2025_Story_1.proto.js;/quest/generated/Labor_2025/story_1/Labor_2025_Story_1.proto.js;Потерянный мангал;"Эй, домовёночек! Первомай на носу, а я мангал найти не могу! Представляешь, куда-то на чердаке запропастился мой красавец складной. Без него какой пикник? Сам понимаешь — шашлык без правильного мангала, что свадьба без жениха! Поможешь отыскать? У меня там, правда, небольшой творческий беспорядок...";"Ай да молодец! Нашёл мой боевой мангал! Теперь-то наш Первомай будет с шашлыками — пальчики оближешь! Жаль только, что я все шампуры растерял... Шучу-шучу, они в сарае лежат, проверял!";;MagazinePage_Labor_2025_QuestIcon_1
+## Как писать текст
 
-;Таск 1;Уборка конкретного мусора в гостях;;;;;;;;;;;;;;;;;;;;;;;;
-ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;
-;input;output;tasks.0;;;;;;;;;;;;;;;;;;;;;;
-;/quest/fun/Fun13/story_1/Fun13_Story_1_2.proto.js;/quest/fun/Fun13/story_1/Fun13_Story_1_2.proto.js;type;garbage;;;;;;;;;;;;;;;;;;;;;
-;;;classname;SaltShakerWithSpilledSalt;;;;;;;;;;;;;;;;;;;;;
-;;;in_guest;1;;;;;;;;;;;;;;;;;;;;;
-;;;amount;20;;;;;;;;;;;;;;;;;;;;;
-;;;price;20;;;;;;;;;;;;;;;;;;;;;
-;;;title;Убери мусор Солонка в гостях;;;;;;;;;;;;;;;;;;;;;
-;;;hint;Убери мусор Солонка в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Горница
-;;;identifier;;;;;;;;;;;;;;;;;;;;;
+ИИ должен смотреть на весь pack, а не только на первый квест.
+
+Нужно учитывать:
+
+- общую завязку;
+- конфликт или странность, с которой начинается pack;
+- главных персонажей;
+- финальный результат последнего квеста;
+- тон кампании.
+
+Текст должен быть коротким, дружелюбным и приключенческим: не пересказывать каждый таск, а обращаться к игроку и объяснять общий смысл серии.
+
+Стиль:
+
+- писать напрямую игроку: `Вы отправляетесь...`, `Вам предстоит...`, `Вы преодолели...`;
+- звучать как приглашение в приключение, а не как сухой отчет;
+- сохранять юмор и сказочность кампании;
+- в `description_spoil` можно писать мягко и чуть шутливо, что пошло не так и что стоит попробовать в следующий раз.
+
+Пример стиля:
+
+```text
+description: Вы догоняете отважную воительницу на пути к краю света. Вместе вам предстоит перехитрить Движущийся лес, разгадать тайну Бездонной пропасти и решить, что делать, когда грозный зверь просит помощи, а не боя.
+description_complete: Вы преодолели лес, раскрыли секрет пропасти и усмирили гнев тигровой виверны, вернув ей потерявшихся детёнышей. В благодарность новый друг теперь готов перенести вас к самому краю света.
+description_spoil: В лесу мы заплутали, так и не нашли выход из чащи. В следующий раз нужно волшебный клубочек не забыть!
+```
+
+Нельзя:
+
+- придумывать новые реальные игровые classname;
+- менять `filled_tasks.json`;
+- менять `context_pack.json`;
+- запускать CSV;
+- использовать `extra.quest_reward_prewiew` для наград, пока пользователь не попросит.
+
+## CLI
+
+После того как ИИ написал тексты, собрать JSON можно так:
+
+```bash
+python src/build_quest_group.py \
+  --campaign <campaign_id> \
+  --current-pack <pack_id> \
+  --title "..." \
+  --description "..." \
+  --description-complete "..." \
+  --description-spoil "..."
+```
+
+Скрипт прочитает `campaigns/<campaign_id>/<pack_id>/filled_tasks.json` и создаст `quest_group.json`, validation и preview в той же папке pack.
+
+Если нужно вручную взять `filled_tasks.json` из другого места, путь можно передать первым аргументом, но `quest_group` всё равно по умолчанию будет записан в `campaigns/<campaign_id>/<pack_id>/`.
+
+После результата этапа 5 нужно остановиться, показать пользователю `quest_group.json`/preview и ждать явный апрув.
+
+После апрува этапа 5 записать gate:
+
+```bash
+python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
+```
+
+Без этого этап 6 / CSV должен отказаться запускаться.

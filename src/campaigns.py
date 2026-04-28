@@ -28,6 +28,9 @@ PACK_FILE_CANDIDATES = [
     (DEFAULT_OUTPUT_DIR / "filled_tasks.json", "filled_tasks.json"),
     (DEFAULT_OUTPUT_DIR / "filled_tasks.validation.json", "filled_tasks.validation.json"),
     (DEFAULT_OUTPUT_DIR / "filled_tasks.preview.md", "filled_tasks.preview.md"),
+    (DEFAULT_OUTPUT_DIR / "quest_group.json", "quest_group.json"),
+    (DEFAULT_OUTPUT_DIR / "quest_group.validation.json", "quest_group.validation.json"),
+    (DEFAULT_OUTPUT_DIR / "quest_group.preview.md", "quest_group.preview.md"),
     (DEFAULT_OUTPUT_DIR / "generated_quests.csv", "generated_quests.csv"),
     (DEFAULT_OUTPUT_DIR / "generated_quests.with_quest_blocks.csv", "generated_quests.csv"),
 ]
@@ -428,6 +431,8 @@ def update_memory_from_single_pack(
     target = pack_dir(campaign_id, pack_id, campaigns_dir)
     filled_tasks_path = target / "filled_tasks.json"
     context_pack_path = target / "context_pack.json"
+    quest_group_path = target / "quest_group.json"
+    quest_group_validation_path = target / "quest_group.validation.json"
     if not filled_tasks_path.exists():
         raise FileNotFoundError(f"filled_tasks.json not found in pack: {filled_tasks_path}")
     if not context_pack_path.exists():
@@ -453,7 +458,7 @@ def update_memory_from_single_pack(
                 selected_count += 1
                 collect_candidate_usage(memory, candidate, pack_id, quest, task)
 
-    memory.setdefault("packs", {})[pack_id] = {
+    pack_memory = {
         "pack_id": pack_id,
         "updated_at": now_iso(),
         "filled_tasks": str(filled_tasks_path),
@@ -461,6 +466,11 @@ def update_memory_from_single_pack(
         "tasks_found": task_count,
         "selected_candidates_found": selected_count,
     }
+    if quest_group_path.exists():
+        pack_memory["quest_group"] = str(quest_group_path)
+    if quest_group_validation_path.exists():
+        pack_memory["quest_group_validation"] = str(quest_group_validation_path)
+    memory.setdefault("packs", {})[pack_id] = pack_memory
 
 
 def memory_count(memory: dict[str, Any], bucket: str) -> int:

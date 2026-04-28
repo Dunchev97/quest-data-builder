@@ -1,0 +1,212 @@
+{
+  "quests": [
+    {
+      "classname_quests": "MeatballRain_2026_Story_4",
+      "title_quest": "Огуречный раскат",
+      "quest_number": 4,
+      "description": "Домовёнок, у меня в лесу теперь не роса, а рассол! Огурцы падают с неба так бодро, будто кто-то наверху соленья пересчитывает и всё лишнее выкидывает вниз. Погляди-ка на облака: там, кажется, торчит башня великаньего замка. Надо найти первые следы и понять, куда тянуть наш будущий бобовый стебель.",
+      "congratulation": "Следы нашли: огурцы летят не просто так, их сдувает откуда-то с облачного замка. Лес пока спасён от полного хруста, но без лестницы туда не добраться. Бобовый стебель звучит всё менее смешно и всё более как план.",
+      "character": "Леший",
+      "tasks": [
+        {
+          "task_number": 10,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "dialogue_replica": "Домовёнок, у меня в лесу теперь вместо росы рассол, а в облаках торчит что-то замковое. Огурцы летят строем, будто великан там наверху кладовую проветривает. Пошли искать следы, пока белки не начали мариноваться.",
+          "choice_reason": "Диалог вводит проблему огуречного небопада и использует реальную локацию из кандидатов этого квеста.",
+          "task_object": {
+            "type": "action",
+            "icon": "MeatballRain_2026_Character_2",
+            "action": "MeatballRain_2026_Character_2_Dialog_1",
+            "title": "Поговори с Лешим",
+            "hint": "Поговори с Лешим. Для этого просто кликни на него. Он находится в локации Темный лес.",
+            "go_to_location": [
+              {
+                "classname": "MeatballRain_2026_Character_2"
+              }
+            ],
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 11,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "Поиск скрытых следов замка продолжает диалог Лешего; реальная локация взята из кандидата мусора этого же квеста.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "MeatballRain_2026_HOG_2",
+            "search_action": "search_MeatballRain_2026_HOG_2",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "MeatballRain_2026_HOG_2"
+              }
+            ],
+            "amount": 15,
+            "price": 20,
+            "title": "Найди следы облачного замка",
+            "hint": "Найди следы облачного замка. Место поиска: Темный лес. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 12,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "selected_candidate_id": "garbage:PieceOfChain",
+          "choice_reason": "Кусочек цепи выбран формально: это физическая деталь, которая может быть частью крепления облачного замка или будущего подъема к нему.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "PieceOfChain",
+            "in_guest": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Убери мусор Кусочек цепи в гостях",
+            "hint": "Убери мусор Кусочек цепи в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Озеро девичьих слез, Пещера, Темный лес, Трюм.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_5",
+      "title_quest": "Помидорная осада",
+      "quest_number": 5,
+      "description": "Домовёнок, это не дождь, это осада! По моим владениям лупят помидорчики, будто великан наверху решил играть в красные снежки. Мне нужны улики: откуда катится эта овощная артиллерия и чем его можно убедить закрыть кладовую. А если придётся растить бобовый стебель к замку, я требую, чтобы он был величественный.",
+      "congratulation": "Улики собраны. Помидорчики летят с облачной стороны, и всё больше похоже, что великан просто не заметил, как его закуски обрушились вниз. Значит, придётся не кричать снизу, а добираться наверх. Бобовый стебель должен выдержать хотя бы меня, мою корону и моё возмущение.",
+      "character": "Кощей",
+      "tasks": [
+        {
+          "task_number": 13,
+          "task_template_id": "TT-026",
+          "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection mystery",
+          "selected_candidate_id": "collection_drop:CucumberCollection1:Cucumber:home",
+          "choice_reason": "Огуречный рассол выбран формально: квест про соленья и падающие овощи, а источник предмета - Надкусанный огурец.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberCollection1",
+            "icon": "CucumberCollection1",
+            "is_hide": 1,
+            "amount": 1,
+            "price": 10,
+            "title": "Загадка, предмет из коллекции",
+            "hint": "Кислый след в стекле дрожит, зелёный хруст внутри хранит. Не суп, не сок, но вкусный ключ: закрой им банку от туч.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 14,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:BigHome_Garbage_Overview_Silver_Collection2:BigHome_Garbage_Overview_Silver:home",
+          "choice_reason": "Поваренная соль выбрана формально: соль напрямую связана с соленьями и нужна, чтобы объяснить овощную осаду через заготовки.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "BigHome_Garbage_Overview_Silver_Collection2",
+            "icon": "BigHome_Garbage_Overview_Silver_Collection2",
+            "amount": 8,
+            "price": 20,
+            "title": "Найди Поваренную соль",
+            "hint": "Поваренная соль - элемент коллекции, выпадает при уборке мусора Родированное серебро дома. Место поиска: Обзорная.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 15,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "selected_candidate_id": "gr_garbage:BrokenBarrel:guest",
+          "choice_reason": "Разбитая бочка выбрана формально: бочка напрямую связана с заготовками и соленьями, а generated GR оформлен как конкретная пробка.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "MeatballRain_2026_GR_3",
+            "icon": "MeatballRain_2026_GR_3",
+            "amount": 25,
+            "price": 30,
+            "title": "Найди Бочковую пробку",
+            "hint": "Убирай мусор Разбитая бочка в гостях, чтобы найти. Место поиска: Трюм.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_6",
+      "title_quest": "Грибной рассольник",
+      "quest_number": 6,
+      "description": "Это опять не я! Ну, почти. Я, может, и рассказывала одному великану, как правильно мариновать грибочки, но я же не велела ему сыпать их на всю округу. Если хотим прекратить этот рассольный снегопад, надо вырастить бобовый стебель до замка и подать знак наверх, пока он не перешёл к бочкам с капустой.",
+      "congratulation": "Вот теперь похоже на дело: мы знаем, где замок, чем пахнет беда и зачем нам бобовый стебель. Осталось подготовить всё для подъёма к облакам и объяснить великану, что закуски хороши на столе, а не на голове.",
+      "character": "Баба яга",
+      "tasks": [
+        {
+          "task_number": 16,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "selected_candidate_id": null,
+          "choice_reason": "Для выращивания бобового стебля нужен конкретный предмет, который можно попросить у друзей.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "MeatballRain_2026_ASK_2",
+            "icon": "MeatballRain_2026_ASK_2",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей Бобовый колышек",
+            "hint": "Попроси у друзей или купи.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 17,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower",
+          "selected_candidate_id": "flower:FlowerSeaBuckthorn",
+          "choice_reason": "Облепиха продолжает съедобную тему pack, а generated GR остается конкретной деталью для стебля.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "MeatballRain_2026_GR_4",
+            "icon": "MeatballRain_2026_GR_4",
+            "amount": 40,
+            "price": 25,
+            "title": "Найди Облепиховую завязку",
+            "hint": "Собирай цветы Облепиха в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 18,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Финальный craft создает конкретный крепеж для бобового стебля и завершает подготовку к подъему на облака.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "MeatballRain_2026_R_2",
+            "icon": "MeatballRain_2026_R_2",
+            "amount": 1,
+            "title": "Создай Бобовый стяжной хомут",
+            "go_to_location": [
+              {
+                "classname": "MeatballRain_2026_Workbench_2"
+              }
+            ],
+            "hint": "Для создания используй бобовый колышек, облепиховую завязку и бочковую пробку.",
+            "identifier": ""
+          }
+        }
+      ]
+    }
+  ]
+}

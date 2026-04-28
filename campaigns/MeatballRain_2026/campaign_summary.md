@@ -19,15 +19,15 @@ Next pack number: 3
 ## Memory Counts
 
 - used garbage: 8
-- used collections: 2
+- used collections: 3
 - used flowers: 2
-- used locations: 11
+- used locations: 10
 - used generated assets: 12
-- used task templates: 9
+- used task templates: 10
 
 ## Recent Used Examples
 
-- garbage: BigHome_Garbage_Bar_BrokenCocktail, BigHome_Garbage_Overview_LizardTooth, ApricotStone, Barometer, MushroomCommon, BrokenBank, Goldfish, BigHome_Garbage_Overview_Silver
-- collections: ApricotStoneCollection2, GoldfishCollection5
-- flowers: FlowerCvetikSemicvetik, FlowerLaysPotato
-- locations: Барная комната, Обзорная, Двор Чинга, Каюта капитана, Чародейная, Хата, Комната с привидениями, Погребок, Стеклодувня, Омут, Причал
+- garbage: BigHome_Garbage_Bar_BrokenCocktail, BigHome_Garbage_Overview_LizardTooth, ApricotStone, Barometer, PieceOfChain, Cucumber, BigHome_Garbage_Overview_Silver, BrokenBarrel
+- collections: ApricotStoneCollection2, CucumberCollection1, BigHome_Garbage_Overview_Silver_Collection2
+- flowers: FlowerCvetikSemicvetik, FlowerSeaBuckthorn
+- locations: Барная комната, Обзорная, Двор Чинга, Каюта капитана, Чародейная, Озеро девичьих слез, Пещера, Темный лес, Трюм, Оранжерея

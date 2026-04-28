@@ -124,7 +124,9 @@ existing XLSX/prototype pipeline
   ↓
 код валидирует task objects против quest-ready indexes
   ↓
-код экспортирует валидные task objects в CSV этапа 5
+ИИ создает quest group этапа 5 по контексту всего pack
+  ↓
+код экспортирует утвержденную quest group и валидные task objects в CSV этапа 6
 ```
 
 То есть:
@@ -1100,6 +1102,11 @@ python -m unittest discover -s tests
 ## 20. Changelog
 
 ### 2026-04-28
+
+- Добавлен новый этап 5: ИИ создает `campaigns/<campaign_id>/<pack_id>/quest_group.json` по контексту всего pack, с validation и preview.
+- CSV-экспорт перенесен на этап 6 и теперь включает верхний блок `Квест группа` перед quest/task-блоками.
+- Добавлены technical gates: `build_quest_group.py` требует approval stage 4, `export_csv.py` требует approval stage 5.
+- Добавлены `src/build_quest_group.py`, `tests/test_build_quest_group.py`, новая инструкция `Инструкция этап 6.txt`; обновлены README и workflow modes.
 
 - Уточнена архитектура этапов 3-5: финальный путь должен использовать ИИ для творческого выбора task types и игровых данных по контексту, а код должен готовить quest-ready context pack, валидировать AI-filled task objects и экспортировать CSV.
 - Зафиксировано, что детерминированный `fill_tasks.py` является техническим прототипом, а не финальной моделью этапа 4.
