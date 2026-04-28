@@ -4,12 +4,12 @@
   "mode_name_ru": "Генерация квестов",
   "campaign_id": "MeatballRain_2026",
   "pack_id": "pack_002",
-  "stage": "3",
+  "stage": "4",
   "quest_number": null,
   "task_number": null,
   "source": "manual",
-  "last_request": "",
+  "last_request": "правки по 4 этапу, которые нужно добавить в инструкцию",
   "matched_keywords": [],
-  "notes": "Stage 3 ready for user approval: выбранные TT-шаблоны проверены, issues=0.",
-  "updated_at": "2026-04-28T12:31:50.310164+00:00"
+  "notes": "Stage 4 instruction updated: all candidate locations in hints, formal candidate logic, no location/item names in mystery riddles. filled_tasks/context_pack regenerated, validation errors=0 warnings=0. CSV stage 5 not generated yet.",
+  "updated_at": "2026-04-28T14:04:27.481177+00:00"
 }

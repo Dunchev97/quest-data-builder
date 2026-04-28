@@ -1,27 +1,79 @@
 # quest-data-builder
 
-Парсер raw-данных легаси-игры для построения игровых индексов и подготовки quest-ready данных. Проект также содержит рабочий пайплайн для этапов 3-5: разбор плана квестов, сбор компактного context pack, валидация заполненных task objects и CSV-экспорт.
+Парсер raw-данных легаси-игры для построения игровых индексов, quest-ready данных и рабочих файлов квестового пайплайна.
 
-Полная творческая генерация квестов остается ручным/ИИ-этапом. Код не придумывает сюжет и не выбирает task object творчески без ИИ.
+Код индексирует реальные игровые данные, проверяет их и помогает вести этапы 3-5. Полная творческая генерация квестов остается ручным/ИИ-этапом: код не должен сам придумывать сюжет или task object без отдельного указания.
 
-## Запуск
+## Быстрый старт
+
+Пересобрать игровые индексы:
 
 ```bash
 python src/build_index.py
 ```
 
-Команда читает файлы из:
+Запустить тесты:
+
+```bash
+python -m unittest discover -s tests
+```
+
+Файлы в `raw/` не изменяются.
+
+## Активный контекст
+
+Актуальная рабочая сессия хранится здесь:
+
+```text
+workspace/active_context.json
+```
+
+Если пользователь спрашивает про текущую сессию, campaign, pack, stage, quest, task или выбранные шаблоны, сначала смотри этот файл.
+
+Показать активный контекст:
+
+```bash
+python src/workflow_context.py show
+```
+
+Выставить контекст вручную:
+
+```bash
+python src/workflow_context.py set --mode quest_edit --campaign MeatballRain_2026 --pack pack_001 --stage 4 --quest 2 --task 1
+```
+
+Определить режим по тексту запроса и записать его:
+
+```bash
+python src/workflow_context.py detect --text "создай csv для текущего пака" --apply --campaign MeatballRain_2026 --pack pack_001
+```
+
+Подробный порядок workflow, режимы и approval gates описаны в:
+
+- `workflows/WORKFLOW_GUIDE.md`
+- `workflows/workflow_modes.json`
+
+## Основные папки
+
+- `raw/` — исходные игровые данные, не редактировать.
+- `data/` — generated indexes и quest-ready данные.
+- `input/` — ручной ввод для текущего прогона.
+- `output/` — последний рабочий прогон.
+- `campaigns/` — сохраненные campaign/pack артефакты.
+- `workspace/` — активный контекст локальной сессии.
+- `src/` — CLI и Python-код.
+- `tests/` — unit-тесты.
+
+## Индексы
+
+`python src/build_index.py` читает:
 
 - `raw/locations/`
 - `raw/garbage/`
 - `raw/flowers/`
 - `raw/collections/`
 
-Файлы в `raw/` не изменяются.
-
-## Выходные файлы
-
-Базовые индексы:
+И создает базовые файлы:
 
 - `data/master_index.json`
 - `data/garbage.index.json`
@@ -39,384 +91,83 @@ Quest-ready файлы:
 - `data/excluded_entities.json`
 - `data/validation_summary.md`
 
-`quest_ready_index.json` содержит только данные, пригодные для будущей генерации: локации с известным мусором, активный мусор, валидные цветы и коллекции, реально используемые в quest-ready drops.
+`quest_ready_index.json` и `quest_ready_drops.index.json` — единственные индексы, которые будущая генерация квестов и CSV должна использовать как источник игровых данных.
 
-`critical_issues.json` содержит только проблемы, которые нужно исправлять руками перед генерацией.
-
-`non_critical_issues.json` содержит проблемы, которые можно игнорировать для quest-ready генерации: пустые локации, неизвестный мусор из `location.garbage_assets`, неиспользуемый мусор и missing collection assets из игнорируемых паттернов `Cocoon/Web/Common/Mold`.
-
-## Анализ существующего отчета
-
-Обычно отдельный запуск не нужен, потому что `python src/build_index.py` уже создает `data/validation_summary.md`.
-
-Если нужно пересобрать только Markdown summary из уже созданных JSON-файлов:
+Если нужно пересобрать только Markdown summary из уже созданных JSON:
 
 ```bash
 python src/analyze_validation.py
 ```
 
-## Парсинг квестов этапа 3
+## Квестовый пайплайн
 
-Положи текстовый результат этапа 3 в:
-
-```text
-input/stage3_quests.txt
-```
-
-Запуск:
+Этап 3: распарсить текстовый план квестов:
 
 ```bash
 python src/parse_stage3.py input/stage3_quests.txt
 ```
 
-Команда создает:
-
-- `output/quest_plan.json`
-- `output/quest_plan.preview.md`
-
-`quest_plan.json` содержит список QuestPlan. Для каждого квеста сохраняются:
-
-- `classname_quests`
-- `title_quest`
-- `quest_number`
-- `task_numbers`
-- `task_template_ids`
-- `task_template_names`
-- `task_types`
-- `tasks` — связанный список заданий с `task_number`, `task_template_id`, `task_template_name`, `task_type`
-- `description`
-- `congratulation`
-- `character`
-- `raw_text`
-
-Актуальный формат этапа 3 должен содержать синхронные строки:
-
-```text
-Task template ID: TT-020 / TT-014 / TT-033
-Task template name: Уборка конкретного мусора в гостях / GR с конкретного мусора в гостях / Передача предмета
-Task type: garbage classname in_guest / get_asset GR in_guest garbage classname / action give
-```
-
-Парсер проверяет, что количество `№ task`, `Task template ID`, `Task template name` и `Task type` совпадает. Шаблон `TT-035` считается `not_ready` и будет записан в issues.
-
-## Проверка шаблонов этапа 3
-
-После парсинга можно проверить, что выбранные ID, русские названия и `Task type` совпадают с актуальным каталогом шаблонов:
+Проверить выбранные `Task template ID`, русские названия и `Task type`:
 
 ```bash
 python src/task_type_resolver.py output/quest_plan.json
 ```
 
-Команда читает:
-
-- `output/quest_plan.json`
-- `data/task_templates.json`
-
-И создает:
-
-- `output/quest_plan.resolved.json`
-- `output/quest_plan.resolved.preview.md`
-
-`data/task_templates.json` содержит актуальный машинный каталог `TT-001` ... `TT-035`. Шаблон `TT-035` помечен как `not_ready` и не должен использоваться в этапе 3.
-
-## Ручные правки этапов 3 и 4
-
-Если после просмотра этапа 3 нужно заменить конкретный тип задания или дать указания для выбора кандидатов на этапе 4, используй overrides.
-
-Пример лежит здесь:
-
-```text
-input/manual_overrides.example.json
-```
-
-Рабочий файл по умолчанию:
-
-```text
-input/manual_overrides.json
-```
-
-Применение:
+Применить ручные overrides, если нужны:
 
 ```bash
 python src/apply_overrides.py output/quest_plan.json input/manual_overrides.json
 ```
 
-Команда создает:
-
-- `output/quest_plan.overridden.json`
-- `output/manual_overrides_report.md`
-
-Пример замены шаблона этапа 3:
-
-```json
-{
-  "classname_quests": "CosmoDay_2025_Story_4",
-  "task_number": 11,
-  "replace_template": {
-    "task_template_id": "TT-026",
-    "task_template_name": "Загадка на коллекцию (зависит от редкости)",
-    "task_type": "get_asset Collection mystery"
-  }
-}
-```
-
-Пример указаний для этапа 4:
-
-```json
-{
-  "classname_quests": "CosmoDay_2025_Story_4",
-  "task_number": 12,
-  "avoid_candidates": ["garbage:Ashes"],
-  "prefer_candidates": ["garbage:BrokenPlate"],
-  "prefer_instruction": "Выбери более магический или музыкальный вариант."
-}
-```
-
-После stage3-правок запускай resolver уже на overridden-файле:
-
-```bash
-python src/task_type_resolver.py output/quest_plan.overridden.json
-```
-
-## Сбор context pack для этапа 4
-
-После проверки шаблонов можно собрать компактный пакет реальных кандидатов для ИИ:
-
-```bash
-python src/build_context_pack.py output/quest_plan.resolved.json
-```
-
-Команда читает:
-
-- `output/quest_plan.resolved.json`
-- `data/quest_ready_index.json`
-- `data/quest_ready_drops.index.json`
-
-И создает:
-
-- `output/context_pack.json`
-- `output/context_pack.preview.md`
-- `output/context_candidate_history.json`
-
-`context_pack.json` не заполняет task object автоматически. Он дает ИИ короткий список реальных кандидатов по каждому заданию: мусор, цветы, collection drops или GR-источники. По умолчанию используется до 12 кандидатов на task.
-
-История кандидатов нужна, чтобы похожие задания в следующих запусках не получали один и тот же первый набор вариантов. Если нужно начать подбор заново:
-
-```bash
-python src/build_context_pack.py output/quest_plan.resolved.json --reset-history
-```
-
-## Кампании и паки
-
-`output/` остается папкой последнего рабочего прогона. Для долгой сюжетной линии используй `campaigns/`.
-
-Кампания — это постоянная сюжетная линия. Пак — отдельная пачка квестов внутри кампании.
-
-Создать или открыть кампанию:
-
-```bash
-python src/start_campaign.py MeatballRain_2026 --title "У нас дождь из фрикаделек" --tone "юмор" --characters "Дедушка Домовед,Баба яга,Царевна медной горы"
-```
-
-Создать следующий пак:
-
-```bash
-python src/create_pack.py MeatballRain_2026 --title "Пак 1"
-```
-
-После завершения этапов 3-5 для пака сохрани текущий `output/` в кампанию и обнови память:
-
-```bash
-python src/update_campaign_memory.py MeatballRain_2026 --pack pack_001 --from-output
-```
-
-Команда пишет:
-
-- `campaigns/MeatballRain_2026/campaign.json`
-- `campaigns/MeatballRain_2026/campaign_memory.json`
-- `campaigns/MeatballRain_2026/campaign_summary.md`
-- `campaigns/MeatballRain_2026/pack_001/...`
-
-Для следующего пака собирай context pack уже с памятью кампании:
+Этап 3.1: собрать compact context pack для заполнения task objects:
 
 ```bash
 python src/build_context_pack.py output/quest_plan.resolved.json --campaign MeatballRain_2026 --current-pack pack_002
 ```
 
-Тогда уже выбранные в предыдущих паках `garbage`, source-мусор collection drops, `collection`, `flower` и candidate IDs будут исключаться из новых кандидатов, если есть свежие альтернативы.
-
-Для нового pack в запросе обязательно указывать количество квестов, например `3 квеста`, или явно разрешать свободный объем фразой `придумай сколько хочешь`. Без этого Codex должен уточнить количество до генерации.
-
-Новый pack делается только поэтапно, с человеческим апрувом после каждого шага. Codex не должен прогонять сразу этапы 1-5 одним сообщением: после этапа 1 показывает сюжетную структуру и ждет апрув; после этапа 2 показывает реплики и ждет апрув; после этапа 3 показывает выбранные шаблоны тасков и ждет апрув; после этапа 3.1 показывает `context_pack`/кандидатов и ждет апрув; после этапа 4 показывает `filled_tasks` и результат валидации. CSV этапа 5 создается только после апрува этапа 4.
-
-Generated-объекты (`HOG`, `GR`, `ASK`, `PER`, `CL`, `FA`, `R`) нумеруются в пределах всей campaign, а не отдельного pack. Если `pack_001` уже использовал `MeatballRain_2026_HOG_1`, `MeatballRain_2026_GR_1`, `MeatballRain_2026_ASK_1` и `MeatballRain_2026_R_1`, то `pack_002` продолжает с `HOG_2`, `GR_2`, `ASK_2`, `R_2`. Не добавляй `Pack2` в prefix classname; для той же сюжетки prefix остается `MeatballRain_2026`.
-
-## Режимы работы и активный контекст
-
-Режимы работы описаны в:
-
-- `workflows/workflow_modes.json`
-- `workflows/WORKFLOW_GUIDE.md`
-
-Активный контекст хранится в:
-
-- `workspace/active_context.json`
-
-Показать активный контекст:
-
-```bash
-python src/workflow_context.py show
-```
-
-Посмотреть список режимов и русские ключевики:
-
-```bash
-python src/workflow_context.py list-modes
-```
-
-Выставить контекст вручную:
-
-```bash
-python src/workflow_context.py set --mode quest_edit --campaign MeatballRain_2026 --pack pack_001 --stage 4 --quest 2 --task 1
-```
-
-Определить режим по тексту запроса:
-
-```bash
-python src/workflow_context.py detect --text "замени мусор в квесте 2 таске 1"
-```
-
-Определить режим и сразу записать его в active context:
-
-```bash
-python src/workflow_context.py detect --text "создай csv для текущего пака" --apply --campaign MeatballRain_2026 --pack pack_001
-```
-
-Основные режимы:
-
-- `quest_generation` — создание нового pack квестов.
-- `quest_edit` — точная правка квеста или task.
-- `csv_export` — этап 5 и CSV.
-- `campaign_management` — создание campaign/pack и обновление памяти.
-- `validation_review` — анализ validation issues.
-- `raw_indexing` — пересборка индексов из raw.
-- `pot_description` — будущий workflow описаний горшков по картинке.
-- `workflow_management` — настройка режимов, памятки и active context.
-
-## Валидация заполненных task objects этапа 4
-
-После того как ИИ заполнит task objects по `output/context_pack.json`, результат нужно сохранить в:
-
-```text
-output/filled_tasks.json
-```
-
-Пример формата:
-
-```text
-output/filled_tasks.example.json
-```
-
-Проверка:
+Этап 4: проверить заполненный `output/filled_tasks.json`:
 
 ```bash
 python src/validate_task_objects.py output/filled_tasks.json --campaign MeatballRain_2026 --current-pack pack_002
 ```
 
-Команда читает:
-
-- `output/filled_tasks.json`
-- `output/context_pack.json`
-- `data/task_templates.json`
-
-И создает:
-
-- `output/filled_tasks.validation.json`
-- `output/filled_tasks.preview.md`
-
-Валидатор проверяет:
-
-- task существует в `context_pack`;
-- `task_template_id` совпадает с контекстом;
-- `selected_candidate_id` есть среди кандидатов этого task;
-- `task_object` содержит обязательные поля для своего `TT-...`;
-- garbage/flower/collection classname не выдуманы и совпадают с выбранным кандидатом;
-- нумерация generated-объектов продолжает `campaign_memory.json`, если передан `--campaign`;
-- `TT-035` не используется;
-- базовые поля `type`, `action`, `in_guest`, `is_hide`, `is_silhouette` соответствуют шаблону.
-
-## CSV-экспорт этапа 5
-
-CSV создается только из валидного `output/filled_tasks.json`.
-
-Сначала обязательно запусти проверку этапа 4:
-
-```bash
-python src/validate_task_objects.py output/filled_tasks.json
-```
-
-После успешной проверки:
+Этап 5: экспортировать CSV только после успешной проверки этапа 4:
 
 ```bash
 python src/export_csv.py output/filled_tasks.json
 ```
 
-Команда читает:
+CSV не создается, если `output/filled_tasks.validation.json` содержит errors или устарел относительно `filled_tasks.json`.
 
-- `output/filled_tasks.json`
-- `output/filled_tasks.validation.json`
+## Кампании и паки
 
-И создает:
+`output/` — последний рабочий прогон. Долгая сюжетная линия хранится в `campaigns/`.
 
-- `output/generated_quests.csv`
-
-Если в `output/filled_tasks.validation.json` есть errors или validation-файл старее `filled_tasks.json`, CSV не будет создан. Этап 5 не меняет `title`, `hint`, `classname`, `param`, `icon`, локации и нумерацию generated-сущностей; он раскладывает готовые данные в структуру `Квест N -> Таск 1..N`.
-
-Для каждого квеста CSV теперь содержит верхний `sl`-блок с полями `title`, `description`, `congratulation`, `helper`, `extra.sequence_icon`, а затем локальные task-блоки `tasks.0`, `tasks.1`, `tasks.2`. Заголовки задач в CSV нумеруются внутри каждого квеста: второй квест снова начинается с `Таск 1`, даже если `task_number` во входном JSON глобальный.
-
-Для диалоговых задач (`TT-001`/`Диалог`) в `filled_tasks.json` должно быть поле `dialogue_replica` на уровне task-записи. Валидатор проверяет, что реплика есть и не длиннее 360 символов с пробелами, а CSV exporter пишет ее в заголовочную строку таска: `;Таск 1;Диалог;;;РЕПЛИКА ДИАЛОГА: ...`.
-
-## Заполнение первых task templates
-
-Первый проход генератора task object поддерживает 5 базовых типов:
-
-- `garbage classname in_guest`
-- `garbage classname`
-- `get_asset Collection`
-- `get_asset GR in_guest garbage`
-- `action take_crop_in_guest`
-
-Положи результат этапа 3 в `data/stage3_quests.txt` или передай путь явно:
+Создать или открыть campaign:
 
 ```bash
-python src/fill_tasks.py --input data/stage3_quests.txt
+python src/start_campaign.py MeatballRain_2026 --title "У нас дождь из фрикаделек" --tone "юмор" --characters "Дедушка Домовед,Баба яга,Царевна медной горы"
 ```
 
-Команда читает только quest-ready данные:
-
-- `data/quest_ready_index.json`
-- `data/quest_ready_drops.index.json`
-- `data/task_templates.json`
-
-И создает:
-
-- `output/generated_tasks.json` — промежуточный JSON task object
-- `output/generated_quests.csv` — CSV в структуре рабочего примера
-
-Если встречается неподдержанный `Task type`, он попадает в `issues` в `output/generated_tasks.json`. Такой task не заполняется автоматически.
-
-## Тесты
+Создать следующий pack:
 
 ```bash
-python -m unittest discover -s tests
+python src/create_pack.py MeatballRain_2026 --title "Пак 1"
 ```
 
-Тесты используют временные raw-данные и проверяют построение базовых индексов, quest-ready индексов, excluded entities, critical issues и non-critical issues.
+После завершения этапов 3-5 сохранить текущий `output/` в campaign и обновить память:
 
-## Ограничения текущего этапа
+```bash
+python src/update_campaign_memory.py MeatballRain_2026 --pack pack_001 --from-output
+```
 
-- Файлы в `raw/` не изменяются.
-- Сгенерированные файлы пишутся только в `data/`.
-- Полная творческая генерация квестов не реализована в коде и выполняется через ИИ по инструкциям этапов.
-- CSV-экспорт реализован только для уже валидного `output/filled_tasks.json`.
+Generated-объекты (`HOG`, `GR`, `ASK`, `PER`, `CL`, `FA`, `R`) нумеруются в пределах всей campaign, а не отдельного pack.
+
+## Ограничения
+
+- Не изменять `raw/`.
+- Не придумывать игровые факты: classname, title, tags и связи берутся из parsed/generated data.
+- Новый pack делается поэтапно и требует approval после каждого этапа.
+- CSV создается только из валидного `output/filled_tasks.json`.
+- `TT-035` помечен как `not_ready` и не должен использоваться.
 - Используется только стандартная библиотека Python.

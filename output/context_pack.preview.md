@@ -3,8 +3,8 @@
 Quests found: 3
 Tasks found: 9
 Candidate limit: 12
-Candidates emitted: 60
-Unique candidates emitted: 60
+Candidates emitted: 5
+Unique candidates emitted: 5
 Issues: 0
 Campaign memory used: yes
 
@@ -19,7 +19,7 @@ Campaign memory used: yes
 
 - `MeatballRain_2026`: ASK_2, GR_3, HOG_2, R_2
 
-## MeatballRain_2026_Story_4 — Огуречный гром
+## MeatballRain_2026_Story_4 — Огуречный раскат
 
 Character: Леший
 
@@ -41,53 +41,49 @@ Character: Леший
 
 - Task type: `garbage classname in_guest`
 - Candidate domain: `garbage`
-- Candidates: 12
-- Note: Campaign memory excluded 4 already used candidates.
-  - `garbage:GarbageCupCoffee`: Смятый стаканчик из-под кофе
-  - `garbage:Garbage_Zoo_1`: Следы птиц
-  - `garbage:Garbage_Zoo_2`: Следы копыт
-  - `garbage:Garbage_Zoo_3`: Следы лапок
-  - `garbage:MushroomCommon`: Грибы
+- Candidates: 1
+- Note: Manual override forced candidate: garbage:PieceOfChain.
+- Note: Manual instruction: Выбрать физический след облачного замка: Кусочек цепи.
+- Note: Only 1 candidates available for this task.
+- Note: Some candidates were used in previous context packs because fresh candidates were not enough.
+  - `garbage:PieceOfChain`: Кусочек цепи
 
 ## MeatballRain_2026_Story_5 — Помидорная осада
 
 Character: Кощей
 
-### Task 13: TT-021 Уборка конкретного мусора дома
+### Task 13: TT-026 Загадка на коллекцию (зависит от редкости)
 
-- Task type: `garbage classname`
-- Candidate domain: `garbage`
-- Candidates: 12
-- Note: Campaign memory excluded 4 already used candidates.
-  - `garbage:BottleWithNote`: Бутылка с запиской
-  - `garbage:BoxOfBiscuits`: Коробка печенья
-  - `garbage:BrokenBall`: Рваный мяч
-  - `garbage:BrokenBank`: Разбитая банка
-  - `garbage:BrokenBarrel`: Разбитая бочка
+- Task type: `get_asset Collection mystery`
+- Candidate domain: `collection_drop`
+- Candidates: 1
+- Note: Manual override forced candidate: collection_drop:CucumberCollection1:Cucumber:home.
+- Note: Manual instruction: Выбрать предмет с прямой связью с соленьями: Огуречный рассол из источника Надкусанный огурец.
+- Note: Only 1 candidates available for this task.
+- Note: Some candidates were used in previous context packs because fresh candidates were not enough.
+  - `collection_drop:CucumberCollection1:Cucumber:home`: Огуречный рассол
 
 ### Task 14: TT-011 Получить элемент коллекции (зависит от редкости)
 
 - Task type: `get_asset Collection`
 - Candidate domain: `collection_drop`
-- Candidates: 12
-- Note: Campaign memory excluded 20 already used candidates.
-  - `collection_drop:BigHome_Garbage_Overview_Silver_Collection1:BigHome_Garbage_Overview_Silver:home`: Золото
-  - `collection_drop:GarbageCupCoffeeCollection1:GarbageCupCoffee:home`: Набор сладкоежки
-  - `collection_drop:GarbageCupCoffeeCollection2:GarbageCupCoffee:home`: Кофейное дерево
-  - `collection_drop:GarbageCupCoffeeCollection3:GarbageCupCoffee:home`: Подставка под горячее
-  - `collection_drop:GarbageCupCoffeeCollection4:GarbageCupCoffee:home`: Чизкейк
+- Candidates: 1
+- Note: Manual override forced candidate: collection_drop:BigHome_Garbage_Overview_Silver_Collection2:BigHome_Garbage_Overview_Silver:home.
+- Note: Manual instruction: Выбрать предмет с прямой связью с соленьями: Поваренная соль.
+- Note: Only 1 candidates available for this task.
+- Note: Some candidates were used in previous context packs because fresh candidates were not enough.
+  - `collection_drop:BigHome_Garbage_Overview_Silver_Collection2:BigHome_Garbage_Overview_Silver:home`: Поваренная соль
 
 ### Task 15: TT-014 GR с конкретного мусора в гостях
 
 - Task type: `get_asset GR in_guest garbage classname`
 - Candidate domain: `gr_garbage`
-- Candidates: 12
-- Note: Campaign memory excluded 3 already used candidates.
-  - `gr_garbage:BigHome_Garbage_Overview_Silver:guest`: Родированное серебро
-  - `gr_garbage:GarbageCupCoffee:guest`: Смятый стаканчик из-под кофе
-  - `gr_garbage:BigHome_Garbage_Nursery_MugNotShedding:guest`: Кружка-непроливашка
-  - `gr_garbage:BigHome_Garbage_Nursery_MummyShadow:guest`: Муми-тень
-  - `gr_garbage:BigHome_Garbage_Nursery_Sleeping:guest`: Сплюша
+- Candidates: 1
+- Note: Manual override forced candidate: gr_garbage:BrokenBarrel:guest.
+- Note: Manual instruction: Выбрать источник с прямой связью с бочками и заготовками: Разбитая бочка.
+- Note: Only 1 candidates available for this task.
+- Note: Some candidates were used in previous context packs because fresh candidates were not enough.
+  - `gr_garbage:BrokenBarrel:guest`: Разбитая бочка
 
 ## MeatballRain_2026_Story_6 — Грибной рассольник
 
@@ -104,13 +100,12 @@ Character: Баба яга
 
 - Task type: `get_asset GR in_guest flower`
 - Candidate domain: `flower`
-- Candidates: 12
-- Note: Campaign memory excluded 1 already used candidates.
-  - `flower:FlowerLaysPotato`: Картошечка
-  - `flower:FlowerMagazine4_Hippeastrum`: Гиппеаструм
-  - `flower:FlowerMagazine5_RainbowCalla`: Радужная калла
-  - `flower:FlowerMagazine6_TerryMallow`: Мальва махровая
-  - `flower:FlowerMagazine7_Lupinus`: Люпин
+- Candidates: 1
+- Note: Manual override forced candidate: flower:FlowerSeaBuckthorn.
+- Note: Manual instruction: Выбрать съедобно-растительный источник для подготовки бобового стебля: Облепиха.
+- Note: Only 1 candidates available for this task.
+- Note: Some candidates were used in previous context packs because fresh candidates were not enough.
+  - `flower:FlowerSeaBuckthorn`: Облепиха
 
 ### Task 18: TT-002 Крафт
 

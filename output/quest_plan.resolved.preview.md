@@ -17,7 +17,7 @@ Issues: 0
 
 | № | Status | Template ID | Template name | Task type |
 |---|--------|-------------|---------------|-----------|
-| 13 | ok | `TT-021` | Уборка конкретного мусора дома | `garbage classname` |
+| 13 | ok | `TT-026` | Загадка на коллекцию (зависит от редкости) | `get_asset Collection mystery` |
 | 14 | ok | `TT-011` | Получить элемент коллекции (зависит от редкости) | `get_asset Collection` |
 | 15 | ok | `TT-014` | GR с конкретного мусора в гостях | `get_asset GR in_guest garbage classname` |
 

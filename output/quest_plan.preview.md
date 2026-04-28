@@ -28,7 +28,7 @@ Congratulation: Следы нашли: огурцы летят не просто
 
 | № | Template ID | Template name | Task type |
 |---|-------------|---------------|-----------|
-| 13 | `TT-021` | Уборка конкретного мусора дома | `garbage classname` |
+| 13 | `TT-026` | Загадка на коллекцию (зависит от редкости) | `get_asset Collection mystery` |
 | 14 | `TT-011` | Получить элемент коллекции (зависит от редкости) | `get_asset Collection` |
 | 15 | `TT-014` | GR с конкретного мусора в гостях | `get_asset GR in_guest garbage classname` |
 

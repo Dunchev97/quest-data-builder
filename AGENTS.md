@@ -24,8 +24,25 @@ Do not translate game classnames, JSON keys, paths, or code identifiers.
 - `data/` contains generated indexes.
 - `src/` contains parser and builder code.
 - `tests/` contains tests.
+- `workspace/active_context.json` contains the current active workflow context.
 
 Never modify files in `raw/`.
+
+## Session and active context rule
+
+When the user asks about the current session, active context, current campaign, pack, stage, quest, task, or selected templates, always read `workspace/active_context.json` first.
+
+Treat `workspace/active_context.json` as the project source of truth for the active workflow context. Do not answer those questions from memory or from generic project instructions before checking this file.
+
+Use the active context to locate campaign files, for example:
+
+```text
+campaigns/<campaign_id>/<pack_id>/stage3_quests.txt
+campaigns/<campaign_id>/<pack_id>/context_pack.json
+campaigns/<campaign_id>/<pack_id>/filled_tasks.json
+```
+
+If the active context file is missing, invalid, or incomplete, say that clearly and then infer from nearby campaign/output files only with an explicit caveat.
 
 ## Current task
 

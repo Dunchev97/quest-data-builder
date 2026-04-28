@@ -28,6 +28,14 @@ Task: 1
 workspace/active_context.json
 ```
 
+Порядок ответа на вопросы про текущую сессию:
+
+1. Сначала прочитать `workspace/active_context.json`.
+2. Взять оттуда `mode`, `campaign_id`, `pack_id`, `stage`, `quest_number`, `task_number`.
+3. Если пользователь спрашивает про выбранные шаблоны этапа 3, открыть `campaigns/<campaign_id>/<pack_id>/stage3_quests.txt`.
+4. Если пользователь спрашивает про кандидатов или заполненные task objects, искать соответствующие файлы в `campaigns/<campaign_id>/<pack_id>/` и затем в `output/`.
+5. Если active context отсутствует или неполный, сказать это явно и только потом делать осторожный вывод по ближайшим campaign/output файлам.
+
 Показать:
 
 ```bash
