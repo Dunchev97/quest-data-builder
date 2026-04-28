@@ -1,0 +1,94 @@
+{
+  "summary": {
+    "quests_found": 3,
+    "tasks_found": 9,
+    "valid_tasks": 9,
+    "errors": 0,
+    "warnings": 0
+  },
+  "tasks": [
+    {
+      "classname_quests": "MeatballRain_2026_Story_1",
+      "quest_number": 1,
+      "task_number": 1,
+      "task_template_id": "TT-001",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_1",
+      "quest_number": 1,
+      "task_number": 2,
+      "task_template_id": "TT-004",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_1",
+      "quest_number": 1,
+      "task_number": 3,
+      "task_template_id": "TT-020",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "quest_number": 2,
+      "task_number": 4,
+      "task_template_id": "TT-021",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "quest_number": 2,
+      "task_number": 5,
+      "task_template_id": "TT-011",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "quest_number": 2,
+      "task_number": 6,
+      "task_template_id": "TT-014",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_3",
+      "quest_number": 3,
+      "task_number": 7,
+      "task_template_id": "TT-008",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_3",
+      "quest_number": 3,
+      "task_number": 8,
+      "task_template_id": "TT-016",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_3",
+      "quest_number": 3,
+      "task_number": 9,
+      "task_template_id": "TT-002",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

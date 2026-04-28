@@ -1,122 +1,123 @@
-	Квест 1						
-sl	string	string	string	string	string	string	string
-	input	output	title	description	congratulation	helper	extra.sequence_icon
-	/quest/generated/MeatballRain_2026/story_1/MeatballRain_2026_Story_1.proto.js	/quest/generated/MeatballRain_2026/story_1/MeatballRain_2026_Story_1.proto.js	Первый мясной осадок	Ох ты ж сковородка небесная! Я только вышел проверить, не скрипит ли крыльцо, а мне на шапку упала фрикаделька. Потом ещё одна. А потом целая туча с подливкой! Надо разобраться, это погодное явление или кто-то опять колдует натощак.	Так, первые улики собраны: фрикадельки тёплые, подливка бодрая, а туча пахнет обедом. Это точно не обычный дождь. Но шапку я всё равно оставлю, вдруг ещё гарнир пойдёт.	MeatballRain_2026_Character_1	MagazinePage_MeatballRain_2026_QuestIcon_1
-							
-	Таск 1	Диалог					
-ml	string	string	object				
-	input	output	tasks.0				
-	/quest/generated/MeatballRain_2026/story_1/MeatballRain_2026_Story_1.proto.js	/quest/generated/MeatballRain_2026/story_1/MeatballRain_2026_Story_1.proto.js	type	action			
-			icon	MeatballRain_2026_Character_1			
-			action	MeatballRain_2026_Character_1_Dialog_1			
-			title	Поговори с Дедушкой Домоведом			
-			hint	Поговори с Дедушкой Домоведом. Для этого просто кликни на него. Он находится в локации Барная комната.			
-			go_to_location	"[{""classname"":""MeatballRain_2026_Character_1""}]"			
-			identifier				
-							
-	Таск 2	HOG на локации					
-ml	string	string	object				
-	input	output	tasks.1				
-	/quest/generated/MeatballRain_2026/story_1/MeatballRain_2026_Story_1.proto.js	/quest/generated/MeatballRain_2026/story_1/MeatballRain_2026_Story_1.proto.js	type	action			
-			action	clean_debris			
-			param	MeatballRain_2026_HOG_1			
-			search_action	search_MeatballRain_2026_HOG_1			
-			after_buy_actions	"[{""do"":""remove_stuff"",""classname"":""MeatballRain_2026_HOG_1""}]"			
-			amount	15			
-			price	20			
-			title	Найди следы мясного дождя			
-			hint	Найди следы мясного дождя. Место поиска: Барная комната. Если найти все не удаётся, можно купить подсказку.			
-			identifier				
-							
-	Таск 3	Уборка конкретного мусора в гостях					
-ml	string	string	object				
-	input	output	tasks.2				
-	/quest/generated/MeatballRain_2026/story_1/MeatballRain_2026_Story_1.proto.js	/quest/generated/MeatballRain_2026/story_1/MeatballRain_2026_Story_1.proto.js	type	garbage			
-			classname	BigHome_Garbage_Bar_BrokenCocktail			
-			in_guest	1			
-			amount	20			
-			price	20			
-			title	Убери мусор Разлитый коктейль в гостях			
-			hint	Убери мусор Разлитый коктейль в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Барная комната.			
-			identifier				
-							
-	Квест 2						
-sl	string	string	string	string	string	string	string
-	input	output	title	description	congratulation	helper	extra.sequence_icon
-	/quest/generated/MeatballRain_2026/story_2/MeatballRain_2026_Story_2.proto.js	/quest/generated/MeatballRain_2026/story_2/MeatballRain_2026_Story_2.proto.js	Фрикадельковый фронт	Мои медные горы видали обвалы, камнепады и даже самоварное землетрясение, но чтобы с неба падали мясные шары — это уже геология с гарниром. Нужно срочно найти место небесной трещины, пока вся долина не превратилась в праздничный тефтельный карьер.	След найден: фрикадельки сыплются не просто так, их будто проталкивает через облака чья-то слишком старательная магия. Придётся искать кухню, где готовят погоду.		MagazinePage_MeatballRain_2026_QuestIcon_1
-							
-	Таск 1	Уборка конкретного мусора дома					
-ml	string	string	object				
-	input	output	tasks.0				
-	/quest/generated/MeatballRain_2026/story_2/MeatballRain_2026_Story_2.proto.js	/quest/generated/MeatballRain_2026/story_2/MeatballRain_2026_Story_2.proto.js	type	garbage			
-			classname	BigHome_Garbage_Overview_Ammonit			
-			amount	15			
-			price	20			
-			title	Убери мусор Аммонит дома			
-			hint	Убери мусор Аммонит дома. Для этого просто кликни на нужный мусор дома. Место поиска: Обзорная.			
-			identifier				
-							
-	Таск 2	Получить элемент коллекции (зависит от редкости)					
-ml	string	string	object				
-	input	output	tasks.1				
-	/quest/generated/MeatballRain_2026/story_2/MeatballRain_2026_Story_2.proto.js	/quest/generated/MeatballRain_2026/story_2/MeatballRain_2026_Story_2.proto.js	type	get_asset			
-			classname	ApricotStoneCollection2			
-			icon	ApricotStoneCollection2			
-			amount	8			
-			price	20			
-			title	Найди Абрикосовое варенье			
-			hint	Абрикосовое варенье - элемент коллекции, выпадает при уборке мусора Абрикосовая косточка дома и в гостях. Место поиска: Двор Чинга.			
-			identifier				
-							
-	Таск 3	GR с конкретного мусора в гостях					
-ml	string	string	object				
-	input	output	tasks.2				
-	/quest/generated/MeatballRain_2026/story_2/MeatballRain_2026_Story_2.proto.js	/quest/generated/MeatballRain_2026/story_2/MeatballRain_2026_Story_2.proto.js	type	get_asset			
-			classname	MeatballRain_2026_GR_1			
-			icon	MeatballRain_2026_GR_1			
-			amount	25			
-			price	30			
-			title	Найди Латунную стрелку барометра			
-			hint	Убирай мусор Разбитый барометр в гостях, чтобы найти. Место поиска: Каюта капитана, Чародейная.			
-			identifier				
-							
-	Квест 3						
-sl	string	string	string	string	string	string	string
-	input	output	title	description	congratulation	helper	extra.sequence_icon
-	/quest/generated/MeatballRain_2026/story_3/MeatballRain_2026_Story_3.proto.js	/quest/generated/MeatballRain_2026/story_3/MeatballRain_2026_Story_3.proto.js	Котёл с характером	Это не я! То есть почти не я. Я всего лишь варила супчик на три капли грома, щепотку перца и одно маленькое заклинание сытости. Кто же знал, что котёл примет слово «насытить всех» буквально и начнёт кормить округу с неба? Помогите его утихомирить, пока он не перешёл к компоту.	Котёл притих, фрикадельковая туча рассосалась, а небо наконец перестало пахнуть столовой. Если он снова спросит, кто хочет добавки, отвечайте шёпотом. Очень шёпотом.		MagazinePage_MeatballRain_2026_QuestIcon_1
-							
-	Таск 1	Получить ASK					
-ml	string	string	object				
-	input	output	tasks.0				
-	/quest/generated/MeatballRain_2026/story_3/MeatballRain_2026_Story_3.proto.js	/quest/generated/MeatballRain_2026/story_3/MeatballRain_2026_Story_3.proto.js	type	get_asset			
-			classname	MeatballRain_2026_ASK_1			
-			icon	MeatballRain_2026_ASK_1			
-			amount	10			
-			price	20			
-			title	Попроси у друзей Крышку для непослушного котла			
-			hint	Попроси у друзей или купи.			
-			identifier				
-							
-	Таск 2	GR с цветов в гостях					
-ml	string	string	object				
-	input	output	tasks.1				
-	/quest/generated/MeatballRain_2026/story_3/MeatballRain_2026_Story_3.proto.js	/quest/generated/MeatballRain_2026/story_3/MeatballRain_2026_Story_3.proto.js	type	get_asset			
-			classname	MeatballRain_2026_GR_2			
-			icon	MeatballRain_2026_GR_2			
-			amount	40			
-			price	25			
-			title	Получи Лепесток сытости			
-			hint	Собирай цветы Цветик-семицветик в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга			
-			identifier				
-							
-	Таск 3	Крафт					
-ml	string	string	object				
-	input	output	tasks.2				
-	/quest/generated/MeatballRain_2026/story_3/MeatballRain_2026_Story_3.proto.js	/quest/generated/MeatballRain_2026/story_3/MeatballRain_2026_Story_3.proto.js	type	get_and_decrease_asset			
-			classname	MeatballRain_2026_R_1			
-			icon	MeatballRain_2026_R_1			
-			amount	1			
-			title	Создай Усмиритель котла			
-			go_to_location	"[{""classname"":""MeatballRain_2026_Workbench_1""}]"			
-			hint	Для создания используй закопченную ступу Бабы яги			
-			identifier				
+п»ї;РљРІРµСЃС‚ 4;;;;;;;;;;;;;;;;;;;;;;;;;;
+sl;string;string;string;string;string;string;string;;;;;;;;;;;;;;;;;;;;
+;input;output;title;description;congratulation;helper;extra.sequence_icon;;;;;;;;;;;;;;;;;;;;
+;/quest/generated/MeatballRain_2026/story_4/MeatballRain_2026_Story_4.proto.js;/quest/generated/MeatballRain_2026/story_4/MeatballRain_2026_Story_4.proto.js;РћРіСѓСЂРµС‡РЅС‹Р№ РіСЂРѕРј;Р”РѕРјРѕРІС‘РЅРѕРє, С‚С‹ С‚РѕР»СЊРєРѕ РїРѕСЃР»СѓС€Р°Р№: Сѓ РјРµРЅСЏ РІ Р»РµСЃСѓ С‚РµРїРµСЂСЊ РЅРµ Р»РёСЃС‚СЊСЏ С€СѓСЂС€Р°С‚, Р° РѕРіСѓСЂС†С‹ С…СЂСѓСЃС‚СЏС‚! РЎ РЅРµР±Р° РїР°РґР°СЋС‚ Р·РµР»С‘РЅС‹Рµ СЃРѕР»С‘РЅС‹Рµ СЃРЅР°СЂСЏРґС‹, РіСЂРёР±С‹ РІ СЂР°СЃСЃРѕР»Рµ РїСЂСЏС‡СѓС‚СЃСЏ РїРѕРґ РєРѕСЂРЅСЏРјРё, Р° Р±РµР»РєРё С‚СЂРµР±СѓСЋС‚ РІРёР»РєРё. РќР°РґРѕ РїРѕРЅСЏС‚СЊ, РѕС‚РєСѓРґР° СЌС‚Р° Р·Р°РєСѓСЃРєР° Р»РµС‚РёС‚.;РўР°Рє, РїРµСЂРІС‹Рµ СЃР»РµРґС‹ РЅР°С€Р»Рё. Р Р°СЃСЃРѕР» Р±РѕРґСЂС‹Р№, РѕРіСѓСЂС†С‹ СЃС‚СЂРѕРµРІС‹Рµ, РїРѕРјРёРґРѕСЂС‡РёРєРё РїРѕРґРѕР·СЂРёС‚РµР»СЊРЅРѕ РєСЂСѓРіР»С‹Рµ. Р­С‚Рѕ СѓР¶Рµ РЅРµ РїРѕРіРѕРґР°, Р° С‡РµР№-С‚Рѕ Р±СѓС„РµС‚ РЅР° РѕР±Р»Р°РєР°С….;MeatballRain_2026_Character_2;MagazinePage_MeatballRain_2026_QuestIcon_1;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;РўР°СЃРє 1;Р”РёР°Р»РѕРі;;;Р Р•РџР›РРљРђ Р”РРђР›РћР“Рђ: Р”РѕРјРѕРІС‘РЅРѕРє, РІ Р»РµСЃСѓ С‚РµРїРµСЂСЊ РЅРµ Р»РёСЃС‚СЊСЏ С€СѓСЂС€Р°С‚, Р° РѕРіСѓСЂС†С‹ С…СЂСѓСЃС‚СЏС‚! РЎ РЅРµР±Р° Р»РµС‚РёС‚ СЂР°СЃСЃРѕР»СЊРЅР°СЏ Р°СЂС‚РёР»Р»РµСЂРёСЏ, РіСЂРёР±С‹ РїСЂСЏС‡СѓС‚СЃСЏ РїРѕРґ РєРѕСЂРЅСЏРјРё, Р° Р±РµР»РєРё СѓР¶Рµ С‚СЂРµР±СѓСЋС‚ РІРёР»РєРё. Р”Р°РІР°Р№ РІС‹СЏСЃРЅРёРј, РєС‚Рѕ СѓСЃС‚СЂРѕРёР» СЌС‚РѕС‚ РЅРµР±РµСЃРЅС‹Р№ РїРѕРіСЂРµР±.;;;;;;;;;;;;;;;;;;;;;;
+ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;;;
+;input;output;tasks.0;;;;;;;;;;;;;;;;;;;;;;;;
+;/quest/generated/MeatballRain_2026/story_4/MeatballRain_2026_Story_4.proto.js;/quest/generated/MeatballRain_2026/story_4/MeatballRain_2026_Story_4.proto.js;type;action;;;;;;;;;;;;;;;;;;;;;;;
+;;;icon;MeatballRain_2026_Character_2;;;;;;;;;;;;;;;;;;;;;;;
+;;;action;MeatballRain_2026_Character_2_Dialog_1;;;;;;;;;;;;;;;;;;;;;;;
+;;;title;РџРѕРіРѕРІРѕСЂРё СЃ Р›РµС€РёРј;;;;;;;;;;;;;;;;;;;;;;;
+;;;hint;РџРѕРіРѕРІРѕСЂРё СЃ Р›РµС€РёРј. Р”Р»СЏ СЌС‚РѕРіРѕ РїСЂРѕСЃС‚Рѕ РєР»РёРєРЅРё РЅР° РЅРµРіРѕ. РћРЅ РЅР°С…РѕРґРёС‚СЃСЏ РІ Р»РѕРєР°С†РёРё РҐР°С‚Р°.;;;;;;;;;;;;;;;;;;;;;;;
+;;;go_to_location;"[{""classname"":""MeatballRain_2026_Character_2""}]";;;;;;;;;;;;;;;;;;;;;;;
+;;;identifier;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;РўР°СЃРє 2;HOG РЅР° Р»РѕРєР°С†РёРё;;;;;;;;;;;;;;;;;;;;;;;;;
+ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;;;
+;input;output;tasks.1;;;;;;;;;;;;;;;;;;;;;;;;
+;/quest/generated/MeatballRain_2026/story_4/MeatballRain_2026_Story_4.proto.js;/quest/generated/MeatballRain_2026/story_4/MeatballRain_2026_Story_4.proto.js;type;action;;;;;;;;;;;;;;;;;;;;;;;
+;;;action;clean_debris;;;;;;;;;;;;;;;;;;;;;;;
+;;;param;MeatballRain_2026_HOG_2;;;;;;;;;;;;;;;;;;;;;;;
+;;;search_action;search_MeatballRain_2026_HOG_2;;;;;;;;;;;;;;;;;;;;;;;
+;;;after_buy_actions;"[{""do"":""remove_stuff"",""classname"":""MeatballRain_2026_HOG_2""}]";;;;;;;;;;;;;;;;;;;;;;;
+;;;amount;15;;;;;;;;;;;;;;;;;;;;;;;
+;;;price;20;;;;;;;;;;;;;;;;;;;;;;;
+;;;title;РќР°Р№РґРё РѕРіСѓСЂРµС‡РЅС‹Рµ СЃР»РµРґС‹;;;;;;;;;;;;;;;;;;;;;;;
+;;;hint;РќР°Р№РґРё РѕРіСѓСЂРµС‡РЅС‹Рµ СЃР»РµРґС‹. РњРµСЃС‚Рѕ РїРѕРёСЃРєР°: РҐР°С‚Р°. Р•СЃР»Рё РЅР°Р№С‚Рё РІСЃРµ РЅРµ СѓРґР°С‘С‚СЃСЏ, РјРѕР¶РЅРѕ РєСѓРїРёС‚СЊ РїРѕРґСЃРєР°Р·РєСѓ.;;;;;;;;;;;;;;;;;;;;;;;
+;;;identifier;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;РўР°СЃРє 3;РЈР±РѕСЂРєР° РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ РјСѓСЃРѕСЂР° РІ РіРѕСЃС‚СЏС…;;;;;;;;;;;;;;;;;;;;;;;;;
+ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;;;
+;input;output;tasks.2;;;;;;;;;;;;;;;;;;;;;;;;
+;/quest/generated/MeatballRain_2026/story_4/MeatballRain_2026_Story_4.proto.js;/quest/generated/MeatballRain_2026/story_4/MeatballRain_2026_Story_4.proto.js;type;garbage;;;;;;;;;;;;;;;;;;;;;;;
+;;;classname;MushroomCommon;;;;;;;;;;;;;;;;;;;;;;;
+;;;in_guest;1;;;;;;;;;;;;;;;;;;;;;;;
+;;;amount;20;;;;;;;;;;;;;;;;;;;;;;;
+;;;price;20;;;;;;;;;;;;;;;;;;;;;;;
+;;;title;РЈР±РµСЂРё РјСѓСЃРѕСЂ Р“СЂРёР±С‹ РІ РіРѕСЃС‚СЏС…;;;;;;;;;;;;;;;;;;;;;;;
+;;;hint;РЈР±РµСЂРё РјСѓСЃРѕСЂ Р“СЂРёР±С‹ РІ РіРѕСЃС‚СЏС…. Р”Р»СЏ СЌС‚РѕРіРѕ РїСЂРѕСЃС‚Рѕ РєР»РёРєРЅРё РЅР° РЅСѓР¶РЅС‹Р№ РјСѓСЃРѕСЂ РІ РіРѕСЃС‚СЏС… Сѓ РґСЂСѓРіР°. РњРµСЃС‚Рѕ РїРѕРёСЃРєР°: РҐР°С‚Р°.;;;;;;;;;;;;;;;;;;;;;;;
+;;;identifier;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;РљРІРµСЃС‚ 5;;;;;;;;;;;;;;;;;;;;;;;;;;
+sl;string;string;string;string;string;string;string;;;;;;;;;;;;;;;;;;;;
+;input;output;title;description;congratulation;helper;extra.sequence_icon;;;;;;;;;;;;;;;;;;;;
+;/quest/generated/MeatballRain_2026/story_5/MeatballRain_2026_Story_5.proto.js;/quest/generated/MeatballRain_2026/story_5/MeatballRain_2026_Story_5.proto.js;РџРѕРјРёРґРѕСЂРЅР°СЏ РѕСЃР°РґР°;Р”РѕРјРѕРІС‘РЅРѕРє, СЌС‚Рѕ РІРѕР·РјСѓС‚РёС‚РµР»СЊРЅРѕ! РџРѕ РјРѕРёРј РІР»Р°РґРµРЅРёСЏРј Р±Р°СЂР°Р±Р°РЅСЏС‚ РїРѕРјРёРґРѕСЂС‡РёРєРё, Р±СѓРґС‚Рѕ СЏ СЃР°Рј РїСЂРёРіР»Р°СЃРёР» РѕРІРѕС‰РЅСѓСЋ Р°СЂС‚РёР»Р»РµСЂРёСЋ. РЈ РјРµРЅСЏ, РјРµР¶РґСѓ РїСЂРѕС‡РёРј, РїРѕСЂСЏРґРѕРє: Р·РѕР»РѕС‚Рѕ РѕС‚РґРµР»СЊРЅРѕ, СЃРѕР»РµРЅСЊСЏ РѕС‚РґРµР»СЊРЅРѕ, РїР°РЅРёРєР° РІРѕРѕР±С‰Рµ РїРѕРґ Р·Р°РјРєРѕРј. РџРѕРјРѕРіРё РЅР°Р№С‚Рё РёСЃС‚РѕС‡РЅРёРє СЌС‚РѕР№ РєСЂР°СЃРЅРѕР№ РѕСЃР°РґС‹.;РЎР»РµРґ РЅР°Р№РґРµРЅ. РџРѕРјРёРґРѕСЂС‡РёРєРё Р»РµС‚СЏС‚ РЅРµ СЃР»СѓС‡Р°Р№РЅРѕ: РёС… СЃР»РѕРІРЅРѕ РІС‹С‚Р°Р»РєРёРІР°РµС‚ РёР· РЅРµР±РµСЃРЅРѕР№ Р±Р°РЅРєРё. РќСѓР¶РЅР° РєСЂС‹С€РєР°, РїРµС‡Р°С‚СЊ РёР»Рё РѕС‡РµРЅСЊ СѓР±РµРґРёС‚РµР»СЊРЅС‹Р№ РІР·РіР»СЏРґ. РЎ РїРѕСЃР»РµРґРЅРёРј СЏ РїРѕРјРѕРіСѓ.;;MagazinePage_MeatballRain_2026_QuestIcon_1;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;РўР°СЃРє 1;РЈР±РѕСЂРєР° РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ РјСѓСЃРѕСЂР° РґРѕРјР°;;;;;;;;;;;;;;;;;;;;;;;;;
+ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;;;
+;input;output;tasks.0;;;;;;;;;;;;;;;;;;;;;;;;
+;/quest/generated/MeatballRain_2026/story_5/MeatballRain_2026_Story_5.proto.js;/quest/generated/MeatballRain_2026/story_5/MeatballRain_2026_Story_5.proto.js;type;garbage;;;;;;;;;;;;;;;;;;;;;;;
+;;;classname;BrokenBank;;;;;;;;;;;;;;;;;;;;;;;
+;;;amount;15;;;;;;;;;;;;;;;;;;;;;;;
+;;;price;20;;;;;;;;;;;;;;;;;;;;;;;
+;;;title;РЈР±РµСЂРё РјСѓСЃРѕСЂ Р Р°Р·Р±РёС‚Р°СЏ Р±Р°РЅРєР° РґРѕРјР°;;;;;;;;;;;;;;;;;;;;;;;
+;;;hint;РЈР±РµСЂРё РјСѓСЃРѕСЂ Р Р°Р·Р±РёС‚Р°СЏ Р±Р°РЅРєР° РґРѕРјР°. Р”Р»СЏ СЌС‚РѕРіРѕ РїСЂРѕСЃС‚Рѕ РєР»РёРєРЅРё РЅР° РЅСѓР¶РЅС‹Р№ РјСѓСЃРѕСЂ РґРѕРјР°. РњРµСЃС‚Рѕ РїРѕРёСЃРєР°: РџРѕРіСЂРµР±РѕРє.;;;;;;;;;;;;;;;;;;;;;;;
+;;;identifier;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;РўР°СЃРє 2;РџРѕР»СѓС‡РёС‚СЊ СЌР»РµРјРµРЅС‚ РєРѕР»Р»РµРєС†РёРё (Р·Р°РІРёСЃРёС‚ РѕС‚ СЂРµРґРєРѕСЃС‚Рё);;;;;;;;;;;;;;;;;;;;;;;;;
+ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;;;
+;input;output;tasks.1;;;;;;;;;;;;;;;;;;;;;;;;
+;/quest/generated/MeatballRain_2026/story_5/MeatballRain_2026_Story_5.proto.js;/quest/generated/MeatballRain_2026/story_5/MeatballRain_2026_Story_5.proto.js;type;get_asset;;;;;;;;;;;;;;;;;;;;;;;
+;;;classname;GoldfishCollection5;;;;;;;;;;;;;;;;;;;;;;;
+;;;icon;GoldfishCollection5;;;;;;;;;;;;;;;;;;;;;;;
+;;;amount;8;;;;;;;;;;;;;;;;;;;;;;;
+;;;price;20;;;;;;;;;;;;;;;;;;;;;;;
+;;;title;РќР°Р№РґРё РЎРµР»РµРґРєСѓ РїРѕРґ С€СѓР±РѕР№;;;;;;;;;;;;;;;;;;;;;;;
+;;;hint;РЎРµР»РµРґРєР° РїРѕРґ С€СѓР±РѕР№ - СЌР»РµРјРµРЅС‚ РєРѕР»Р»РµРєС†РёРё, РІС‹РїР°РґР°РµС‚ РїСЂРё СѓР±РѕСЂРєРµ РјСѓСЃРѕСЂР° Р—РѕР»РѕС‚Р°СЏ СЂС‹Р±РєР° РґРѕРјР°. РњРµСЃС‚Рѕ РїРѕРёСЃРєР°: РћРјСѓС‚.;;;;;;;;;;;;;;;;;;;;;;;
+;;;identifier;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;РўР°СЃРє 3;GR СЃ РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ РјСѓСЃРѕСЂР° РІ РіРѕСЃС‚СЏС…;;;;;;;;;;;;;;;;;;;;;;;;;
+ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;;;
+;input;output;tasks.2;;;;;;;;;;;;;;;;;;;;;;;;
+;/quest/generated/MeatballRain_2026/story_5/MeatballRain_2026_Story_5.proto.js;/quest/generated/MeatballRain_2026/story_5/MeatballRain_2026_Story_5.proto.js;type;get_asset;;;;;;;;;;;;;;;;;;;;;;;
+;;;classname;MeatballRain_2026_GR_3;;;;;;;;;;;;;;;;;;;;;;;
+;;;icon;MeatballRain_2026_GR_3;;;;;;;;;;;;;;;;;;;;;;;
+;;;amount;25;;;;;;;;;;;;;;;;;;;;;;;
+;;;price;30;;;;;;;;;;;;;;;;;;;;;;;
+;;;title;РќР°Р№РґРё РЎРµСЂРµР±СЂСЏРЅСѓСЋ СЃРѕР»РѕРЅРєСѓ;;;;;;;;;;;;;;;;;;;;;;;
+;;;hint;РЈР±РёСЂР°Р№ РјСѓСЃРѕСЂ Р РѕРґРёСЂРѕРІР°РЅРЅРѕРµ СЃРµСЂРµР±СЂРѕ РІ РіРѕСЃС‚СЏС…, С‡С‚РѕР±С‹ РЅР°Р№С‚Рё. РњРµСЃС‚Рѕ РїРѕРёСЃРєР°: РћР±Р·РѕСЂРЅР°СЏ.;;;;;;;;;;;;;;;;;;;;;;;
+;;;identifier;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;РљРІРµСЃС‚ 6;;;;;;;;;;;;;;;;;;;;;;;;;;
+sl;string;string;string;string;string;string;string;;;;;;;;;;;;;;;;;;;;
+;input;output;title;description;congratulation;helper;extra.sequence_icon;;;;;;;;;;;;;;;;;;;;
+;/quest/generated/MeatballRain_2026/story_6/MeatballRain_2026_Story_6.proto.js;/quest/generated/MeatballRain_2026/story_6/MeatballRain_2026_Story_6.proto.js;Р“СЂРёР±РЅРѕР№ СЂР°СЃСЃРѕР»СЊРЅРёРє;Р­С‚Рѕ РѕРїСЏС‚СЊ РЅРµ СЏ! РќСѓ РїРѕС‡С‚Рё. РЇ РІСЃРµРіРѕ Р»РёС€СЊ РІР°СЂРёР»Р° РіСЂРёР±РЅРѕР№ СЂР°СЃСЃРѕР»СЊРЅРёРє РЅР° РїСЂРѕР±Сѓ, Р° РѕРЅ СѓСЃР»С‹С€Р°Р» СЃР»РѕРІРѕ 'РїРѕР±РѕР»СЊС€Рµ' Рё СЂРµС€РёР» РЅР°РєРѕСЂРјРёС‚СЊ РІСЃСЋ РѕРєСЂСѓРіСѓ СЃРІРµСЂС…Сѓ. РўР°С‰Рё РІСЃС‘, С‡РµРј РјРѕР¶РЅРѕ РїСЂРёР¶Р°С‚СЊ РєСЂС‹С€РєСѓ, РїРѕРєР° РЅРµ РїРѕС€Р»Рё РіСЂСѓР·РґРё СЂР°Р·РјРµСЂРѕРј СЃ С‚Р°Р±СѓСЂРµС‚РєСѓ.;РљСЂС‹С€РєСѓ РїСЂРёР¶Р°Р»Рё, РіСЂРёР±РѕС‡РєРё СѓРіРѕРјРѕРЅРёР»РёСЃСЊ, Р° РЅРµР±Рѕ РїРµСЂРµСЃС‚Р°Р»Рѕ РєР°РїР°С‚СЊ СЂР°СЃСЃРѕР»РѕРј. Р•СЃР»Рё РєРѕС‚С‘Р» СЃРїСЂРѕСЃРёС‚, РґРѕР±Р°РІР»СЏС‚СЊ Р»Рё С‡РµСЃРЅРѕС‡РєСѓ, РґРµР»Р°Р№ РІРёРґ, С‡С‚Рѕ С‚С‹ С‚СѓС‡РєР° Рё С‚РµР±СЏ РЅРµС‚ РґРѕРјР°.;;MagazinePage_MeatballRain_2026_QuestIcon_1;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;РўР°СЃРє 1;РџРѕР»СѓС‡РёС‚СЊ ASK;;;;;;;;;;;;;;;;;;;;;;;;;
+ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;;;
+;input;output;tasks.0;;;;;;;;;;;;;;;;;;;;;;;;
+;/quest/generated/MeatballRain_2026/story_6/MeatballRain_2026_Story_6.proto.js;/quest/generated/MeatballRain_2026/story_6/MeatballRain_2026_Story_6.proto.js;type;get_asset;;;;;;;;;;;;;;;;;;;;;;;
+;;;classname;MeatballRain_2026_ASK_2;;;;;;;;;;;;;;;;;;;;;;;
+;;;icon;MeatballRain_2026_ASK_2;;;;;;;;;;;;;;;;;;;;;;;
+;;;amount;10;;;;;;;;;;;;;;;;;;;;;;;
+;;;price;20;;;;;;;;;;;;;;;;;;;;;;;
+;;;title;РџРѕРїСЂРѕСЃРё Сѓ РґСЂСѓР·РµР№ РљСЂС‹С€РєСѓ РґР»СЏ СЂР°СЃСЃРѕР»СЊРЅРѕР№ Р±Р°РЅРєРё;;;;;;;;;;;;;;;;;;;;;;;
+;;;hint;РџРѕРїСЂРѕСЃРё Сѓ РґСЂСѓР·РµР№ РёР»Рё РєСѓРїРё.;;;;;;;;;;;;;;;;;;;;;;;
+;;;identifier;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;РўР°СЃРє 2;GR СЃ С†РІРµС‚РѕРІ РІ РіРѕСЃС‚СЏС…;;;;;;;;;;;;;;;;;;;;;;;;;
+ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;;;
+;input;output;tasks.1;;;;;;;;;;;;;;;;;;;;;;;;
+;/quest/generated/MeatballRain_2026/story_6/MeatballRain_2026_Story_6.proto.js;/quest/generated/MeatballRain_2026/story_6/MeatballRain_2026_Story_6.proto.js;type;get_asset;;;;;;;;;;;;;;;;;;;;;;;
+;;;classname;MeatballRain_2026_GR_4;;;;;;;;;;;;;;;;;;;;;;;
+;;;icon;MeatballRain_2026_GR_4;;;;;;;;;;;;;;;;;;;;;;;
+;;;amount;40;;;;;;;;;;;;;;;;;;;;;;;
+;;;price;25;;;;;;;;;;;;;;;;;;;;;;;
+;;;title;РџРѕР»СѓС‡Рё РљР°СЂС‚РѕС„РµР»СЊРЅС‹Р№ С€С‚Р°РјРї;;;;;;;;;;;;;;;;;;;;;;;
+;;;hint;РЎРѕР±РёСЂР°Р№ С†РІРµС‚С‹ РљР°СЂС‚РѕС€РµС‡РєР° РІ РіРѕСЃС‚СЏС…, С‡С‚РѕР±С‹ РЅР°Р№С‚Рё. Р§С‚РѕР±С‹ СЃРѕР±СЂР°С‚СЊ СЂР°СЃС‚РµРЅРёРµ, РєР»РёРєРЅРё РЅР° РіРѕСЂС€РѕРє СЃ РЅСѓР¶РЅС‹Рј СЂР°СЃС‚РµРЅРёРµРј РІ РіРѕСЃС‚СЏС… Сѓ РґСЂСѓРіР°;;;;;;;;;;;;;;;;;;;;;;;
+;;;identifier;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;РўР°СЃРє 3;РљСЂР°С„С‚;;;;;;;;;;;;;;;;;;;;;;;;;
+ml;string;string;object;;;;;;;;;;;;;;;;;;;;;;;;
+;input;output;tasks.2;;;;;;;;;;;;;;;;;;;;;;;;
+;/quest/generated/MeatballRain_2026/story_6/MeatballRain_2026_Story_6.proto.js;/quest/generated/MeatballRain_2026/story_6/MeatballRain_2026_Story_6.proto.js;type;get_and_decrease_asset;;;;;;;;;;;;;;;;;;;;;;;
+;;;classname;MeatballRain_2026_R_2;;;;;;;;;;;;;;;;;;;;;;;
+;;;icon;MeatballRain_2026_R_2;;;;;;;;;;;;;;;;;;;;;;;
+;;;amount;1;;;;;;;;;;;;;;;;;;;;;;;
+;;;title;РЎРѕР·РґР°Р№ Р Р°СЃСЃРѕР»СЊРЅС‹Р№ РїСЂРёР¶РёРј;;;;;;;;;;;;;;;;;;;;;;;
+;;;go_to_location;"[{""classname"":""MeatballRain_2026_Workbench_2""}]";;;;;;;;;;;;;;;;;;;;;;;
+;;;hint;Р”Р»СЏ СЃРѕР·РґР°РЅРёСЏ РёСЃРїРѕР»СЊР·СѓР№ РєСЂРµРїРєСѓСЋ РєСЂС‹С€РєСѓ, РєР°СЂС‚РѕС„РµР»СЊРЅС‹Р№ С€С‚Р°РјРї Рё РІРµРґСЊРјРёРЅСѓ РґРѕС‰РµС‡РєСѓ РґР»СЏ Р±Р°РЅРѕРє.;;;;;;;;;;;;;;;;;;;;;;;
+;;;identifier;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;

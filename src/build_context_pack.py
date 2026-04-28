@@ -7,6 +7,23 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+try:
+    from .campaigns import (
+        DEFAULT_CAMPAIGNS_DIR,
+        campaign_memory_entity_sets,
+        campaign_memory_path as campaign_memory_path_for,
+        candidate_is_used_by_campaign,
+        generated_sequence_offsets_for_json,
+    )
+except ImportError:
+    from campaigns import (
+        DEFAULT_CAMPAIGNS_DIR,
+        campaign_memory_entity_sets,
+        campaign_memory_path as campaign_memory_path_for,
+        candidate_is_used_by_campaign,
+        generated_sequence_offsets_for_json,
+    )
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_INPUT_PATH = PROJECT_ROOT / "output" / "quest_plan.resolved.json"
@@ -390,6 +407,26 @@ def apply_manual_candidate_filters(
     return filtered, prefer_ids, notes, issues
 
 
+def apply_campaign_memory_filters(
+    pool: list[dict[str, Any]],
+    campaign_memory: dict[str, Any] | None,
+    force_candidate_id: str | None = None,
+) -> tuple[list[dict[str, Any]], list[str]]:
+    if not campaign_memory or force_candidate_id:
+        return pool, []
+
+    memory_sets = campaign_memory_entity_sets(campaign_memory)
+    fresh = [candidate for candidate in pool if not candidate_is_used_by_campaign(candidate, memory_sets)]
+    excluded = len(pool) - len(fresh)
+    if excluded == 0:
+        return pool, []
+    if fresh:
+        return fresh, [f"Campaign memory excluded {excluded} already used candidates."]
+    return pool, [
+        f"Campaign memory marks all {len(pool)} candidates as already used; reused candidates are shown because no fresh alternatives remain."
+    ]
+
+
 def domain_for_task(task: dict[str, Any]) -> str | None:
     task_template_id = task.get("resolved_template_id") or task.get("task_template_id")
     category = task.get("category") or ""
@@ -468,6 +505,8 @@ def build_context_pack(
     quest_ready_drops: list[dict[str, Any]],
     history: dict[str, Any],
     candidate_limit: int,
+    campaign_memory: dict[str, Any] | None = None,
+    current_pack_id: str | None = None,
 ) -> tuple[dict[str, Any], list[str]]:
     pools = build_candidate_pools(quest_ready_index, quest_ready_drops)
     history_counts = {key: int(value) for key, value in history.get("candidate_counts", {}).items()}
@@ -523,6 +562,9 @@ def build_context_pack(
                 pool = filtered_pool_for_task(domain, pools, task)
                 pool, prefer_ids, override_notes, override_issues = apply_manual_candidate_filters(pool, manual_override)
                 context_task["notes"].extend(override_notes)
+                _avoid_ids, _prefer_ids, force_id = candidate_override_sets(manual_override)
+                pool, campaign_notes = apply_campaign_memory_filters(pool, campaign_memory, force_candidate_id=force_id)
+                context_task["notes"].extend(campaign_notes)
                 for issue in override_issues:
                     issues.append(
                         {
@@ -565,6 +607,12 @@ def build_context_pack(
             context_quest["tasks"].append(context_task)
         context_quests.append(context_quest)
 
+    generated_offsets = generated_sequence_offsets_for_json(campaign_memory, current_pack_id=current_pack_id)
+    next_generated_numbers = {
+        prefix: {kind: number + 1 for kind, number in kinds.items()}
+        for prefix, kinds in generated_offsets.items()
+    }
+
     context_pack = {
         "quests": context_quests,
         "issues": issues,
@@ -575,8 +623,11 @@ def build_context_pack(
             "candidates_emitted": len(emitted_candidate_ids),
             "unique_candidates_emitted": len(set(emitted_candidate_ids)),
             "issues": len(issues),
+            "campaign_memory_used": campaign_memory is not None,
         },
         "candidate_pool_summary": {domain: len(pool) for domain, pool in pools.items()},
+        "generated_sequence_offsets": generated_offsets,
+        "next_generated_numbers": next_generated_numbers,
     }
     return context_pack, emitted_candidate_ids
 
@@ -591,6 +642,7 @@ def render_preview(context_pack: dict[str, Any]) -> str:
         f"Candidates emitted: {context_pack['summary']['candidates_emitted']}",
         f"Unique candidates emitted: {context_pack['summary']['unique_candidates_emitted']}",
         f"Issues: {context_pack['summary']['issues']}",
+        f"Campaign memory used: {'yes' if context_pack['summary'].get('campaign_memory_used') else 'no'}",
         "",
         "## Candidate Pools",
         "",
@@ -598,6 +650,13 @@ def render_preview(context_pack: dict[str, Any]) -> str:
     for domain, count in context_pack.get("candidate_pool_summary", {}).items():
         lines.append(f"- {domain}: {count}")
     lines.append("")
+
+    if context_pack.get("next_generated_numbers"):
+        lines.extend(["## Next Generated Numbers", ""])
+        for prefix, kinds in context_pack["next_generated_numbers"].items():
+            parts = [f"{kind}_{number}" for kind, number in sorted(kinds.items())]
+            lines.append(f"- `{prefix}`: {', '.join(parts)}")
+        lines.append("")
 
     for quest in context_pack["quests"]:
         lines.extend(
@@ -651,14 +710,19 @@ def build_context_pack_file(
     output_preview_path: Path,
     candidate_limit: int,
     reset_history: bool = False,
+    campaign_memory_path: Path | None = None,
+    current_pack_id: str | None = None,
 ) -> dict[str, Any]:
     history = load_history(history_path, reset=reset_history)
+    campaign_memory = read_json(campaign_memory_path) if campaign_memory_path and campaign_memory_path.exists() else None
     context_pack, emitted_candidate_ids = build_context_pack(
         resolved_plan=read_json(input_path),
         quest_ready_index=read_json(quest_ready_index_path),
         quest_ready_drops=read_json(quest_ready_drops_path),
         history=history,
         candidate_limit=candidate_limit,
+        campaign_memory=campaign_memory,
+        current_pack_id=current_pack_id,
     )
     write_json(output_json_path, context_pack)
     output_preview_path.parent.mkdir(parents=True, exist_ok=True)
@@ -718,6 +782,28 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Ignore previous candidate history and start a new rotation.",
     )
+    parser.add_argument(
+        "--campaign",
+        default="",
+        help="Campaign id. If set, uses campaigns/<campaign_id>/campaign_memory.json to avoid already selected entities.",
+    )
+    parser.add_argument(
+        "--campaign-memory",
+        type=Path,
+        default=None,
+        help="Explicit campaign_memory.json path. Overrides --campaign.",
+    )
+    parser.add_argument(
+        "--current-pack",
+        default="",
+        help="Current pack id to ignore when reading campaign memory, useful during edits.",
+    )
+    parser.add_argument(
+        "--campaigns-dir",
+        type=Path,
+        default=DEFAULT_CAMPAIGNS_DIR,
+        help="Campaigns directory used with --campaign.",
+    )
     args = parser.parse_args(argv)
 
     if args.candidate_limit < 1:
@@ -726,6 +812,14 @@ def main(argv: list[str] | None = None) -> int:
     if not args.input.exists():
         print(f"input file not found: {args.input}")
         print("Сначала запусти: python src/task_type_resolver.py output/quest_plan.json")
+        return 1
+
+    campaign_memory_path = args.campaign_memory
+    if campaign_memory_path is None and args.campaign:
+        campaign_memory_path = campaign_memory_path_for(args.campaign, args.campaigns_dir)
+    if campaign_memory_path is not None and not campaign_memory_path.exists():
+        print(f"campaign memory file not found: {campaign_memory_path}")
+        print("Сначала создай campaign: python src/start_campaign.py <campaign_id>")
         return 1
 
     context_pack = build_context_pack_file(
@@ -737,6 +831,8 @@ def main(argv: list[str] | None = None) -> int:
         output_preview_path=args.preview,
         candidate_limit=args.candidate_limit,
         reset_history=args.reset_history,
+        campaign_memory_path=campaign_memory_path,
+        current_pack_id=args.current_pack or None,
     )
     print(f"quests found: {context_pack['summary']['quests_found']}")
     print(f"tasks found: {context_pack['summary']['tasks_found']}")
@@ -747,6 +843,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"json written: {args.output_json}")
     print(f"preview written: {args.preview}")
     print(f"history written: {args.history}")
+    if campaign_memory_path is not None:
+        print(f"campaign memory used: {campaign_memory_path}")
     return 0 if context_pack["summary"]["issues"] == 0 else 2
 
 

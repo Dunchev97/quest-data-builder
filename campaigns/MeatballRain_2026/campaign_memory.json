@@ -1,0 +1,577 @@
+{
+  "version": 1,
+  "campaign_id": "MeatballRain_2026",
+  "created_at": "2026-04-28T12:08:44.249412+00:00",
+  "updated_at": "2026-04-28T12:08:44.249412+00:00",
+  "packs": {
+    "pack_001": {
+      "pack_id": "pack_001",
+      "updated_at": "2026-04-28T12:08:44.250412+00:00",
+      "filled_tasks": "D:\\quest-data-builder\\campaigns\\MeatballRain_2026\\pack_001\\filled_tasks.json",
+      "context_pack": "D:\\quest-data-builder\\campaigns\\MeatballRain_2026\\pack_001\\context_pack.json",
+      "tasks_found": 9,
+      "selected_candidates_found": 5
+    },
+    "pack_002": {
+      "pack_id": "pack_002",
+      "updated_at": "2026-04-28T12:08:44.251412+00:00",
+      "filled_tasks": "D:\\quest-data-builder\\campaigns\\MeatballRain_2026\\pack_002\\filled_tasks.json",
+      "context_pack": "D:\\quest-data-builder\\campaigns\\MeatballRain_2026\\pack_002\\context_pack.json",
+      "tasks_found": 9,
+      "selected_candidates_found": 5
+    }
+  },
+  "used_candidate_ids": {
+    "garbage:BigHome_Garbage_Bar_BrokenCocktail": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_1",
+      "task_number": 3,
+      "task_template_id": "TT-020",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "garbage:BigHome_Garbage_Overview_LizardTooth": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "task_number": 4,
+      "task_template_id": "TT-021",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "collection_drop:ApricotStoneCollection2:ApricotStone:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "task_number": 5,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "gr_garbage:Barometer:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "task_number": 6,
+      "task_template_id": "TT-014",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "flower:FlowerCvetikSemicvetik": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-016",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "garbage:MushroomCommon": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_4",
+      "task_number": 12,
+      "task_template_id": "TT-020",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "garbage:BrokenBank": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_5",
+      "task_number": 13,
+      "task_template_id": "TT-021",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "collection_drop:GoldfishCollection5:Goldfish:home": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "gr_garbage:BigHome_Garbage_Overview_Silver:guest": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-014",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "flower:FlowerLaysPotato": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_6",
+      "task_number": 17,
+      "task_template_id": "TT-016",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    }
+  },
+  "used_task_templates": {
+    "TT-001": {
+      "pack_id": "pack_001",
+      "task_template_name": "Диалог",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "TT-004": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG на локации",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "TT-020": {
+      "pack_id": "pack_001",
+      "task_template_name": "Уборка конкретного мусора в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "TT-021": {
+      "pack_id": "pack_001",
+      "task_template_name": "Уборка конкретного мусора дома",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "TT-011": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "TT-014": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с конкретного мусора в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "TT-008": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить ASK",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "TT-016": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с цветов в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "TT-002": {
+      "pack_id": "pack_001",
+      "task_template_name": "Крафт",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    }
+  },
+  "used_garbage": {
+    "BigHome_Garbage_Bar_BrokenCocktail": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_1",
+      "task_number": 3,
+      "task_template_id": "TT-020",
+      "classname": "BigHome_Garbage_Bar_BrokenCocktail",
+      "title": "Разлитый коктейль",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "BigHome_Garbage_Overview_LizardTooth": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "task_number": 4,
+      "task_template_id": "TT-021",
+      "classname": "BigHome_Garbage_Overview_LizardTooth",
+      "title": "Зуб ящера",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "ApricotStone": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "task_number": 5,
+      "task_template_id": "TT-011",
+      "classname": "ApricotStone",
+      "title": "Абрикосовая косточка",
+      "used_as": "collection_source",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "Barometer": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "task_number": 6,
+      "task_template_id": "TT-014",
+      "classname": "Barometer",
+      "title": "Разбитый барометр",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "MushroomCommon": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_4",
+      "task_number": 12,
+      "task_template_id": "TT-020",
+      "classname": "MushroomCommon",
+      "title": "Грибы",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "BrokenBank": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_5",
+      "task_number": 13,
+      "task_template_id": "TT-021",
+      "classname": "BrokenBank",
+      "title": "Разбитая банка",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "Goldfish": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-011",
+      "classname": "Goldfish",
+      "title": "Золотая рыбка",
+      "used_as": "collection_source",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "BigHome_Garbage_Overview_Silver": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-014",
+      "classname": "BigHome_Garbage_Overview_Silver",
+      "title": "Родированное серебро",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    }
+  },
+  "used_collections": {
+    "ApricotStoneCollection2": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "task_number": 5,
+      "task_template_id": "TT-011",
+      "classname": "ApricotStoneCollection2",
+      "title": "Абрикосовое варенье",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "GoldfishCollection5": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-011",
+      "classname": "GoldfishCollection5",
+      "title": "Селедка под шубой",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    }
+  },
+  "used_flowers": {
+    "FlowerCvetikSemicvetik": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-016",
+      "classname": "FlowerCvetikSemicvetik",
+      "title": "Цветик-семицветик",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "FlowerLaysPotato": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_6",
+      "task_number": 17,
+      "task_template_id": "TT-016",
+      "classname": "FlowerLaysPotato",
+      "title": "Картошечка",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    }
+  },
+  "used_locations": {
+    "Барная комната": {
+      "code": "310",
+      "title": "Барная комната",
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_1",
+      "task_number": 3,
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "Обзорная": {
+      "code": "184",
+      "title": "Обзорная",
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "task_number": 4,
+      "uses": 3,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "Двор Чинга": {
+      "code": "15",
+      "title": "Двор Чинга",
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "task_number": 5,
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "Каюта капитана": {
+      "code": "74",
+      "title": "Каюта капитана",
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "task_number": 6,
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "Чародейная": {
+      "code": "91",
+      "title": "Чародейная",
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "task_number": 6,
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "Хата": {
+      "code": "122",
+      "title": "Хата",
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_4",
+      "task_number": 12,
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "Комната с привидениями": {
+      "code": "88",
+      "title": "Комната с привидениями",
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_4",
+      "task_number": 12,
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "Погребок": {
+      "code": "10",
+      "title": "Погребок",
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_5",
+      "task_number": 13,
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "Стеклодувня": {
+      "code": "42",
+      "title": "Стеклодувня",
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_5",
+      "task_number": 13,
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "Омут": {
+      "code": "58",
+      "title": "Омут",
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_5",
+      "task_number": 14,
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "Причал": {
+      "code": "71",
+      "title": "Причал",
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_5",
+      "task_number": 14,
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    }
+  },
+  "used_generated_assets": {
+    "MeatballRain_2026_Character_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_1",
+      "task_number": 1,
+      "task_template_id": "TT-001",
+      "title": "Поговори с Дедушкой Домоведом",
+      "field": "icon",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "MeatballRain_2026_HOG_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_1",
+      "task_number": 2,
+      "task_template_id": "TT-004",
+      "title": "Найди следы мясного дождя",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "MeatballRain_2026_GR_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "task_number": 6,
+      "task_template_id": "TT-014",
+      "title": "Найди Латунную стрелку барометра",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "MeatballRain_2026_ASK_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_3",
+      "task_number": 7,
+      "task_template_id": "TT-008",
+      "title": "Попроси у друзей Крышку для непослушного котла",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "MeatballRain_2026_GR_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-016",
+      "title": "Получи Лепесток сытости",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "MeatballRain_2026_R_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MeatballRain_2026_Story_3",
+      "task_number": 9,
+      "task_template_id": "TT-002",
+      "title": "Создай Усмиритель котла",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.250412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.250412+00:00"
+    },
+    "MeatballRain_2026_Character_2": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_4",
+      "task_number": 10,
+      "task_template_id": "TT-001",
+      "title": "Поговори с Лешим",
+      "field": "icon",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "MeatballRain_2026_HOG_2": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_4",
+      "task_number": 11,
+      "task_template_id": "TT-004",
+      "title": "Найди огуречные следы",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "MeatballRain_2026_GR_3": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-014",
+      "title": "Найди Серебряную солонку",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "MeatballRain_2026_ASK_2": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_6",
+      "task_number": 16,
+      "task_template_id": "TT-008",
+      "title": "Попроси у друзей Крышку для рассольной банки",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "MeatballRain_2026_GR_4": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_6",
+      "task_number": 17,
+      "task_template_id": "TT-016",
+      "title": "Получи Картофельный штамп",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    },
+    "MeatballRain_2026_R_2": {
+      "pack_id": "pack_002",
+      "classname_quests": "MeatballRain_2026_Story_6",
+      "task_number": 18,
+      "task_template_id": "TT-002",
+      "title": "Создай Рассольный прижим",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-04-28T12:08:44.251412+00:00",
+      "last_seen_at": "2026-04-28T12:08:44.251412+00:00"
+    }
+  }
+}

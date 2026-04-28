@@ -1,0 +1,231 @@
+{
+  "version": 2,
+  "modes": [
+    {
+      "id": "quest_generation",
+      "name_ru": "Генерация квестов",
+      "description_ru": "Поэтапное создание нового pack квестов или продолжение campaign с обязательным апрувом пользователя после каждого этапа.",
+      "default_stage": "1",
+      "requires_context": ["campaign_id", "pack_id", "quest_count_or_auto", "stage_approval"],
+      "clarification_ru": "Перед генерацией нового pack нужно явно указать количество квестов или написать: придумай сколько хочешь.",
+      "approval_gates_ru": [
+        "Codex выполняет только один этап за раз.",
+        "После этапа 1 нужно показать пользователю сюжетную структуру и ждать явный апрув.",
+        "После этапа 2 нужно показать реплики начала/завершения и ждать явный апрув.",
+        "После этапа 3 нужно показать выбранные шаблоны тасков и ждать явный апрув.",
+        "После этапа 3.1 нужно показать context_pack/кандидатов и ждать явный апрув.",
+        "После этапа 4 нужно показать filled_tasks/валидацию и ждать явный апрув.",
+        "Этап 5 и CSV запускать только после апрува этапа 4.",
+        "Нельзя выполнять все этапы нового pack подряд без человеческой проверки."
+      ],
+      "keywords_ru": [
+        "создай квест",
+        "создать квест",
+        "создай пак",
+        "создать пак",
+        "новый пак",
+        "следующий пак",
+        "пак 2",
+        "pack 2",
+        "продолжаем campaign",
+        "продолжи кампанию",
+        "добавь в ту же сюжетку",
+        "этап 1",
+        "этап 2",
+        "этап 3",
+        "этап 4",
+        "пройди этапы",
+        "3 квеста",
+        "три квеста",
+        "5 квестов",
+        "пять квестов",
+        "придумай сколько хочешь",
+        "сколько хочешь",
+        "любое количество",
+        "новая тема",
+        "персонажи"
+      ],
+      "entrypoints": [
+        "python src/create_pack.py <campaign_id>",
+        "python src/build_context_pack.py output/quest_plan.resolved.json --campaign <campaign_id> --current-pack <pack_id>",
+        "python src/validate_task_objects.py output/filled_tasks.json --campaign <campaign_id> --current-pack <pack_id>"
+      ]
+    },
+    {
+      "id": "quest_edit",
+      "name_ru": "Правка квеста или таска",
+      "description_ru": "Точная правка уже созданного quest/task на этапе 3 или 4.",
+      "default_stage": "4",
+      "requires_context": ["campaign_id", "pack_id", "quest_number", "task_number"],
+      "keywords_ru": [
+        "поменяй таск",
+        "замени таск",
+        "замени мусор",
+        "поменяй мусор",
+        "замени цветок",
+        "замени коллекцию",
+        "замени кандидата",
+        "поменяй hog",
+        "исправь квест",
+        "исправь таск",
+        "квест 1",
+        "квест 2",
+        "квест 3",
+        "таск 1",
+        "таск 2",
+        "таск 3",
+        "stage 3",
+        "stage 4",
+        "этап 3 правка",
+        "этап 4 правка"
+      ],
+      "entrypoints": [
+        "python src/validate_task_objects.py output/filled_tasks.json --campaign <campaign_id> --current-pack <pack_id>",
+        "python src/export_csv.py output/filled_tasks.json",
+        "python src/update_campaign_memory.py <campaign_id> --pack <pack_id> --from-output"
+      ]
+    },
+    {
+      "id": "csv_export",
+      "name_ru": "CSV-экспорт",
+      "description_ru": "Проверка этапа 4 и разворачивание filled_tasks.json в CSV.",
+      "default_stage": "5",
+      "requires_context": ["campaign_id", "pack_id"],
+      "keywords_ru": [
+        "создай csv",
+        "сделай csv",
+        "экспорт csv",
+        "разверни csv",
+        "этап 5",
+        "сгенерируй таблицу",
+        "выгрузи csv",
+        "generated_quests.csv",
+        "структура csv"
+      ],
+      "entrypoints": [
+        "python src/validate_task_objects.py output/filled_tasks.json --campaign <campaign_id> --current-pack <pack_id>",
+        "python src/export_csv.py output/filled_tasks.json"
+      ]
+    },
+    {
+      "id": "campaign_management",
+      "name_ru": "Управление campaign и pack",
+      "description_ru": "Создание, просмотр и обновление постоянной памяти campaign.",
+      "default_stage": "",
+      "requires_context": ["campaign_id"],
+      "keywords_ru": [
+        "создай кампанию",
+        "создать кампанию",
+        "создай campaign",
+        "создать campaign",
+        "обнови память",
+        "память кампании",
+        "campaign memory",
+        "campaign_summary",
+        "active campaign",
+        "активная кампания",
+        "пак 1",
+        "пак 2",
+        "pack_001",
+        "pack_002"
+      ],
+      "entrypoints": [
+        "python src/start_campaign.py <campaign_id>",
+        "python src/create_pack.py <campaign_id>",
+        "python src/update_campaign_memory.py <campaign_id> --pack <pack_id> --from-output"
+      ]
+    },
+    {
+      "id": "validation_review",
+      "name_ru": "Анализ валидации",
+      "description_ru": "Разбор validation_report, validation_summary, critical/non-critical issues.",
+      "default_stage": "validation",
+      "requires_context": [],
+      "keywords_ru": [
+        "валидация",
+        "validation",
+        "ошибки",
+        "warnings",
+        "errors",
+        "critical issues",
+        "non critical",
+        "validation_report",
+        "validation_summary",
+        "почему ошибка",
+        "что исправить в raw"
+      ],
+      "entrypoints": [
+        "python src/build_index.py",
+        "python src/analyze_validation.py"
+      ]
+    },
+    {
+      "id": "raw_indexing",
+      "name_ru": "Индексация raw-данных",
+      "description_ru": "Пересборка игровых индексов и quest-ready данных из raw.",
+      "default_stage": "indexing",
+      "requires_context": [],
+      "keywords_ru": [
+        "пересобери индексы",
+        "собери индексы",
+        "build_index",
+        "raw данные",
+        "quest-ready",
+        "quest_ready_index",
+        "drops.index",
+        "collections.index",
+        "garbage.index",
+        "flowers.index"
+      ],
+      "entrypoints": [
+        "python src/build_index.py"
+      ]
+    },
+    {
+      "id": "pot_description",
+      "name_ru": "Описание горшков",
+      "description_ru": "Отдельный будущий workflow: по картинке горшка написать описание в стиле проекта.",
+      "default_stage": "description",
+      "requires_context": ["input_image"],
+      "keywords_ru": [
+        "горшок",
+        "горшки",
+        "описание горшка",
+        "картинка горшка",
+        "фото горшка",
+        "изображение горшка",
+        "опиши горшок",
+        "описание предмета",
+        "описание в нашем стиле",
+        "стиль домовят"
+      ],
+      "entrypoints": [
+        "docs/pot_description_style.md"
+      ]
+    },
+    {
+      "id": "workflow_management",
+      "name_ru": "Настройка рабочих режимов",
+      "description_ru": "Редактирование памятки, активного контекста и списка workflow modes.",
+      "default_stage": "",
+      "requires_context": [],
+      "keywords_ru": [
+        "режим работы",
+        "режимы работы",
+        "активный контекст",
+        "active context",
+        "памятка",
+        "workflow",
+        "воркфлоу",
+        "ключевики",
+        "как дирижировать",
+        "список режимов"
+      ],
+      "entrypoints": [
+        "python src/workflow_context.py show",
+        "python src/workflow_context.py list-modes",
+        "python src/workflow_context.py detect --text \"...\""
+      ]
+    }
+  ]
+}

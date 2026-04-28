@@ -1,0 +1,24 @@
+{
+  "overrides": [
+    {
+      "classname_quests": "MeatballRain_2026_Story_1",
+      "task_number": 2,
+      "reason": "По сюжету логичнее искать первые следы фрикаделькового дождя в конкретной локации, а не по всему миру.",
+      "replace_template": {
+        "task_template_id": "TT-004",
+        "task_template_name": "HOG на локации",
+        "task_type": "HOG clean_debris location"
+      }
+    },
+    {
+      "classname_quests": "MeatballRain_2026_Story_2",
+      "task_number": 4,
+      "reason": "HOG на локации уже использован в первом квесте после правки; для второго квеста лучше дать другую механику расследования последствий.",
+      "replace_template": {
+        "task_template_id": "TT-021",
+        "task_template_name": "Уборка конкретного мусора дома",
+        "task_type": "garbage classname"
+      }
+    }
+  ]
+}

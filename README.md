@@ -206,6 +206,103 @@ python src/build_context_pack.py output/quest_plan.resolved.json
 python src/build_context_pack.py output/quest_plan.resolved.json --reset-history
 ```
 
+## Кампании и паки
+
+`output/` остается папкой последнего рабочего прогона. Для долгой сюжетной линии используй `campaigns/`.
+
+Кампания — это постоянная сюжетная линия. Пак — отдельная пачка квестов внутри кампании.
+
+Создать или открыть кампанию:
+
+```bash
+python src/start_campaign.py MeatballRain_2026 --title "У нас дождь из фрикаделек" --tone "юмор" --characters "Дедушка Домовед,Баба яга,Царевна медной горы"
+```
+
+Создать следующий пак:
+
+```bash
+python src/create_pack.py MeatballRain_2026 --title "Пак 1"
+```
+
+После завершения этапов 3-5 для пака сохрани текущий `output/` в кампанию и обнови память:
+
+```bash
+python src/update_campaign_memory.py MeatballRain_2026 --pack pack_001 --from-output
+```
+
+Команда пишет:
+
+- `campaigns/MeatballRain_2026/campaign.json`
+- `campaigns/MeatballRain_2026/campaign_memory.json`
+- `campaigns/MeatballRain_2026/campaign_summary.md`
+- `campaigns/MeatballRain_2026/pack_001/...`
+
+Для следующего пака собирай context pack уже с памятью кампании:
+
+```bash
+python src/build_context_pack.py output/quest_plan.resolved.json --campaign MeatballRain_2026 --current-pack pack_002
+```
+
+Тогда уже выбранные в предыдущих паках `garbage`, source-мусор collection drops, `collection`, `flower` и candidate IDs будут исключаться из новых кандидатов, если есть свежие альтернативы.
+
+Для нового pack в запросе обязательно указывать количество квестов, например `3 квеста`, или явно разрешать свободный объем фразой `придумай сколько хочешь`. Без этого Codex должен уточнить количество до генерации.
+
+Новый pack делается только поэтапно, с человеческим апрувом после каждого шага. Codex не должен прогонять сразу этапы 1-5 одним сообщением: после этапа 1 показывает сюжетную структуру и ждет апрув; после этапа 2 показывает реплики и ждет апрув; после этапа 3 показывает выбранные шаблоны тасков и ждет апрув; после этапа 3.1 показывает `context_pack`/кандидатов и ждет апрув; после этапа 4 показывает `filled_tasks` и результат валидации. CSV этапа 5 создается только после апрува этапа 4.
+
+Generated-объекты (`HOG`, `GR`, `ASK`, `PER`, `CL`, `FA`, `R`) нумеруются в пределах всей campaign, а не отдельного pack. Если `pack_001` уже использовал `MeatballRain_2026_HOG_1`, `MeatballRain_2026_GR_1`, `MeatballRain_2026_ASK_1` и `MeatballRain_2026_R_1`, то `pack_002` продолжает с `HOG_2`, `GR_2`, `ASK_2`, `R_2`. Не добавляй `Pack2` в prefix classname; для той же сюжетки prefix остается `MeatballRain_2026`.
+
+## Режимы работы и активный контекст
+
+Режимы работы описаны в:
+
+- `workflows/workflow_modes.json`
+- `workflows/WORKFLOW_GUIDE.md`
+
+Активный контекст хранится в:
+
+- `workspace/active_context.json`
+
+Показать активный контекст:
+
+```bash
+python src/workflow_context.py show
+```
+
+Посмотреть список режимов и русские ключевики:
+
+```bash
+python src/workflow_context.py list-modes
+```
+
+Выставить контекст вручную:
+
+```bash
+python src/workflow_context.py set --mode quest_edit --campaign MeatballRain_2026 --pack pack_001 --stage 4 --quest 2 --task 1
+```
+
+Определить режим по тексту запроса:
+
+```bash
+python src/workflow_context.py detect --text "замени мусор в квесте 2 таске 1"
+```
+
+Определить режим и сразу записать его в active context:
+
+```bash
+python src/workflow_context.py detect --text "создай csv для текущего пака" --apply --campaign MeatballRain_2026 --pack pack_001
+```
+
+Основные режимы:
+
+- `quest_generation` — создание нового pack квестов.
+- `quest_edit` — точная правка квеста или task.
+- `csv_export` — этап 5 и CSV.
+- `campaign_management` — создание campaign/pack и обновление памяти.
+- `validation_review` — анализ validation issues.
+- `raw_indexing` — пересборка индексов из raw.
+- `pot_description` — будущий workflow описаний горшков по картинке.
+- `workflow_management` — настройка режимов, памятки и active context.
+
 ## Валидация заполненных task objects этапа 4
 
 После того как ИИ заполнит task objects по `output/context_pack.json`, результат нужно сохранить в:
@@ -223,7 +320,7 @@ output/filled_tasks.example.json
 Проверка:
 
 ```bash
-python src/validate_task_objects.py output/filled_tasks.json
+python src/validate_task_objects.py output/filled_tasks.json --campaign MeatballRain_2026 --current-pack pack_002
 ```
 
 Команда читает:
@@ -244,6 +341,7 @@ python src/validate_task_objects.py output/filled_tasks.json
 - `selected_candidate_id` есть среди кандидатов этого task;
 - `task_object` содержит обязательные поля для своего `TT-...`;
 - garbage/flower/collection classname не выдуманы и совпадают с выбранным кандидатом;
+- нумерация generated-объектов продолжает `campaign_memory.json`, если передан `--campaign`;
 - `TT-035` не используется;
 - базовые поля `type`, `action`, `in_guest`, `is_hide`, `is_silhouette` соответствуют шаблону.
 
