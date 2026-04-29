@@ -1,0 +1,44 @@
+;HOG;;;;;
+temp_01;string;string;string;string;string;int
+;input;output;classname;view_classname;title;id
+;/debris/Dacha_2025/Dacha_2025_HOG_1.proto.js;/debris/CucumberFestival_2026/CucumberFestival_2026_HOG_1.proto.js;CucumberFestival_2026_HOG_1;CucumberFestival_2026_HOG_1;Огуречный значок;
+
+;GR ассет;;;;;;;
+temp_01;string;string;string;string;string;string;string;int
+;input;output;classname;view_classname;title;description;meta_info;id
+;/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js;/quest_item/CucumberFestival_2026/CucumberFestival_2026_GR_1.proto.js;CucumberFestival_2026_GR_1;CucumberFestival_2026_GR_1;Парадная лента;Собирай цветы Цветик-семицветик в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга.;pack_asset=CucumberFestival_2026_GR_1_Package;
+
+;;;GR способы получения;;;;;;;
+temp_01;string;string;ignore;array;array;int;string;string;array;int
+;input;output;file_name;actions;location_tags;rand_reward.p;rand_reward.asset;conditions;assets;id
+;/global_reward/Fun10/Fun11_GR_10.proto.js;/global_reward/CucumberFestival_2026/CucumberFestival_2026_GR_1.proto.js;CucumberFestival_2026_GR_1;take_crop_in_guest;;30;CucumberFestival_2026_GR_1;active_quest=CucumberFestival_2026_Story_2;FlowerCvetikSemicvetik;
+
+;GR ПАКЕТЫ;;;;;;;;;
+temp_01;string;string;string;ignore;string;string;ignore;int;string;int
+;input;output;classname;asset;title;reward;Количество ассетов;price;stuff_icon;id
+;/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js;/asset_package/Fun/CucumberFestival_2026/CucumberFestival_2026_GR_1_Package.proto.js;CucumberFestival_2026_GR_1_Package;CucumberFestival_2026_GR_1;Парадная лента;asset=CucumberFestival_2026_GR_1:1;1;1;CucumberFestival_2026_GR_1;
+
+;ASK;;;;;;;;
+temp_01;string;string;string;string;string;string;string;string;int
+;input;output;classname;view_classname;title;description;meta_info;conditions;id
+;/quest_item/Fun/Fun10/resource/Fun10_ASK_1.proto.js;/quest_item/CucumberFestival_2026/CucumberFestival_2026_ASK_1.proto.js;CucumberFestival_2026_ASK_1;CucumberFestival_2026_ASK_1;Барабанные палочки;Попроси у друзей или купи.;pack_asset=CucumberFestival_2026_ASK_1_Package;;
+
+;ASK пост экшен;;;;;;;;;
+temp_01;string;string;string;ignore;string;string;int;int;int;int
+;input;output;identifier;classname;title;poster_reward;clicks_limit;life_time;send_interval;id
+;/post_action/ask_for_Fun10_ASK_10.proto.js;/post_action/ask_for_CucumberFestival_2026_ASK_1.proto.js;ask_for_CucumberFestival_2026_ASK_1;CucumberFestival_2026_ASK_1;Барабанные палочки;asset=CucumberFestival_2026_ASK_1:1;5;43200;7200;
+
+;ASK ПАКЕТЫ;;;;;;;;;
+temp_01;string;string;string;ignore;string;string;ignore;int;string;int
+;input;output;classname;asset;title;reward;Количество ассетов;price;stuff_icon;id
+;/asset_package/Fun/Fun10/resource/Fun10_ASK_1_Package.proto.js;/asset_package/Fun/CucumberFestival_2026/CucumberFestival_2026_ASK_1_Package.proto.js;CucumberFestival_2026_ASK_1_Package;CucumberFestival_2026_ASK_1;Барабанные палочки;asset=CucumberFestival_2026_ASK_1:1;1;2;CucumberFestival_2026_ASK_1;
+
+;R ассет;;;;;;;;
+temp_01;string;string;string;string;string;string;string;string;int
+;input;output;classname;view_classname;title;description;meta_info;tags.0;id
+;/quest_item/Fun/Fun11/repair/Fun11_R_1.proto.js;/quest_item/CucumberFestival_2026/CucumberFestival_2026_R_1.proto.js;CucumberFestival_2026_R_1;CucumberFestival_2026_R_1;Парадный барабан;Для создания используй Станок.;;CucumberFestival_2026;
+
+;Рецепты 4 ингридиента;;;;;;;;;;;;;;;;;
+temp_01;string;string;string;ignore;int;array;string;ignore;ignore;ignore;ignore;ignore;ignore;ignore;ignore;string;string;int
+;input;output;identifier;;lifespan;tags;ingredients;ingredient_1_asset;ingredient_1_asset_amount;ingredient_2_asset;ingredient_2_asset_amount;ingredient_3_asset;ingredient_3_asset_amount;ingredient_4_asset;ingredient_4_asset_amount;conditions;reward;id
+;/recipe/Dacha_2025/Dacha_2025_R_1_Recipe.proto.js;/recipe/CucumberFestival_2026/CucumberFestival_2026_R_1_Recipe.proto.js;CucumberFestival_2026_R_1_Recipe;CucumberFestival_2026_R_1;2400;CucumberFestival_2026;asset=CucumberFestival_2026_ASK_1:1+asset=CucumberFestival_2026_GR_1:1+asset=CucumberFestival_2026_ASK_1:1+asset=CucumberFestival_2026_GR_1:1;CucumberFestival_2026_ASK_1;1;CucumberFestival_2026_GR_1;1;CucumberFestival_2026_ASK_1;1;CucumberFestival_2026_GR_1;1;active_quest=CucumberFestival_2026_Story_2+asset!=CucumberFestival_2026_R_1:1;asset=CucumberFestival_2026_R_1:1;

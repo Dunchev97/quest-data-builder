@@ -1,0 +1,27 @@
+{
+  "campaign_id": "CucumberFestival_2026",
+  "packs": [
+    "pack_001"
+  ],
+  "blocks": [
+    "HOG",
+    "GR ассет",
+    "GR способы получения",
+    "GR ПАКЕТЫ",
+    "ASK",
+    "ASK пост экшен",
+    "ASK ПАКЕТЫ",
+    "R ассет",
+    "Рецепты 4 ингридиента"
+  ],
+  "hogs": 1,
+  "resources": {
+    "ASK": 1,
+    "PER": 0,
+    "GR": 1,
+    "FG": 0,
+    "FA": 0,
+    "R": 1
+  },
+  "warnings": []
+}

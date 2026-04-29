@@ -15,6 +15,7 @@
 - `raw/` - исходные игровые данные. Никогда не редактировать.
 - `workflows/WORKFLOW_GUIDE.md` - порядок работы по этапам 1-6.
 - `workflows/POT_DESCRIPTION_WORKFLOW.md` - workflow описания горшков по картинке.
+- `workflows/RESOURCE_TABLE_WORKFLOW.md` - workflow CSV-таблицы ресурсов для дева.
 - `workflows/workflow_modes.json` - ключевики и режимы для `workflow_context.py`.
 
 ## Локальная среда и скорость
@@ -74,6 +75,20 @@ workspace/active_context.json
 - не выдумывать бонусы, проценты, ускорение роста, валюту или игровые свойства;
 - финальный текст должен заканчиваться правильным постфиксом по виду горшка;
 - при сохранении JSON проверять результат командой `python src/validate_pot_description.py output/pot_description.json`.
+
+## Resource Table Workflow
+
+Если пользователь просит собрать таблицу ресурсов, `*_Res.csv` или CSV ресурсов для дева:
+
+- переключить режим на `resource_table` через `src/workflow_context.py detect --text "<запрос>" --apply` или вручную через `set`;
+- читать правила из `workflows/RESOURCE_TABLE_WORKFLOW.md`;
+- использовать `docs/resource_table_template.csv` как эталон блоков и заголовков;
+- собирать таблицу командой `python src/build_resource_table.py <campaign_id>`;
+- по умолчанию читать все pack из `campaigns/<campaign_id>/pack_*`;
+- один pack использовать только если пользователь явно попросил фильтр по pack;
+- создавать только блоки, для которых есть ресурсы в выбранной campaign или явно выбранных pack;
+- сохранять минимум одну пустую строку между блоками;
+- не использовать `Fun12`, если текущий prefix другой.
 
 ## Где Хранить Артефакты
 

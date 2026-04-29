@@ -8,6 +8,7 @@
 - `README.md` - краткая карта проекта и команды.
 - `workflows/WORKFLOW_GUIDE.md` - подробный workflow 1-6.
 - `workflows/POT_DESCRIPTION_WORKFLOW.md` - workflow описания горшков по изображению.
+- `workflows/RESOURCE_TABLE_WORKFLOW.md` - workflow CSV-таблицы ресурсов для дева.
 - `workflows/workflow_modes.json` - машинная карта режимов, ключевиков и entrypoints.
 - `Инструкция этап 1.txt` ... `Инструкция этап 6.txt` - подробные playbook-и этапов.
 
@@ -345,6 +346,32 @@ workflows/POT_DESCRIPTION_WORKFLOW.md
 python src/validate_pot_description.py output/pot_description.json
 ```
 
+## Resource Table
+
+Отдельный workflow для CSV-таблицы ресурсов описан в:
+
+```text
+workflows/RESOURCE_TABLE_WORKFLOW.md
+```
+
+Шаблон блоков:
+
+```text
+docs/resource_table_template.csv
+```
+
+Включается, когда пользователь просит собрать `*_Res.csv`, таблицу ресурсов campaign или CSV ресурсов для дева.
+
+Основные правила:
+
+- по умолчанию читать все pack-артефакты из `campaigns/<campaign_id>/pack_*`;
+- писать CSV для всей campaign в `campaigns/<campaign_id>/resource_table.csv`;
+- собирать командой `python src/build_resource_table.py <campaign_id>`;
+- писать CSV для одного pack в `campaigns/<campaign_id>/<pack_id>/resource_table.csv` только если пользователь явно попросил фильтр по pack;
+- создавать только блоки ресурсов, которые реально есть;
+- отделять блоки минимум одной пустой строкой;
+- не копировать prefix из примера `Fun12`, использовать текущий generated prefix.
+
 ## Режимы
 
 Машинный список режимов находится в:
@@ -369,6 +396,7 @@ python src/workflow_context.py list-modes
 - `validation_review` - разбор ошибок.
 - `raw_indexing` - пересборка индексов.
 - `pot_description` - описание горшков по изображению.
+- `resource_table` - CSV-таблица ресурсов для дева.
 - `workflow_management` - правка workflow docs.
 
 ## Что Можно Чистить
@@ -387,6 +415,7 @@ python src/workflow_context.py list-modes
 - `README.md`
 - `workflows/WORKFLOW_GUIDE.md`
 - `workflows/POT_DESCRIPTION_WORKFLOW.md`
+- `workflows/RESOURCE_TABLE_WORKFLOW.md`
 - `workflows/workflow_modes.json`
 - `Инструкция этап 1.txt` ... `Инструкция этап 6.txt`
 - `campaigns/`

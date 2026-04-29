@@ -246,6 +246,43 @@
       ]
     },
     {
+      "id": "resource_table",
+      "name_ru": "Таблица ресурсов",
+      "description_ru": "Workflow для сборки CSV-таблицы ресурсов по всей campaign в формате *_Res.csv.",
+      "default_stage": "csv",
+      "requires_context": ["campaign_id"],
+      "clarification_ru": "Нужно указать campaign_id. По умолчанию таблица собирается по всем pack внутри campaign.",
+      "keywords_ru": [
+        "таблица ресурсов",
+        "таблицу ресурсов",
+        "собери таблицу ресурсов",
+        "ресурсная таблица",
+        "ресурсную таблицу",
+        "по компании",
+        "по всей компании",
+        "по всей campaign",
+        "все паки",
+        "всем пакам",
+        "csv ресурсов",
+        "ресурсы для дева",
+        "ресурсный csv",
+        "res csv",
+        "_Res.csv",
+        "Fun12_Res",
+        "собери ресурсы",
+        "описание ресурсов",
+        "пакеты ресурсов",
+        "рецепты ресурсов"
+      ],
+      "entrypoints": [
+        "workflows/RESOURCE_TABLE_WORKFLOW.md",
+        "python src/build_resource_table.py <campaign_id>",
+        "docs/resource_table_template.csv",
+        "campaigns/<campaign_id>/pack_*/filled_tasks.json",
+        "campaigns/<campaign_id>/pack_*/context_pack.json"
+      ]
+    },
+    {
       "id": "workflow_management",
       "name_ru": "Настройка рабочих режимов",
       "description_ru": "Редактирование памятки, активного контекста и списка workflow modes.",

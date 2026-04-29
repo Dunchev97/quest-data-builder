@@ -28,6 +28,7 @@ python -m unittest discover -s tests
 - `README.md` - краткая карта проекта и команды.
 - `workflows/WORKFLOW_GUIDE.md` - основной подробный workflow создания квестов.
 - `workflows/POT_DESCRIPTION_WORKFLOW.md` - workflow описания горшков по картинке.
+- `workflows/RESOURCE_TABLE_WORKFLOW.md` - workflow CSV-таблицы ресурсов для дева.
 - `workflows/workflow_modes.json` - машинная карта режимов и ключевиков.
 - `Инструкция этап 1.txt` ... `Инструкция этап 6.txt` - подробные playbook-и конкретных этапов.
 
@@ -189,6 +190,34 @@ workflows/POT_DESCRIPTION_WORKFLOW.md
 ```bash
 python src/validate_pot_description.py output/pot_description.json
 ```
+
+## Таблица Ресурсов
+
+Для режима сборки CSV ресурсов по всей campaign:
+
+```bash
+python src/workflow_context.py detect --text "собери таблицу ресурсов для дева по всей компании" --apply
+```
+
+Правила workflow:
+
+```text
+workflows/RESOURCE_TABLE_WORKFLOW.md
+```
+
+Собрать таблицу:
+
+```bash
+python src/build_resource_table.py <campaign_id>
+```
+
+Шаблон блоков CSV:
+
+```text
+docs/resource_table_template.csv
+```
+
+По умолчанию таблица собирается из всех `campaigns/<campaign_id>/pack_*`. Сборка одного pack - только если это явно попросили.
 
 ## Жесткие Ограничения
 
