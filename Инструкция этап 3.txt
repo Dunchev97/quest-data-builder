@@ -380,10 +380,10 @@ Character: Кролус
 После явного апрува этапа 3 нужно записать technical gate:
 
 ```bash
-python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
 ```
 
-Без этого `python src/build_context_pack.py ...` должен отказаться собирать `context_pack`.
+Без этого `python src/workflow_fast.py context ...` должен отказаться собирать `context_pack`.
 
 Если pack продолжает уже существующую campaign, не добавляй номер pack в `Classname quests`. Для одной сюжетки должен сохраняться общий prefix campaign. Например, после `MeatballRain_2026_Story_1`, `MeatballRain_2026_Story_2`, `MeatballRain_2026_Story_3` следующий pack продолжает как `MeatballRain_2026_Story_4`, `MeatballRain_2026_Story_5`, `MeatballRain_2026_Story_6`, а не `MeatballRain_2026_Pack2_Story_1`.
 

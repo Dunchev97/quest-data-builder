@@ -54,6 +54,31 @@ python src/workflow_context.py set --mode quest_generation --campaign <campaign_
 python src/workflow_context.py approve --stage <stage> --campaign <campaign_id> --pack <pack_id>
 ```
 
+Быстрый вариант approval:
+
+```bash
+python src/workflow_fast.py approve --stage <stage> --campaign <campaign_id> --pack <pack_id>
+```
+
+## Быстрый Маршрут
+
+Для рутинной работы использовать `src/workflow_fast.py`: он берет стандартные pack-пути, читает `active_context` при отсутствии `--campaign/--pack` и не заставляет вручную перечислять одинаковые аргументы.
+
+```bash
+python src/workflow_fast.py status --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py stage3 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py context --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py validate --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id> --title "..." --description "..." --description-complete "..." --description-spoil "..."
+python src/workflow_fast.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py resource-table --campaign <campaign_id>
+```
+
+Старые низкоуровневые команды остаются fallback для отладки, но в обычном workflow их не нужно набирать вручную.
+
 ## Где Лежат Артефакты
 
 Постоянное место pack:
@@ -167,11 +192,10 @@ campaigns/<campaign_id>/<pack_id>/stage2_story.txt
 
 Цель: получить `stage3_quests.txt`, распарсить его и сопоставить task types с template ids.
 
-Команды:
+Быстрая команда:
 
 ```bash
-python src/parse_stage3.py campaigns/<campaign_id>/<pack_id>/stage3_quests.txt --output-json campaigns/<campaign_id>/<pack_id>/quest_plan.json --preview campaigns/<campaign_id>/<pack_id>/quest_plan.preview.md
-python src/task_type_resolver.py campaigns/<campaign_id>/<pack_id>/quest_plan.json --output-json campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.json --preview campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.preview.md
+python src/workflow_fast.py stage3 --campaign <campaign_id> --pack <pack_id>
 ```
 
 Основные выходы:
@@ -186,7 +210,7 @@ campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.preview.md
 После проверки пользователем записать:
 
 ```bash
-python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
 ```
 
 Stage 3 артефакты должны оставаться в папке pack, чтобы параллельные сессии не делили общий `output/`.
@@ -195,10 +219,10 @@ Stage 3 артефакты должны оставаться в папке pack,
 
 Цель: собрать компактный набор quest-ready кандидатов для ИИ, не выбирая финальные игровые данные вместо него.
 
-Команда:
+Быстрая команда:
 
 ```bash
-python src/build_context_pack.py campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.json --campaign <campaign_id> --current-pack <pack_id> --history campaigns/<campaign_id>/<pack_id>/context_candidate_history.json --output-json campaigns/<campaign_id>/<pack_id>/context_pack.json --preview campaigns/<campaign_id>/<pack_id>/context_pack.preview.md
+python src/workflow_fast.py context --campaign <campaign_id> --pack <pack_id>
 ```
 
 Выход:
@@ -226,23 +250,23 @@ campaigns/<campaign_id>/<pack_id>/filled_tasks.preview.md
 Validation:
 
 ```bash
-python src/validate_task_objects.py campaigns/<campaign_id>/<pack_id>/filled_tasks.json --context-pack campaigns/<campaign_id>/<pack_id>/context_pack.json --campaign <campaign_id> --current-pack <pack_id> --output-json campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json --preview campaigns/<campaign_id>/<pack_id>/filled_tasks.preview.md
+python src/workflow_fast.py validate --campaign <campaign_id> --pack <pack_id>
 ```
 
 Нужно показать пользователю `filled_tasks` и validation summary. После approval записать:
 
 ```bash
-python src/workflow_context.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>
 ```
 
 ### Stage 5 - Quest Group
 
 Цель: ИИ анализирует все квесты pack и пишет общий блок quest group для страницы журнала.
 
-Команда:
+Быстрая команда:
 
 ```bash
-python src/build_quest_group.py --campaign <campaign_id> --current-pack <pack_id> --title "..." --description "..." --description-complete "..." --description-spoil "..."
+python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id> --title "..." --description "..." --description-complete "..." --description-spoil "..."
 ```
 
 Выход:
@@ -272,10 +296,10 @@ python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack
 
 Цель: технически развернуть утвержденные `quest_group.json` и `filled_tasks.json` в CSV.
 
-Команда:
+Быстрая команда:
 
 ```bash
-python src/export_csv.py --campaign <campaign_id> --current-pack <pack_id>
+python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>
 ```
 
 Stage 6 читает из:
@@ -300,7 +324,7 @@ CSV не создается, если:
 - validation stage 5 содержит errors;
 - validation-файл устарел относительно входного JSON.
 
-После успешного CSV:
+`workflow_fast.py stage6` после успешного CSV сам обновляет campaign memory. Если использовался низкоуровневый `export_csv.py`, обновить память отдельно:
 
 ```bash
 python src/update_campaign_memory.py <campaign_id> --pack <pack_id>
@@ -366,11 +390,19 @@ docs/resource_table_template.csv
 
 - по умолчанию читать все pack-артефакты из `campaigns/<campaign_id>/pack_*`;
 - писать CSV для всей campaign в `campaigns/<campaign_id>/resource_table.csv`;
-- собирать командой `python src/build_resource_table.py <campaign_id>`;
+- собирать быстрой командой `python src/workflow_fast.py resource-table --campaign <campaign_id>` или низкоуровневой командой `python src/build_resource_table.py <campaign_id>`;
 - писать CSV для одного pack в `campaigns/<campaign_id>/<pack_id>/resource_table.csv` только если пользователь явно попросил фильтр по pack;
 - создавать только блоки ресурсов, которые реально есть;
 - отделять блоки минимум одной пустой строкой;
 - не копировать prefix из примера `Fun12`, использовать текущий generated prefix.
+
+## Проверки И Скорость
+
+- Для обычного content workflow запускать только validator текущего этапа: `workflow_fast.py context`, `workflow_fast.py validate`, `workflow_fast.py stage6` уже делают нужные проверки.
+- Полный `python -m unittest discover -s tests` нужен после изменений Python-кода, шаблонов, `workflow_modes.json` или инструкций.
+- Не чистить `__pycache__/` после каждого теста: папка ignored и не является рабочим артефактом.
+- Не запускать `rg`: локально он падает с `Access is denied`; для поиска использовать PowerShell `Get-ChildItem ... | Select-String ...`.
+- Не гонять `git status` после каждой команды; достаточно начала/конца работы и момента перед commit/stage.
 
 ## Режимы
 

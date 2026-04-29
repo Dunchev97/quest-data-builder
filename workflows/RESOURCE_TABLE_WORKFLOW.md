@@ -20,6 +20,12 @@ python src/workflow_context.py detect --text "<запрос пользовате
 Команда сборки:
 
 ```bash
+python src/workflow_fast.py resource-table --campaign <campaign_id>
+```
+
+Низкоуровневый fallback для отладки:
+
+```bash
 python src/build_resource_table.py <campaign_id>
 ```
 

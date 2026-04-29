@@ -134,38 +134,39 @@ python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack
 
 ## Основные Команды Этапов
 
+Быстрый маршрут через wrapper. Если `workspace/active_context.json` уже содержит нужные `campaign_id` и `pack_id`, параметры `--campaign` и `--pack` можно не писать.
+
 Этап 3:
 
 ```bash
-python src/parse_stage3.py campaigns/<campaign_id>/<pack_id>/stage3_quests.txt --output-json campaigns/<campaign_id>/<pack_id>/quest_plan.json --preview campaigns/<campaign_id>/<pack_id>/quest_plan.preview.md
-python src/task_type_resolver.py campaigns/<campaign_id>/<pack_id>/quest_plan.json --output-json campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.json --preview campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.preview.md
+python src/workflow_fast.py stage3 --campaign <campaign_id> --pack <pack_id>
 ```
 
 Этап 3.1:
 
 ```bash
-python src/build_context_pack.py campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.json --campaign <campaign_id> --current-pack <pack_id> --history campaigns/<campaign_id>/<pack_id>/context_candidate_history.json --output-json campaigns/<campaign_id>/<pack_id>/context_pack.json --preview campaigns/<campaign_id>/<pack_id>/context_pack.preview.md
+python src/workflow_fast.py context --campaign <campaign_id> --pack <pack_id>
 ```
 
 Этап 4:
 
 ```bash
-python src/validate_task_objects.py campaigns/<campaign_id>/<pack_id>/filled_tasks.json --context-pack campaigns/<campaign_id>/<pack_id>/context_pack.json --campaign <campaign_id> --current-pack <pack_id> --output-json campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json --preview campaigns/<campaign_id>/<pack_id>/filled_tasks.preview.md
+python src/workflow_fast.py validate --campaign <campaign_id> --pack <pack_id>
 ```
 
 Этап 5:
 
 ```bash
-python src/build_quest_group.py --campaign <campaign_id> --current-pack <pack_id> --title "..." --description "..." --description-complete "..." --description-spoil "..."
+python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id> --title "..." --description "..." --description-complete "..." --description-spoil "..."
 ```
 
 Этап 6:
 
 ```bash
-python src/export_csv.py --campaign <campaign_id> --current-pack <pack_id>
+python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>
 ```
 
-Stage 6 читает `filled_tasks.json` и `quest_group.json` из папки pack и пишет:
+Stage 6 читает `filled_tasks.json` и `quest_group.json` из папки pack, пишет CSV и сразу обновляет `campaign_memory.json`:
 
 ```text
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
