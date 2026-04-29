@@ -48,6 +48,7 @@ def context_pack() -> dict[str, object]:
                                 "source_classname": "BrokenPlate",
                                 "source_title": "Разбитая тарелка",
                                 "source_type": "garbage",
+                                "locations": [{"code": "loc1", "title": "Котельная"}],
                             }
                         ],
                     },
@@ -129,7 +130,8 @@ class ValidateTaskObjectsTests(unittest.TestCase):
                         "amount": 1,
                         "price": 1,
                         "title": "Убери мусор Пепел в гостях",
-                        "hint": "Убери мусор Пепел в гостях.",
+                        "hint": "Убери мусор Пепел в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Котельная.",
+                        "identifier": "",
                     },
                 ),
                 filled_task(
@@ -145,7 +147,8 @@ class ValidateTaskObjectsTests(unittest.TestCase):
                         "amount": 1,
                         "price": 1,
                         "title": "Найди Фарфоровый осколок",
-                        "hint": "Фарфоровый осколок - элемент коллекции.",
+                        "hint": "Фарфоровый осколок - элемент коллекции, выпадает при уборке мусора Разбитая тарелка дома и в гостях. Место поиска: Котельная.",
+                        "identifier": "",
                     },
                 ),
                 filled_task(
@@ -161,7 +164,8 @@ class ValidateTaskObjectsTests(unittest.TestCase):
                         "amount": 1,
                         "price": 1,
                         "title": "Собери Василек в гостях",
-                        "hint": "Собирай Василек в гостях.",
+                        "hint": "Собирай Василек в гостях. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+                        "identifier": "",
                     },
                 ),
             ),
@@ -189,6 +193,7 @@ class ValidateTaskObjectsTests(unittest.TestCase):
                         "price": 1,
                         "title": "Убери мусор",
                         "hint": "Убери мусор.",
+                        "identifier": "",
                     },
                 )
             ),
@@ -214,8 +219,9 @@ class ValidateTaskObjectsTests(unittest.TestCase):
                         "in_guest": 1,
                         "amount": 1,
                         "price": 1,
-                        "title": "Убери мусор",
-                        "hint": "Убери мусор.",
+                        "title": "Убери мусор Пепел в гостях",
+                        "hint": "Убери мусор Пепел в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Котельная.",
+                        "identifier": "",
                     },
                 )
             ),
@@ -241,7 +247,8 @@ class ValidateTaskObjectsTests(unittest.TestCase):
                         "amount": 1,
                         "price": 1,
                         "title": "Собери Василек в гостях",
-                        "hint": "Собирай Василек в гостях.",
+                        "hint": "Собирай Василек в гостях. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+                        "identifier": "",
                     },
                 )
             ),
@@ -297,6 +304,139 @@ class ValidateTaskObjectsTests(unittest.TestCase):
 
         codes = [error["code"] for error in validation["errors"]]
         self.assertIn("unknown_location_in_hint", codes)
+
+    def test_reports_strict_dialog_hint_mismatch(self) -> None:
+        validation = validate_filled_tasks(
+            filled_tasks(
+                filled_task(
+                    1,
+                    "TT-001",
+                    "Диалог",
+                    "action dialog",
+                    None,
+                    {
+                        "type": "action",
+                        "icon": "Event_2026_Character_1",
+                        "action": "Event_2026_Character_1_Dialog_1",
+                        "title": "Поговори с Домовенком",
+                        "hint": "Поговори с Домовенком и узнай, что случилось.",
+                        "go_to_location": [{"classname": "Event_2026_Character_1"}],
+                        "identifier": "",
+                    },
+                    dialogue_replica="Посмотри, где начинается этот странный переполох.",
+                )
+            ),
+            context_pack(),
+            templates(),
+        )
+
+        codes = [error["code"] for error in validation["errors"]]
+        self.assertIn("strict_template_text_mismatch", codes)
+
+    def test_accepts_feminine_dialog_pronouns(self) -> None:
+        task = filled_task(
+            1,
+            "TT-001",
+            "Диалог",
+            "action dialog",
+            None,
+            {
+                "type": "action",
+                "icon": "Event_2026_Character_1",
+                "action": "Event_2026_Character_1_Dialog_1",
+                "title": "Поговори с Царевной Несмияной",
+                "hint": "Поговори с Царевной Несмияной. Для этого просто кликни на неё. Она находится в Котельная.",
+                "go_to_location": [{"classname": "Event_2026_Character_1"}],
+                "identifier": "",
+            },
+            dialogue_replica="Ах, домовёнок, помоги мне разобраться с этим переполохом.",
+        )
+        validation = validate_filled_tasks(
+            {
+                "quests": [
+                    {
+                        "classname_quests": "Event_2026_Story_1",
+                        "title_quest": "Проверка",
+                        "quest_number": 1,
+                        "character": "Царевна Несмияна",
+                        "tasks": [task],
+                    }
+                ]
+            },
+            {
+                **context_pack(),
+                "quests": [
+                    {
+                        **context_pack()["quests"][0],
+                        "tasks": [
+                            {
+                                "task_number": 1,
+                                "task_template_id": "TT-001",
+                                "candidate_domain": None,
+                                "candidates": [],
+                            },
+                            *context_pack()["quests"][0]["tasks"][1:],
+                        ],
+                    }
+                ],
+            },
+            templates(),
+        )
+
+        self.assertEqual(validation["summary"]["errors"], 0)
+
+    def test_rejects_masculine_pronouns_for_feminine_dialog(self) -> None:
+        task = filled_task(
+            1,
+            "TT-001",
+            "Диалог",
+            "action dialog",
+            None,
+            {
+                "type": "action",
+                "icon": "Event_2026_Character_1",
+                "action": "Event_2026_Character_1_Dialog_1",
+                "title": "Поговори с Царевной Несмияной",
+                "hint": "Поговори с Царевной Несмияной. Для этого просто кликни на него. Он находится в Котельная.",
+                "go_to_location": [{"classname": "Event_2026_Character_1"}],
+                "identifier": "",
+            },
+            dialogue_replica="Ах, домовёнок, помоги мне разобраться с этим переполохом.",
+        )
+        validation = validate_filled_tasks(
+            {
+                "quests": [
+                    {
+                        "classname_quests": "Event_2026_Story_1",
+                        "title_quest": "Проверка",
+                        "quest_number": 1,
+                        "character": "Царевна Несмияна",
+                        "tasks": [task],
+                    }
+                ]
+            },
+            {
+                **context_pack(),
+                "quests": [
+                    {
+                        **context_pack()["quests"][0],
+                        "tasks": [
+                            {
+                                "task_number": 1,
+                                "task_template_id": "TT-001",
+                                "candidate_domain": None,
+                                "candidates": [],
+                            },
+                            *context_pack()["quests"][0]["tasks"][1:],
+                        ],
+                    }
+                ],
+            },
+            templates(),
+        )
+
+        codes = [error["code"] for error in validation["errors"]]
+        self.assertIn("strict_template_text_mismatch", codes)
 
     def test_reports_missing_dialogue_replica(self) -> None:
         validation = validate_filled_tasks(
@@ -376,7 +516,8 @@ class ValidateTaskObjectsTests(unittest.TestCase):
                         "amount": 1,
                         "price": 1,
                         "title": "Убери мусор Пепел в гостях",
-                        "hint": "Убери мусор Пепел в гостях.",
+                        "hint": "Убери мусор Пепел в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Котельная.",
+                        "identifier": "",
                     },
                 ),
                 filled_task(
@@ -509,6 +650,7 @@ class ValidateTaskObjectsTests(unittest.TestCase):
                                     "price": 1,
                                     "title": "Найди Латунную стрелку",
                                     "hint": "Убирай мусор Пепел в гостях, чтобы найти. Место поиска: Котельная.",
+                                    "identifier": "",
                                 },
                             )
                         ],
@@ -581,6 +723,262 @@ class ValidateTaskObjectsTests(unittest.TestCase):
         codes = [error["code"] for error in validation["errors"]]
         self.assertIn("generated_item_not_visualizable", codes)
 
+    def test_reports_strict_ask_hint_mismatch(self) -> None:
+        ask_context = {
+            "quests": [
+                {
+                    "classname_quests": "Event_2026_Story_1",
+                    "quest_number": 1,
+                    "tasks": [
+                        {
+                            "task_number": 1,
+                            "task_template_id": "TT-008",
+                            "candidate_domain": None,
+                            "candidates": [],
+                        }
+                    ],
+                }
+            ]
+        }
+        validation = validate_filled_tasks(
+            {
+                "quests": [
+                    {
+                        "classname_quests": "Event_2026_Story_1",
+                        "quest_number": 1,
+                        "tasks": [
+                            filled_task(
+                                1,
+                                "TT-008",
+                                "Получить ASK",
+                                "get_asset ASK",
+                                None,
+                                {
+                                    "type": "get_asset",
+                                    "classname": "Event_2026_ASK_1",
+                                    "icon": "Event_2026_ASK_1",
+                                    "amount": 1,
+                                    "price": 1,
+                                    "title": "Попроси у друзей Барабанные палочки",
+                                    "hint": "Попроси у друзей Барабанные палочки для парада.",
+                                    "identifier": "",
+                                },
+                            )
+                        ],
+                    }
+                ]
+            },
+            ask_context,
+            templates(),
+        )
+
+        codes = [error["code"] for error in validation["errors"]]
+        self.assertIn("strict_template_text_mismatch", codes)
+
+    def test_reports_strict_hog_search_action_mismatch(self) -> None:
+        hog_context = {
+            "quests": [
+                {
+                    "classname_quests": "Event_2026_Story_1",
+                    "quest_number": 1,
+                    "tasks": [
+                        {
+                            "task_number": 1,
+                            "task_template_id": "TT-004",
+                            "candidate_domain": None,
+                            "candidates": [],
+                        },
+                        {
+                            "task_number": 2,
+                            "task_template_id": "TT-020",
+                            "candidate_domain": "garbage",
+                            "candidates": [
+                                {
+                                    "candidate_id": "garbage:Ashes",
+                                    "garbage_classname": "Ashes",
+                                    "garbage_title": "Пепел",
+                                    "locations": [{"code": "loc1", "title": "Котельная"}],
+                                }
+                            ],
+                        },
+                    ],
+                }
+            ]
+        }
+        validation = validate_filled_tasks(
+            {
+                "quests": [
+                    {
+                        "classname_quests": "Event_2026_Story_1",
+                        "quest_number": 1,
+                        "tasks": [
+                            filled_task(
+                                1,
+                                "TT-004",
+                                "HOG на локации",
+                                "HOG clean_debris location",
+                                None,
+                                {
+                                    "type": "action",
+                                    "action": "clean_debris",
+                                    "param": "Event_2026_HOG_1",
+                                    "search_action": "clean_debris",
+                                    "after_buy_actions": [{"do": "remove_stuff", "classname": "Event_2026_HOG_1"}],
+                                    "amount": 1,
+                                    "price": 1,
+                                    "title": "Найди латунный ключ",
+                                    "hint": "Найди латунный ключ. Место поиска: Котельная. Если найти все не удаётся, можно купить подсказку.",
+                                    "identifier": "",
+                                },
+                            )
+                        ],
+                    }
+                ]
+            },
+            hog_context,
+            templates(),
+        )
+
+        codes = [error["code"] for error in validation["errors"]]
+        self.assertIn("strict_hog_search_action_mismatch", codes)
+
+    def test_reports_mystery_answer_leaked(self) -> None:
+        mystery_context = {
+            "quests": [
+                {
+                    "classname_quests": "Event_2026_Story_1",
+                    "quest_number": 1,
+                    "tasks": [
+                        {
+                            "task_number": 1,
+                            "task_template_id": "TT-024",
+                            "candidate_domain": "garbage",
+                            "candidates": [
+                                {
+                                    "candidate_id": "garbage:WarmBlanket",
+                                    "garbage_classname": "WarmBlanket",
+                                    "garbage_title": "Тёплое покрывало",
+                                    "locations": [{"code": "loc1", "title": "Котельная"}],
+                                }
+                            ],
+                        }
+                    ],
+                }
+            ]
+        }
+        validation = validate_filled_tasks(
+            {
+                "quests": [
+                    {
+                        "classname_quests": "Event_2026_Story_1",
+                        "quest_number": 1,
+                        "tasks": [
+                            filled_task(
+                                1,
+                                "TT-024",
+                                "Загадка на мусор в гостях",
+                                "garbage classname in_guest mystery",
+                                "garbage:WarmBlanket",
+                                {
+                                    "type": "garbage",
+                                    "classname": "WarmBlanket",
+                                    "in_guest": 1,
+                                    "is_hide": 1,
+                                    "amount": 1,
+                                    "price": 1,
+                                    "title": "Загадка, мусор в гостях",
+                                    "hint": "Ищи Тёплое покрывало у друзей, это ответ на загадку.",
+                                    "identifier": "",
+                                },
+                            )
+                        ],
+                    }
+                ]
+            },
+            mystery_context,
+            templates(),
+        )
+
+        codes = [error["code"] for error in validation["errors"]]
+        self.assertIn("mystery_answer_leaked", codes)
+
+    def test_reports_generic_resource_reason_in_craft_quest(self) -> None:
+        craft_context = {
+            "quests": [
+                {
+                    "classname_quests": "Event_2026_Story_1",
+                    "quest_number": 1,
+                    "tasks": [
+                        {
+                            "task_number": 1,
+                            "task_template_id": "TT-008",
+                            "candidate_domain": None,
+                            "candidates": [],
+                        },
+                        {
+                            "task_number": 2,
+                            "task_template_id": "TT-002",
+                            "candidate_domain": None,
+                            "candidates": [],
+                        },
+                    ],
+                }
+            ]
+        }
+        resource_task = filled_task(
+            1,
+            "TT-008",
+            "Получить ASK",
+            "get_asset ASK",
+            None,
+            {
+                "type": "get_asset",
+                "classname": "Event_2026_ASK_1",
+                "icon": "Event_2026_ASK_1",
+                "amount": 1,
+                "price": 1,
+                "title": "Попроси у друзей Парадный колокольчик",
+                "hint": "Попроси у друзей или купи.",
+                "identifier": "",
+            },
+        )
+        resource_task["choice_reason"] = "ASK превращает подготовку парада в социальную просьбу к друзьям."
+        validation = validate_filled_tasks(
+            {
+                "quests": [
+                    {
+                        "classname_quests": "Event_2026_Story_1",
+                        "quest_number": 1,
+                        "tasks": [
+                            resource_task,
+                            filled_task(
+                                2,
+                                "TT-002",
+                                "Крафт",
+                                "get_and_decrease_asset craft",
+                                None,
+                                {
+                                    "type": "get_and_decrease_asset",
+                                    "classname": "Event_2026_R_1",
+                                    "icon": "Event_2026_R_1",
+                                    "amount": 1,
+                                    "title": "Создай Парадный барабан",
+                                    "go_to_location": [{"classname": "Event_2026_Workbench_1"}],
+                                    "hint": "Для создания используй Станок.",
+                                    "identifier": "",
+                                },
+                            ),
+                        ],
+                    }
+                ]
+            },
+            craft_context,
+            templates(),
+        )
+
+        codes = [error["code"] for error in validation["errors"]]
+        self.assertIn("craft_resource_reason_too_generic", codes)
+
     def test_cli_writes_validation_outputs(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -605,7 +1003,8 @@ class ValidateTaskObjectsTests(unittest.TestCase):
                                 "amount": 1,
                                 "price": 1,
                                 "title": "Убери мусор Пепел в гостях",
-                                "hint": "Убери мусор Пепел в гостях.",
+                                "hint": "Убери мусор Пепел в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Котельная.",
+                                "identifier": "",
                             },
                         )
                     ),

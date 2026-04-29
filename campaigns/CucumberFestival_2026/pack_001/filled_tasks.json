@@ -1,0 +1,215 @@
+{
+  "quests": [
+    {
+      "classname_quests": "CucumberFestival_2026_Story_1",
+      "title_quest": "Слёзы в рассоле",
+      "quest_number": 1,
+      "description": "Ах, домовёнок... Какой уж тут Праздник огурца, когда главный огурец исчез, пьедестал пустует, а рассол булькает так печально, будто тоже собирается плакать. Я готовила торжественную речь, но теперь в ней остались одни вздохи. Помоги мне разобраться, что случилось, пока я не объявила этот день Днём Великой Зелёной Печали.",
+      "congratulation": "Хм... Значит, огурец не просто укатился от скуки. Следы есть, порядок частично восстановлен, а рассол уже не так трагично вздыхает. Спасибо тебе, домовёнок. Я, конечно, ещё не улыбаюсь, но один уголок губ уже подозрительно дрогнул.",
+      "character": "Царевна Несмияна",
+      "tasks": [
+        {
+          "task_number": 1,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "choice_reason": "Стартовый диалог задает проблему пропавшего Главного Огурца и печальный тон Несмияны.",
+          "dialogue_replica": "Ах, домовёнок... Главный огурец исчез, пьедестал пустует, а рассол булькает печальнее меня. Помоги найти следы, пока праздник не стал Днём Великой Зелёной Печали.",
+          "task_object": {
+            "type": "action",
+            "icon": "CucumberFestival_2026_Character_1",
+            "action": "CucumberFestival_2026_Character_1_Dialog_1",
+            "title": "Поговори с Царевной Несмияной",
+            "hint": "Поговори с Царевной Несмияной. Для этого просто кликни на неё. Она находится в Оранжерея.",
+            "go_to_location": [
+              {
+                "classname": "CucumberFestival_2026_Character_1"
+              }
+            ],
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 2,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "HOG ищет конкретный спрятанный предмет: огуречный значок как первую улику у пустого пьедестала.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "CucumberFestival_2026_HOG_1",
+            "search_action": "search_CucumberFestival_2026_HOG_1",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "CucumberFestival_2026_HOG_1"
+              }
+            ],
+            "amount": 1,
+            "price": 1,
+            "title": "Найди огуречный значок",
+            "hint": "Найди огуречный значок. Место поиска: Оранжерея. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 3,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "selected_candidate_id": "garbage:Cucumber",
+          "choice_reason": "Надкусанный огурец напрямую поддерживает тему пропажи Главного Огурца и доступен в гостях не на world-локации.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "Cucumber",
+            "in_guest": 1,
+            "amount": 1,
+            "price": 1,
+            "title": "Убери мусор Надкусанный огурец в гостях",
+            "hint": "Убери мусор Надкусанный огурец в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Оранжерея.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_2",
+      "title_quest": "Парад зелёного хруста",
+      "quest_number": 2,
+      "description": "Друг мой домовёнок! Праздник без ритма - это просто собрание грустных тарелок! Мы сделаем парад зелёного хруста: ленты, барабаны, шаг налево, хруст направо! Правда, ленты почему-то уже обняли всё вокруг, а барабанщики маршируют каждый в свою сторону. Поможешь собрать праздник в один весёлый ритм?",
+      "congratulation": "Вот теперь другое дело! Ленты висят красиво, парад идёт ровно, а хруст звучит как музыка. Я видел, как Несмияна почти улыбнулась, а это, друг мой, победа громче любого барабана! Осталось только найти Главный Огурец, и праздник засияет совсем.",
+      "character": "Чинг",
+      "tasks": [
+        {
+          "task_number": 4,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "selected_candidate_id": null,
+          "choice_reason": "Мы крафтим Парадный барабан для парада. Попросим у друзей барабанные палочки как прямую часть барабана.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberFestival_2026_ASK_1",
+            "icon": "CucumberFestival_2026_ASK_1",
+            "amount": 1,
+            "price": 1,
+            "title": "Попроси у друзей Барабанные палочки",
+            "hint": "Попроси у друзей или купи.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 5,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower",
+          "selected_candidate_id": "flower:FlowerCvetikSemicvetik",
+          "choice_reason": "Мы крафтим Парадный барабан, а парадная лента нужна как видимая декоративная часть барабана.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberFestival_2026_GR_1",
+            "icon": "CucumberFestival_2026_GR_1",
+            "amount": 1,
+            "price": 1,
+            "title": "Получи Парадную ленту",
+            "hint": "Собирай цветы Цветик-семицветик в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 6,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "ASK и GR дают части итогового предмета: барабанные палочки и парадная лента нужны для Парадного барабана.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "CucumberFestival_2026_R_1",
+            "icon": "CucumberFestival_2026_R_1",
+            "amount": 1,
+            "price": 1,
+            "title": "Создай Парадный барабан",
+            "go_to_location": [
+              {
+                "classname": "CucumberFestival_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_3",
+      "title_quest": "Дело о Главном Огурце",
+      "quest_number": 3,
+      "description": "Мяу. Прошу сохранять спокойствие и не наступать на улики, даже если они похожи на обычные капли рассола. Перед нами дело исключительной важности: Главный Огурец исчез, бочка булькает с явным умыслом, а где-то за кулисами раздаётся подозрительный хруст. Домовёнок, ты назначаешься младшим помощником детектива. Начинаем расследование.",
+      "congratulation": "Дело закрыто. Главный Огурец возвращён, улики улеглись по местам, а подозрительный хруст получил официальное объяснение. Признаю: для существа без усов ты проявил редкую наблюдательность. Праздник спасён, пьедестал занят, а я заслужил минуту славы и тёплое место у бочки.",
+      "character": "Кот Детектив Котовски",
+      "tasks": [
+        {
+          "task_number": 7,
+          "task_template_id": "TT-024",
+          "task_template_name": "Загадка на мусор в гостях",
+          "task_type": "garbage classname in_guest mystery",
+          "selected_candidate_id": "garbage:Garbage_WarmBlanket",
+          "choice_reason": "Мягкая домашняя вещь выглядит как странная улика у бочки и не конфликтует с коллекцией следующего task.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "Garbage_WarmBlanket",
+            "in_guest": 1,
+            "is_hide": 1,
+            "amount": 1,
+            "price": 1,
+            "title": "Загадка, мусор в гостях",
+            "hint": "На кресле тихо я лежу, узором мягко сторожу. Меня заметишь у друзей - и станет улика чуть ясней.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 8,
+          "task_template_id": "TT-026",
+          "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection mystery",
+          "selected_candidate_id": "collection_drop:CucumberCollection1:Cucumber:home",
+          "choice_reason": "Коллекционный предмет из Надкусанного огурца напрямую связан с пропажей Главного Огурца и не использует тот же мусор, что task 7.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberCollection1",
+            "icon": "CucumberCollection1",
+            "is_hide": 1,
+            "amount": 1,
+            "price": 1,
+            "title": "Загадка, предмет из коллекции",
+            "hint": "В стекле молчу, но вкус храню, кислинкой праздник оживлю. Кто след зелёный разберёт, тот мой секрет в коллекции найдёт.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 9,
+          "task_template_id": "TT-022",
+          "task_template_name": "Загадка на цветок в гостях",
+          "task_type": "action take_crop_in_guest mystery",
+          "selected_candidate_id": "flower:FlowerLaysPotato",
+          "choice_reason": "Цветочный кандидат добавляет комичную ложную улику к подозрительному хрусту, не раскрывая ответ игроку.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerLaysPotato",
+            "is_hide": 1,
+            "amount": 1,
+            "price": 1,
+            "title": "Загадка, цветы в гостях у друга",
+            "hint": "В земле кругляш секретный спит, над ним зелёный куст стоит. Кто горшок у друга соберёт, тот хрусту след смешной найдёт.",
+            "identifier": ""
+          }
+        }
+      ]
+    }
+  ]
+}

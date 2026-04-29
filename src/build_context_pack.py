@@ -36,6 +36,7 @@ DEFAULT_OUTPUT_PREVIEW_PATH = PROJECT_ROOT / "output" / "context_pack.preview.md
 DEFAULT_HISTORY_PATH = PROJECT_ROOT / "output" / "context_candidate_history.json"
 DEFAULT_CANDIDATE_LIMIT = 12
 REQUIRED_APPROVAL_STAGE = "3"
+WORLD_LOCATION_TAG = "world"
 
 
 STOPWORDS = {
@@ -121,6 +122,14 @@ def compact_locations(locations: list[dict[str, Any]], limit: int = 4) -> list[d
     return compact
 
 
+def location_has_tag(location: dict[str, Any], tag: str) -> bool:
+    return tag.lower() in {str(item).lower() for item in location.get("tags") or []}
+
+
+def has_world_location(locations: list[dict[str, Any]]) -> bool:
+    return any(location_has_tag(location, WORLD_LOCATION_TAG) for location in locations)
+
+
 def build_locations_by_garbage(locations: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
     result: dict[str, list[dict[str, Any]]] = {}
     for location in locations.values():
@@ -146,7 +155,8 @@ def make_garbage_candidates(quest_ready_index: dict[str, Any]) -> list[dict[str,
     for garbage in quest_ready_index.get("quest_ready_garbage", {}).values():
         classname = garbage.get("classname")
         title = garbage.get("title")
-        locations = compact_locations(locations_by_garbage.get(classname, []))
+        all_locations = locations_by_garbage.get(classname, [])
+        locations = compact_locations(all_locations)
         if not classname or not title or not locations:
             continue
         candidates.append(
@@ -157,6 +167,7 @@ def make_garbage_candidates(quest_ready_index: dict[str, Any]) -> list[dict[str,
                 "garbage_title": title,
                 "garbage_id": garbage.get("id"),
                 "locations": locations,
+                "has_world_location": has_world_location(all_locations),
                 "search_text": " ".join(
                     [
                         str(classname),
@@ -205,7 +216,8 @@ def make_collection_drop_candidates(quest_ready_drops: list[dict[str, Any]]) -> 
         if key in seen:
             continue
         seen.add(key)
-        locations = compact_locations(drop.get("locations") or [])
+        all_locations = drop.get("locations") or []
+        locations = compact_locations(all_locations)
         candidates.append(
             {
                 "candidate_id": key,
@@ -218,6 +230,7 @@ def make_collection_drop_candidates(quest_ready_drops: list[dict[str, Any]]) -> 
                 "source_title": drop.get("source_title"),
                 "mode": mode,
                 "locations": locations,
+                "has_world_location": has_world_location(all_locations),
                 "search_text": " ".join(
                     [
                         str(collection_classname),
@@ -242,7 +255,8 @@ def make_gr_garbage_candidates(quest_ready_drops: list[dict[str, Any]]) -> list[
         source_classname = drop.get("source_classname")
         source_title = drop.get("source_title")
         mode = drop.get("mode")
-        locations = compact_locations(drop.get("locations") or [])
+        all_locations = drop.get("locations") or []
+        locations = compact_locations(all_locations)
         if not source_classname or not source_title or not locations:
             continue
         key = candidate_id("gr_garbage", source_classname, mode)
@@ -255,6 +269,7 @@ def make_gr_garbage_candidates(quest_ready_drops: list[dict[str, Any]]) -> list[
                 "garbage_title": source_title,
                 "mode": mode,
                 "locations": locations,
+                "has_world_location": has_world_location(all_locations),
                 "example_drops": [],
                 "search_text": " ".join(
                     [
@@ -267,6 +282,7 @@ def make_gr_garbage_candidates(quest_ready_drops: list[dict[str, Any]]) -> list[
                 ),
             },
         )
+        candidate["has_world_location"] = bool(candidate.get("has_world_location") or has_world_location(all_locations))
         if len(candidate["example_drops"]) < 3:
             candidate["example_drops"].append(
                 {
@@ -457,13 +473,42 @@ def domain_for_task(task: dict[str, Any]) -> str | None:
     return None
 
 
+def is_guest_task(task: dict[str, Any]) -> bool:
+    return "in_guest" in normalize_text(task.get("task_type"))
+
+
+def candidate_is_world_garbage_related(candidate: dict[str, Any]) -> bool:
+    if not candidate.get("has_world_location"):
+        return False
+    domain = candidate.get("domain")
+    if domain in {"garbage", "gr_garbage"}:
+        return True
+    return domain == "collection_drop" and candidate.get("source_type") == "garbage"
+
+
+def apply_guest_world_guardrail(
+    pool: list[dict[str, Any]],
+    task: dict[str, Any],
+) -> tuple[list[dict[str, Any]], list[str]]:
+    if not is_guest_task(task):
+        return pool, []
+
+    filtered = [candidate for candidate in pool if not candidate_is_world_garbage_related(candidate)]
+    excluded = len(pool) - len(filtered)
+    if excluded == 0:
+        return filtered, []
+    return filtered, [
+        f"Guest/world guardrail excluded {excluded} garbage or collection candidates tied to world locations."
+    ]
+
+
 def filtered_pool_for_task(domain: str, pools: dict[str, list[dict[str, Any]]], task: dict[str, Any]) -> list[dict[str, Any]]:
     pool = list(pools.get(domain, []))
     task_type = normalize_text(task.get("task_type"))
     if domain in {"collection_drop", "gr_garbage"}:
         if "in_guest" in task_type:
             guest_pool = [candidate for candidate in pool if candidate.get("mode") == "guest"]
-            return guest_pool or pool
+            return guest_pool
         if "in_guest" not in task_type and "mystery" not in task_type and "is_silhouette" not in task_type:
             home_pool = [candidate for candidate in pool if candidate.get("mode") == "home"]
             return home_pool or pool
@@ -565,6 +610,8 @@ def build_context_pack(
                 pool = filtered_pool_for_task(domain, pools, task)
                 pool, prefer_ids, override_notes, override_issues = apply_manual_candidate_filters(pool, manual_override)
                 context_task["notes"].extend(override_notes)
+                pool, guest_world_notes = apply_guest_world_guardrail(pool, task)
+                context_task["notes"].extend(guest_world_notes)
                 _avoid_ids, _prefer_ids, force_id = candidate_override_sets(manual_override)
                 pool, campaign_notes = apply_campaign_memory_filters(pool, campaign_memory, force_candidate_id=force_id)
                 context_task["notes"].extend(campaign_notes)

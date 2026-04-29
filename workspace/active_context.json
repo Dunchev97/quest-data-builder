@@ -1,16 +1,16 @@
 {
   "version": 1,
-  "mode": "quest_generation",
-  "mode_name_ru": "Генерация квестов",
+  "mode": "csv_export",
+  "mode_name_ru": "CSV-экспорт",
   "campaign_id": "CucumberFestival_2026",
   "pack_id": "pack_001",
-  "stage": "3",
+  "stage": "6",
   "quest_number": null,
   "task_number": null,
   "source": "manual",
   "last_request": "",
   "matched_keywords": [],
-  "notes": "Stage 3 quest plan generated and resolved. Awaiting user approval before stage 3.1 context_pack.",
+  "notes": "Stage 6 CSV exported successfully and campaign memory updated.",
   "stage_approvals": {
     "1": {
       "approved": true,
@@ -25,7 +25,35 @@
       "campaign_id": "CucumberFestival_2026",
       "pack_id": "pack_001",
       "notes": "Пользователь утвердил этап 2 и запросил этап 3."
+    },
+    "3": {
+      "approved": true,
+      "approved_at": "2026-04-29T05:21:50.874462+00:00",
+      "campaign_id": "CucumberFestival_2026",
+      "pack_id": "pack_001",
+      "notes": "User asked to continue current content step 3.1; treating this as explicit approval of stage 3 quest plan."
+    },
+    "3.1": {
+      "approved": true,
+      "approved_at": "2026-04-29T05:43:09.849182+00:00",
+      "campaign_id": "CucumberFestival_2026",
+      "pack_id": "pack_001",
+      "notes": "User approved stage 3.1 and requested transition to stage 4."
+    },
+    "4": {
+      "approved": true,
+      "approved_at": "2026-04-29T06:50:31.448738+00:00",
+      "campaign_id": "CucumberFestival_2026",
+      "pack_id": "pack_001",
+      "notes": "User approved corrected stage 4 and requested stage 5."
+    },
+    "5": {
+      "approved": true,
+      "approved_at": "2026-04-29T06:54:28.748690+00:00",
+      "campaign_id": "CucumberFestival_2026",
+      "pack_id": "pack_001",
+      "notes": "User approved stage 5 after plain-language rewrite and requested stage 6 CSV export."
     }
   },
-  "updated_at": "2026-04-28T21:31:17.095398+00:00"
+  "updated_at": "2026-04-29T06:55:21.474712+00:00"
 }

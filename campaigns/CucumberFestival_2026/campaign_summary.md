@@ -17,16 +17,16 @@ Next pack number: 2
 
 ## Memory Counts
 
-- used garbage: 0
-- used collections: 0
-- used flowers: 0
-- used locations: 0
-- used generated assets: 0
-- used task templates: 0
+- used garbage: 2
+- used collections: 1
+- used flowers: 2
+- used locations: 2
+- used generated assets: 5
+- used task templates: 9
 
 ## Recent Used Examples
 
-- garbage: нет
-- collections: нет
-- flowers: нет
-- locations: нет
+- garbage: Cucumber, Garbage_WarmBlanket
+- collections: CucumberCollection1
+- flowers: FlowerCvetikSemicvetik, FlowerLaysPotato
+- locations: Оранжерея, Цветущий балкон

@@ -62,6 +62,34 @@ def sample_drops() -> list[dict[str, object]]:
     ]
 
 
+def sample_world_index_and_drops() -> tuple[dict[str, object], list[dict[str, object]]]:
+    index = sample_quest_ready_index()
+    index["quest_ready_locations"]["world1"] = {
+        "code": "world1",
+        "title": "Двор Чинга",
+        "tags": ["world", "daily_world"],
+        "garbage_assets": ["WorldShard"],
+    }
+    index["quest_ready_garbage"]["WorldShard"] = {
+        "classname": "WorldShard",
+        "title": "Мировой осколок",
+        "id": 6,
+    }
+    drops = [
+        *sample_drops(),
+        {
+            "source_type": "garbage",
+            "source_classname": "WorldShard",
+            "source_title": "Мировой осколок",
+            "collection_classname": "WorldShardCollection1",
+            "collection_title": "Мировой сувенир",
+            "mode": "guest",
+            "locations": [{"code": "world1", "title": "Двор Чинга", "tags": ["world", "daily_world"]}],
+        },
+    ]
+    return index, drops
+
+
 def resolved_plan(tasks: list[dict[str, object]]) -> dict[str, object]:
     return {
         "quests": [
@@ -291,6 +319,34 @@ class BuildContextPackTests(unittest.TestCase):
         self.assertEqual(tasks[1]["candidate_domain"], "flower")
         self.assertIn("collection_classname", tasks[0]["candidates"][0])
         self.assertIn("flower_classname", tasks[1]["candidates"][0])
+
+    def test_guest_tasks_exclude_world_location_garbage_and_collections(self) -> None:
+        index, drops = sample_world_index_and_drops()
+
+        context_pack, _emitted = build_context_pack(
+            resolved_plan(
+                [
+                    task(1, "TT-020", "Уборка конкретного мусора в гостях", "garbage classname in_guest", "garbage"),
+                    task(2, "TT-026", "Загадка на коллекцию в гостях", "get_asset Collection in_guest", "collection"),
+                    task(3, "TT-021", "Уборка конкретного мусора дома", "garbage classname", "garbage"),
+                ]
+            ),
+            index,
+            drops,
+            {"version": 1, "candidate_counts": {}, "runs": []},
+            candidate_limit=10,
+        )
+
+        tasks = context_pack["quests"][0]["tasks"]
+        guest_garbage_ids = {candidate["garbage_classname"] for candidate in tasks[0]["candidates"]}
+        guest_collection_sources = {candidate["source_classname"] for candidate in tasks[1]["candidates"]}
+        home_garbage_ids = {candidate["garbage_classname"] for candidate in tasks[2]["candidates"]}
+
+        self.assertNotIn("WorldShard", guest_garbage_ids)
+        self.assertNotIn("WorldShard", guest_collection_sources)
+        self.assertIn("WorldShard", home_garbage_ids)
+        self.assertTrue(any("Guest/world guardrail excluded" in note for note in tasks[0]["notes"]))
+        self.assertTrue(any("Guest/world guardrail excluded" in note for note in tasks[1]["notes"]))
 
     def test_applies_manual_avoid_and_prefer_candidates(self) -> None:
         overridden_task = task(

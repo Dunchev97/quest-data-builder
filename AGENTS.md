@@ -16,6 +16,13 @@
 - `workflows/WORKFLOW_GUIDE.md` - порядок работы по этапам 1-6.
 - `workflows/workflow_modes.json` - ключевики и режимы для `workflow_context.py`.
 
+## Локальная среда и скорость
+
+- Не использовать `rg`: в этой среде `rg.exe` стабильно падает с `Access is denied`.
+- Для поиска по файлам использовать PowerShell: `Get-ChildItem ... | Select-String ...`.
+- Не тратить время на очистку `__pycache__/` и `*.pyc` после каждого запуска скриптов или тестов.
+- `__pycache__/` и `*.pyc` не являются контентными артефактами; их не коммитить и чистить только перед commit/release или по явной просьбе пользователя.
+
 ## Active Context
 
 Если пользователь спрашивает про текущую сессию, campaign, pack, stage, quest, task, выбранные шаблоны, текущий CSV или `quest_group`, сначала читать:
@@ -74,6 +81,7 @@ campaigns/<campaign_id>/<pack_id>/generated_quests.csv
 - ИИ отвечает за творческие решения: сюжет, реплики, выбор task types, заполнение task objects по контексту, тексты quest group.
 - Код отвечает за guardrails: parsing, context pack, validation, approval gates, CSV export, campaign memory.
 - Не выдумывать игровые факты. Classname, title, location, collection, garbage, flower и связи должны приходить из parsed/generated/quest-ready data.
+- Для задач `in_guest` нельзя предлагать мусор, локации, `collection_drop` или `gr_garbage`, привязанные к локациям с тегом `world`; такие кандидаты допустимы только для домашних задач.
 
 ## Проверки
 
@@ -83,4 +91,4 @@ campaigns/<campaign_id>/<pack_id>/generated_quests.csv
 python -m unittest discover -s tests
 ```
 
-Не оставлять `__pycache__`/`*.pyc` как осознанные изменения.
+Не коммитить `__pycache__`/`*.pyc`.

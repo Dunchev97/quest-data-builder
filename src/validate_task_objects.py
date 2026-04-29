@@ -193,6 +193,105 @@ CONCRETE_ITEM_ANCHORS = {
     "барометр",
 }
 
+STRICT_IDENTIFIER_TEMPLATES = {f"TT-{number:03d}" for number in range(1, 35)}
+HOG_TITLE_PREFIXES = ("Найди ", "Отыщи ", "Собери ", "Поймай ", "Верни ", "Забери ")
+MYSTERY_TITLES = {
+    "TT-022": "Загадка, цветы в гостях у друга",
+    "TT-023": "Загадка, цветы дома",
+    "TT-024": "Загадка, мусор в гостях",
+    "TT-025": "Загадка, мусор дома",
+    "TT-026": "Загадка, предмет из коллекции",
+}
+FIXED_TITLE_HINTS = {
+    "TT-028": (
+        "Угадай элемент коллекции",
+        "Угадай элемент коллекции и найди его дома или в гостях у друзей",
+    ),
+    "TT-029": (
+        "Угадай загаданный мусор",
+        "Угадай загаданный мусор и убери его в гостях у друзей",
+    ),
+    "TT-030": (
+        "Угадай загаданный мусор и убери его дома",
+        "Угадай загаданный мусор и убери его дома",
+    ),
+    "TT-031": (
+        "Угадай загаданный цветок",
+        "Угадай загаданный цветок и собери его в гостях у друга",
+    ),
+    "TT-032": (
+        "Угадай загаданный цветок и собери его дома",
+        "Угадай загаданный цветок и собери его дома",
+    ),
+}
+FEMALE_CHARACTER_MARKERS = {
+    "баба",
+    "бабушка",
+    "ведьма",
+    "госпожа",
+    "девочка",
+    "королева",
+    "леди",
+    "мама",
+    "мать",
+    "несмияна",
+    "принцесса",
+    "русалка",
+    "сестра",
+    "снегурочка",
+    "тетя",
+    "тётя",
+    "фея",
+    "царевна",
+}
+MALE_CHARACTER_MARKERS = {
+    "брат",
+    "дед",
+    "дедушка",
+    "детектив",
+    "домоведом",
+    "домовенком",
+    "домовёнком",
+    "домовенок",
+    "домовёнок",
+    "кот",
+    "кролик",
+    "король",
+    "принц",
+}
+TITLE_WORD_STOPWORDS = {
+    "весь",
+    "все",
+    "всё",
+    "для",
+    "друг",
+    "друга",
+    "друзей",
+    "загадка",
+    "коллекции",
+    "мусор",
+    "найди",
+    "парадная",
+    "парадную",
+    "парадный",
+    "предмет",
+    "получи",
+    "попроси",
+    "создай",
+    "цветы",
+}
+CRAFT_LINK_REASON_MARKERS = (
+    "крафт",
+    "созда",
+    "собира",
+    "част",
+    "детал",
+    "ингреди",
+    "рецепт",
+    "итог",
+    "состав",
+)
+
 
 def read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -575,6 +674,877 @@ def validate_location_references(
     ]
 
 
+def normalized_words(value: Any) -> set[str]:
+    normalized = str(value or "").lower().replace("ё", "е")
+    return set(re.findall(r"[а-яa-z0-9_]{3,}", normalized, flags=re.IGNORECASE))
+
+
+def significant_title_words(value: Any) -> set[str]:
+    return {
+        word
+        for word in normalized_words(value)
+        if len(word) >= 4 and word not in TITLE_WORD_STOPWORDS
+    }
+
+
+def dialogue_pronouns(quest: dict[str, Any], person: str) -> tuple[str, str]:
+    source = f"{quest.get('character') or ''} {person}".lower().replace("ё", "е")
+    words = set(re.findall(r"[а-яa-z]+", source, flags=re.IGNORECASE))
+    if words & FEMALE_CHARACTER_MARKERS:
+        return "неё", "Она"
+    if words & MALE_CHARACTER_MARKERS:
+        return "него", "Он"
+    character = str(quest.get("character") or "").strip().lower().replace("ё", "е")
+    if character.endswith(("а", "я")) and not character.endswith(("илья", "никита")):
+        return "неё", "Она"
+    return "него", "Он"
+
+
+def candidate_title_for_template(template_id: str, selected_candidate: dict[str, Any] | None) -> str:
+    if not selected_candidate:
+        return ""
+    if template_id in GARBAGE_TEMPLATES or template_id in {"TT-013", "TT-014", "TT-015"}:
+        return str(selected_candidate.get("garbage_title") or "")
+    if template_id in FLOWER_ACTION_TEMPLATES or template_id in {"TT-016", "TT-017"}:
+        return str(selected_candidate.get("flower_title") or "")
+    if template_id in COLLECTION_TEMPLATES:
+        return str(selected_candidate.get("collection_title") or "")
+    return ""
+
+
+def selected_location_text(selected_candidate: dict[str, Any] | None) -> str:
+    if not selected_candidate:
+        return ""
+    titles = [
+        str(location.get("title"))
+        for location in selected_candidate.get("locations", []) or []
+        if location.get("title")
+    ]
+    return ", ".join(titles)
+
+
+def split_location_text(location_text: str) -> list[str]:
+    return [part.strip() for part in location_text.split(",") if part.strip()]
+
+
+def validate_location_text(
+    location_text: str,
+    allowed_location_titles: set[str],
+    quest: dict[str, Any],
+    task: dict[str, Any],
+    code: str,
+) -> list[dict[str, Any]]:
+    locations = split_location_text(location_text)
+    unknown_locations = [location for location in locations if location not in allowed_location_titles and location != "Мир"]
+    if not unknown_locations:
+        return []
+    return [
+        issue(
+            "error",
+            code,
+            "Template location text must use exact real location titles from the context pack.",
+            quest,
+            task,
+            unknown_locations=unknown_locations,
+            allowed_location_titles=sorted(allowed_location_titles),
+        )
+    ]
+
+
+def strict_text_issue(
+    message: str,
+    quest: dict[str, Any],
+    task: dict[str, Any],
+    field: str,
+    expected: Any,
+    actual: Any,
+) -> dict[str, Any]:
+    return issue(
+        "error",
+        "strict_template_text_mismatch",
+        message,
+        quest,
+        task,
+        field=field,
+        expected=expected,
+        actual=actual,
+    )
+
+
+def validate_exact_text(
+    task_object: dict[str, Any],
+    quest: dict[str, Any],
+    task: dict[str, Any],
+    field: str,
+    expected: str,
+    message: str,
+) -> list[dict[str, Any]]:
+    actual = str(task_object.get(field) or "")
+    if actual == expected:
+        return []
+    return [strict_text_issue(message, quest, task, field, expected, actual)]
+
+
+def validate_identifier_blank(
+    task_object: dict[str, Any],
+    template_id: str,
+    quest: dict[str, Any],
+    task: dict[str, Any],
+) -> list[dict[str, Any]]:
+    if template_id not in STRICT_IDENTIFIER_TEMPLATES:
+        return []
+    if task_object.get("identifier") == "":
+        return []
+    return [
+        issue(
+            "error",
+            "strict_identifier_mismatch",
+            "Strict stage 4 templates must keep identifier as an empty string.",
+            quest,
+            task,
+            expected="",
+            actual=task_object.get("identifier"),
+        )
+    ]
+
+
+def validate_mystery_riddle_text(
+    task_object: dict[str, Any],
+    template_id: str,
+    answer_title: str,
+    quest: dict[str, Any],
+    task: dict[str, Any],
+) -> list[dict[str, Any]]:
+    issues: list[dict[str, Any]] = []
+    expected_title = MYSTERY_TITLES.get(template_id)
+    title = str(task_object.get("title") or "")
+    hint = str(task_object.get("hint") or "")
+
+    if expected_title and title != expected_title:
+        issues.append(
+            issue(
+                "error",
+                "strict_template_text_mismatch",
+                "Mystery title must keep the exact fixed template text.",
+                quest,
+                task,
+                field="title",
+                expected=expected_title,
+                actual=title,
+            )
+        )
+
+    if len(hint.strip()) < 40:
+        issues.append(
+            issue(
+                "error",
+                "mystery_hint_not_riddle",
+                "Mystery hint must be a real short riddle, not a bare instruction.",
+                quest,
+                task,
+                hint=hint,
+            )
+        )
+
+    if "Место поиска:" in hint:
+        issues.append(
+            issue(
+                "error",
+                "mystery_hint_has_location",
+                "Mystery hint must be a riddle and must not reveal a search location.",
+                quest,
+                task,
+                hint=hint,
+            )
+        )
+
+    forbidden_words = significant_title_words(answer_title)
+    leaked_words = sorted(forbidden_words & normalized_words(f"{title} {hint}"))
+    if leaked_words:
+        issues.append(
+            issue(
+                "error",
+                "mystery_answer_leaked",
+                "Mystery title/hint must not directly name the answer or obvious answer words.",
+                quest,
+                task,
+                answer_title=answer_title,
+                leaked_words=leaked_words,
+            )
+        )
+
+    return issues
+
+
+def validate_strict_stage4_templates(
+    task_object: dict[str, Any],
+    template_id: str,
+    selected_candidate: dict[str, Any] | None,
+    quest: dict[str, Any],
+    task: dict[str, Any],
+    allowed_location_titles: set[str],
+) -> list[dict[str, Any]]:
+    issues: list[dict[str, Any]] = []
+    issues.extend(validate_identifier_blank(task_object, template_id, quest, task))
+
+    title = str(task_object.get("title") or "")
+    hint = str(task_object.get("hint") or "")
+
+    if template_id == "TT-001":
+        person = title.replace("Поговори с ", "", 1).strip() if title.startswith("Поговори с ") else ""
+        expected_title = "Поговори с [персонаж]"
+        issues.extend(
+            []
+            if person
+            else [
+                strict_text_issue(
+                    "TT-001 title must keep the exact fixed template text.",
+                    quest,
+                    task,
+                    "title",
+                    expected_title,
+                    title,
+                )
+            ]
+        )
+
+        object_pronoun, subject_pronoun = dialogue_pronouns(quest, person)
+        expected_prefix = (
+            f"Поговори с {person}. Для этого просто кликни на {object_pronoun}. "
+            f"{subject_pronoun} находится в "
+        )
+        if not person or not hint.startswith(expected_prefix) or not hint.endswith("."):
+            issues.append(
+                strict_text_issue(
+                    "TT-001 hint must keep exact fixed text around the character and location.",
+                    quest,
+                    task,
+                    "hint",
+                    (
+                        "Поговори с [персонаж]. Для этого просто кликни на [него/неё]. "
+                        "[Он/Она] находится в [локация]."
+                    ),
+                    hint,
+                )
+            )
+        else:
+            location_text = hint[len(expected_prefix) : -1].strip()
+            issues.extend(
+                validate_location_text(
+                    location_text,
+                    allowed_location_titles,
+                    quest,
+                    task,
+                    "strict_dialog_location_unknown",
+                )
+            )
+
+        icon = str(task_object.get("icon") or "")
+        action = str(task_object.get("action") or "")
+        go_to_location = task_object.get("go_to_location")
+        first_classname = ""
+        if isinstance(go_to_location, list) and go_to_location and isinstance(go_to_location[0], dict):
+            first_classname = str(go_to_location[0].get("classname") or "")
+        if icon and first_classname != icon:
+            issues.append(
+                issue(
+                    "error",
+                    "strict_dialog_location_target_mismatch",
+                    "TT-001 go_to_location classname must match the dialog icon character classname.",
+                    quest,
+                    task,
+                    expected=icon,
+                    actual=first_classname,
+                )
+            )
+        if icon and not action.startswith(f"{icon}_Dialog_"):
+            issues.append(
+                issue(
+                    "error",
+                    "strict_dialog_action_mismatch",
+                    "TT-001 action must be [Character classname]_Dialog_[Номер].",
+                    quest,
+                    task,
+                    expected=f"{icon}_Dialog_[Номер]",
+                    actual=action,
+                )
+            )
+
+    if template_id in {"TT-003", "TT-004"}:
+        param = str(task_object.get("param") or "")
+        expected_search_action = f"search_{param}" if param else ""
+        if task_object.get("search_action") != expected_search_action:
+            issues.append(
+                issue(
+                    "error",
+                    "strict_hog_search_action_mismatch",
+                    f"{template_id} search_action must be search_[HOG classname].",
+                    quest,
+                    task,
+                    expected=expected_search_action,
+                    actual=task_object.get("search_action"),
+                )
+            )
+
+        expected_after_buy_actions = [{"do": "remove_stuff", "classname": param}]
+        if task_object.get("after_buy_actions") != expected_after_buy_actions:
+            issues.append(
+                issue(
+                    "error",
+                    "strict_hog_after_buy_actions_mismatch",
+                    f"{template_id} after_buy_actions must remove the generated HOG stuff.",
+                    quest,
+                    task,
+                    expected=expected_after_buy_actions,
+                    actual=task_object.get("after_buy_actions"),
+                )
+            )
+
+        if not title.startswith(HOG_TITLE_PREFIXES) or not title_item_text(title):
+            issues.append(
+                issue(
+                    "error",
+                    "hog_title_not_object_search",
+                    "HOG title must be a short search action for a concrete object/resource/character/beast.",
+                    quest,
+                    task,
+                    title=title,
+                )
+            )
+
+        expected_suffix = ". Если найти все не удаётся, можно купить подсказку."
+        expected_prefix = f"{title}. Место поиска: "
+        if not hint.startswith(expected_prefix) or not hint.endswith(expected_suffix):
+            issues.append(
+                issue(
+                    "error",
+                    "strict_template_text_mismatch",
+                    f"{template_id} hint must keep exact fixed text around the title and location.",
+                    quest,
+                    task,
+                    expected=f"{title}. Место поиска: [локация]{expected_suffix}",
+                    actual=hint,
+                )
+            )
+        else:
+            location_text = hint[len(expected_prefix) : -len(expected_suffix)].strip()
+            if template_id == "TT-003":
+                if location_text != "Мир":
+                    issues.append(
+                        strict_text_issue(
+                            "TT-003 hint must use fixed location 'Мир'.",
+                            quest,
+                            task,
+                            "hint",
+                            f"{title}. Место поиска: Мир{expected_suffix}",
+                            hint,
+                        )
+                    )
+            else:
+                issues.extend(
+                    validate_location_text(
+                        location_text,
+                        allowed_location_titles,
+                        quest,
+                        task,
+                        "strict_hog_location_unknown",
+                    )
+                )
+
+    if template_id == "TT-005":
+        item = title_item_text(title)
+        if not title.startswith("Найди ") or not item:
+            issues.append(
+                strict_text_issue(
+                    "TT-005 title must be exactly 'Найди [название скрытого предмета]'.",
+                    quest,
+                    task,
+                    "title",
+                    "Найди [название скрытого предмета]",
+                    title,
+                )
+            )
+        expected_prefix = f"Найди {item}. Они могут быть в "
+        if item and (not hint.startswith(expected_prefix) or not hint.endswith(".")):
+            issues.append(
+                strict_text_issue(
+                    "TT-005 hint must keep exact fixed text around the hidden item and home locations.",
+                    quest,
+                    task,
+                    "hint",
+                    f"Найди {item}. Они могут быть в [список домашних локаций].",
+                    hint,
+                )
+            )
+        elif item:
+            location_text = hint[len(expected_prefix) : -1].strip()
+            issues.extend(
+                validate_location_text(
+                    location_text,
+                    allowed_location_titles,
+                    quest,
+                    task,
+                    "strict_hog_location_unknown",
+                )
+            )
+
+    if template_id in {"TT-006", "TT-007"}:
+        if not title:
+            issues.append(
+                strict_text_issue(
+                    f"{template_id} title must fill the template placeholder with a non-empty object clue.",
+                    quest,
+                    task,
+                    "title",
+                    "[заполненный текст]",
+                    title,
+                )
+            )
+        if not hint or not hint.endswith("."):
+            issues.append(
+                strict_text_issue(
+                    f"{template_id} hint must fill the template placeholder and end with a period.",
+                    quest,
+                    task,
+                    "hint",
+                    "[заполненная подсказка].",
+                    hint,
+                )
+            )
+
+    if template_id == "TT-009":
+        if not title.startswith("Попроси у друзей ") or not title_item_text(title):
+            issues.append(
+                strict_text_issue(
+                    "TT-009 title must be exactly 'Попроси у друзей [название предмета]'.",
+                    quest,
+                    task,
+                    "title",
+                    "Попроси у друзей [название предмета]",
+                    title,
+                )
+            )
+        issues.extend(
+            validate_exact_text(
+                task_object,
+                quest,
+                task,
+                "hint",
+                "Отправь личные просьбы друзьям или купи.",
+                "TT-009 hint must keep the exact fixed template text.",
+            )
+        )
+
+    if template_id == "TT-010":
+        item = title_item_text(title)
+        if not title.startswith("Найди ") or not item:
+            issues.append(
+                strict_text_issue(
+                    "TT-010 title must be exactly 'Найди [название ресурса]'.",
+                    quest,
+                    task,
+                    "title",
+                    "Найди [название ресурса]",
+                    title,
+                )
+            )
+        expected_prefix = f"{item} можно получить за сбор коллекции "
+        expected_middle = " при уборке мусора в локации "
+        expected_suffix = " дома и в гостях."
+        if item and (not hint.startswith(expected_prefix) or expected_middle not in hint or not hint.endswith(expected_suffix)):
+            issues.append(
+                strict_text_issue(
+                    "TT-010 hint must keep the exact fixed template text.",
+                    quest,
+                    task,
+                    "hint",
+                    f"{item} можно получить за сбор коллекции [название коллекции] при уборке мусора в локации [локация] дома и в гостях.",
+                    hint,
+                )
+            )
+        elif item:
+            location_text = hint.split(expected_middle, 1)[1][: -len(expected_suffix)].strip()
+            issues.extend(
+                validate_location_text(
+                    location_text,
+                    allowed_location_titles,
+                    quest,
+                    task,
+                    "strict_collection_reward_location_unknown",
+                )
+            )
+
+    if template_id == "TT-011" and selected_candidate:
+        collection_title = candidate_title_for_template(template_id, selected_candidate)
+        source_title = str(selected_candidate.get("source_title") or "")
+        location_text = selected_location_text(selected_candidate)
+        expected_title = f"Найди {collection_title}"
+        expected_hint = (
+            f"{collection_title} - элемент коллекции, выпадает при уборке мусора {source_title} "
+            f"дома и в гостях. Место поиска: {location_text}."
+        )
+        issues.extend(validate_exact_text(task_object, quest, task, "title", expected_title, "TT-011 title must keep the exact fixed template text."))
+        if location_text:
+            issues.extend(validate_exact_text(task_object, quest, task, "hint", expected_hint, "TT-011 hint must keep the exact fixed template text."))
+
+    if template_id == "TT-012":
+        item = title_item_text(title)
+        if not title.startswith("Получи ") or not item:
+            issues.append(
+                strict_text_issue(
+                    "TT-012 title must be exactly 'Получи [название ресурса]'.",
+                    quest,
+                    task,
+                    "title",
+                    "Получи [название ресурса]",
+                    title,
+                )
+            )
+        expected_prefix = f"{item} можно получить "
+        if item and not hint.startswith(expected_prefix):
+            issues.append(
+                strict_text_issue(
+                    "TT-012 hint must keep the exact fixed template text prefix.",
+                    quest,
+                    task,
+                    "hint",
+                    f"{item} можно получить [описание действия на площади у друга]",
+                    hint,
+                )
+            )
+
+    if template_id == "TT-013":
+        item = title_item_text(title)
+        if not title.startswith("Найди ") or not item:
+            issues.append(
+                strict_text_issue(
+                    "TT-013 title must be exactly 'Найди [название ресурса]'.",
+                    quest,
+                    task,
+                    "title",
+                    "Найди [название ресурса]",
+                    title,
+                )
+            )
+        expected_prefix = "Убирай мусор в локации "
+        expected_suffix = " дома, чтобы найти."
+        if not hint.startswith(expected_prefix) or not hint.endswith(expected_suffix):
+            issues.append(
+                strict_text_issue(
+                    "TT-013 hint must keep the exact fixed template text.",
+                    quest,
+                    task,
+                    "hint",
+                    "Убирай мусор в локации [локация] дома, чтобы найти.",
+                    hint,
+                )
+            )
+        else:
+            location_text = hint[len(expected_prefix) : -len(expected_suffix)].strip()
+            issues.extend(validate_location_text(location_text, allowed_location_titles, quest, task, "strict_gr_location_unknown"))
+
+    if template_id in {"TT-014", "TT-015"} and selected_candidate:
+        item = title_item_text(title)
+        garbage_title = candidate_title_for_template(template_id, selected_candidate)
+        mode_text = "в гостях" if template_id == "TT-014" else "дома"
+        location_text = selected_location_text(selected_candidate)
+        expected_title_prefix = "Найди "
+        expected_hint = f"Убирай мусор {garbage_title} {mode_text}, чтобы найти. Место поиска: {location_text}."
+        if not title.startswith(expected_title_prefix) or not item:
+            issues.append(
+                strict_text_issue(
+                    f"{template_id} title must be exactly 'Найди [название ресурса]'.",
+                    quest,
+                    task,
+                    "title",
+                    "Найди [название ресурса]",
+                    title,
+                )
+            )
+        if location_text:
+            issues.extend(validate_exact_text(task_object, quest, task, "hint", expected_hint, f"{template_id} hint must keep the exact fixed template text."))
+
+    if template_id == "TT-017":
+        flower_title = candidate_title_for_template(template_id, selected_candidate)
+        expected_hint = (
+            f"Собирай цветы {flower_title} дома, чтобы найти. "
+            "Чтобы собрать растение, кликни на горшок с нужным растением."
+        )
+        if not title.startswith("Получи ") or not title_item_text(title):
+            issues.append(
+                strict_text_issue(
+                    "TT-017 title must be exactly 'Получи [название ресурса]'.",
+                    quest,
+                    task,
+                    "title",
+                    "Получи [название ресурса]",
+                    title,
+                )
+            )
+        if flower_title:
+            issues.extend(validate_exact_text(task_object, quest, task, "hint", expected_hint, "TT-017 hint must keep the exact fixed template text."))
+
+    if template_id in {"TT-018", "TT-019"} and selected_candidate:
+        flower_title = candidate_title_for_template(template_id, selected_candidate)
+        place = "дома" if template_id == "TT-018" else "в гостях"
+        expected_title = f"Собери {flower_title} {place}"
+        expected_hint = f"Собирай {flower_title} {place}. Чтобы собрать растение, кликни на горшок с нужным растением"
+        if template_id == "TT-019":
+            expected_hint += " в гостях у друга"
+        issues.extend(validate_exact_text(task_object, quest, task, "title", expected_title, f"{template_id} title must keep the exact fixed template text."))
+        issues.extend(validate_exact_text(task_object, quest, task, "hint", expected_hint, f"{template_id} hint must keep the exact fixed template text."))
+
+    if template_id == "TT-021" and selected_candidate:
+        garbage_title = candidate_title_for_template(template_id, selected_candidate)
+        location_text = selected_location_text(selected_candidate)
+        expected_title = f"Убери мусор {garbage_title} дома"
+        expected_hint = (
+            f"Убери мусор {garbage_title} дома. "
+            "Для этого просто кликни на нужный мусор дома. "
+            f"Место поиска: {location_text}."
+        )
+        issues.extend(validate_exact_text(task_object, quest, task, "title", expected_title, "TT-021 title must keep the exact fixed template text."))
+        if location_text:
+            issues.extend(validate_exact_text(task_object, quest, task, "hint", expected_hint, "TT-021 hint must keep the exact fixed template text and full location list."))
+
+    if template_id == "TT-027":
+        issues.extend(
+            validate_exact_text(
+                task_object,
+                quest,
+                task,
+                "hint",
+                "Прочитай фразу задания задом наперед.",
+                "TT-027 hint must keep the exact fixed template text.",
+            )
+        )
+        answer_title = candidate_title_for_template(template_id, selected_candidate)
+        if answer_title:
+            leaked_words = sorted(significant_title_words(answer_title) & normalized_words(title))
+            if leaked_words:
+                issues.append(
+                    issue(
+                        "error",
+                        "reverse_mystery_answer_leaked",
+                        "TT-027 title must be a reverse clue and must not directly name the collection answer.",
+                        quest,
+                        task,
+                        answer_title=answer_title,
+                        leaked_words=leaked_words,
+                    )
+                )
+
+    if template_id in FIXED_TITLE_HINTS:
+        expected_title, expected_hint = FIXED_TITLE_HINTS[template_id]
+        issues.extend(validate_exact_text(task_object, quest, task, "title", expected_title, f"{template_id} title must keep the exact fixed template text."))
+        issues.extend(validate_exact_text(task_object, quest, task, "hint", expected_hint, f"{template_id} hint must keep the exact fixed template text."))
+
+    if template_id == "TT-033":
+        if not title:
+            issues.append(strict_text_issue("TT-033 title must fill '[Действие] [название предмета]'.", quest, task, "title", "[Действие] [название предмета]", title))
+        expected_prefix = ""
+        expected_suffix = "."
+        if "Он находится на " not in hint or not hint.endswith(expected_suffix):
+            issues.append(
+                strict_text_issue(
+                    "TT-033 hint must keep fixed location sentence: 'Он находится на [локация].'",
+                    quest,
+                    task,
+                    "hint",
+                    "[Инструкция как передать предмет]. Он находится на [локация].",
+                    hint,
+                )
+            )
+        else:
+            location_text = hint.rsplit("Он находится на ", 1)[1][:-1].strip()
+            issues.extend(validate_location_text(location_text, allowed_location_titles, quest, task, "strict_give_location_unknown"))
+
+    if template_id == "TT-034":
+        person = title.replace("Сфотографируйся с ", "", 1).strip() if title.startswith("Сфотографируйся с ") else ""
+        if not person:
+            issues.append(
+                strict_text_issue(
+                    "TT-034 title must be exactly 'Сфотографируйся с [персонаж]'.",
+                    quest,
+                    task,
+                    "title",
+                    "Сфотографируйся с [персонаж]",
+                    title,
+                )
+            )
+        expected_prefix = f"{person} - персонаж, с которым нужно сфотографироваться. Найди его у себя на "
+        expected_suffix = f" и нажми на иконку \"Сделать фотографию\" в правом верхнем углу. Наведи фокус на {person}, сфотографируйся с ним и нажми \"Славненько\"."
+        if person and (not hint.startswith(expected_prefix) or not hint.endswith(expected_suffix)):
+            issues.append(
+                strict_text_issue(
+                    "TT-034 hint must keep the exact fixed template text around the character and location.",
+                    quest,
+                    task,
+                    "hint",
+                    f"{person} - персонаж, с которым нужно сфотографироваться. Найди его у себя на [локация] и нажми на иконку \"Сделать фотографию\" в правом верхнем углу. Наведи фокус на {person}, сфотографируйся с ним и нажми \"Славненько\".",
+                    hint,
+                )
+            )
+        elif person:
+            location_text = hint[len(expected_prefix) : -len(expected_suffix)].strip()
+            issues.extend(validate_location_text(location_text, allowed_location_titles, quest, task, "strict_photo_location_unknown"))
+        icon = str(task_object.get("icon") or "")
+        param = str(task_object.get("param") or "")
+        if icon and param and icon != param:
+            issues.append(
+                issue(
+                    "error",
+                    "strict_photo_icon_param_mismatch",
+                    "TT-034 icon and param must use the same character classname.",
+                    quest,
+                    task,
+                    expected=icon,
+                    actual=param,
+                )
+            )
+
+    if template_id == "TT-008":
+        if not title.startswith("Попроси у друзей ") or not title_item_text(title):
+            issues.append(
+                issue(
+                    "error",
+                    "strict_template_text_mismatch",
+                    "TT-008 title must be exactly 'Попроси у друзей [название предмета]'.",
+                    quest,
+                    task,
+                    expected="Попроси у друзей [название предмета]",
+                    actual=title,
+                )
+            )
+        if hint != "Попроси у друзей или купи.":
+            issues.append(
+                issue(
+                    "error",
+                    "strict_template_text_mismatch",
+                    "TT-008 hint must keep the exact fixed template text.",
+                    quest,
+                    task,
+                    expected="Попроси у друзей или купи.",
+                    actual=hint,
+                )
+            )
+
+    if template_id == "TT-016":
+        flower_title = candidate_title_for_template(template_id, selected_candidate)
+        expected_hint = (
+            f"Собирай цветы {flower_title} в гостях, чтобы найти. "
+            "Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга"
+        )
+        if not title.startswith("Получи ") or not title_item_text(title):
+            issues.append(
+                issue(
+                    "error",
+                    "strict_template_text_mismatch",
+                    "TT-016 title must be exactly 'Получи [название ресурса]'.",
+                    quest,
+                    task,
+                    expected="Получи [название ресурса]",
+                    actual=title,
+                )
+            )
+        if flower_title and hint != expected_hint:
+            issues.append(
+                issue(
+                    "error",
+                    "strict_template_text_mismatch",
+                    "TT-016 hint must keep the exact fixed template text.",
+                    quest,
+                    task,
+                    expected=expected_hint,
+                    actual=hint,
+                )
+            )
+
+    if template_id == "TT-002":
+        if not title.startswith("Создай ") or not title_item_text(title):
+            issues.append(
+                issue(
+                    "error",
+                    "strict_template_text_mismatch",
+                    "TT-002 title must be exactly 'Создай [название предмета]'.",
+                    quest,
+                    task,
+                    expected="Создай [название предмета]",
+                    actual=title,
+                )
+            )
+        if hint != "Для создания используй Станок.":
+            issues.append(
+                issue(
+                    "error",
+                    "strict_template_text_mismatch",
+                    "TT-002 hint must keep the exact fixed template text.",
+                    quest,
+                    task,
+                    expected="Для создания используй Станок.",
+                    actual=hint,
+                )
+            )
+        go_to_location = task_object.get("go_to_location")
+        expected_prefix = f"{quest_prefix(quest.get('classname_quests'))}_Workbench_"
+        first_classname = ""
+        if isinstance(go_to_location, list) and go_to_location and isinstance(go_to_location[0], dict):
+            first_classname = str(go_to_location[0].get("classname") or "")
+        if not first_classname.startswith(expected_prefix):
+            issues.append(
+                issue(
+                    "error",
+                    "strict_craft_workbench_mismatch",
+                    "TT-002 go_to_location must point to the generated Workbench classname.",
+                    quest,
+                    task,
+                    expected=f"{expected_prefix}[Номер]",
+                    actual=first_classname,
+                )
+            )
+
+    if template_id == "TT-020" and selected_candidate:
+        garbage_title = candidate_title_for_template(template_id, selected_candidate)
+        location_text = selected_location_text(selected_candidate)
+        expected_title = f"Убери мусор {garbage_title} в гостях"
+        expected_hint = (
+            f"Убери мусор {garbage_title} в гостях. "
+            "Для этого просто кликни на нужный мусор в гостях у друга. "
+            f"Место поиска: {location_text}."
+        )
+        if title != expected_title:
+            issues.append(
+                issue(
+                    "error",
+                    "strict_template_text_mismatch",
+                    "TT-020 title must keep the exact fixed template text.",
+                    quest,
+                    task,
+                    expected=expected_title,
+                    actual=title,
+                )
+            )
+        if location_text and hint != expected_hint:
+            issues.append(
+                issue(
+                    "error",
+                    "strict_template_text_mismatch",
+                    "TT-020 hint must keep the exact fixed template text and full location list.",
+                    quest,
+                    task,
+                    expected=expected_hint,
+                    actual=hint,
+                )
+            )
+
+    if template_id in MYSTERY_TITLES:
+        answer_title = candidate_title_for_template(template_id, selected_candidate)
+        if answer_title:
+            issues.extend(validate_mystery_riddle_text(task_object, template_id, answer_title, quest, task))
+
+    return issues
+
+
 def quest_prefix(classname_quests: Any) -> str:
     value = str(classname_quests or "")
     marker = "_Story_"
@@ -687,6 +1657,46 @@ def validate_cross_task_source_conflicts(
     return issues
 
 
+def validate_craft_resource_links(filled_tasks: dict[str, Any]) -> list[dict[str, Any]]:
+    issues: list[dict[str, Any]] = []
+    for quest in filled_tasks.get("quests", []):
+        craft_items = [
+            title_item_text((task.get("task_object") or {}).get("title"))
+            for task in quest.get("tasks", [])
+            if task.get("task_template_id") in CRAFT_TEMPLATES
+        ]
+        craft_words = set().union(*(significant_title_words(item) for item in craft_items)) if craft_items else set()
+        if not craft_items:
+            continue
+
+        for task in quest.get("tasks", []):
+            if task.get("task_template_id") not in GENERATED_ASSET_TEMPLATES:
+                continue
+
+            task_object = task.get("task_object") or {}
+            resource_title = title_item_text(task_object.get("title"))
+            reason = str(task.get("choice_reason") or "")
+            combined_words = significant_title_words(f"{resource_title} {reason}")
+            reason_normalized = reason.lower().replace("ё", "е")
+            has_craft_word = bool(craft_words & combined_words)
+            has_link_marker = any(marker in reason_normalized for marker in CRAFT_LINK_REASON_MARKERS)
+            if not has_craft_word and not has_link_marker:
+                issues.append(
+                    issue(
+                        "error",
+                        "craft_resource_reason_too_generic",
+                        "Generated ASK/PER/GR in a craft quest must explain how the resource is an ingredient, part, or close component of the crafted item.",
+                        quest,
+                        task,
+                        craft_items=craft_items,
+                        resource_title=resource_title,
+                        choice_reason=reason,
+                    )
+                )
+
+    return issues
+
+
 def validate_task(
     quest: dict[str, Any],
     task: dict[str, Any],
@@ -765,13 +1775,24 @@ def validate_task(
         issues.extend(validate_candidate_match(task_object, template_id, selected_candidate, quest, task))
     issues.extend(validate_generated_naming(task_object, template_id, quest, task))
     issues.extend(validate_generated_item_concreteness(task_object, template_id, quest, task))
+    allowed_location_titles = context_quest_location_titles(context_quest_index.get(classname_quests))
     issues.extend(
         validate_location_references(
             task_object,
             template_id,
             quest,
             task,
-            context_quest_location_titles(context_quest_index.get(classname_quests)),
+            allowed_location_titles,
+        )
+    )
+    issues.extend(
+        validate_strict_stage4_templates(
+            task_object,
+            template_id,
+            selected_candidate,
+            quest,
+            task,
+            allowed_location_titles,
         )
     )
 
@@ -808,6 +1829,7 @@ def validate_filled_tasks(
         all_issues.extend(issues)
 
     all_issues.extend(validate_cross_task_source_conflicts(filled_tasks, context_index))
+    all_issues.extend(validate_craft_resource_links(filled_tasks))
     all_issues.extend(validate_generated_sequences(filled_tasks, sequence_offsets=sequence_offsets))
 
     errors = [item for item in all_issues if item["severity"] == "error"]

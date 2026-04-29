@@ -1,0 +1,1510 @@
+{
+  "quests": [
+    {
+      "classname_quests": "CucumberFestival_2026_Story_1",
+      "title_quest": "Слёзы в рассоле",
+      "quest_number": 1,
+      "description": "Ах, домовёнок... Какой уж тут Праздник огурца, когда главный огурец исчез, пьедестал пустует, а рассол булькает так печально, будто тоже собирается плакать. Я готовила торжественную речь, но теперь в ней остались одни вздохи. Помоги мне разобраться, что случилось, пока я не объявила этот день Днём Великой Зелёной Печали.",
+      "congratulation": "Хм... Значит, огурец не просто укатился от скуки. Следы есть, порядок частично восстановлен, а рассол уже не так трагично вздыхает. Спасибо тебе, домовёнок. Я, конечно, ещё не улыбаюсь, но один уголок губ уже подозрительно дрогнул.",
+      "character": "Царевна Несмияна",
+      "tasks": [
+        {
+          "task_number": 1,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "category": "dialog",
+          "data_needs": [
+            "quest_context",
+            "character"
+          ],
+          "manual_override": {},
+          "candidate_domain": null,
+          "candidates": [],
+          "notes": [
+            "No real quest-ready candidates are needed for this generated/story template."
+          ]
+        },
+        {
+          "task_number": 2,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "category": "hog",
+          "data_needs": [
+            "quest_context",
+            "generated_hog"
+          ],
+          "manual_override": {},
+          "candidate_domain": null,
+          "candidates": [],
+          "notes": [
+            "No real quest-ready candidates are needed for this generated/story template."
+          ]
+        },
+        {
+          "task_number": 3,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "category": "garbage",
+          "data_needs": [
+            "quest_context",
+            "garbage",
+            "location"
+          ],
+          "manual_override": {},
+          "candidate_domain": "garbage",
+          "candidates": [
+            {
+              "candidate_id": "garbage:Cucumber",
+              "domain": "garbage",
+              "garbage_classname": "Cucumber",
+              "garbage_title": "Надкусанный огурец",
+              "garbage_id": 2381,
+              "locations": [
+                {
+                  "code": "31",
+                  "title": "Оранжерея",
+                  "tags": [
+                    "home",
+                    "greenhouse",
+                    "new_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_new_home",
+                    "slow",
+                    "build_new_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:Garbage_Zoo_1",
+              "domain": "garbage",
+              "garbage_classname": "Garbage_Zoo_1",
+              "garbage_title": "Следы птиц",
+              "garbage_id": 31392,
+              "locations": [
+                {
+                  "code": "66",
+                  "title": "Зоопарк",
+                  "tags": [
+                    "home",
+                    "zoo",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "build_old_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:Garbage_Zoo_2",
+              "domain": "garbage",
+              "garbage_classname": "Garbage_Zoo_2",
+              "garbage_title": "Следы копыт",
+              "garbage_id": 31394,
+              "locations": [
+                {
+                  "code": "66",
+                  "title": "Зоопарк",
+                  "tags": [
+                    "home",
+                    "zoo",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "build_old_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:Garbage_Zoo_3",
+              "domain": "garbage",
+              "garbage_classname": "Garbage_Zoo_3",
+              "garbage_title": "Следы лапок",
+              "garbage_id": 31391,
+              "locations": [
+                {
+                  "code": "66",
+                  "title": "Зоопарк",
+                  "tags": [
+                    "home",
+                    "zoo",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "build_old_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:Anvil",
+              "domain": "garbage",
+              "garbage_classname": "Anvil",
+              "garbage_title": "Наковаленка",
+              "garbage_id": "32240245",
+              "locations": [
+                {
+                  "code": "3",
+                  "title": "Мастерская",
+                  "tags": [
+                    "home",
+                    "workshop",
+                    "old_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_old_home",
+                    "lostgeneral_yellow",
+                    "slow",
+                    "build_old_home"
+                  ]
+                },
+                {
+                  "code": "7",
+                  "title": "Конюшня",
+                  "tags": [
+                    "home",
+                    "old_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "stable",
+                    "rnd_old_home",
+                    "slow",
+                    "build_old_home"
+                  ]
+                },
+                {
+                  "code": "8",
+                  "title": "Кузница",
+                  "tags": [
+                    "home",
+                    "old_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "smithy",
+                    "rnd_old_home",
+                    "slow",
+                    "build_old_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:Ashes",
+              "domain": "garbage",
+              "garbage_classname": "Ashes",
+              "garbage_title": "Пепел",
+              "garbage_id": 14624,
+              "locations": [
+                {
+                  "code": "65",
+                  "title": "Котельная",
+                  "tags": [
+                    "home",
+                    "boiler",
+                    "new_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_new_home",
+                    "slow",
+                    "build_new_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BagOfFertilizer",
+              "domain": "garbage",
+              "garbage_classname": "BagOfFertilizer",
+              "garbage_title": "Мешок от удобрения",
+              "garbage_id": 2371,
+              "locations": [
+                {
+                  "code": "31",
+                  "title": "Оранжерея",
+                  "tags": [
+                    "home",
+                    "greenhouse",
+                    "new_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_new_home",
+                    "slow",
+                    "build_new_home"
+                  ]
+                },
+                {
+                  "code": "32",
+                  "title": "Курятник",
+                  "tags": [
+                    "home",
+                    "coop",
+                    "new_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_new_home",
+                    "slow",
+                    "build_new_home"
+                  ]
+                },
+                {
+                  "code": "91",
+                  "title": "Чародейная",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "alchemy",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BeetlePaws",
+              "domain": "garbage",
+              "garbage_classname": "BeetlePaws",
+              "garbage_title": "Жучок кверху лапками",
+              "garbage_id": "190681804",
+              "locations": [
+                {
+                  "code": "31",
+                  "title": "Оранжерея",
+                  "tags": [
+                    "home",
+                    "greenhouse",
+                    "new_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_new_home",
+                    "slow",
+                    "build_new_home"
+                  ]
+                },
+                {
+                  "code": "6",
+                  "title": "Мельница",
+                  "tags": [
+                    "home",
+                    "mill",
+                    "old_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_old_home",
+                    "slow",
+                    "build_old_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigButton",
+              "domain": "garbage",
+              "garbage_classname": "BigButton",
+              "garbage_title": "Пуговица",
+              "garbage_id": "165307702",
+              "locations": [
+                {
+                  "code": "4",
+                  "title": "Светлица",
+                  "tags": [
+                    "home",
+                    "svetlitsa",
+                    "old_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_old_home",
+                    "lostgeneral_red",
+                    "slow",
+                    "build_old_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Bar_BrokenCocktail",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Bar_BrokenCocktail",
+              "garbage_title": "Разлитый коктейль",
+              "garbage_id": 48957,
+              "locations": [
+                {
+                  "code": "310",
+                  "title": "Барная комната",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "bar_room",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Bar_BrokenDiscoBall",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Bar_BrokenDiscoBall",
+              "garbage_title": "Разбитый диско-шар",
+              "garbage_id": 48956,
+              "locations": [
+                {
+                  "code": "310",
+                  "title": "Барная комната",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "bar_room",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Bar_NeonStick",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Bar_NeonStick",
+              "garbage_title": "Неоновая палочка ",
+              "garbage_id": 48958,
+              "locations": [
+                {
+                  "code": "310",
+                  "title": "Барная комната",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "bar_room",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            }
+          ],
+          "notes": [
+            "Guest/world guardrail excluded 92 garbage or collection candidates tied to world locations."
+          ]
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_2",
+      "title_quest": "Парад зелёного хруста",
+      "quest_number": 2,
+      "description": "Друг мой домовёнок! Праздник без ритма - это просто собрание грустных тарелок! Мы сделаем парад зелёного хруста: ленты, барабаны, шаг налево, хруст направо! Правда, ленты почему-то уже обняли всё вокруг, а барабанщики маршируют каждый в свою сторону. Поможешь собрать праздник в один весёлый ритм?",
+      "congratulation": "Вот теперь другое дело! Ленты висят красиво, парад идёт ровно, а хруст звучит как музыка. Я видел, как Несмияна почти улыбнулась, а это, друг мой, победа громче любого барабана! Осталось только найти Главный Огурец, и праздник засияет совсем.",
+      "character": "Чинг",
+      "tasks": [
+        {
+          "task_number": 4,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "category": "request",
+          "data_needs": [
+            "quest_context",
+            "generated_resource"
+          ],
+          "manual_override": {},
+          "candidate_domain": null,
+          "candidates": [],
+          "notes": [
+            "No real quest-ready candidates are needed for this generated/story template."
+          ]
+        },
+        {
+          "task_number": 5,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower",
+          "category": "gr_flower",
+          "data_needs": [
+            "quest_context",
+            "flower"
+          ],
+          "manual_override": {},
+          "candidate_domain": "flower",
+          "candidates": [
+            {
+              "candidate_id": "flower:FlowerBlueRose",
+              "domain": "flower",
+              "flower_classname": "FlowerBlueRose",
+              "flower_title": "Синяя роза",
+              "flower_id": 16916,
+              "flower_tags": [
+                "seed_simple",
+                "seed_magazine",
+                "category_5"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerCvetikSemicvetik",
+              "domain": "flower",
+              "flower_classname": "FlowerCvetikSemicvetik",
+              "flower_title": "Цветик-семицветик",
+              "flower_id": 70111,
+              "flower_tags": [
+                "seed_simple",
+                "seed_flower",
+                "category_7"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerDahlia",
+              "domain": "flower",
+              "flower_classname": "FlowerDahlia",
+              "flower_title": "Георгин",
+              "flower_id": 9866,
+              "flower_tags": [
+                "seed_simple",
+                "seed_quest",
+                "category_5"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerEith",
+              "domain": "flower",
+              "flower_classname": "FlowerEith",
+              "flower_title": "Лютик",
+              "flower_id": 223810178,
+              "flower_tags": [
+                "seed_simple",
+                "seed_flower",
+                "category_1"
+              ],
+              "req_user_level": 1
+            },
+            {
+              "candidate_id": "flower:FlowerEith_ForTutorial",
+              "domain": "flower",
+              "flower_classname": "FlowerEith_ForTutorial",
+              "flower_title": "Лютик",
+              "flower_id": 10655,
+              "flower_tags": [
+                "seed_simple",
+                "category_1"
+              ],
+              "req_user_level": 1
+            },
+            {
+              "candidate_id": "flower:FlowerElewen",
+              "domain": "flower",
+              "flower_classname": "FlowerElewen",
+              "flower_title": "Ландыш",
+              "flower_id": 22013353,
+              "flower_tags": [
+                "seed_simple",
+                "seed_flower",
+                "category_5"
+              ],
+              "req_user_level": 17
+            },
+            {
+              "candidate_id": "flower:FlowerFive",
+              "domain": "flower",
+              "flower_classname": "FlowerFive",
+              "flower_title": "Роза",
+              "flower_id": 219106365,
+              "flower_tags": [
+                "seed_simple",
+                "seed_flower",
+                "category_7"
+              ],
+              "req_user_level": 26
+            },
+            {
+              "candidate_id": "flower:FlowerFour",
+              "domain": "flower",
+              "flower_classname": "FlowerFour",
+              "flower_title": "Лилия",
+              "flower_id": 245503309,
+              "flower_tags": [
+                "seed_simple",
+                "seed_flower",
+                "category_6"
+              ],
+              "req_user_level": 24
+            },
+            {
+              "candidate_id": "flower:FlowerFuchsia",
+              "domain": "flower",
+              "flower_classname": "FlowerFuchsia",
+              "flower_title": "Фуксия",
+              "flower_id": 9864,
+              "flower_tags": [
+                "seed_simple",
+                "seed_quest",
+                "category_3"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerHibiscus",
+              "domain": "flower",
+              "flower_classname": "FlowerHibiscus",
+              "flower_title": "Гибискус",
+              "flower_id": 23124,
+              "flower_tags": [
+                "seed_simple",
+                "seed_quest",
+                "category_5"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerKissTulip",
+              "domain": "flower",
+              "flower_classname": "FlowerKissTulip",
+              "flower_title": "Тюльпан \"Поцелуй солнца\"",
+              "flower_id": 15433,
+              "flower_tags": [
+                "seed_simple",
+                "seed_magazine",
+                "category_7"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerLaysDill",
+              "domain": "flower",
+              "flower_classname": "FlowerLaysDill",
+              "flower_title": "Укропчик",
+              "flower_id": 9463,
+              "flower_tags": [
+                "seed_simple",
+                "unavailable_for_daily_tasks"
+              ],
+              "req_user_level": null
+            }
+          ],
+          "notes": []
+        },
+        {
+          "task_number": 6,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "category": "craft",
+          "data_needs": [
+            "quest_context",
+            "generated_resource"
+          ],
+          "manual_override": {},
+          "candidate_domain": null,
+          "candidates": [],
+          "notes": [
+            "No real quest-ready candidates are needed for this generated/story template."
+          ]
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_3",
+      "title_quest": "Дело о Главном Огурце",
+      "quest_number": 3,
+      "description": "Мяу. Прошу сохранять спокойствие и не наступать на улики, даже если они похожи на обычные капли рассола. Перед нами дело исключительной важности: Главный Огурец исчез, бочка булькает с явным умыслом, а где-то за кулисами раздаётся подозрительный хруст. Домовёнок, ты назначаешься младшим помощником детектива. Начинаем расследование.",
+      "congratulation": "Дело закрыто. Главный Огурец возвращён, улики улеглись по местам, а подозрительный хруст получил официальное объяснение. Признаю: для существа без усов ты проявил редкую наблюдательность. Праздник спасён, пьедестал занят, а я заслужил минуту славы и тёплое место у бочки.",
+      "character": "Кот Детектив Котовски",
+      "tasks": [
+        {
+          "task_number": 7,
+          "task_template_id": "TT-024",
+          "task_template_name": "Загадка на мусор в гостях",
+          "task_type": "garbage classname in_guest mystery",
+          "category": "mystery_garbage",
+          "data_needs": [
+            "quest_context",
+            "garbage",
+            "location"
+          ],
+          "manual_override": {},
+          "candidate_domain": "garbage",
+          "candidates": [
+            {
+              "candidate_id": "garbage:Garbage_WarmBlanket",
+              "domain": "garbage",
+              "garbage_classname": "Garbage_WarmBlanket",
+              "garbage_title": "Тёплое покрывало",
+              "garbage_id": 32430,
+              "locations": [
+                {
+                  "code": "95",
+                  "title": "Цветущий балкон",
+                  "tags": [
+                    "farm",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "fast",
+                    "build_big_farm"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Nursery_Flags",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Nursery_Flags",
+              "garbage_title": "Флажки",
+              "garbage_id": 70153,
+              "locations": [
+                {
+                  "code": "223",
+                  "title": "Форт из одеял",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "blanket_fort",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Nursery_MatildasCage",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Nursery_MatildasCage",
+              "garbage_title": "Клетка Матильды",
+              "garbage_id": 70091,
+              "locations": [
+                {
+                  "code": "222",
+                  "title": "Детская",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "nursery",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Nursery_MomsPortrait",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Nursery_MomsPortrait",
+              "garbage_title": "Мамочкин портрет",
+              "garbage_id": 70092,
+              "locations": [
+                {
+                  "code": "222",
+                  "title": "Детская",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "nursery",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Nursery_MugNotShedding",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Nursery_MugNotShedding",
+              "garbage_title": "Кружка-непроливашка",
+              "garbage_id": 70090,
+              "locations": [
+                {
+                  "code": "222",
+                  "title": "Детская",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "nursery",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Nursery_MummyShadow",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Nursery_MummyShadow",
+              "garbage_title": "Муми-тень",
+              "garbage_id": 70152,
+              "locations": [
+                {
+                  "code": "223",
+                  "title": "Форт из одеял",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "blanket_fort",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Nursery_Sleeping",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Nursery_Sleeping",
+              "garbage_title": "Сплюша",
+              "garbage_id": 70154,
+              "locations": [
+                {
+                  "code": "223",
+                  "title": "Форт из одеял",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "blanket_fort",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Overview_Ammonit",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Overview_Ammonit",
+              "garbage_title": "Аммонит",
+              "garbage_id": 37468,
+              "locations": [
+                {
+                  "code": "184",
+                  "title": "Обзорная",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "overview",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Overview_LizardTooth",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Overview_LizardTooth",
+              "garbage_title": "Зуб ящера",
+              "garbage_id": 37469,
+              "locations": [
+                {
+                  "code": "184",
+                  "title": "Обзорная",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "overview",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Overview_Silver",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Overview_Silver",
+              "garbage_title": "Родированное серебро",
+              "garbage_id": 37467,
+              "locations": [
+                {
+                  "code": "184",
+                  "title": "Обзорная",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "overview",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Server_BrokenBobine",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Server_BrokenBobine",
+              "garbage_title": "Сломаная бобина",
+              "garbage_id": 44998,
+              "locations": [
+                {
+                  "code": "134",
+                  "title": "Серверная комната",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "server_room",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "garbage:BigHome_Garbage_Server_BrokenCable",
+              "domain": "garbage",
+              "garbage_classname": "BigHome_Garbage_Server_BrokenCable",
+              "garbage_title": "Обрывок кабеля",
+              "garbage_id": 44999,
+              "locations": [
+                {
+                  "code": "134",
+                  "title": "Серверная комната",
+                  "tags": [
+                    "home",
+                    "big_home",
+                    "server_room",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_big_home",
+                    "fast",
+                    "build_big_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            }
+          ],
+          "notes": [
+            "Guest/world guardrail excluded 92 garbage or collection candidates tied to world locations."
+          ]
+        },
+        {
+          "task_number": 8,
+          "task_template_id": "TT-026",
+          "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection mystery",
+          "category": "mystery_collection",
+          "data_needs": [
+            "quest_context",
+            "collection_drop"
+          ],
+          "manual_override": {},
+          "candidate_domain": "collection_drop",
+          "candidates": [
+            {
+              "candidate_id": "collection_drop:BrokenBarrelCollection1:BrokenBarrel:home",
+              "domain": "collection_drop",
+              "collection_classname": "BrokenBarrelCollection1",
+              "collection_title": "Чарка",
+              "collection_id": 17719,
+              "source_type": "garbage",
+              "source_classname": "BrokenBarrel",
+              "source_title": "Разбитая бочка",
+              "mode": "home",
+              "locations": [
+                {
+                  "code": "73",
+                  "title": "Трюм",
+                  "tags": [
+                    "pirate",
+                    "world",
+                    "daily_world",
+                    "daily_all",
+                    "rnd_world",
+                    "build_farm"
+                  ]
+                }
+              ],
+              "has_world_location": true
+            },
+            {
+              "candidate_id": "collection_drop:BrokenBarrelCollection2:BrokenBarrel:home",
+              "domain": "collection_drop",
+              "collection_classname": "BrokenBarrelCollection2",
+              "collection_title": "Лайм",
+              "collection_id": 17727,
+              "source_type": "garbage",
+              "source_classname": "BrokenBarrel",
+              "source_title": "Разбитая бочка",
+              "mode": "home",
+              "locations": [
+                {
+                  "code": "73",
+                  "title": "Трюм",
+                  "tags": [
+                    "pirate",
+                    "world",
+                    "daily_world",
+                    "daily_all",
+                    "rnd_world",
+                    "build_farm"
+                  ]
+                }
+              ],
+              "has_world_location": true
+            },
+            {
+              "candidate_id": "collection_drop:BrokenBarrelCollection3:BrokenBarrel:home",
+              "domain": "collection_drop",
+              "collection_classname": "BrokenBarrelCollection3",
+              "collection_title": "Трубка",
+              "collection_id": 17735,
+              "source_type": "garbage",
+              "source_classname": "BrokenBarrel",
+              "source_title": "Разбитая бочка",
+              "mode": "home",
+              "locations": [
+                {
+                  "code": "73",
+                  "title": "Трюм",
+                  "tags": [
+                    "pirate",
+                    "world",
+                    "daily_world",
+                    "daily_all",
+                    "rnd_world",
+                    "build_farm"
+                  ]
+                }
+              ],
+              "has_world_location": true
+            },
+            {
+              "candidate_id": "collection_drop:BrokenBarrelCollection4:BrokenBarrel:home",
+              "domain": "collection_drop",
+              "collection_classname": "BrokenBarrelCollection4",
+              "collection_title": "Пиратский флаг",
+              "collection_id": 17743,
+              "source_type": "garbage",
+              "source_classname": "BrokenBarrel",
+              "source_title": "Разбитая бочка",
+              "mode": "home",
+              "locations": [
+                {
+                  "code": "73",
+                  "title": "Трюм",
+                  "tags": [
+                    "pirate",
+                    "world",
+                    "daily_world",
+                    "daily_all",
+                    "rnd_world",
+                    "build_farm"
+                  ]
+                }
+              ],
+              "has_world_location": true
+            },
+            {
+              "candidate_id": "collection_drop:BrokenBarrelCollection5:BrokenBarrel:home",
+              "domain": "collection_drop",
+              "collection_classname": "BrokenBarrelCollection5",
+              "collection_title": "Черная метка",
+              "collection_id": 17751,
+              "source_type": "garbage",
+              "source_classname": "BrokenBarrel",
+              "source_title": "Разбитая бочка",
+              "mode": "home",
+              "locations": [
+                {
+                  "code": "73",
+                  "title": "Трюм",
+                  "tags": [
+                    "pirate",
+                    "world",
+                    "daily_world",
+                    "daily_all",
+                    "rnd_world",
+                    "build_farm"
+                  ]
+                }
+              ],
+              "has_world_location": true
+            },
+            {
+              "candidate_id": "collection_drop:CucumberCollection1:Cucumber:home",
+              "domain": "collection_drop",
+              "collection_classname": "CucumberCollection1",
+              "collection_title": "Огуречный рассол",
+              "collection_id": 2389,
+              "source_type": "garbage",
+              "source_classname": "Cucumber",
+              "source_title": "Надкусанный огурец",
+              "mode": "home",
+              "locations": [
+                {
+                  "code": "31",
+                  "title": "Оранжерея",
+                  "tags": [
+                    "home",
+                    "greenhouse",
+                    "new_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_new_home",
+                    "slow",
+                    "build_new_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "collection_drop:CucumberCollection2:Cucumber:home",
+              "domain": "collection_drop",
+              "collection_classname": "CucumberCollection2",
+              "collection_title": "Маска из огурца",
+              "collection_id": 2390,
+              "source_type": "garbage",
+              "source_classname": "Cucumber",
+              "source_title": "Надкусанный огурец",
+              "mode": "home",
+              "locations": [
+                {
+                  "code": "31",
+                  "title": "Оранжерея",
+                  "tags": [
+                    "home",
+                    "greenhouse",
+                    "new_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_new_home",
+                    "slow",
+                    "build_new_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "collection_drop:CucumberCollection3:Cucumber:home",
+              "domain": "collection_drop",
+              "collection_classname": "CucumberCollection3",
+              "collection_title": "Одеколон огуречный",
+              "collection_id": 2391,
+              "source_type": "garbage",
+              "source_classname": "Cucumber",
+              "source_title": "Надкусанный огурец",
+              "mode": "home",
+              "locations": [
+                {
+                  "code": "31",
+                  "title": "Оранжерея",
+                  "tags": [
+                    "home",
+                    "greenhouse",
+                    "new_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_new_home",
+                    "slow",
+                    "build_new_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "collection_drop:CucumberCollection4:Cucumber:home",
+              "domain": "collection_drop",
+              "collection_classname": "CucumberCollection4",
+              "collection_title": "Салат из огурца",
+              "collection_id": 2392,
+              "source_type": "garbage",
+              "source_classname": "Cucumber",
+              "source_title": "Надкусанный огурец",
+              "mode": "home",
+              "locations": [
+                {
+                  "code": "31",
+                  "title": "Оранжерея",
+                  "tags": [
+                    "home",
+                    "greenhouse",
+                    "new_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_new_home",
+                    "slow",
+                    "build_new_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "collection_drop:CucumberCollection5:Cucumber:home",
+              "domain": "collection_drop",
+              "collection_classname": "CucumberCollection5",
+              "collection_title": "Цветок огурца",
+              "collection_id": 2393,
+              "source_type": "garbage",
+              "source_classname": "Cucumber",
+              "source_title": "Надкусанный огурец",
+              "mode": "home",
+              "locations": [
+                {
+                  "code": "31",
+                  "title": "Оранжерея",
+                  "tags": [
+                    "home",
+                    "greenhouse",
+                    "new_home",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "rnd_new_home",
+                    "slow",
+                    "build_new_home"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "collection_drop:Garbage_WarmBlanket_Collection1:Garbage_WarmBlanket:home",
+              "domain": "collection_drop",
+              "collection_classname": "Garbage_WarmBlanket_Collection1",
+              "collection_title": "Вязаный кардиган",
+              "collection_id": 32420,
+              "source_type": "garbage",
+              "source_classname": "Garbage_WarmBlanket",
+              "source_title": "Тёплое покрывало",
+              "mode": "home",
+              "locations": [
+                {
+                  "code": "95",
+                  "title": "Цветущий балкон",
+                  "tags": [
+                    "farm",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "fast",
+                    "build_big_farm"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            },
+            {
+              "candidate_id": "collection_drop:Garbage_WarmBlanket_Collection2:Garbage_WarmBlanket:home",
+              "domain": "collection_drop",
+              "collection_classname": "Garbage_WarmBlanket_Collection2",
+              "collection_title": "Вязаный палантин",
+              "collection_id": 32421,
+              "source_type": "garbage",
+              "source_classname": "Garbage_WarmBlanket",
+              "source_title": "Тёплое покрывало",
+              "mode": "home",
+              "locations": [
+                {
+                  "code": "95",
+                  "title": "Цветущий балкон",
+                  "tags": [
+                    "farm",
+                    "daily_guest",
+                    "daily_all",
+                    "daily_photo",
+                    "fast",
+                    "build_big_farm"
+                  ]
+                }
+              ],
+              "has_world_location": false
+            }
+          ],
+          "notes": []
+        },
+        {
+          "task_number": 9,
+          "task_template_id": "TT-022",
+          "task_template_name": "Загадка на цветок в гостях",
+          "task_type": "action take_crop_in_guest mystery",
+          "category": "mystery_flower",
+          "data_needs": [
+            "quest_context",
+            "flower"
+          ],
+          "manual_override": {},
+          "candidate_domain": "flower",
+          "candidates": [
+            {
+              "candidate_id": "flower:FlowerLaysPotato",
+              "domain": "flower",
+              "flower_classname": "FlowerLaysPotato",
+              "flower_title": "Картошечка",
+              "flower_id": 9462,
+              "flower_tags": [
+                "seed_simple",
+                "category_2",
+                "unavailable_for_daily_tasks"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerMagazine4_Hippeastrum",
+              "domain": "flower",
+              "flower_classname": "FlowerMagazine4_Hippeastrum",
+              "flower_title": "Гиппеаструм",
+              "flower_id": 22024,
+              "flower_tags": [
+                "seed_simple",
+                "seed_magazine",
+                "category_6"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerMagazine5_RainbowCalla",
+              "domain": "flower",
+              "flower_classname": "FlowerMagazine5_RainbowCalla",
+              "flower_title": "Радужная калла",
+              "flower_id": 26701,
+              "flower_tags": [
+                "seed_simple",
+                "seed_magazine",
+                "category_6"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerMagazine6_TerryMallow",
+              "domain": "flower",
+              "flower_classname": "FlowerMagazine6_TerryMallow",
+              "flower_title": "Мальва махровая",
+              "flower_id": 30870,
+              "flower_tags": [
+                "seed_simple",
+                "seed_magazine",
+                "category_3"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerMagazine7_Lupinus",
+              "domain": "flower",
+              "flower_classname": "FlowerMagazine7_Lupinus",
+              "flower_title": "Люпин",
+              "flower_id": 100017,
+              "flower_tags": [
+                "seed_simple",
+                "seed_magazine",
+                "category_5"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerMagazine8_Anthurium",
+              "domain": "flower",
+              "flower_classname": "FlowerMagazine8_Anthurium",
+              "flower_title": "Антуриум",
+              "flower_id": 50202,
+              "flower_tags": [
+                "seed_simple",
+                "seed_magazine",
+                "category_2",
+                "unavailable_for_daily_tasks"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerMagazine9_Plumeria",
+              "domain": "flower",
+              "flower_classname": "FlowerMagazine9_Plumeria",
+              "flower_title": "Плюмерия",
+              "flower_id": 53272,
+              "flower_tags": [
+                "seed_simple",
+                "seed_magazine",
+                "category_2",
+                "unavailable_for_daily_tasks"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerMatrix",
+              "domain": "flower",
+              "flower_classname": "FlowerMatrix",
+              "flower_title": "Матричка",
+              "flower_id": 45220,
+              "flower_tags": [
+                "seed_simple",
+                "seed_quest",
+                "category_5"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerNine",
+              "domain": "flower",
+              "flower_classname": "FlowerNine",
+              "flower_title": "Гербера",
+              "flower_id": 54115038,
+              "flower_tags": [
+                "seed_simple",
+                "seed_flower",
+                "category_6"
+              ],
+              "req_user_level": 22
+            },
+            {
+              "candidate_id": "flower:FlowerOne",
+              "domain": "flower",
+              "flower_classname": "FlowerOne",
+              "flower_title": "Нарцисс",
+              "flower_id": 7179045,
+              "flower_tags": [
+                "seed_simple",
+                "seed_flower",
+                "category_4"
+              ],
+              "req_user_level": 15
+            },
+            {
+              "candidate_id": "flower:FlowerOrchid",
+              "domain": "flower",
+              "flower_classname": "FlowerOrchid",
+              "flower_title": "Ванда",
+              "flower_id": 9867,
+              "flower_tags": [
+                "seed_simple",
+                "seed_quest",
+                "category_7"
+              ],
+              "req_user_level": null
+            },
+            {
+              "candidate_id": "flower:FlowerPeony",
+              "domain": "flower",
+              "flower_classname": "FlowerPeony",
+              "flower_title": "Пион",
+              "flower_id": 9862,
+              "flower_tags": [
+                "seed_simple",
+                "seed_quest",
+                "category_2"
+              ],
+              "req_user_level": null
+            }
+          ],
+          "notes": []
+        }
+      ]
+    }
+  ],
+  "issues": [],
+  "summary": {
+    "quests_found": 3,
+    "tasks_found": 9,
+    "candidate_limit": 12,
+    "candidates_emitted": 60,
+    "unique_candidates_emitted": 60,
+    "issues": 0,
+    "campaign_memory_used": true
+  },
+  "candidate_pool_summary": {
+    "garbage": 220,
+    "flower": 36,
+    "collection_drop": 2095,
+    "gr_garbage": 357
+  },
+  "generated_sequence_offsets": {},
+  "next_generated_numbers": {}
+}

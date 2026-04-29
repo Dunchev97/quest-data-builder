@@ -640,22 +640,6 @@
       ],
       "source_file": "raw/locations/locations.json"
     },
-    "40": {
-      "code": "40",
-      "title": "Гардеробная",
-      "tags": [
-        "home",
-        "wardrobe",
-        "slow",
-        "daily_guest"
-      ],
-      "garbage_assets": [
-        "MothPink",
-        "MothGreen",
-        "MothBlue"
-      ],
-      "source_file": "raw/locations/locations.json"
-    },
     "42": {
       "code": "42",
       "title": "Стеклодувня",
@@ -1152,22 +1136,6 @@
         "SnowPattern",
         "StainedGlass",
         "ShinySpoon"
-      ],
-      "source_file": "raw/locations/locations.json"
-    },
-    "84": {
-      "code": "84",
-      "title": "Царская гардеробная",
-      "tags": [
-        "home",
-        "wardrobe_vip",
-        "slow",
-        "daily_guest"
-      ],
-      "garbage_assets": [
-        "Garbage_Shoes1",
-        "Garbage_Shoes2",
-        "Garbage_Shoes3"
       ],
       "source_file": "raw/locations/locations.json"
     },
