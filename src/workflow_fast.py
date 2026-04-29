@@ -6,6 +6,7 @@ from typing import Any
 
 try:
     from . import build_context_pack as context_pack_builder
+    from . import build_filled_tasks as filled_tasks_builder
     from . import build_quest_group as quest_group_builder
     from . import build_resource_table as resource_table_builder
     from . import export_csv
@@ -21,6 +22,7 @@ try:
     from .workflow_context import DEFAULT_CONTEXT_PATH, approve_stage, load_context, write_json
 except ImportError:
     import build_context_pack as context_pack_builder
+    import build_filled_tasks as filled_tasks_builder
     import build_quest_group as quest_group_builder
     import build_resource_table as resource_table_builder
     import export_csv
@@ -44,6 +46,8 @@ QUEST_PLAN_RESOLVED_PREVIEW = "quest_plan.resolved.preview.md"
 CONTEXT_HISTORY = "context_candidate_history.json"
 CONTEXT_PACK = "context_pack.json"
 CONTEXT_PACK_PREVIEW = "context_pack.preview.md"
+TASK_CHOICES = "task_choices.json"
+FILLED_TASKS_BUILD = "filled_tasks.build.json"
 FILLED_TASKS = "filled_tasks.json"
 FILLED_TASKS_VALIDATION = "filled_tasks.validation.json"
 FILLED_TASKS_PREVIEW = "filled_tasks.preview.md"
@@ -110,7 +114,7 @@ def run_stage3(args: argparse.Namespace) -> int:
 def run_context(args: argparse.Namespace) -> int:
     campaign_id, pack_id = resolve_ids(args)
     approval_error = context_pack_builder.stage3_approval_error(args.context, campaign_id, pack_id)
-    if approval_error is not None and not args.allow_unapproved:
+    if approval_error is not None and args.require_stage3_approval:
         print(f"context_pack was not built: {approval_error}.")
         print("Approve stage 3 first.")
         return 1
@@ -133,6 +137,28 @@ def run_context(args: argparse.Namespace) -> int:
     print(f"issues: {summary['issues']}")
     print(f"json written: {pack_artifact(campaign_id, pack_id, CONTEXT_PACK, args.campaigns_dir)}")
     return 0 if summary["issues"] == 0 else 2
+
+
+def run_fill(args: argparse.Namespace) -> int:
+    campaign_id, pack_id = resolve_ids(args)
+    context_pack_path = pack_artifact(campaign_id, pack_id, CONTEXT_PACK, args.campaigns_dir)
+    choices_path = pack_artifact(campaign_id, pack_id, TASK_CHOICES, args.campaigns_dir)
+    output_path = pack_artifact(campaign_id, pack_id, FILLED_TASKS, args.campaigns_dir)
+    build_path = pack_artifact(campaign_id, pack_id, FILLED_TASKS_BUILD, args.campaigns_dir)
+
+    result = filled_tasks_builder.build_filled_tasks_file(
+        context_pack_path=context_pack_path,
+        choices_path=choices_path,
+        output_json_path=output_path,
+        build_json_path=build_path,
+    )
+    summary = result["summary"]
+    print(f"stage 4 filled: quests={summary['quests_found']} tasks={summary['tasks_found']} issues={summary['issues']}")
+    print(f"json written: {output_path}")
+    print(f"build summary written: {build_path}")
+    if summary["issues"]:
+        return 2
+    return run_validate(args)
 
 
 def run_validate(args: argparse.Namespace) -> int:
@@ -252,6 +278,8 @@ def run_status(args: argparse.Namespace) -> int:
         STAGE3_TEXT,
         QUEST_PLAN_RESOLVED,
         CONTEXT_PACK,
+        TASK_CHOICES,
+        FILLED_TASKS_BUILD,
         FILLED_TASKS,
         FILLED_TASKS_VALIDATION,
         QUEST_GROUP,
@@ -285,8 +313,12 @@ def build_parser() -> argparse.ArgumentParser:
     add_pack_options(context_parser)
     context_parser.add_argument("--candidate-limit", type=int, default=context_pack_builder.DEFAULT_CANDIDATE_LIMIT)
     context_parser.add_argument("--reset-history", action="store_true")
-    context_parser.add_argument("--allow-unapproved", action="store_true")
+    context_parser.add_argument("--require-stage3-approval", action="store_true")
     context_parser.set_defaults(func=run_context)
+
+    fill_parser = subparsers.add_parser("fill", help="Build strict stage 4 filled_tasks.json from task_choices.json and validate it.")
+    add_pack_options(fill_parser)
+    fill_parser.set_defaults(func=run_fill)
 
     validate_parser = subparsers.add_parser("validate", help="Validate stage 4 filled_tasks.json.")
     add_pack_options(validate_parser)

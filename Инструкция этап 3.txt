@@ -375,7 +375,7 @@ Character: Кролус
 
 Правило human approval gate:
 
-Этап 3 можно начинать только после явного апрува этапа 2 в чате. После результата этапа 3 нужно остановиться, показать пользователю выбранные `Task template ID`, русские названия шаблонов и `Task type` по каждому квесту. Нельзя собирать `context_pack` и нельзя переходить к этапу 4 без апрува пользователя.
+Этап 3 можно начинать только после явного апрува этапа 2 в чате. После результата этапа 3 нужно остановиться, показать пользователю выбранные `Task template ID`, русские названия шаблонов и `Task type` по каждому квесту. Нельзя переходить к этапу 4 без апрува пользователя.
 
 После явного апрува этапа 3 нужно записать technical gate:
 
@@ -383,7 +383,7 @@ Character: Кролус
 python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
 ```
 
-Без этого `python src/workflow_fast.py context ...` должен отказаться собирать `context_pack`.
+Этап 3.1 (`python src/workflow_fast.py context ...`) теперь технический и не требует отдельного апрува. Его запускают перед этапом 4, чтобы собрать `context_pack`.
 
 Если pack продолжает уже существующую campaign, не добавляй номер pack в `Classname quests`. Для одной сюжетки должен сохраняться общий prefix campaign. Например, после `MeatballRain_2026_Story_1`, `MeatballRain_2026_Story_2`, `MeatballRain_2026_Story_3` следующий pack продолжает как `MeatballRain_2026_Story_4`, `MeatballRain_2026_Story_5`, `MeatballRain_2026_Story_6`, а не `MeatballRain_2026_Pack2_Story_1`.
 

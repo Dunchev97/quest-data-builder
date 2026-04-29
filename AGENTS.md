@@ -53,8 +53,8 @@ workspace/active_context.json
 1. Сюжетная структура pack.
 2. Реплики начала/завершения.
 3. План квестов и task templates.
-3.1. Context pack для заполнения task objects.
-4. Заполненные task objects и validation.
+3.1. Context pack для смыслового заполнения task choices.
+4. `task_choices.json`, сборка `filled_tasks.json` и validation.
 5. Quest group для pack.
 6. CSV export.
 
@@ -62,7 +62,7 @@ workspace/active_context.json
 
 - Выполнять только один этап за раз.
 - После каждого творческого этапа показывать результат пользователю и ждать явный approval.
-- Stage 3.1 нельзя собирать до approval stage 3.
+- Stage 3.1 - технический подготовительный шаг без отдельного approval; запускать после утвержденного stage 3 перед stage 4.
 - Stage 5 нельзя собирать до approval stage 4.
 - Stage 6 нельзя запускать до approval stage 5.
 - Approval записывать через `src/workflow_context.py approve`.
@@ -112,8 +112,8 @@ campaigns/<campaign_id>/<pack_id>/generated_quests.csv
 
 ## Роли ИИ И Кода
 
-- ИИ отвечает за творческие решения: сюжет, реплики, выбор task types, заполнение task objects по контексту, тексты quest group.
-- Код отвечает за guardrails: parsing, context pack, validation, approval gates, CSV export, campaign memory.
+- ИИ отвечает за творческие решения: сюжет, реплики, выбор task types, смысловые `task_choices` по контексту, загадки, `choice_reason`, тексты quest group.
+- Код отвечает за guardrails: parsing, context pack, сборку strict `filled_tasks.json` из `task_choices.json`, validation, approval gates, CSV export, campaign memory.
 - Не выдумывать игровые факты. Classname, title, location, collection, garbage, flower и связи должны приходить из parsed/generated/quest-ready data.
 - Для задач `in_guest` нельзя предлагать мусор, локации, `collection_drop` или `gr_garbage`, привязанные к локациям с тегом `world`; такие кандидаты допустимы только для домашних задач.
 

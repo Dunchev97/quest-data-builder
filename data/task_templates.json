@@ -8,7 +8,25 @@
       "task_type": "action dialog",
       "category": "dialog",
       "status": "supported",
-      "data_needs": ["quest_context", "character"]
+      "data_needs": [
+        "quest_context",
+        "character"
+      ],
+      "stage4_contract": {
+        "builder": "dialog",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "dialogue_replica",
+          "location_title",
+          "person?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-002",
@@ -16,7 +34,24 @@
       "task_type": "get_and_decrease_asset craft",
       "category": "craft",
       "status": "supported",
-      "data_needs": ["quest_context", "generated_resource"]
+      "data_needs": [
+        "quest_context",
+        "generated_resource"
+      ],
+      "stage4_contract": {
+        "builder": "craft",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "item_title",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-003",
@@ -24,7 +59,25 @@
       "task_type": "HOG clean_debris world",
       "category": "hog",
       "status": "supported",
-      "data_needs": ["quest_context", "generated_hog"]
+      "data_needs": [
+        "quest_context",
+        "generated_hog"
+      ],
+      "stage4_contract": {
+        "builder": "hog",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "item_title",
+          "location_title?",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-004",
@@ -32,7 +85,25 @@
       "task_type": "HOG clean_debris location",
       "category": "hog",
       "status": "supported",
-      "data_needs": ["quest_context", "generated_hog"]
+      "data_needs": [
+        "quest_context",
+        "generated_hog"
+      ],
+      "stage4_contract": {
+        "builder": "hog",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "item_title",
+          "location_title?",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-005",
@@ -40,7 +111,25 @@
       "task_type": "HOG clean_debris home_locations",
       "category": "hog",
       "status": "supported",
-      "data_needs": ["quest_context", "generated_hog"]
+      "data_needs": [
+        "quest_context",
+        "generated_hog"
+      ],
+      "stage4_contract": {
+        "builder": "hog",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "item_title",
+          "location_title?",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-006",
@@ -48,7 +137,25 @@
       "task_type": "HOG clean_debris hidden_object",
       "category": "hog",
       "status": "supported",
-      "data_needs": ["quest_context", "generated_hog"]
+      "data_needs": [
+        "quest_context",
+        "generated_hog"
+      ],
+      "stage4_contract": {
+        "builder": "hog",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "item_title",
+          "location_title?",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-007",
@@ -56,7 +163,25 @@
       "task_type": "HOG clean_debris true_among_false",
       "category": "hog",
       "status": "supported",
-      "data_needs": ["quest_context", "generated_hog"]
+      "data_needs": [
+        "quest_context",
+        "generated_hog"
+      ],
+      "stage4_contract": {
+        "builder": "hog",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "item_title",
+          "location_title?",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-008",
@@ -64,7 +189,24 @@
       "task_type": "get_asset ASK",
       "category": "request",
       "status": "supported",
-      "data_needs": ["quest_context", "generated_resource"]
+      "data_needs": [
+        "quest_context",
+        "generated_resource"
+      ],
+      "stage4_contract": {
+        "builder": "generated_resource",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "item_title",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-009",
@@ -72,7 +214,24 @@
       "task_type": "get_asset PER",
       "category": "request",
       "status": "supported",
-      "data_needs": ["quest_context", "generated_resource"]
+      "data_needs": [
+        "quest_context",
+        "generated_resource"
+      ],
+      "stage4_contract": {
+        "builder": "generated_resource",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "item_title",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-010",
@@ -80,7 +239,26 @@
       "task_type": "get_asset CL",
       "category": "collection_reward",
       "status": "supported",
-      "data_needs": ["quest_context", "generated_resource", "collection"]
+      "data_needs": [
+        "quest_context",
+        "generated_resource",
+        "collection"
+      ],
+      "stage4_contract": {
+        "builder": "generated_collection_reward",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "item_title",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-011",
@@ -88,7 +266,24 @@
       "task_type": "get_asset Collection",
       "category": "collection",
       "status": "supported",
-      "data_needs": ["quest_context", "collection_drop"]
+      "data_needs": [
+        "quest_context",
+        "collection_drop"
+      ],
+      "stage4_contract": {
+        "builder": "collection",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-012",
@@ -96,7 +291,24 @@
       "task_type": "get_asset FA",
       "category": "friend_action",
       "status": "supported",
-      "data_needs": ["quest_context", "generated_resource"]
+      "data_needs": [
+        "quest_context",
+        "generated_resource"
+      ],
+      "stage4_contract": {
+        "builder": "generated_resource",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "item_title",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-013",
@@ -104,7 +316,26 @@
       "task_type": "get_asset GR garbage location_tags",
       "category": "gr_garbage",
       "status": "supported",
-      "data_needs": ["quest_context", "garbage", "location"]
+      "data_needs": [
+        "quest_context",
+        "garbage",
+        "location"
+      ],
+      "stage4_contract": {
+        "builder": "generated_resource_from_candidate",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "item_title",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-014",
@@ -112,7 +343,26 @@
       "task_type": "get_asset GR in_guest garbage classname",
       "category": "gr_garbage",
       "status": "supported",
-      "data_needs": ["quest_context", "garbage", "location"]
+      "data_needs": [
+        "quest_context",
+        "garbage",
+        "location"
+      ],
+      "stage4_contract": {
+        "builder": "generated_resource_from_candidate",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "item_title",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-015",
@@ -120,7 +370,26 @@
       "task_type": "get_asset GR garbage classname",
       "category": "gr_garbage",
       "status": "supported",
-      "data_needs": ["quest_context", "garbage", "location"]
+      "data_needs": [
+        "quest_context",
+        "garbage",
+        "location"
+      ],
+      "stage4_contract": {
+        "builder": "generated_resource_from_candidate",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "item_title",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-016",
@@ -128,7 +397,25 @@
       "task_type": "get_asset GR in_guest flower",
       "category": "gr_flower",
       "status": "supported",
-      "data_needs": ["quest_context", "flower"]
+      "data_needs": [
+        "quest_context",
+        "flower"
+      ],
+      "stage4_contract": {
+        "builder": "generated_resource_from_candidate",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "item_title",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-017",
@@ -136,7 +423,25 @@
       "task_type": "get_asset GR flower",
       "category": "gr_flower",
       "status": "supported",
-      "data_needs": ["quest_context", "flower"]
+      "data_needs": [
+        "quest_context",
+        "flower"
+      ],
+      "stage4_contract": {
+        "builder": "generated_resource_from_candidate",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "item_title",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-018",
@@ -144,7 +449,24 @@
       "task_type": "action take_crop",
       "category": "flower",
       "status": "supported",
-      "data_needs": ["quest_context", "flower"]
+      "data_needs": [
+        "quest_context",
+        "flower"
+      ],
+      "stage4_contract": {
+        "builder": "flower_action",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-019",
@@ -152,7 +474,24 @@
       "task_type": "action take_crop_in_guest",
       "category": "flower",
       "status": "supported",
-      "data_needs": ["quest_context", "flower"]
+      "data_needs": [
+        "quest_context",
+        "flower"
+      ],
+      "stage4_contract": {
+        "builder": "flower_action",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-020",
@@ -160,7 +499,25 @@
       "task_type": "garbage classname in_guest",
       "category": "garbage",
       "status": "supported",
-      "data_needs": ["quest_context", "garbage", "location"]
+      "data_needs": [
+        "quest_context",
+        "garbage",
+        "location"
+      ],
+      "stage4_contract": {
+        "builder": "garbage",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-021",
@@ -168,7 +525,25 @@
       "task_type": "garbage classname",
       "category": "garbage",
       "status": "supported",
-      "data_needs": ["quest_context", "garbage", "location"]
+      "data_needs": [
+        "quest_context",
+        "garbage",
+        "location"
+      ],
+      "stage4_contract": {
+        "builder": "garbage",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-022",
@@ -176,7 +551,25 @@
       "task_type": "action take_crop_in_guest mystery",
       "category": "mystery_flower",
       "status": "supported",
-      "data_needs": ["quest_context", "flower"]
+      "data_needs": [
+        "quest_context",
+        "flower"
+      ],
+      "stage4_contract": {
+        "builder": "mystery",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "riddle",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-023",
@@ -184,7 +577,25 @@
       "task_type": "action take_crop mystery",
       "category": "mystery_flower",
       "status": "supported",
-      "data_needs": ["quest_context", "flower"]
+      "data_needs": [
+        "quest_context",
+        "flower"
+      ],
+      "stage4_contract": {
+        "builder": "mystery",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "riddle",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-024",
@@ -192,7 +603,26 @@
       "task_type": "garbage classname in_guest mystery",
       "category": "mystery_garbage",
       "status": "supported",
-      "data_needs": ["quest_context", "garbage", "location"]
+      "data_needs": [
+        "quest_context",
+        "garbage",
+        "location"
+      ],
+      "stage4_contract": {
+        "builder": "mystery",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "riddle",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-025",
@@ -200,7 +630,26 @@
       "task_type": "garbage classname mystery",
       "category": "mystery_garbage",
       "status": "supported",
-      "data_needs": ["quest_context", "garbage", "location"]
+      "data_needs": [
+        "quest_context",
+        "garbage",
+        "location"
+      ],
+      "stage4_contract": {
+        "builder": "mystery",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "riddle",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-026",
@@ -208,7 +657,25 @@
       "task_type": "get_asset Collection mystery",
       "category": "mystery_collection",
       "status": "supported",
-      "data_needs": ["quest_context", "collection_drop"]
+      "data_needs": [
+        "quest_context",
+        "collection_drop"
+      ],
+      "stage4_contract": {
+        "builder": "mystery",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "riddle",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-027",
@@ -216,7 +683,25 @@
       "task_type": "get_asset Collection reverse_mystery",
       "category": "mystery_collection",
       "status": "supported",
-      "data_needs": ["quest_context", "collection_drop"]
+      "data_needs": [
+        "quest_context",
+        "collection_drop"
+      ],
+      "stage4_contract": {
+        "builder": "reverse_mystery",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "reverse_clue_title",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-028",
@@ -224,7 +709,24 @@
       "task_type": "get_asset Collection is_silhouette",
       "category": "silhouette_collection",
       "status": "supported",
-      "data_needs": ["quest_context", "collection_drop"]
+      "data_needs": [
+        "quest_context",
+        "collection_drop"
+      ],
+      "stage4_contract": {
+        "builder": "silhouette",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-029",
@@ -232,7 +734,25 @@
       "task_type": "garbage classname is_silhouette in_guest",
       "category": "silhouette_garbage",
       "status": "supported",
-      "data_needs": ["quest_context", "garbage", "location"]
+      "data_needs": [
+        "quest_context",
+        "garbage",
+        "location"
+      ],
+      "stage4_contract": {
+        "builder": "silhouette",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-030",
@@ -240,7 +760,25 @@
       "task_type": "garbage classname is_silhouette",
       "category": "silhouette_garbage",
       "status": "supported",
-      "data_needs": ["quest_context", "garbage", "location"]
+      "data_needs": [
+        "quest_context",
+        "garbage",
+        "location"
+      ],
+      "stage4_contract": {
+        "builder": "silhouette",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-031",
@@ -248,7 +786,24 @@
       "task_type": "action take_crop_in_guest is_silhouette",
       "category": "silhouette_flower",
       "status": "supported",
-      "data_needs": ["quest_context", "flower"]
+      "data_needs": [
+        "quest_context",
+        "flower"
+      ],
+      "stage4_contract": {
+        "builder": "silhouette",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-032",
@@ -256,7 +811,24 @@
       "task_type": "action take_crop is_silhouette",
       "category": "silhouette_flower",
       "status": "supported",
-      "data_needs": ["quest_context", "flower"]
+      "data_needs": [
+        "quest_context",
+        "flower"
+      ],
+      "stage4_contract": {
+        "builder": "silhouette",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "selected_candidate_id",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-033",
@@ -264,7 +836,27 @@
       "task_type": "action give",
       "category": "interaction",
       "status": "supported",
-      "data_needs": ["quest_context", "generated_resource", "character"]
+      "data_needs": [
+        "quest_context",
+        "generated_resource",
+        "character"
+      ],
+      "stage4_contract": {
+        "builder": "give_item",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "item_title",
+          "person?",
+          "location_title?",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-034",
@@ -272,7 +864,25 @@
       "task_type": "action post_photo",
       "category": "interaction",
       "status": "supported",
-      "data_needs": ["quest_context", "character"]
+      "data_needs": [
+        "quest_context",
+        "character"
+      ],
+      "stage4_contract": {
+        "builder": "post_photo",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number",
+          "person?",
+          "location_title?",
+          "choice_reason?"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     },
     {
       "id": "TT-035",
@@ -280,7 +890,19 @@
       "task_type": "not_ready",
       "category": "interaction",
       "status": "not_ready",
-      "data_needs": []
+      "data_needs": [],
+      "stage4_contract": {
+        "builder": "not_ready",
+        "ai_writes_task_object": false,
+        "choice_fields": [
+          "task_number"
+        ],
+        "code_generates": [
+          "task_object",
+          "fixed_title_hint",
+          "identifier"
+        ]
+      }
     }
   ]
 }

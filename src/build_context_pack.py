@@ -886,9 +886,14 @@ def main(argv: list[str] | None = None) -> int:
         help="Active context JSON with recorded stage approvals.",
     )
     parser.add_argument(
+        "--require-stage3-approval",
+        action="store_true",
+        help="Optional legacy guard: require recorded stage 3 approval before building context_pack.",
+    )
+    parser.add_argument(
         "--allow-unapproved-stage3",
         action="store_true",
-        help="Emergency override: build context_pack without recorded stage 3 approval.",
+        help=argparse.SUPPRESS,
     )
     args = parser.parse_args(argv)
 
@@ -908,7 +913,7 @@ def main(argv: list[str] | None = None) -> int:
         print("Сначала создай campaign: python src/start_campaign.py <campaign_id>")
         return 1
 
-    if not args.allow_unapproved_stage3:
+    if args.require_stage3_approval:
         approval_error = stage3_approval_error(
             args.approval_context,
             campaign_id=args.campaign or None,

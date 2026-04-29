@@ -69,7 +69,7 @@ python src/workflow_fast.py status --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py stage3 --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py context --campaign <campaign_id> --pack <pack_id>
-python src/workflow_fast.py validate --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py fill --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id> --title "..." --description "..." --description-complete "..." --description-spoil "..."
 python src/workflow_fast.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
@@ -98,6 +98,8 @@ quest_plan.json
 quest_plan.resolved.json
 context_pack.json
 context_pack.preview.md
+task_choices.json
+filled_tasks.build.json
 filled_tasks.json
 filled_tasks.validation.json
 filled_tasks.preview.md
@@ -115,7 +117,7 @@ generated_quests.csv
 
 - пишет этапы 1-2;
 - выбирает task types на этапе 3;
-- заполняет task objects на этапе 4 по `context_pack`;
+- заполняет смысловые `task_choices` на этапе 4 по `context_pack`;
 - пишет тексты `quest_group` на этапе 5.
 - пишет названия и описания горшков по изображению в режиме `pot_description`.
 
@@ -123,6 +125,7 @@ generated_quests.csv
 
 - парсит stage 3;
 - готовит context pack;
+- собирает strict `filled_tasks.json` из `task_choices.json`;
 - валидирует task objects;
 - валидирует quest group;
 - проверяет approval gates;
@@ -141,9 +144,9 @@ Codex выполняет один этап за раз и останавлива
 - После stage 1: показать сюжетную структуру, ждать approval.
 - После stage 2: показать реплики начала/завершения, ждать approval.
 - После stage 3: показать quest plan и выбранные task templates, ждать approval.
-- После approval stage 3: записать gate, только потом stage 3.1.
-- После stage 3.1: показать context pack/кандидатов, ждать approval.
-- После stage 4: показать filled tasks и validation, ждать approval.
+- После approval stage 3: записать gate; stage 3.1 можно запускать как техническую подготовку перед stage 4.
+- После stage 3.1: отдельный approval не нужен, но перед stage 4 важно просмотреть context pack/кандидатов.
+- После stage 4: показать task choices, filled tasks и validation, ждать approval.
 - После approval stage 4: записать gate, только потом stage 5.
 - После stage 5: показать quest group, ждать approval.
 - После approval stage 5: записать gate, только потом stage 6.
@@ -158,7 +161,7 @@ python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack
 
 Скрипты должны отказываться работать, если gate отсутствует:
 
-- `build_context_pack.py` требует approval stage 3.
+- `build_context_pack.py` по умолчанию не требует approval stage 3; старый строгий режим доступен через `--require-stage3-approval`.
 - `build_quest_group.py` требует approval stage 4.
 - `export_csv.py` требует approval stage 5.
 
@@ -233,27 +236,29 @@ campaigns/<campaign_id>/<pack_id>/context_pack.json
 campaigns/<campaign_id>/<pack_id>/context_pack.preview.md
 ```
 
-`build_context_pack.py` не должен работать без approval stage 3 для того же `campaign_id/pack_id`.
+`build_context_pack.py` запускается без отдельного approval stage 3. Это техническая подготовка перед stage 4; процессный approval stage 3 всё равно нужен перед переходом к творческому заполнению.
 
-### Stage 4 - Filled Tasks
+### Stage 4 - Task Choices And Filled Tasks
 
-Цель: ИИ заполняет task objects по `context_pack`, а код проверяет результат.
+Цель: ИИ заполняет смысловые `task_choices.json` по `context_pack`, а код собирает strict `filled_tasks.json` и проверяет результат.
 
 Постоянные файлы stage 4 должны лежать в pack:
 
 ```text
+campaigns/<campaign_id>/<pack_id>/task_choices.json
+campaigns/<campaign_id>/<pack_id>/filled_tasks.build.json
 campaigns/<campaign_id>/<pack_id>/filled_tasks.json
 campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json
 campaigns/<campaign_id>/<pack_id>/filled_tasks.preview.md
 ```
 
-Validation:
+Сборка и validation:
 
 ```bash
-python src/workflow_fast.py validate --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py fill --campaign <campaign_id> --pack <pack_id>
 ```
 
-Нужно показать пользователю `filled_tasks` и validation summary. После approval записать:
+Нужно показать пользователю `task_choices`, собранные `filled_tasks` и validation summary. После approval записать:
 
 ```bash
 python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>

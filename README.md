@@ -119,8 +119,8 @@ python src/update_campaign_memory.py MeatballRain_2026 --pack pack_002 --from-ou
 | 1 | Сюжетная структура pack | `stage1_story.txt` | нужен |
 | 2 | Реплики начала/завершения | `stage2_story.txt` | нужен |
 | 3 | План квестов и task templates | `stage3_quests.txt`, `quest_plan*.json` | нужен |
-| 3.1 | Context pack для ИИ | `context_pack.json` | нужен |
-| 4 | Filled task objects + validation | `filled_tasks.json`, `filled_tasks.validation.json` | нужен |
+| 3.1 | Context pack для ИИ | `context_pack.json` | не нужен |
+| 4 | Task choices, filled task objects + validation | `task_choices.json`, `filled_tasks.json`, `filled_tasks.validation.json` | нужен |
 | 5 | Quest group pack | `quest_group.json` | нужен |
 | 6 | CSV export | `generated_quests.csv` | запускается только после approval stage 5 |
 
@@ -151,7 +151,7 @@ python src/workflow_fast.py context --campaign <campaign_id> --pack <pack_id>
 Этап 4:
 
 ```bash
-python src/workflow_fast.py validate --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py fill --campaign <campaign_id> --pack <pack_id>
 ```
 
 Этап 5:

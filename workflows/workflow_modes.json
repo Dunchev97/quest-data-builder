@@ -4,9 +4,14 @@
     {
       "id": "quest_generation",
       "name_ru": "Генерация квестов",
-      "description_ru": "Поэтапное создание нового pack квестов или продолжение campaign с обязательным апрувом пользователя после каждого этапа.",
+      "description_ru": "Поэтапное создание нового pack квестов или продолжение campaign с approval после творческих этапов и без отдельного approval для технического этапа 3.1.",
       "default_stage": "1",
-      "requires_context": ["campaign_id", "pack_id", "quest_count_or_auto", "stage_approval"],
+      "requires_context": [
+        "campaign_id",
+        "pack_id",
+        "quest_count_or_auto",
+        "stage_approval"
+      ],
       "clarification_ru": "Перед генерацией нового pack нужно явно указать количество квестов или написать: придумай сколько хочешь.",
       "approval_gates_ru": [
         "Codex выполняет только один этап за раз.",
@@ -14,9 +19,9 @@
         "После этапа 2 нужно показать реплики начала/завершения и ждать явный апрув.",
         "После этапа 3 нужно показать выбранные шаблоны тасков и ждать явный апрув.",
         "После апрува этапа 3 нужно записать gate командой python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>.",
-        "build_context_pack.py не собирает context_pack без записанного approval stage 3 для того же campaign/pack.",
-        "После этапа 3.1 нужно показать context_pack/кандидатов и ждать явный апрув.",
-        "После этапа 4 нужно показать filled_tasks/валидацию и ждать явный апрув.",
+        "build_context_pack.py собирает context_pack без отдельного approval stage 3; это техническая подготовка перед этапом 4.",
+        "После этапа 3.1 отдельный апрув не нужен; перед этапом 4 нужно просмотреть context_pack/кандидатов.",
+        "После этапа 4 нужно показать task_choices, filled_tasks/валидацию и ждать явный апрув.",
         "После апрува этапа 4 нужно записать gate командой python src/workflow_context.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>.",
         "Этап 5 создает campaigns/<campaign_id>/<pack_id>/quest_group.json по контексту всех квестов pack и требует отдельного апрува пользователя.",
         "После апрува этапа 5 нужно записать gate командой python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>.",
@@ -57,7 +62,7 @@
         "python src/workflow_fast.py stage3 --campaign <campaign_id> --pack <pack_id>",
         "python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>",
         "python src/workflow_fast.py context --campaign <campaign_id> --pack <pack_id>",
-        "python src/workflow_fast.py validate --campaign <campaign_id> --pack <pack_id>",
+        "python src/workflow_fast.py fill --campaign <campaign_id> --pack <pack_id>",
         "python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>",
         "python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id>",
         "python src/workflow_fast.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>",
@@ -69,7 +74,12 @@
       "name_ru": "Правка квеста или таска",
       "description_ru": "Точная правка уже созданного quest/task на этапе 3 или 4.",
       "default_stage": "4",
-      "requires_context": ["campaign_id", "pack_id", "quest_number", "task_number"],
+      "requires_context": [
+        "campaign_id",
+        "pack_id",
+        "quest_number",
+        "task_number"
+      ],
       "keywords_ru": [
         "поменяй таск",
         "замени таск",
@@ -93,7 +103,7 @@
         "этап 4 правка"
       ],
       "entrypoints": [
-        "python src/workflow_fast.py validate --campaign <campaign_id> --pack <pack_id>",
+        "python src/workflow_fast.py fill --campaign <campaign_id> --pack <pack_id>",
         "python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>",
         "python src/update_campaign_memory.py <campaign_id> --pack <pack_id>"
       ]
@@ -103,7 +113,11 @@
       "name_ru": "Создание квестовой группы",
       "description_ru": "Этап 5: ИИ анализирует все квесты pack и создает campaigns/<campaign_id>/<pack_id>/quest_group.json для страницы журнала.",
       "default_stage": "5",
-      "requires_context": ["campaign_id", "pack_id", "stage_4_approval"],
+      "requires_context": [
+        "campaign_id",
+        "pack_id",
+        "stage_4_approval"
+      ],
       "keywords_ru": [
         "квестовая группа",
         "quest group",
@@ -123,7 +137,11 @@
       "name_ru": "CSV-экспорт",
       "description_ru": "Этап 6: проверка этапов 4-5 и разворачивание quest_group.json + filled_tasks.json из папки pack в CSV.",
       "default_stage": "6",
-      "requires_context": ["campaign_id", "pack_id", "stage_5_approval"],
+      "requires_context": [
+        "campaign_id",
+        "pack_id",
+        "stage_5_approval"
+      ],
       "keywords_ru": [
         "создай csv",
         "сделай csv",
@@ -136,7 +154,7 @@
         "структура csv"
       ],
       "entrypoints": [
-        "python src/workflow_fast.py validate --campaign <campaign_id> --pack <pack_id>",
+        "python src/workflow_fast.py fill --campaign <campaign_id> --pack <pack_id>",
         "python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id>",
         "python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>"
       ]
@@ -146,7 +164,9 @@
       "name_ru": "Управление campaign и pack",
       "description_ru": "Создание, просмотр и обновление постоянной памяти campaign.",
       "default_stage": "",
-      "requires_context": ["campaign_id"],
+      "requires_context": [
+        "campaign_id"
+      ],
       "keywords_ru": [
         "создай кампанию",
         "создать кампанию",
@@ -220,7 +240,10 @@
       "name_ru": "Описание горшков",
       "description_ru": "Workflow по изображению горшка: определить вид, придумать название, короткое описание и правильный постфикс.",
       "default_stage": "description",
-      "requires_context": ["input_image", "pot_type"],
+      "requires_context": [
+        "input_image",
+        "pot_type"
+      ],
       "clarification_ru": "Нужно изображение горшка и вид: Обычный, Волшебный, Короб для овощей или Грибница для грибов.",
       "keywords_ru": [
         "горшок",
@@ -250,7 +273,9 @@
       "name_ru": "Таблица ресурсов",
       "description_ru": "Workflow для сборки CSV-таблицы ресурсов по всей campaign в формате *_Res.csv.",
       "default_stage": "csv",
-      "requires_context": ["campaign_id"],
+      "requires_context": [
+        "campaign_id"
+      ],
       "clarification_ru": "Нужно указать campaign_id. По умолчанию таблица собирается по всем pack внутри campaign.",
       "keywords_ru": [
         "таблица ресурсов",

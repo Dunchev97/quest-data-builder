@@ -196,7 +196,7 @@ class BuildContextPackTests(unittest.TestCase):
             self.assertNotEqual(first_candidate, second_candidate)
             self.assertTrue(history_path.exists())
 
-    def test_cli_refuses_without_stage3_approval(self) -> None:
+    def test_cli_builds_without_stage3_approval_by_default(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             input_path = root / "quest_plan.resolved.json"
@@ -236,6 +236,53 @@ class BuildContextPackTests(unittest.TestCase):
                     str(context_path),
                     "--current-pack",
                     "pack_001",
+                ]
+            )
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue(output_path.exists())
+
+    def test_cli_can_require_stage3_approval(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "quest_plan.resolved.json"
+            index_path = root / "quest_ready_index.json"
+            drops_path = root / "quest_ready_drops.index.json"
+            history_path = root / "context_candidate_history.json"
+            output_path = root / "context_pack.json"
+            preview_path = root / "context_pack.preview.md"
+            context_path = root / "active_context.json"
+            write_json(input_path, resolved_plan([task(1, "TT-020", "РЈР±РѕСЂРєР° РєРѕРЅРєСЂРµС‚РЅРѕРіРѕ РјСѓСЃРѕСЂР° РІ РіРѕСЃС‚СЏС…", "garbage classname in_guest", "garbage")]))
+            write_json(index_path, sample_quest_ready_index())
+            write_json(drops_path, sample_drops())
+            write_json(
+                context_path,
+                {
+                    "version": 1,
+                    "campaign_id": "Event_2026",
+                    "pack_id": "pack_001",
+                    "stage_approvals": {},
+                },
+            )
+
+            exit_code = build_context_pack_main(
+                [
+                    str(input_path),
+                    "--quest-ready-index",
+                    str(index_path),
+                    "--quest-ready-drops",
+                    str(drops_path),
+                    "--history",
+                    str(history_path),
+                    "--output-json",
+                    str(output_path),
+                    "--preview",
+                    str(preview_path),
+                    "--approval-context",
+                    str(context_path),
+                    "--current-pack",
+                    "pack_001",
+                    "--require-stage3-approval",
                 ]
             )
 
