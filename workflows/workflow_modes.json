@@ -55,7 +55,9 @@
       "entrypoints": [
         "python src/create_pack.py <campaign_id>",
         "python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>",
-        "python src/build_context_pack.py output/quest_plan.resolved.json --campaign <campaign_id> --current-pack <pack_id>",
+        "python src/parse_stage3.py campaigns/<campaign_id>/<pack_id>/stage3_quests.txt --output-json campaigns/<campaign_id>/<pack_id>/quest_plan.json --preview campaigns/<campaign_id>/<pack_id>/quest_plan.preview.md",
+        "python src/task_type_resolver.py campaigns/<campaign_id>/<pack_id>/quest_plan.json --output-json campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.json --preview campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.preview.md",
+        "python src/build_context_pack.py campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.json --campaign <campaign_id> --current-pack <pack_id> --history campaigns/<campaign_id>/<pack_id>/context_candidate_history.json --output-json campaigns/<campaign_id>/<pack_id>/context_pack.json --preview campaigns/<campaign_id>/<pack_id>/context_pack.preview.md",
         "python src/validate_task_objects.py campaigns/<campaign_id>/<pack_id>/filled_tasks.json --context-pack campaigns/<campaign_id>/<pack_id>/context_pack.json --campaign <campaign_id> --current-pack <pack_id> --output-json campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json --preview campaigns/<campaign_id>/<pack_id>/filled_tasks.preview.md",
         "python src/workflow_context.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>",
         "python src/build_quest_group.py --campaign <campaign_id> --current-pack <pack_id>",
@@ -93,7 +95,7 @@
       "entrypoints": [
         "python src/validate_task_objects.py campaigns/<campaign_id>/<pack_id>/filled_tasks.json --context-pack campaigns/<campaign_id>/<pack_id>/context_pack.json --campaign <campaign_id> --current-pack <pack_id> --output-json campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json --preview campaigns/<campaign_id>/<pack_id>/filled_tasks.preview.md",
         "python src/export_csv.py --campaign <campaign_id> --current-pack <pack_id>",
-        "python src/update_campaign_memory.py <campaign_id> --pack <pack_id> --from-output"
+        "python src/update_campaign_memory.py <campaign_id> --pack <pack_id>"
       ]
     },
     {
@@ -216,12 +218,18 @@
     {
       "id": "pot_description",
       "name_ru": "Описание горшков",
-      "description_ru": "Отдельный будущий workflow: по картинке горшка написать описание в стиле проекта.",
+      "description_ru": "Workflow по изображению горшка: определить вид, придумать название, короткое описание и правильный постфикс.",
       "default_stage": "description",
-      "requires_context": ["input_image"],
+      "requires_context": ["input_image", "pot_type"],
+      "clarification_ru": "Нужно изображение горшка и вид: Обычный, Волшебный, Короб для овощей или Грибница для грибов.",
       "keywords_ru": [
         "горшок",
         "горшки",
+        "грибница",
+        "короб для овощей",
+        "волшебный горшок",
+        "подвесной горшок",
+        "мини горшок",
         "описание горшка",
         "картинка горшка",
         "фото горшка",
@@ -232,7 +240,9 @@
         "стиль домовят"
       ],
       "entrypoints": [
-        "docs/pot_description_style.md"
+        "workflows/POT_DESCRIPTION_WORKFLOW.md",
+        "docs/pot_description_style.md",
+        "python src/validate_pot_description.py output/pot_description.json"
       ]
     },
     {

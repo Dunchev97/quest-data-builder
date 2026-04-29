@@ -7,16 +7,19 @@
 - `AGENTS.md` - короткие обязательные правила для Codex.
 - `README.md` - краткая карта проекта и команды.
 - `workflows/WORKFLOW_GUIDE.md` - подробный workflow 1-6.
+- `workflows/POT_DESCRIPTION_WORKFLOW.md` - workflow описания горшков по изображению.
 - `workflows/workflow_modes.json` - машинная карта режимов, ключевиков и entrypoints.
 - `Инструкция этап 1.txt` ... `Инструкция этап 6.txt` - подробные playbook-и этапов.
 
 ## Active Context
 
-Текущий контекст всегда брать из:
+Текущий контекст всегда брать из локального файла:
 
 ```text
 workspace/active_context.json
 ```
+
+Этот файл не коммитится. У каждого участника команды он свой, поэтому локальные сессии не сбивают друг друга через git.
 
 Если пользователь спрашивает про текущий campaign, pack, stage, quest, task, выбранные шаблоны, `context_pack`, `filled_tasks`, `quest_group` или CSV:
 
@@ -25,6 +28,12 @@ workspace/active_context.json
 3. Искать постоянные артефакты в `campaigns/<campaign_id>/<pack_id>/`.
 4. Смотреть `output/` только как fallback для текущего временного прогона.
 5. Если active context неполный, сказать это явно.
+
+Если пользователь прикрепил картинку и просит описать горшок, переключить режим на `pot_description`:
+
+```bash
+python src/workflow_context.py detect --text "<запрос пользователя>" --apply
+```
 
 Показать контекст:
 
@@ -72,7 +81,7 @@ quest_group.preview.md
 generated_quests.csv
 ```
 
-`output/` - временная витрина. Нельзя считать `output/quest_group.json` или `output/generated_quests.csv` актуальными для campaign, если эти файлы не перенесены в папку pack.
+`output/` - локальная временная витрина. Нельзя считать файлы из `output/` актуальными для campaign, если эти файлы не перенесены в папку pack. Для основного quest workflow предпочитай сразу писать постоянные артефакты в `campaigns/<campaign_id>/<pack_id>/`.
 
 ## Роли ИИ И Кода
 
@@ -82,6 +91,7 @@ generated_quests.csv
 - выбирает task types на этапе 3;
 - заполняет task objects на этапе 4 по `context_pack`;
 - пишет тексты `quest_group` на этапе 5.
+- пишет названия и описания горшков по изображению в режиме `pot_description`.
 
 Код делает guardrails:
 
@@ -92,6 +102,7 @@ generated_quests.csv
 - проверяет approval gates;
 - экспортирует CSV;
 - обновляет campaign memory.
+- валидирует JSON результата pot description, если результат сохраняется.
 
 Игровые факты нельзя выдумывать. Classname, title, location, collection, garbage, flower и связи должны приходить из parsed/generated/quest-ready data.
 
@@ -158,17 +169,17 @@ campaigns/<campaign_id>/<pack_id>/stage2_story.txt
 Команды:
 
 ```bash
-python src/parse_stage3.py input/stage3_quests.txt
-python src/task_type_resolver.py output/quest_plan.json
+python src/parse_stage3.py campaigns/<campaign_id>/<pack_id>/stage3_quests.txt --output-json campaigns/<campaign_id>/<pack_id>/quest_plan.json --preview campaigns/<campaign_id>/<pack_id>/quest_plan.preview.md
+python src/task_type_resolver.py campaigns/<campaign_id>/<pack_id>/quest_plan.json --output-json campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.json --preview campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.preview.md
 ```
 
 Основные выходы:
 
 ```text
-output/quest_plan.json
-output/quest_plan.preview.md
-output/quest_plan.resolved.json
-output/quest_plan.resolved.preview.md
+campaigns/<campaign_id>/<pack_id>/quest_plan.json
+campaigns/<campaign_id>/<pack_id>/quest_plan.preview.md
+campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.json
+campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.preview.md
 ```
 
 После проверки пользователем записать:
@@ -177,7 +188,7 @@ output/quest_plan.resolved.preview.md
 python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
 ```
 
-Если результат stage 3 утвержден, артефакты можно сохранить в pack через campaign tooling или вручную.
+Stage 3 артефакты должны оставаться в папке pack, чтобы параллельные сессии не делили общий `output/`.
 
 ### Stage 3.1 - Context Pack
 
@@ -186,14 +197,15 @@ python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack
 Команда:
 
 ```bash
-python src/build_context_pack.py output/quest_plan.resolved.json --campaign <campaign_id> --current-pack <pack_id>
+python src/build_context_pack.py campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.json --campaign <campaign_id> --current-pack <pack_id> --history campaigns/<campaign_id>/<pack_id>/context_candidate_history.json --output-json campaigns/<campaign_id>/<pack_id>/context_pack.json --preview campaigns/<campaign_id>/<pack_id>/context_pack.preview.md
 ```
 
 Выход:
 
 ```text
-output/context_pack.json
-output/context_pack.preview.md
+campaigns/<campaign_id>/<pack_id>/context_candidate_history.json
+campaigns/<campaign_id>/<pack_id>/context_pack.json
+campaigns/<campaign_id>/<pack_id>/context_pack.preview.md
 ```
 
 `build_context_pack.py` не должен работать без approval stage 3 для того же `campaign_id/pack_id`.
@@ -308,6 +320,31 @@ Generated-объекты нумеруются в пределах campaign:
 
 Если `pack_001` уже использовал `MeatballRain_2026_HOG_1`, следующий pack продолжает с `HOG_2`.
 
+## Pot Description
+
+Отдельный workflow для описания горшков описан в:
+
+```text
+workflows/POT_DESCRIPTION_WORKFLOW.md
+```
+
+Включается, когда пользователь присылает изображение и просит описать горшок, короб, мини/подвесной горшок или грибницу.
+
+Поддержанные виды:
+
+- `Обычный`;
+- `Волшебный`;
+- `Короб для овощей`;
+- `Грибница для грибов`.
+
+`Подвесной` и `мини` считаются обычными для выбора постфикса.
+
+Проверка JSON-результата:
+
+```bash
+python src/validate_pot_description.py output/pot_description.json
+```
+
 ## Режимы
 
 Машинный список режимов находится в:
@@ -331,6 +368,7 @@ python src/workflow_context.py list-modes
 - `campaign_management` - campaign/pack/memory.
 - `validation_review` - разбор ошибок.
 - `raw_indexing` - пересборка индексов.
+- `pot_description` - описание горшков по изображению.
 - `workflow_management` - правка workflow docs.
 
 ## Что Можно Чистить
@@ -339,6 +377,7 @@ python src/workflow_context.py list-modes
 
 - `__pycache__/`
 - `*.pyc`
+- `workspace/active_context.json`, если нужно сбросить локальную сессию; файл будет создан заново командами workflow context
 - временные файлы в `output/`, если нужные артефакты уже сохранены в `campaigns/<campaign_id>/<pack_id>/`
 - старые временные файлы в `input/`, если их содержимое уже перенесено в pack
 
@@ -347,9 +386,9 @@ python src/workflow_context.py list-modes
 - `AGENTS.md`
 - `README.md`
 - `workflows/WORKFLOW_GUIDE.md`
+- `workflows/POT_DESCRIPTION_WORKFLOW.md`
 - `workflows/workflow_modes.json`
 - `Инструкция этап 1.txt` ... `Инструкция этап 6.txt`
-- `workspace/active_context.json`
 - `campaigns/`
 - `data/quest_ready_index.json`
 - `data/quest_ready_drops.index.json`

@@ -27,6 +27,7 @@ python -m unittest discover -s tests
 - `AGENTS.md` - короткие обязательные правила для Codex.
 - `README.md` - краткая карта проекта и команды.
 - `workflows/WORKFLOW_GUIDE.md` - основной подробный workflow создания квестов.
+- `workflows/POT_DESCRIPTION_WORKFLOW.md` - workflow описания горшков по картинке.
 - `workflows/workflow_modes.json` - машинная карта режимов и ключевиков.
 - `Инструкция этап 1.txt` ... `Инструкция этап 6.txt` - подробные playbook-и конкретных этапов.
 
@@ -39,7 +40,7 @@ python -m unittest discover -s tests
 - `input/` - временный ручной ввод для текущего прогона.
 - `output/` - временный рабочий прогон.
 - `campaigns/` - постоянные campaign/pack артефакты.
-- `workspace/` - текущий active context.
+- `workspace/` - локальный active context, не коммитится.
 - `src/` - CLI и Python-код.
 - `tests/` - unit tests.
 
@@ -135,14 +136,14 @@ python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack
 Этап 3:
 
 ```bash
-python src/parse_stage3.py input/stage3_quests.txt
-python src/task_type_resolver.py output/quest_plan.json
+python src/parse_stage3.py campaigns/<campaign_id>/<pack_id>/stage3_quests.txt --output-json campaigns/<campaign_id>/<pack_id>/quest_plan.json --preview campaigns/<campaign_id>/<pack_id>/quest_plan.preview.md
+python src/task_type_resolver.py campaigns/<campaign_id>/<pack_id>/quest_plan.json --output-json campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.json --preview campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.preview.md
 ```
 
 Этап 3.1:
 
 ```bash
-python src/build_context_pack.py output/quest_plan.resolved.json --campaign <campaign_id> --current-pack <pack_id>
+python src/build_context_pack.py campaigns/<campaign_id>/<pack_id>/quest_plan.resolved.json --campaign <campaign_id> --current-pack <pack_id> --history campaigns/<campaign_id>/<pack_id>/context_candidate_history.json --output-json campaigns/<campaign_id>/<pack_id>/context_pack.json --preview campaigns/<campaign_id>/<pack_id>/context_pack.preview.md
 ```
 
 Этап 4:
@@ -167,6 +168,26 @@ Stage 6 читает `filled_tasks.json` и `quest_group.json` из папки p
 
 ```text
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
+```
+
+## Описание Горшков
+
+Для режима описания горшков по картинке:
+
+```bash
+python src/workflow_context.py detect --text "опиши горшок по картинке" --apply
+```
+
+Правила workflow:
+
+```text
+workflows/POT_DESCRIPTION_WORKFLOW.md
+```
+
+Если результат сохранен в JSON:
+
+```bash
+python src/validate_pot_description.py output/pot_description.json
 ```
 
 ## Жесткие Ограничения

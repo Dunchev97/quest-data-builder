@@ -9,11 +9,12 @@
 
 ## Главные источники правды
 
-- `workspace/active_context.json` - текущие `mode`, `campaign_id`, `pack_id`, `stage`, `quest_number`, `task_number`.
+- `workspace/active_context.json` - локальный, некоммитящийся контекст текущего пользователя: `mode`, `campaign_id`, `pack_id`, `stage`, `quest_number`, `task_number`.
 - `campaigns/<campaign_id>/<pack_id>/` - постоянные артефакты конкретного pack.
 - `data/quest_ready_index.json` и `data/quest_ready_drops.index.json` - единственные игровые индексы для генерации quest/task data.
 - `raw/` - исходные игровые данные. Никогда не редактировать.
 - `workflows/WORKFLOW_GUIDE.md` - порядок работы по этапам 1-6.
+- `workflows/POT_DESCRIPTION_WORKFLOW.md` - workflow описания горшков по картинке.
 - `workflows/workflow_modes.json` - ключевики и режимы для `workflow_context.py`.
 
 ## Локальная среда и скорость
@@ -25,7 +26,7 @@
 
 ## Active Context
 
-Если пользователь спрашивает про текущую сессию, campaign, pack, stage, quest, task, выбранные шаблоны, текущий CSV или `quest_group`, сначала читать:
+Если пользователь спрашивает про текущую сессию, campaign, pack, stage, quest, task, выбранные шаблоны, текущий CSV, `quest_group` или текущий режим описания горшков, сначала читать:
 
 ```bash
 python src/workflow_context.py show
@@ -38,6 +39,8 @@ workspace/active_context.json
 ```
 
 Не отвечать по памяти, если вопрос зависит от текущего контекста.
+
+`workspace/active_context.json` не коммитить: у каждого участника команды он свой локальный.
 
 ## Quest Workflow
 
@@ -60,10 +63,23 @@ workspace/active_context.json
 - Stage 6 нельзя запускать до approval stage 5.
 - Approval записывать через `src/workflow_context.py approve`.
 
+## Pot Description Workflow
+
+Если пользователь прислал изображение и просит описать горшок, короб или грибницу:
+
+- переключить режим на `pot_description` через `src/workflow_context.py detect --text "<запрос>" --apply` или вручную через `set`;
+- читать правила из `workflows/POT_DESCRIPTION_WORKFLOW.md`;
+- спросить вид горшка, если пользователь не указал: `Обычный`, `Волшебный`, `Короб для овощей`, `Грибница для грибов`;
+- описывать только видимое на изображении плюс мягкую стилизацию;
+- не выдумывать бонусы, проценты, ускорение роста, валюту или игровые свойства;
+- финальный текст должен заканчиваться правильным постфиксом по виду горшка;
+- при сохранении JSON проверять результат командой `python src/validate_pot_description.py output/pot_description.json`.
+
 ## Где Хранить Артефакты
 
-- `output/` - временный рабочий прогон, не источник правды для campaign.
+- `output/` - локальный временный рабочий прогон, не источник правды для campaign и не место для коммита.
 - `campaigns/<campaign_id>/<pack_id>/` - постоянное место для файлов pack.
+- Для quest workflow все постоянные артефакты этапов 1-6 хранить в `campaigns/<campaign_id>/<pack_id>/`, включая `quest_plan.json`, `quest_plan.resolved.json` и `context_pack.json`.
 - `quest_group.json` всегда хранить в папке pack:
 
 ```text

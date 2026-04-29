@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 *.pyo
+workspace/active_context.json
+output/*
+!output/.gitkeep
