@@ -18,16 +18,16 @@ Next pack number: 2
 
 ## Memory Counts
 
-- used garbage: 0
-- used collections: 0
+- used garbage: 4
+- used collections: 1
 - used flowers: 0
-- used locations: 0
-- used generated assets: 0
-- used task templates: 0
+- used locations: 9
+- used generated assets: 7
+- used task templates: 8
 
 ## Recent Used Examples
 
-- garbage: нет
-- collections: нет
+- garbage: Anvil, BigButton, Garbage_ArrowClockTower, ClockRaffles
+- collections: ClocksCollection3
 - flowers: нет
-- locations: нет
+- locations: Мастерская, Конюшня, Кузница, Светлица, Серверная комната, Комната за часами, Лавка, Лаборатория, Опочивальня
