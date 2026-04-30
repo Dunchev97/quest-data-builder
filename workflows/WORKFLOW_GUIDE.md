@@ -11,6 +11,7 @@
 - `workflows/RESOURCE_TABLE_WORKFLOW.md` - workflow CSV-таблицы ресурсов для дева.
 - `workflows/workflow_modes.json` - машинная карта режимов, ключевиков и entrypoints.
 - `Инструкция этап 1.txt` ... `Инструкция этап 6.txt` - подробные playbook-и этапов.
+- `campaigns/<campaign_id>/campaign_tone.md` - тон campaign, стиль юмора, запреты на абсурдные формулировки и тематический словарь.
 
 ## Active Context
 
@@ -71,7 +72,7 @@ python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <p
 python src/workflow_fast.py context --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py fill --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>
-python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id> --title "..." --description "..." --description-complete "..." --description-spoil "..."
+python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py resource-table --campaign <campaign_id>
@@ -104,6 +105,7 @@ filled_tasks.json
 filled_tasks.validation.json
 filled_tasks.preview.md
 quest_group.json
+quest_group_choices.json
 quest_group.validation.json
 quest_group.preview.md
 generated_quests.csv
@@ -218,6 +220,8 @@ python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <p
 
 Stage 3 артефакты должны оставаться в папке pack, чтобы параллельные сессии не делили общий `output/`.
 
+Перед творческими этапами проверять `campaigns/<campaign_id>/campaign_tone.md`. Если файла нет, уточнить тон у пользователя. ИИ может написать тон сам только если пользователь явно разрешил придумать его.
+
 ### Stage 3.1 - Context Pack
 
 Цель: собрать компактный набор quest-ready кандидатов для ИИ, не выбирая финальные игровые данные вместо него.
@@ -266,18 +270,19 @@ python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <p
 
 ### Stage 5 - Quest Group
 
-Цель: ИИ анализирует все квесты pack и пишет общий блок quest group для страницы журнала.
+Цель: ИИ анализирует все квесты pack и пишет `quest_group_choices.json`, а код собирает общий блок quest group для страницы журнала.
 
 Быстрая команда:
 
 ```bash
-python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id> --title "..." --description "..." --description-complete "..." --description-spoil "..."
+python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id>
 ```
 
 Выход:
 
 ```text
 campaigns/<campaign_id>/<pack_id>/quest_group.json
+campaigns/<campaign_id>/<pack_id>/quest_group_choices.json
 campaigns/<campaign_id>/<pack_id>/quest_group.validation.json
 campaigns/<campaign_id>/<pack_id>/quest_group.preview.md
 ```

@@ -20,6 +20,7 @@ python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <p
 
 Выходные файлы:
 
+- `campaigns/<campaign_id>/<pack_id>/quest_group_choices.json`
 - `campaigns/<campaign_id>/<pack_id>/quest_group.json`
 - `campaigns/<campaign_id>/<pack_id>/quest_group.validation.json`
 - `campaigns/<campaign_id>/<pack_id>/quest_group.preview.md`
@@ -97,7 +98,24 @@ description_spoil: В лесу мы заплутали, так и не нашл�
 
 ## CLI
 
-После того как ИИ написал тексты, собрать JSON можно так:
+После того как ИИ написал тексты, сохрани их в `campaigns/<campaign_id>/<pack_id>/quest_group_choices.json`:
+
+```json
+{
+  "title": "...",
+  "description": "...",
+  "description_complete": "...",
+  "description_spoil": "..."
+}
+```
+
+Затем собрать JSON можно так:
+
+```bash
+python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id>
+```
+
+Старый вариант с передачей текстов в CLI тоже поддерживается:
 
 ```bash
 python src/workflow_fast.py quest-group \

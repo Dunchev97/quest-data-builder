@@ -84,6 +84,74 @@ class WorkflowFastTests(unittest.TestCase):
 
             self.assertEqual(exit_code, 0)
 
+    def test_quest_group_fast_command_reads_choices_file(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            campaigns_dir = root / "campaigns"
+            context_path = root / "active_context.json"
+            pack_dir = campaigns_dir / "Event_2026" / "pack_001"
+            pack_dir.mkdir(parents=True)
+            (pack_dir / "filled_tasks.json").write_text(
+                json.dumps(
+                    {
+                        "quests": [
+                            {
+                                "classname_quests": "Event_2026_Story_1",
+                                "title_quest": "Проверка",
+                                "tasks": [],
+                            }
+                        ]
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (pack_dir / "quest_group_choices.json").write_text(
+                json.dumps(
+                    {
+                        "title": "Проверочная группа",
+                        "description": "Начало проверки.",
+                        "description_complete": "Проверка завершена.",
+                        "description_spoil": "Проверка не завершена.",
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            context_path.write_text(
+                json.dumps(
+                    {
+                        "campaign_id": "Event_2026",
+                        "pack_id": "pack_001",
+                        "stage_approvals": {
+                            "4": {
+                                "approved": True,
+                                "campaign_id": "Event_2026",
+                                "pack_id": "pack_001",
+                            }
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            exit_code = workflow_fast.main(
+                [
+                    "quest-group",
+                    "--campaign",
+                    "Event_2026",
+                    "--pack",
+                    "pack_001",
+                    "--campaigns-dir",
+                    str(campaigns_dir),
+                    "--context",
+                    str(context_path),
+                ]
+            )
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue((pack_dir / "quest_group.json").exists())
+
 
 if __name__ == "__main__":
     unittest.main()

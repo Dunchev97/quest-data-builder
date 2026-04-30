@@ -9,7 +9,7 @@ from unittest.mock import patch
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.build_quest_group import build_quest_group, build_quest_group_file, main, validate_quest_group
+from src.build_quest_group import build_quest_group, build_quest_group_file, main, read_quest_group_choices, validate_quest_group
 
 
 def write_json(path: Path, value: object) -> None:
@@ -104,6 +104,45 @@ class BuildQuestGroupTests(unittest.TestCase):
             self.assertTrue(output_path.exists())
             self.assertTrue(validation_path.exists())
             self.assertTrue(preview_path.exists())
+
+    def test_cli_can_read_quest_group_choices_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            input_path = root / "filled_tasks.json"
+            choices_path = root / "quest_group_choices.json"
+            output_path = root / "quest_group.json"
+            validation_path = root / "quest_group.validation.json"
+            preview_path = root / "quest_group.preview.md"
+            write_json(input_path, sample_filled_tasks())
+            write_json(
+                choices_path,
+                {
+                    "title": "Овощной переполох",
+                    "description": "Герои разбираются с овощным дождем.",
+                    "description_complete": "Овощной дождь остановлен.",
+                    "description_spoil": "Овощной дождь продолжился.",
+                },
+            )
+
+            exit_code = main(
+                [
+                    str(input_path),
+                    "--choices",
+                    str(choices_path),
+                    "--output-json",
+                    str(output_path),
+                    "--validation-json",
+                    str(validation_path),
+                    "--preview",
+                    str(preview_path),
+                    "--allow-unapproved-stage4",
+                ]
+            )
+
+            self.assertEqual(exit_code, 0)
+            self.assertEqual(read_quest_group_choices(choices_path)["title"], "Овощной переполох")
+            quest_group = json.loads(output_path.read_text(encoding="utf-8"))
+            self.assertEqual(quest_group["description_complete"], "Овощной дождь остановлен.")
 
     def test_file_builder_uses_campaign_and_pack_for_output_path(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

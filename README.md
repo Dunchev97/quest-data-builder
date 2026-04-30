@@ -157,7 +157,7 @@ python src/workflow_fast.py fill --campaign <campaign_id> --pack <pack_id>
 Этап 5:
 
 ```bash
-python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id> --title "..." --description "..." --description-complete "..." --description-spoil "..."
+python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id>
 ```
 
 Этап 6:

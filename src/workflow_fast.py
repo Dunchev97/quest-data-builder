@@ -52,6 +52,7 @@ FILLED_TASKS = "filled_tasks.json"
 FILLED_TASKS_VALIDATION = "filled_tasks.validation.json"
 FILLED_TASKS_PREVIEW = "filled_tasks.preview.md"
 QUEST_GROUP = "quest_group.json"
+QUEST_GROUP_CHOICES = "quest_group_choices.json"
 QUEST_GROUP_VALIDATION = "quest_group.validation.json"
 QUEST_GROUP_PREVIEW = "quest_group.preview.md"
 GENERATED_QUESTS = "generated_quests.csv"
@@ -187,16 +188,36 @@ def run_quest_group(args: argparse.Namespace) -> int:
         print("Approve stage 4 first.")
         return 1
 
+    texts = {
+        "title": args.title,
+        "description": args.description,
+        "description_complete": args.description_complete,
+        "description_spoil": args.description_spoil,
+        "output_classname": args.output_classname,
+    }
+    if not all(texts[field] for field in ("title", "description", "description_complete", "description_spoil")):
+        choices_path = pack_artifact(campaign_id, pack_id, QUEST_GROUP_CHOICES, args.campaigns_dir)
+        if not choices_path.exists():
+            print(f"quest group choices not found: {choices_path}")
+            print("Create quest_group_choices.json or pass --title/--description/--description-complete/--description-spoil.")
+            return 1
+        file_texts = quest_group_builder.read_quest_group_choices(choices_path)
+        texts = {field: texts[field] or file_texts[field] for field in texts}
+    missing = [field for field in ("title", "description", "description_complete", "description_spoil") if not texts[field]]
+    if missing:
+        print(f"quest_group text fields are missing: {', '.join(missing)}")
+        return 1
+
     quest_group, validation = quest_group_builder.build_quest_group_file(
         input_path=pack_artifact(campaign_id, pack_id, FILLED_TASKS, args.campaigns_dir),
         output_json_path=pack_artifact(campaign_id, pack_id, QUEST_GROUP, args.campaigns_dir),
         validation_path=pack_artifact(campaign_id, pack_id, QUEST_GROUP_VALIDATION, args.campaigns_dir),
         preview_path=pack_artifact(campaign_id, pack_id, QUEST_GROUP_PREVIEW, args.campaigns_dir),
-        title=args.title,
-        description=args.description,
-        description_complete=args.description_complete,
-        description_spoil=args.description_spoil,
-        output_classname=args.output_classname or None,
+        title=texts["title"],
+        description=texts["description"],
+        description_complete=texts["description_complete"],
+        description_spoil=texts["description_spoil"],
+        output_classname=texts["output_classname"] or None,
         campaign_id=campaign_id,
         pack_id=pack_id,
     )
@@ -282,6 +303,7 @@ def run_status(args: argparse.Namespace) -> int:
         FILLED_TASKS_BUILD,
         FILLED_TASKS,
         FILLED_TASKS_VALIDATION,
+        QUEST_GROUP_CHOICES,
         QUEST_GROUP,
         QUEST_GROUP_VALIDATION,
         GENERATED_QUESTS,
@@ -326,10 +348,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     quest_group_parser = subparsers.add_parser("quest-group", help="Build stage 5 quest_group.json.")
     add_pack_options(quest_group_parser)
-    quest_group_parser.add_argument("--title", required=True)
-    quest_group_parser.add_argument("--description", required=True)
-    quest_group_parser.add_argument("--description-complete", required=True)
-    quest_group_parser.add_argument("--description-spoil", required=True)
+    quest_group_parser.add_argument("--title", default="")
+    quest_group_parser.add_argument("--description", default="")
+    quest_group_parser.add_argument("--description-complete", default="")
+    quest_group_parser.add_argument("--description-spoil", default="")
     quest_group_parser.add_argument("--output-classname", default="")
     quest_group_parser.add_argument("--allow-unapproved", action="store_true")
     quest_group_parser.set_defaults(func=run_quest_group)

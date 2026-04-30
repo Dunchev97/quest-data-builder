@@ -723,6 +723,49 @@ class ValidateTaskObjectsTests(unittest.TestCase):
         codes = [error["code"] for error in validation["errors"]]
         self.assertIn("generated_item_not_visualizable", codes)
 
+    def test_reports_vague_parade_hrust_as_non_visual_item(self) -> None:
+        validation = validate_filled_tasks(
+            filled_tasks(
+                filled_task(
+                    1,
+                    "TT-008",
+                    "Получить ASK",
+                    "get_asset ASK",
+                    None,
+                    {
+                        "type": "get_asset",
+                        "classname": "Event_2026_ASK_1",
+                        "icon": "Event_2026_ASK_1",
+                        "amount": 1,
+                        "price": 1,
+                        "title": "Попроси у друзей Парад зелёного хруста",
+                        "hint": "Попроси у друзей или купи.",
+                        "identifier": "",
+                    },
+                )
+            ),
+            {
+                "quests": [
+                    {
+                        "classname_quests": "Event_2026_Story_1",
+                        "quest_number": 1,
+                        "tasks": [
+                            {
+                                "task_number": 1,
+                                "task_template_id": "TT-008",
+                                "candidate_domain": None,
+                                "candidates": [],
+                            }
+                        ],
+                    }
+                ]
+            },
+            templates(),
+        )
+
+        codes = [error["code"] for error in validation["errors"]]
+        self.assertIn("generated_item_not_visualizable", codes)
+
     def test_reports_strict_ask_hint_mismatch(self) -> None:
         ask_context = {
             "quests": [

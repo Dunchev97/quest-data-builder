@@ -10,6 +10,7 @@
 ## Главные источники правды
 
 - `workspace/active_context.json` - локальный, некоммитящийся контекст текущего пользователя: `mode`, `campaign_id`, `pack_id`, `stage`, `quest_number`, `task_number`.
+- `campaigns/<campaign_id>/campaign_tone.md` - тон, стиль, запреты и словарь campaign. Если файла нет, уточнить у пользователя; ИИ пишет его сам только при явном разрешении пользователя.
 - `campaigns/<campaign_id>/<pack_id>/` - постоянные артефакты конкретного pack.
 - `data/quest_ready_index.json` и `data/quest_ready_drops.index.json` - единственные игровые индексы для генерации quest/task data.
 - `raw/` - исходные игровые данные. Никогда не редактировать.

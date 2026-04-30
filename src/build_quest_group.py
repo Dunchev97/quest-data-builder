@@ -23,6 +23,7 @@ DEFAULT_OUTPUT_JSON_PATH = PROJECT_ROOT / "output" / "quest_group.json"
 DEFAULT_VALIDATION_PATH = PROJECT_ROOT / "output" / "quest_group.validation.json"
 DEFAULT_PREVIEW_PATH = PROJECT_ROOT / "output" / "quest_group.preview.md"
 QUEST_GROUP_JSON_NAME = "quest_group.json"
+QUEST_GROUP_CHOICES_NAME = "quest_group_choices.json"
 QUEST_GROUP_VALIDATION_NAME = "quest_group.validation.json"
 QUEST_GROUP_PREVIEW_NAME = "quest_group.preview.md"
 FILLED_TASKS_JSON_NAME = "filled_tasks.json"
@@ -128,6 +129,21 @@ def build_quest_group(
             "description_complete": description_complete,
         },
     }
+
+
+def normalize_quest_group_choices(choices: dict[str, Any]) -> dict[str, str]:
+    source = choices.get("quest_group") if isinstance(choices.get("quest_group"), dict) else choices
+    return {
+        "title": str(source.get("title") or "").strip(),
+        "description": str(source.get("description") or "").strip(),
+        "description_complete": str(source.get("description_complete") or "").strip(),
+        "description_spoil": str(source.get("description_spoil") or "").strip(),
+        "output_classname": str(source.get("output_classname") or "").strip(),
+    }
+
+
+def read_quest_group_choices(path: Path) -> dict[str, str]:
+    return normalize_quest_group_choices(read_json(path))
 
 
 def issue(severity: str, code: str, message: str, **extra: Any) -> dict[str, Any]:
@@ -290,10 +306,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output-json", type=Path, default=None)
     parser.add_argument("--validation-json", type=Path, default=None)
     parser.add_argument("--preview", type=Path, default=None)
-    parser.add_argument("--title", required=True, help="AI-written quest group title.")
-    parser.add_argument("--description", required=True, help="AI-written short setup description.")
-    parser.add_argument("--description-complete", required=True, help="AI-written successful completion description.")
-    parser.add_argument("--description-spoil", required=True, help="AI-written failed completion description.")
+    parser.add_argument("--choices", type=Path, default=None, help="AI-written quest_group_choices.json.")
+    parser.add_argument("--title", default="", help="AI-written quest group title.")
+    parser.add_argument("--description", default="", help="AI-written short setup description.")
+    parser.add_argument("--description-complete", default="", help="AI-written successful completion description.")
+    parser.add_argument("--description-spoil", default="", help="AI-written failed completion description.")
     parser.add_argument("--output-classname", default="", help="Optional quest group classname for output path.")
     parser.add_argument("--approval-context", type=Path, default=DEFAULT_CONTEXT_PATH)
     parser.add_argument("--campaign", default="")
@@ -314,9 +331,34 @@ def main(argv: list[str] | None = None) -> int:
     output_json_path = args.output_json or default_artifact_path(campaign_id, pack_id, QUEST_GROUP_JSON_NAME, DEFAULT_OUTPUT_JSON_PATH)
     validation_path = args.validation_json or default_artifact_path(campaign_id, pack_id, QUEST_GROUP_VALIDATION_NAME, DEFAULT_VALIDATION_PATH)
     preview_path = args.preview or default_artifact_path(campaign_id, pack_id, QUEST_GROUP_PREVIEW_NAME, DEFAULT_PREVIEW_PATH)
+    choices_path = args.choices or default_artifact_path(campaign_id, pack_id, QUEST_GROUP_CHOICES_NAME, DEFAULT_OUTPUT_JSON_PATH.with_name(QUEST_GROUP_CHOICES_NAME))
 
     if not input_path.exists():
         print(f"input file not found: {input_path}")
+        return 1
+
+    choices = {
+        "title": args.title,
+        "description": args.description,
+        "description_complete": args.description_complete,
+        "description_spoil": args.description_spoil,
+        "output_classname": args.output_classname,
+    }
+    if not all(choices[field] for field in ("title", "description", "description_complete", "description_spoil")):
+        if choices_path.exists():
+            file_choices = read_quest_group_choices(choices_path)
+            choices = {
+                field: choices[field] or file_choices[field]
+                for field in ("title", "description", "description_complete", "description_spoil", "output_classname")
+            }
+        else:
+            print(f"quest group choices not found: {choices_path}")
+            print("Pass --title/--description/... or create quest_group_choices.json.")
+            return 1
+
+    missing_fields = [field for field in ("title", "description", "description_complete", "description_spoil") if not choices[field]]
+    if missing_fields:
+        print(f"quest_group text fields are missing: {', '.join(missing_fields)}")
         return 1
 
     if not args.allow_unapproved_stage4:
@@ -341,11 +383,11 @@ def main(argv: list[str] | None = None) -> int:
             output_json_path=output_json_path,
             validation_path=validation_path,
             preview_path=preview_path,
-            title=args.title,
-            description=args.description,
-            description_complete=args.description_complete,
-            description_spoil=args.description_spoil,
-            output_classname=args.output_classname or None,
+            title=choices["title"],
+            description=choices["description"],
+            description_complete=choices["description_complete"],
+            description_spoil=choices["description_spoil"],
+            output_classname=choices["output_classname"] or None,
             campaign_id=campaign_id,
             pack_id=pack_id,
         )

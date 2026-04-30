@@ -111,7 +111,7 @@
     {
       "id": "quest_group_creation",
       "name_ru": "Создание квестовой группы",
-      "description_ru": "Этап 5: ИИ анализирует все квесты pack и создает campaigns/<campaign_id>/<pack_id>/quest_group.json для страницы журнала.",
+      "description_ru": "???? 5: ?? ????? quest_group_choices.json, ??? ???????? quest_group.json ??? pack.",
       "default_stage": "5",
       "requires_context": [
         "campaign_id",
