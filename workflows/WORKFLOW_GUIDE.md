@@ -246,6 +246,8 @@ campaigns/<campaign_id>/<pack_id>/context_pack.preview.md
 
 Цель: ИИ заполняет смысловые `task_choices.json` по `context_pack`, а код собирает strict `filled_tasks.json` и проверяет результат.
 
+`amount` и `price` ИИ не подбирает вручную: `build_filled_tasks.py` берет средние значения из `data/task_templates.json`, которые перенесены из `Шаблоны тасков.csv`. Ручной override в `task_choices.json` допустим только если нужно сознательно отойти от среднего значения.
+
 Постоянные файлы stage 4 должны лежать в pack:
 
 ```text

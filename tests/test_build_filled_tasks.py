@@ -142,6 +142,15 @@ class BuildFilledTasksTests(unittest.TestCase):
                 self.assertIs(template["stage4_contract"]["ai_writes_task_object"], False)
                 self.assertIn("task_number", template["stage4_contract"]["choice_fields"])
 
+    def test_template_catalog_has_task_object_defaults_from_csv(self) -> None:
+        templates = build_template_catalog(PROJECT_ROOT / "data" / "task_templates.json")
+
+        self.assertEqual(templates["TT-004"]["task_object_defaults"], {"amount": 20, "price": 20})
+        self.assertEqual(templates["TT-008"]["task_object_defaults"], {"amount": 10, "price": 20})
+        self.assertEqual(templates["TT-016"]["task_object_defaults"], {"amount": 80, "price": 40})
+        self.assertEqual(templates["TT-033"]["task_object_defaults"], {"amount": 1})
+        self.assertNotIn("task_object_defaults", templates["TT-001"])
+
     def test_builds_strict_task_objects_from_semantic_choices(self) -> None:
         result = build_filled_tasks(context_pack(), choices())
 
@@ -149,8 +158,18 @@ class BuildFilledTasksTests(unittest.TestCase):
         tasks = result["quests"][0]["tasks"]
         self.assertEqual(tasks[0]["task_object"]["hint"], "Поговори с Царевна Несмеяна. Для этого просто кликни на неё. Она находится в Оранжерея.")
         self.assertEqual(tasks[1]["task_object"]["hint"], "Найди огуречный значок. Место поиска: Оранжерея. Если найти все не удаётся, можно купить подсказку.")
+        self.assertEqual(tasks[1]["task_object"]["amount"], 20)
+        self.assertEqual(tasks[1]["task_object"]["price"], 20)
+        self.assertEqual(tasks[2]["task_object"]["amount"], 20)
+        self.assertEqual(tasks[2]["task_object"]["price"], 20)
         self.assertEqual(tasks[3]["task_object"]["hint"], "Попроси у друзей или купи.")
+        self.assertEqual(tasks[3]["task_object"]["amount"], 10)
+        self.assertEqual(tasks[3]["task_object"]["price"], 20)
+        self.assertEqual(tasks[4]["task_object"]["amount"], 80)
+        self.assertEqual(tasks[4]["task_object"]["price"], 40)
         self.assertEqual(tasks[5]["task_object"]["hint"], "Для создания используй Станок.")
+        self.assertEqual(tasks[5]["task_object"]["amount"], 1)
+        self.assertNotIn("price", tasks[5]["task_object"])
         self.assertIn("создаём Парадный барабан", tasks[3]["choice_reason"])
 
         validation = validate_filled_tasks(

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "source": "Инструкция этап 4",
+  "source": "Инструкция этап 4 + Шаблоны тасков.csv",
   "templates": [
     {
       "id": "TT-001",
@@ -51,6 +51,9 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 1
       }
     },
     {
@@ -77,6 +80,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 15,
+        "price": 50
       }
     },
     {
@@ -103,6 +110,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 20,
+        "price": 20
       }
     },
     {
@@ -129,6 +140,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 3,
+        "price": 30
       }
     },
     {
@@ -206,6 +221,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 10,
+        "price": 20
       }
     },
     {
@@ -231,6 +250,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 10,
+        "price": 20
       }
     },
     {
@@ -258,6 +281,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 5,
+        "price": 20
       }
     },
     {
@@ -283,6 +310,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 10,
+        "price": 20
       }
     },
     {
@@ -308,6 +339,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 10,
+        "price": 20
       }
     },
     {
@@ -335,6 +370,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 30,
+        "price": 40
       }
     },
     {
@@ -362,6 +401,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 40,
+        "price": 40
       }
     },
     {
@@ -389,6 +432,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 15,
+        "price": 30
       }
     },
     {
@@ -415,6 +462,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 80,
+        "price": 40
       }
     },
     {
@@ -441,6 +492,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 40,
+        "price": 30
       }
     },
     {
@@ -466,6 +521,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 30,
+        "price": 20
       }
     },
     {
@@ -491,6 +550,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 40,
+        "price": 20
       }
     },
     {
@@ -517,6 +580,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 20,
+        "price": 20
       }
     },
     {
@@ -543,6 +610,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 20,
+        "price": 40
       }
     },
     {
@@ -569,6 +640,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 60,
+        "price": 25
       }
     },
     {
@@ -595,6 +670,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 30,
+        "price": 20
       }
     },
     {
@@ -622,6 +701,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 20,
+        "price": 20
       }
     },
     {
@@ -649,6 +732,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 20,
+        "price": 40
       }
     },
     {
@@ -675,6 +762,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 10,
+        "price": 30
       }
     },
     {
@@ -701,6 +792,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 10,
+        "price": 30
       }
     },
     {
@@ -726,6 +821,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 10,
+        "price": 20
       }
     },
     {
@@ -752,6 +851,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 40,
+        "price": 20
       }
     },
     {
@@ -778,6 +881,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 20,
+        "price": 40
       }
     },
     {
@@ -803,6 +910,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 30,
+        "price": 10
       }
     },
     {
@@ -828,6 +939,10 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 30,
+        "price": 20
       }
     },
     {
@@ -856,6 +971,9 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 1
       }
     },
     {
@@ -882,6 +1000,9 @@
           "fixed_title_hint",
           "identifier"
         ]
+      },
+      "task_object_defaults": {
+        "amount": 1
       }
     },
     {

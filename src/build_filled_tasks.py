@@ -72,6 +72,34 @@ def build_template_catalog(path: Path) -> dict[str, dict[str, Any]]:
     return {template["id"]: template for template in data.get("templates", [])}
 
 
+def task_object_defaults(template: dict[str, Any] | None) -> dict[str, Any]:
+    defaults = (template or {}).get("task_object_defaults")
+    return defaults if isinstance(defaults, dict) else {}
+
+
+def int_choice_or_default(choice: dict[str, Any], defaults: dict[str, Any], field_name: str, fallback: int = 1) -> int:
+    for source in (choice, defaults):
+        value = source.get(field_name)
+        if value is None:
+            continue
+        text = str(value).strip()
+        if not text:
+            continue
+        try:
+            return int(text)
+        except ValueError:
+            continue
+    return fallback
+
+
+def task_amount(choice: dict[str, Any], defaults: dict[str, Any]) -> int:
+    return int_choice_or_default(choice, defaults, "amount")
+
+
+def task_price(choice: dict[str, Any], defaults: dict[str, Any]) -> int:
+    return int_choice_or_default(choice, defaults, "price")
+
+
 def as_list(value: Any) -> list[Any]:
     return value if isinstance(value, list) else []
 
@@ -305,14 +333,22 @@ def choice_reason(
     return f"Выбор поддерживает действие квеста «{quest_title}» и не меняет строгий шаблон задания."
 
 
-def generated_resource_object(template_id: str, classname: str, item_title: str, choice: dict[str, Any], selected: dict[str, Any] | None, context_quest: dict[str, Any]) -> dict[str, Any]:
+def generated_resource_object(
+    template_id: str,
+    classname: str,
+    item_title: str,
+    choice: dict[str, Any],
+    selected: dict[str, Any] | None,
+    context_quest: dict[str, Any],
+    defaults: dict[str, Any],
+) -> dict[str, Any]:
     if template_id == "TT-008":
         return {
             "type": "get_asset",
             "classname": classname,
             "icon": classname,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": f"Попроси у друзей {item_title}",
             "hint": "Попроси у друзей или купи.",
             "identifier": "",
@@ -322,8 +358,8 @@ def generated_resource_object(template_id: str, classname: str, item_title: str,
             "type": "get_asset",
             "classname": classname,
             "icon": classname,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": f"Попроси у друзей {item_title}",
             "hint": "Отправь личные просьбы друзьям или купи.",
             "identifier": "",
@@ -336,8 +372,8 @@ def generated_resource_object(template_id: str, classname: str, item_title: str,
             "type": "get_asset",
             "classname": classname,
             "icon": classname,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": f"Найди {item_title}",
             "hint": f"{item_title} можно получить за сбор коллекции {collection_title} при уборке мусора {source_title} в локации {location_text} дома и в гостях.",
             "identifier": "",
@@ -348,8 +384,8 @@ def generated_resource_object(template_id: str, classname: str, item_title: str,
             "type": "get_asset",
             "classname": classname,
             "icon": classname,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": f"Получи {item_title}",
             "hint": f"{item_title} можно получить {action_text}",
             "identifier": "",
@@ -360,8 +396,8 @@ def generated_resource_object(template_id: str, classname: str, item_title: str,
             "type": "get_asset",
             "classname": classname,
             "icon": classname,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": f"Найди {item_title}",
             "hint": f"Убирай мусор в локации {location_text} дома, чтобы найти.",
             "identifier": "",
@@ -374,8 +410,8 @@ def generated_resource_object(template_id: str, classname: str, item_title: str,
             "type": "get_asset",
             "classname": classname,
             "icon": classname,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": f"Найди {item_title}",
             "hint": f"Убирай мусор {garbage_title} {mode_text}, чтобы найти. Место поиска: {location_text}.",
             "identifier": "",
@@ -390,8 +426,8 @@ def generated_resource_object(template_id: str, classname: str, item_title: str,
             "type": "get_asset",
             "classname": classname,
             "icon": classname,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": f"Получи {item_title}",
             "hint": hint,
             "identifier": "",
@@ -406,10 +442,12 @@ def build_task_object(
     selected: dict[str, Any] | None,
     state: BuildState,
     issues: list[dict[str, Any]],
+    template: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     template_id = str(context_task.get("task_template_id") or "")
     prefix = quest_prefix(context_quest.get("classname_quests"))
     item_title = item_title_for_choice(template_id, choice, selected)
+    defaults = task_object_defaults(template)
 
     if template_id == "TT-001":
         person = str(choice.get("person") or context_quest.get("character") or "").strip()
@@ -432,8 +470,7 @@ def build_task_object(
             "type": "get_and_decrease_asset",
             "classname": classname,
             "icon": classname,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
             "title": f"Создай {item_title}",
             "go_to_location": [{"classname": f"{prefix}_Workbench_1"}],
             "hint": "Для создания используй Станок.",
@@ -450,8 +487,8 @@ def build_task_object(
             "param": classname,
             "search_action": f"search_{classname}",
             "after_buy_actions": [{"do": "remove_stuff", "classname": classname}],
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": title,
             "hint": f"{title}. Место поиска: {location_text}. Если найти все не удаётся, можно купить подсказку.",
             "identifier": "",
@@ -471,8 +508,8 @@ def build_task_object(
             "type": "action",
             "action": "clean_debris",
             "param": classname,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": title,
             "hint": hint,
             "identifier": "",
@@ -481,7 +518,7 @@ def build_task_object(
     if template_id in GENERATED_RESOURCE_TEMPLATE_IDS:
         kind, _field = GENERATED_SEQUENCE_RULES[template_id]
         classname = state.next_generated(prefix, kind)
-        return generated_resource_object(template_id, classname, item_title, choice, selected, context_quest)
+        return generated_resource_object(template_id, classname, item_title, choice, selected, context_quest, defaults)
 
     if template_id == "TT-011":
         collection_title = candidate_title_for_template(template_id, selected)
@@ -492,8 +529,8 @@ def build_task_object(
             "type": "get_asset",
             "classname": classname,
             "icon": classname,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": f"Найди {collection_title}",
             "hint": f"{collection_title} - элемент коллекции, выпадает при уборке мусора {source_title} дома и в гостях. Место поиска: {location_text}.",
             "identifier": "",
@@ -509,8 +546,8 @@ def build_task_object(
                 "action": "take_crop_in_guest" if in_guest else "take_crop",
                 "param": flower_classname,
                 "is_hide": 1,
-                "amount": int(choice.get("amount") or 1),
-                "price": int(choice.get("price") or 1),
+                "amount": task_amount(choice, defaults),
+                "price": task_price(choice, defaults),
                 "title": MYSTERY_TITLES[template_id],
                 "hint": riddle_text(choice, selected, template_id, issues),
                 "identifier": "",
@@ -521,8 +558,8 @@ def build_task_object(
                 "action": "take_crop_in_guest" if in_guest else "take_crop",
                 "param": flower_classname,
                 "is_silhouette": 1,
-                "amount": int(choice.get("amount") or 1),
-                "price": int(choice.get("price") or 1),
+                "amount": task_amount(choice, defaults),
+                "price": task_price(choice, defaults),
                 "title": FIXED_TITLE_HINTS[template_id][0],
                 "hint": FIXED_TITLE_HINTS[template_id][1],
                 "identifier": "",
@@ -536,8 +573,8 @@ def build_task_object(
                 "type": "action",
                 "action": "take_crop_in_guest" if in_guest else "take_crop",
                 "param": flower_classname,
-                "amount": int(choice.get("amount") or 1),
-                "price": int(choice.get("price") or 1),
+                "amount": task_amount(choice, defaults),
+                "price": task_price(choice, defaults),
                 "title": f"Собери {flower_title} {place}",
                 "hint": hint,
                 "identifier": "",
@@ -554,8 +591,8 @@ def build_task_object(
                 "type": "garbage",
                 "classname": garbage_classname,
                 "is_hide": 1,
-                "amount": int(choice.get("amount") or 1),
-                "price": int(choice.get("price") or 1),
+                "amount": task_amount(choice, defaults),
+                "price": task_price(choice, defaults),
                 "title": MYSTERY_TITLES[template_id],
                 "hint": riddle_text(choice, selected, template_id, issues),
                 "identifier": "",
@@ -568,8 +605,8 @@ def build_task_object(
                 "type": "garbage",
                 "classname": garbage_classname,
                 "is_silhouette": 1,
-                "amount": int(choice.get("amount") or 1),
-                "price": int(choice.get("price") or 1),
+                "amount": task_amount(choice, defaults),
+                "price": task_price(choice, defaults),
                 "title": FIXED_TITLE_HINTS[template_id][0],
                 "hint": FIXED_TITLE_HINTS[template_id][1],
                 "identifier": "",
@@ -582,8 +619,8 @@ def build_task_object(
                 "type": "garbage",
                 "classname": garbage_classname,
                 "in_guest": 1,
-                "amount": int(choice.get("amount") or 1),
-                "price": int(choice.get("price") or 1),
+                "amount": task_amount(choice, defaults),
+                "price": task_price(choice, defaults),
                 "title": f"Убери мусор {garbage_title} в гостях",
                 "hint": f"Убери мусор {garbage_title} в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: {location_text}.",
                 "identifier": "",
@@ -591,8 +628,8 @@ def build_task_object(
         return {
             "type": "garbage",
             "classname": garbage_classname,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": f"Убери мусор {garbage_title} дома",
             "hint": f"Убери мусор {garbage_title} дома. Для этого просто кликни на нужный мусор дома. Место поиска: {location_text}.",
             "identifier": "",
@@ -605,8 +642,8 @@ def build_task_object(
             "classname": collection_classname,
             "icon": collection_classname,
             "is_silhouette": 1,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": str(choice.get("reverse_clue_title") or choice.get("title") or "Йиден ан йандерпамон"),
             "hint": "Прочитай фразу задания задом наперед.",
             "identifier": "",
@@ -619,8 +656,8 @@ def build_task_object(
             "classname": collection_classname,
             "icon": collection_classname,
             "is_hide": 1,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": MYSTERY_TITLES[template_id],
             "hint": riddle_text(choice, selected, template_id, issues),
             "identifier": "",
@@ -633,8 +670,8 @@ def build_task_object(
             "classname": collection_classname,
             "icon": collection_classname,
             "is_silhouette": 1,
-            "amount": int(choice.get("amount") or 1),
-            "price": int(choice.get("price") or 1),
+            "amount": task_amount(choice, defaults),
+            "price": task_price(choice, defaults),
             "title": FIXED_TITLE_HINTS[template_id][0],
             "hint": FIXED_TITLE_HINTS[template_id][1],
             "identifier": "",
@@ -650,7 +687,7 @@ def build_task_object(
             "action": str(choice.get("action") or f"{item_classname}_Give"),
             "icon": item_classname,
             "go_to_location": [{"classname": item_classname}],
-            "amount": int(choice.get("amount") or 1),
+            "amount": task_amount(choice, defaults),
             "title": title,
             "hint": f"Передай {item_title} персонажу {person}. Он находится на {location_title}.",
             "identifier": "",
@@ -666,7 +703,7 @@ def build_task_object(
             "icon": icon,
             "param": icon,
             "go_to_location": [{"classname": icon}],
-            "amount": int(choice.get("amount") or 1),
+            "amount": task_amount(choice, defaults),
             "title": f"Сфотографируйся с {person}",
             "hint": f"{person} - персонаж, с которым нужно сфотографироваться. Найди его у себя на {location_title} и нажми на иконку \"Сделать фотографию\" в правом верхнем углу. Наведи фокус на {person}, сфотографируйся с ним и нажми \"Славненько\".",
             "identifier": "",
@@ -680,6 +717,9 @@ def build_filled_tasks(
     choices: dict[str, Any],
     templates: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
+    if templates is None and DEFAULT_TEMPLATES_PATH.exists():
+        templates = build_template_catalog(DEFAULT_TEMPLATES_PATH)
+
     choice_index = build_choice_index(choices)
     state = BuildState(context_pack)
     issues: list[dict[str, Any]] = []
@@ -739,8 +779,9 @@ def build_filled_tasks(
                 continue
 
             selected = selected_candidate(context_task, choice, issues)
+            template = templates.get(template_id) if templates else None
             try:
-                task_object = build_task_object(context_quest, context_task, choice, selected, state, issues)
+                task_object = build_task_object(context_quest, context_task, choice, selected, state, issues, template)
             except (TypeError, ValueError) as exc:
                 issues.append(
                     {
