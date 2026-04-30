@@ -122,7 +122,7 @@ GENERATED_ASSET_TEMPLATES = {
     "TT-017",
 }
 HOG_TEMPLATES = {"TT-003", "TT-004", "TT-005", "TT-006", "TT-007"}
-CRAFT_TEMPLATES = {"TT-002"}
+CRAFT_TEMPLATES = {"TT-002", "TT-033"}
 
 GENERATED_SEQUENCE_RULES = {
     "TT-002": ("R", "classname"),
@@ -623,7 +623,7 @@ def validate_generated_naming(
 
 def title_item_text(title: Any) -> str:
     value = str(title or "").strip()
-    for prefix in ("Найди ", "Получи ", "Создай ", "Подари другу "):
+    for prefix in ("Найди ", "Получи ", "Создай ", "Передай ", "Подари другу "):
         if value.startswith(prefix):
             value = value[len(prefix) :]
     value = value.replace("Попроси у друзей", "").strip()

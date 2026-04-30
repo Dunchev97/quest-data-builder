@@ -48,6 +48,7 @@ SUPPORTED_TEMPLATE_IDS = {f"TT-{number:03d}" for number in range(1, 35)}
 MYSTERY_TEMPLATE_IDS = set(MYSTERY_TITLES)
 SILHOUETTE_TEMPLATE_IDS = {"TT-028", "TT-029", "TT-030", "TT-031", "TT-032"}
 GENERATED_RESOURCE_TEMPLATE_IDS = set(GENERATED_SEQUENCE_RULES) - {"TT-003", "TT-004", "TT-005", "TT-006", "TT-007"}
+CRAFT_ANCHOR_TEMPLATE_IDS = {"TT-002", "TT-033"}
 GENERIC_REASON_MARKERS = (
     "подходит по контексту",
     "подходит по смыслу",
@@ -234,7 +235,7 @@ def selected_candidate_id(context_task: dict[str, Any], candidate: dict[str, Any
 
 def clean_item_title(value: Any) -> str:
     text = str(value or "").strip()
-    for prefix in ("Найди ", "Получи ", "Создай ", "Попроси у друзей ", "Подари другу ", "Убери мусор "):
+    for prefix in ("Найди ", "Получи ", "Создай ", "Передай ", "Попроси у друзей ", "Подари другу ", "Убери мусор "):
         if text.startswith(prefix):
             return text[len(prefix) :].strip()
     return text
@@ -284,10 +285,11 @@ def riddle_text(choice: dict[str, Any], selected: dict[str, Any] | None, templat
 
 def craft_item_title(context_quest: dict[str, Any], choices_by_task_number: dict[int, dict[str, Any]]) -> str:
     for context_task in as_list(context_quest.get("tasks")):
-        if context_task.get("task_template_id") == "TT-002":
+        template_id = str(context_task.get("task_template_id") or "")
+        if template_id in CRAFT_ANCHOR_TEMPLATE_IDS:
             task_number = context_task.get("task_number")
             choice = choices_by_task_number.get(task_number, {}) if isinstance(task_number, int) else {}
-            item = item_title_for_choice("TT-002", choice, None, "")
+            item = item_title_for_choice(template_id, choice, None, "")
             if item:
                 return item
             task_object = choice.get("task_object") if isinstance(choice.get("task_object"), dict) else {}
@@ -321,6 +323,8 @@ def choice_reason(
 
     if template_id == "TT-002":
         return f"Создаём {item}, потому что это главный предмет действия в квесте «{quest_title}»."
+    if template_id == "TT-033":
+        return f"Готовим и передаём {item}, потому что это главный предмет действия в квесте «{quest_title}»."
     if craft_title and template_id in GENERATED_RESOURCE_TEMPLATE_IDS:
         if template_id in {"TT-008", "TT-009"}:
             return f"В этом квесте создаём {craft_title}. Просим у друзей {item}, потому что это похоже на деталь или материал для {craft_title}."

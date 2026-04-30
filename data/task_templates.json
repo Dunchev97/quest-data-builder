@@ -49,12 +49,16 @@
         "code_generates": [
           "task_object",
           "fixed_title_hint",
-          "identifier"
-        ]
+          "identifier",
+          "craft_context_for_neighbor_resources"
+        ],
+        "acts_as_craft_anchor": true
       },
       "task_object_defaults": {
         "amount": 1
-      }
+      },
+      "frequency_group": "craft_like",
+      "min_quest_spacing": 4
     },
     {
       "id": "TT-003",
@@ -969,12 +973,16 @@
         "code_generates": [
           "task_object",
           "fixed_title_hint",
-          "identifier"
-        ]
+          "identifier",
+          "craft_context_for_neighbor_resources"
+        ],
+        "acts_as_craft_anchor": true
       },
       "task_object_defaults": {
         "amount": 1
-      }
+      },
+      "frequency_group": "craft_like",
+      "min_quest_spacing": 4
     },
     {
       "id": "TT-034",

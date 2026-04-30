@@ -39,6 +39,7 @@ except ImportError:
 
 
 STAGE3_TEXT = "stage3_quests.txt"
+STAGE2_TEXT = "stage2_story.txt"
 QUEST_PLAN = "quest_plan.json"
 QUEST_PLAN_PREVIEW = "quest_plan.preview.md"
 QUEST_PLAN_RESOLVED = "quest_plan.resolved.json"
@@ -83,6 +84,7 @@ def existing_campaign_memory(campaign_id: str, campaigns_dir: Path) -> Path:
 def run_stage3(args: argparse.Namespace) -> int:
     campaign_id, pack_id = resolve_ids(args)
     stage3_path = pack_artifact(campaign_id, pack_id, STAGE3_TEXT, args.campaigns_dir)
+    stage2_path = pack_artifact(campaign_id, pack_id, STAGE2_TEXT, args.campaigns_dir)
     quest_plan_path = pack_artifact(campaign_id, pack_id, QUEST_PLAN, args.campaigns_dir)
     quest_plan_preview_path = pack_artifact(campaign_id, pack_id, QUEST_PLAN_PREVIEW, args.campaigns_dir)
     resolved_path = pack_artifact(campaign_id, pack_id, QUEST_PLAN_RESOLVED, args.campaigns_dir)
@@ -92,7 +94,7 @@ def run_stage3(args: argparse.Namespace) -> int:
         print(f"stage3 file not found: {stage3_path}")
         return 1
 
-    quest_plan = parse_stage3.parse_file(stage3_path, quest_plan_path, quest_plan_preview_path)
+    quest_plan = parse_stage3.parse_file(stage3_path, quest_plan_path, quest_plan_preview_path, stage2_path)
     print(f"stage 3 parsed: quests={quest_plan['summary']['quests_found']} tasks={quest_plan['summary']['tasks_found']}")
     print(f"json written: {quest_plan_path}")
     print(f"preview written: {quest_plan_preview_path}")
@@ -296,6 +298,7 @@ def run_approve(args: argparse.Namespace) -> int:
 def run_status(args: argparse.Namespace) -> int:
     campaign_id, pack_id = resolve_ids(args)
     files = [
+        STAGE2_TEXT,
         STAGE3_TEXT,
         QUEST_PLAN_RESOLVED,
         CONTEXT_PACK,

@@ -1,0 +1,257 @@
+{
+  "quests": [
+    {
+      "classname_quests": "MusicBoxTown_2026_Story_1",
+      "title_quest": "Порог размером с булавку",
+      "quest_number": 1,
+      "task_numbers": [
+        1,
+        2,
+        3
+      ],
+      "task_template_ids": [
+        "TT-001",
+        "TT-004",
+        "TT-021"
+      ],
+      "task_template_names": [
+        "Диалог",
+        "HOG на локации",
+        "Уборка конкретного мусора дома"
+      ],
+      "task_types": [
+        "action dialog",
+        "HOG clean_debris location",
+        "garbage classname"
+      ],
+      "description": "Тик! Так! Тик! Так! Посторонние великаны размером с пуговицу обнаружены у входной дорожки! Прошу не паниковать, паника выбивает расписание на три четверти оборота. Вы уменьшились из-за заводного ключика, который повернули не в ту сторону. Дойдите до площади аккуратно: здесь даже обычная булавка ведёт себя как фонарный столб!",
+      "congratulation": "Отлично, вы добрались без опоздания и почти без перекатывания по латунной дорожке. Для первого дня в табакерке это выдающийся результат! Теперь можно официально считать вас маленькими гостями городка, а не крупной механической неожиданностью.",
+      "character": "Часовщик Тик-Так",
+      "raw_text": "Classname quests: MusicBoxTown_2026_Story_1\ntitle_quest: Порог размером с булавку\n№ quest: 1\n№ task: 1 2 3\nTask template ID: TT-001 / TT-004 / TT-021\nTask template name: Диалог / HOG на локации / Уборка конкретного мусора дома\nTask type: action dialog / HOG clean_debris location / garbage classname\ndescription: \"Тик! Так! Тик! Так! Посторонние великаны размером с пуговицу обнаружены у входной дорожки! Прошу не паниковать, паника выбивает расписание на три четверти оборота. Вы уменьшились из-за заводного ключика, который повернули не в ту сторону. Дойдите до площади аккуратно: здесь даже обычная булавка ведёт себя как фонарный столб!\"\nTasks:\n\ncongratulation: \"Отлично, вы добрались без опоздания и почти без перекатывания по латунной дорожке. Для первого дня в табакерке это выдающийся результат! Теперь можно официально считать вас маленькими гостями городка, а не крупной механической неожиданностью.\"\nCharacter: Часовщик Тик-Так\n\nОбоснование:\n1. Контекст: Пружинка Фыр случайно раскручивает запасную пружину, и по городку разлетаются мелкие детали. Квест про сбор конкретных материалов и подготовку предмета для стабилизации механизма.\n2. Логика выбора: TT-002 поставлен первым по правилу крафта, чтобы на этапе 4 сначала был назван итоговый craft item. TT-008 и TT-014 затем должны стать частями, материалами или украшениями для этого предмета.\n3. Проверка паттернов: ASK должен быть конкретным предметом вроде шайб, колечек или маленьких крепежей; GR с мусора в гостях должен быть связан с деталями пружинного механизма. На этапе 4 нельзя выбирать абстрактные ресурсы.\n4. Уникальность: квест даёт связку крафт + социальная просьба + гостевой источник ресурса.",
+      "tasks": [
+        {
+          "task_number": 1,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "resolved_template_id": "TT-001",
+          "canonical_task_template_name": "Диалог",
+          "canonical_task_type": "action dialog",
+          "category": "dialog",
+          "data_needs": [
+            "quest_context",
+            "character"
+          ],
+          "status": "ok",
+          "issues": []
+        },
+        {
+          "task_number": 2,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "resolved_template_id": "TT-004",
+          "canonical_task_template_name": "HOG на локации",
+          "canonical_task_type": "HOG clean_debris location",
+          "category": "hog",
+          "data_needs": [
+            "quest_context",
+            "generated_hog"
+          ],
+          "status": "ok",
+          "issues": []
+        },
+        {
+          "task_number": 3,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname",
+          "resolved_template_id": "TT-021",
+          "canonical_task_template_name": "Уборка конкретного мусора дома",
+          "canonical_task_type": "garbage classname",
+          "category": "garbage",
+          "data_needs": [
+            "quest_context",
+            "garbage",
+            "location"
+          ],
+          "status": "ok",
+          "issues": []
+        }
+      ]
+    },
+    {
+      "classname_quests": "MusicBoxTown_2026_Story_2",
+      "title_quest": "Пружинный переполох",
+      "quest_number": 2,
+      "task_numbers": [
+        4,
+        5,
+        6
+      ],
+      "task_template_ids": [
+        "TT-002",
+        "TT-008",
+        "TT-014"
+      ],
+      "task_template_names": [
+        "Крафт",
+        "Получить ASK",
+        "GR с конкретного мусора в гостях"
+      ],
+      "task_types": [
+        "get_and_decrease_asset craft",
+        "get_asset ASK",
+        "get_asset GR in_guest garbage classname"
+      ],
+      "description": "Ой-фыр! Я хотела всё ускорить, честное пружинное слово! Только запасная пружина услышала слово «быстрее» и решила стать праздником сама по себе. Теперь винтики скачут, ленты улетели, а один маленький колокольчик, кажется, обиделся и укатился. Поможешь собрать детали, пока они не начали репетировать без нас?",
+      "congratulation": "Фыр-фыр, вот теперь порядок! Пружина больше не строит из себя карусель, винтики лежат кучкой, а ленты снова похожи на украшения, а не на медных змей. Спасибо! Я постараюсь больше ничего не ускорять... ну, хотя бы до следующей минуты.",
+      "character": "Пружинка Фыр",
+      "raw_text": "Classname quests: MusicBoxTown_2026_Story_2\ntitle_quest: Пружинный переполох\n№ quest: 2\n№ task: 4 5 6\nTask template ID: TT-002 / TT-008 / TT-014\nTask template name: Крафт / Получить ASK / GR с конкретного мусора в гостях\nTask type: get_and_decrease_asset craft / get_asset ASK / get_asset GR in_guest garbage classname\ndescription: \"Ой-фыр! Я хотела всё ускорить, честное пружинное слово! Только запасная пружина услышала слово «быстрее» и решила стать праздником сама по себе. Теперь винтики скачут, ленты улетели, а один маленький колокольчик, кажется, обиделся и укатился. Поможешь собрать детали, пока они не начали репетировать без нас?\"\nTasks:\n\ncongratulation: \"Фыр-фыр, вот теперь порядок! Пружина больше не строит из себя карусель, винтики лежат кучкой, а ленты снова похожи на украшения, а не на медных змей. Спасибо! Я постараюсь больше ничего не ускорять... ну, хотя бы до следующей минуты.\"\nCharacter: Пружинка Фыр\n\nОбоснование:\n1. Контекст: финал pack закрывает локальную проблему Большого перезвона, но не возвращает героев к обычному размеру. Нужны поиск музыкальной детали, материал для механизма и дополнительная реальная деталь без второго craft-like задания.\n2. Логика выбора: TT-004 подходит для поиска конкретной скрытой музыкальной детали, TT-013 даёт GR из мусора в домашней локации как материал для перезвона, TT-011 добавляет реальный collection item как найденную деталь.\n3. Проверка паттернов: это не mystery и не расследование. В pack уже есть TT-002 в квесте 2, поэтому TT-033 здесь не используется. На этапе 4 HOG должен быть конкретным предметом, GR должен быть визуальным материалом вроде язычка колокольчика или латунной пластинки. На этапе 4 выбрать collection drop из другого source_classname, не из выбранного мусора/источника GR.\n4. Уникальность: квест завершает локальную подготовку перезвона без второго крафта или передачи предмета рядом с TT-002.",
+      "tasks": [
+        {
+          "task_number": 4,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "resolved_template_id": "TT-002",
+          "canonical_task_template_name": "Крафт",
+          "canonical_task_type": "get_and_decrease_asset craft",
+          "category": "craft",
+          "data_needs": [
+            "quest_context",
+            "generated_resource"
+          ],
+          "status": "ok",
+          "issues": []
+        },
+        {
+          "task_number": 5,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "resolved_template_id": "TT-008",
+          "canonical_task_template_name": "Получить ASK",
+          "canonical_task_type": "get_asset ASK",
+          "category": "request",
+          "data_needs": [
+            "quest_context",
+            "generated_resource"
+          ],
+          "status": "ok",
+          "issues": []
+        },
+        {
+          "task_number": 6,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "resolved_template_id": "TT-014",
+          "canonical_task_template_name": "GR с конкретного мусора в гостях",
+          "canonical_task_type": "get_asset GR in_guest garbage classname",
+          "category": "gr_garbage",
+          "data_needs": [
+            "quest_context",
+            "garbage",
+            "location"
+          ],
+          "status": "ok",
+          "issues": []
+        }
+      ]
+    },
+    {
+      "classname_quests": "MusicBoxTown_2026_Story_3",
+      "title_quest": "Большой перезвон",
+      "quest_number": 3,
+      "task_numbers": [
+        7,
+        8,
+        9
+      ],
+      "task_template_ids": [
+        "TT-004",
+        "TT-013",
+        "TT-011"
+      ],
+      "task_template_names": [
+        "HOG на локации",
+        "GR с мусора в локации дома",
+        "Получить элемент коллекции (зависит от редкости)"
+      ],
+      "task_types": [
+        "HOG clean_debris location",
+        "get_asset GR garbage location_tags",
+        "get_asset Collection"
+      ],
+      "description": "Внимание, маленькие помощники! Большой перезвон не терпит пыли, кривых молоточков и разговоров во время вступления. Нам нужны чистые колокольчики, ровные удары и ни одного самовольного бум-бум посреди мелодии. Помогите подготовить механизм, и городок снова зазвучит как следует.",
+      "congratulation": "Вот теперь я слышу музыку, а не кастрюльный спор с чайной ложкой! Перезвон выровнял ход табакерки, и жители могут праздновать. А это что на внутренней крышке? Крошечная схема пути... Хм, домой она вас пока не вернёт, но показывает, куда двигаться дальше. Значит, наше приключение только набирает такт.",
+      "character": "Госпожа Молоточек",
+      "raw_text": "Classname quests: MusicBoxTown_2026_Story_3\ntitle_quest: Большой перезвон\n№ quest: 3\n№ task: 7 8 9\nTask template ID: TT-004 / TT-013 / TT-011\nTask template name: HOG на локации / GR с мусора в локации дома / Получить элемент коллекции (зависит от редкости)\nTask type: HOG clean_debris location / get_asset GR garbage location_tags / get_asset Collection\ndescription: \"Внимание, маленькие помощники! Большой перезвон не терпит пыли, кривых молоточков и разговоров во время вступления. Нам нужны чистые колокольчики, ровные удары и ни одного самовольного бум-бум посреди мелодии. Помогите подготовить механизм, и городок снова зазвучит как следует.\"\nTasks:\n\ncongratulation: \"Вот теперь я слышу музыку, а не кастрюльный спор с чайной ложкой! Перезвон выровнял ход табакерки, и жители могут праздновать. А это что на внутренней крышке? Крошечная схема пути... Хм, домой она вас пока не вернёт, но показывает, куда двигаться дальше. Значит, наше приключение только набирает такт.\"\nCharacter: Госпожа Молоточек",
+      "tasks": [
+        {
+          "task_number": 7,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "resolved_template_id": "TT-004",
+          "canonical_task_template_name": "HOG на локации",
+          "canonical_task_type": "HOG clean_debris location",
+          "category": "hog",
+          "data_needs": [
+            "quest_context",
+            "generated_hog"
+          ],
+          "status": "ok",
+          "issues": []
+        },
+        {
+          "task_number": 8,
+          "task_template_id": "TT-013",
+          "task_template_name": "GR с мусора в локации дома",
+          "task_type": "get_asset GR garbage location_tags",
+          "resolved_template_id": "TT-013",
+          "canonical_task_template_name": "GR с мусора в локации дома",
+          "canonical_task_type": "get_asset GR garbage location_tags",
+          "category": "gr_garbage",
+          "data_needs": [
+            "quest_context",
+            "garbage",
+            "location"
+          ],
+          "status": "ok",
+          "issues": []
+        },
+        {
+          "task_number": 9,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "resolved_template_id": "TT-011",
+          "canonical_task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "canonical_task_type": "get_asset Collection",
+          "category": "collection",
+          "data_needs": [
+            "quest_context",
+            "collection_drop"
+          ],
+          "status": "ok",
+          "issues": []
+        }
+      ]
+    }
+  ],
+  "issues": [],
+  "summary": {
+    "quests_found": 3,
+    "tasks_found": 9,
+    "resolved_tasks": 9,
+    "issues": 0
+  },
+  "templates_summary": {
+    "templates_found": 35,
+    "not_ready_templates": [
+      "TT-035"
+    ]
+  }
+}

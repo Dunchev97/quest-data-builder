@@ -197,6 +197,12 @@ campaigns/<campaign_id>/<pack_id>/stage2_story.txt
 
 Цель: получить `stage3_quests.txt`, распарсить его и сопоставить task types с template ids.
 
+Жёсткая связь с Stage 2:
+
+- `description` в Stage 3 всегда дословно берётся из `Старт:` соответствующего квеста в `stage2_story.txt`;
+- `congratulation` в Stage 3 всегда дословно берётся из `Завершение:` соответствующего квеста в `stage2_story.txt`;
+- Stage 3 выбирает механики по смыслу этих текстов, но не переписывает их.
+
 Быстрая команда:
 
 ```bash

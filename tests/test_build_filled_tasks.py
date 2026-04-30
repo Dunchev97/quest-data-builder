@@ -132,6 +132,77 @@ def choices() -> dict[str, object]:
     }
 
 
+def give_context_pack() -> dict[str, object]:
+    return {
+        "quests": [
+            {
+                "classname_quests": "Event_2026_Story_2",
+                "title_quest": "Большой перезвон",
+                "quest_number": 2,
+                "description": "Нужно подготовить ключ перезвона и передать его дирижёру.",
+                "congratulation": "Перезвон готов, но путь дальше только открылся.",
+                "character": "Госпожа Молоточек",
+                "tasks": [
+                    {
+                        "task_number": 1,
+                        "task_template_id": "TT-033",
+                        "task_template_name": "Передача предмета",
+                        "task_type": "action give",
+                        "candidates": [],
+                    },
+                    {
+                        "task_number": 2,
+                        "task_template_id": "TT-013",
+                        "task_template_name": "GR с мусора в локации дома",
+                        "task_type": "get_asset GR garbage location_tags",
+                        "candidates": [
+                            {
+                                "candidate_id": "garbage:GearDust",
+                                "garbage_classname": "GearDust",
+                                "garbage_title": "Пыльная шестерёнка",
+                                "locations": [{"code": "42", "title": "Мастерская", "tags": ["home"]}],
+                            }
+                        ],
+                    },
+                    {
+                        "task_number": 3,
+                        "task_template_id": "TT-008",
+                        "task_template_name": "Получить ASK",
+                        "task_type": "get_asset ASK",
+                        "candidates": [],
+                    },
+                ],
+            }
+        ],
+        "generated_sequence_offsets": {},
+        "next_generated_numbers": {},
+    }
+
+
+def give_choices() -> dict[str, object]:
+    return {
+        "quests": [
+            {
+                "classname_quests": "Event_2026_Story_2",
+                "tasks": [
+                    {
+                        "task_number": 1,
+                        "item_title": "Праздничный ключ перезвона",
+                        "person": "Госпоже Молоточек",
+                        "location_title": "Мастерская",
+                    },
+                    {
+                        "task_number": 2,
+                        "selected_candidate_id": "garbage:GearDust",
+                        "item_title": "Латунная пластинка ключа",
+                    },
+                    {"task_number": 3, "item_title": "Крепёжные колечки ключа"},
+                ],
+            }
+        ]
+    }
+
+
 class BuildFilledTasksTests(unittest.TestCase):
     def test_template_catalog_declares_stage4_contracts(self) -> None:
         templates = build_template_catalog(PROJECT_ROOT / "data" / "task_templates.json")
@@ -175,6 +246,22 @@ class BuildFilledTasksTests(unittest.TestCase):
         validation = validate_filled_tasks(
             {"quests": result["quests"]},
             context_pack(),
+            build_template_catalog(PROJECT_ROOT / "data" / "task_templates.json"),
+        )
+        self.assertEqual(validation["summary"]["errors"], 0)
+
+    def test_tt033_acts_as_craft_anchor_for_neighbor_resources(self) -> None:
+        result = build_filled_tasks(give_context_pack(), give_choices())
+
+        self.assertEqual(result["summary"]["issues"], 0)
+        tasks = result["quests"][0]["tasks"]
+        self.assertEqual(tasks[0]["task_object"]["title"], "Передай Праздничный ключ перезвона")
+        self.assertIn("Праздничный ключ перезвона", tasks[1]["choice_reason"])
+        self.assertIn("Праздничный ключ перезвона", tasks[2]["choice_reason"])
+
+        validation = validate_filled_tasks(
+            {"quests": result["quests"]},
+            give_context_pack(),
             build_template_catalog(PROJECT_ROOT / "data" / "task_templates.json"),
         )
         self.assertEqual(validation["summary"]["errors"], 0)
