@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 try:
+    from . import build_actions_table as actions_table_builder
     from . import build_context_pack as context_pack_builder
     from . import build_filled_tasks as filled_tasks_builder
     from . import build_quest_group as quest_group_builder
@@ -21,6 +22,7 @@ try:
     )
     from .workflow_context import DEFAULT_CONTEXT_PATH, approve_stage, load_context, write_json
 except ImportError:
+    import build_actions_table as actions_table_builder
     import build_context_pack as context_pack_builder
     import build_filled_tasks as filled_tasks_builder
     import build_quest_group as quest_group_builder
@@ -57,6 +59,8 @@ QUEST_GROUP_CHOICES = "quest_group_choices.json"
 QUEST_GROUP_VALIDATION = "quest_group.validation.json"
 QUEST_GROUP_PREVIEW = "quest_group.preview.md"
 GENERATED_QUESTS = "generated_quests.csv"
+GENERATED_ACTIONS = "generated_actions.csv"
+GENERATED_ACTIONS_SUMMARY = "generated_actions.summary.json"
 
 
 def pack_artifact(campaign_id: str, pack_id: str, filename: str, campaigns_dir: Path) -> Path:
@@ -237,6 +241,8 @@ def run_stage6(args: argparse.Namespace) -> int:
     quest_group_path = pack_artifact(campaign_id, pack_id, QUEST_GROUP, args.campaigns_dir)
     quest_group_validation_path = pack_artifact(campaign_id, pack_id, QUEST_GROUP_VALIDATION, args.campaigns_dir)
     output_csv_path = pack_artifact(campaign_id, pack_id, GENERATED_QUESTS, args.campaigns_dir)
+    actions_csv_path = pack_artifact(campaign_id, pack_id, GENERATED_ACTIONS, args.campaigns_dir)
+    actions_summary_path = pack_artifact(campaign_id, pack_id, GENERATED_ACTIONS_SUMMARY, args.campaigns_dir)
 
     approval_error = export_csv.stage5_approval_error(args.context, campaign_id, pack_id)
     if approval_error is not None and not args.allow_unapproved:
@@ -256,6 +262,12 @@ def run_stage6(args: argparse.Namespace) -> int:
             output_csv_path,
             quest_group=export_csv.read_json(quest_group_path),
         )
+        actions_summary = actions_table_builder.build_actions_table_file(
+            campaign_id=campaign_id,
+            output_csv=actions_csv_path,
+            summary_json=actions_summary_path,
+            campaigns_dir=args.campaigns_dir,
+        )
         memory = update_memory_from_pack(campaign_id, pack_id, args.campaigns_dir)
     except (OSError, ValueError, FileNotFoundError) as exc:
         print(str(exc))
@@ -263,6 +275,12 @@ def run_stage6(args: argparse.Namespace) -> int:
 
     print(f"csv written: {output_csv_path}")
     print(f"rows written: {summary['rows_written']}")
+    print(
+        "actions csv written: "
+        f"{actions_csv_path} "
+        f"(entities={actions_summary['entities']} dialog={actions_summary['dialog_actions']} "
+        f"search={actions_summary['search_actions']} give={actions_summary['give_actions']})"
+    )
     print(f"memory updated: used_garbage={len(memory.get('used_garbage', {}))} used_flowers={len(memory.get('used_flowers', {}))}")
     return 0
 
@@ -310,6 +328,8 @@ def run_status(args: argparse.Namespace) -> int:
         QUEST_GROUP,
         QUEST_GROUP_VALIDATION,
         GENERATED_QUESTS,
+        GENERATED_ACTIONS,
+        GENERATED_ACTIONS_SUMMARY,
     ]
     print(f"campaign: {campaign_id}")
     print(f"pack: {pack_id}")

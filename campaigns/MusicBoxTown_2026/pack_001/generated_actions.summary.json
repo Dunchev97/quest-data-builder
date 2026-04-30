@@ -1,0 +1,10 @@
+{
+  "campaign_id": "MusicBoxTown_2026",
+  "entities": 1,
+  "dialog_actions": 1,
+  "search_actions": 2,
+  "give_actions": 0,
+  "packs_scanned": [
+    "pack_001"
+  ]
+}
