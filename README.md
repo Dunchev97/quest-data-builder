@@ -122,7 +122,7 @@ python src/update_campaign_memory.py MeatballRain_2026 --pack pack_002 --from-ou
 | 3.1 | Context pack для ИИ | `context_pack.json` | не нужен |
 | 4 | Task choices, filled task objects + validation | `task_choices.json`, `filled_tasks.json`, `filled_tasks.validation.json` | нужен |
 | 5 | Quest group pack | `quest_group.json` | нужен |
-| 6 | CSV export | `generated_quests.csv` | запускается только после approval stage 5 |
+| 6 | CSV export | `generated_quests.csv`, `generated_actions.csv` | запускается только после approval stage 5 |
 
 Технические gates:
 
@@ -170,7 +170,11 @@ Stage 6 читает `filled_tasks.json` и `quest_group.json` из папки p
 
 ```text
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
+campaigns/<campaign_id>/<pack_id>/generated_actions.csv
+campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
 ```
+
+`generated_actions.csv` содержит actions текущего pack, а нумерация диалогов и Give учитывает предыдущие pack-и campaign.
 
 ## Описание Горшков
 

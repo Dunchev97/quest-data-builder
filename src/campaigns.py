@@ -13,6 +13,7 @@ DEFAULT_CAMPAIGNS_DIR = PROJECT_ROOT / "campaigns"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "output"
 DEFAULT_INPUT_DIR = PROJECT_ROOT / "input"
 GENERATED_ASSET_KINDS = ("HOG", "GR", "ASK", "PER", "CL", "FA", "R")
+TIMESTAMP_FIELDS = {"created_at", "updated_at", "first_seen_at", "last_seen_at"}
 
 PACK_FILE_CANDIDATES = [
     (DEFAULT_INPUT_DIR / "stage3_quests.txt", "stage3_quests.txt"),
@@ -58,6 +59,51 @@ def load_json_or_default(path: Path, default: Any) -> Any:
     if path.exists():
         return read_json(path)
     return default
+
+
+def without_timestamp_fields(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {
+            key: without_timestamp_fields(item)
+            for key, item in value.items()
+            if key not in TIMESTAMP_FIELDS
+        }
+    if isinstance(value, list):
+        return [without_timestamp_fields(item) for item in value]
+    return value
+
+
+def preserve_memory_timestamps(memory: dict[str, Any], previous_memory: dict[str, Any] | None) -> None:
+    if not isinstance(previous_memory, dict):
+        return
+
+    if previous_memory.get("created_at"):
+        memory["created_at"] = previous_memory["created_at"]
+
+    for bucket, entries in list(memory.items()):
+        if not isinstance(entries, dict):
+            continue
+        previous_entries = previous_memory.get(bucket)
+        if not isinstance(previous_entries, dict):
+            continue
+        for key, entry in entries.items():
+            if not isinstance(entry, dict):
+                continue
+            previous_entry = previous_entries.get(key)
+            if not isinstance(previous_entry, dict):
+                continue
+            if "first_seen_at" in previous_entry and "first_seen_at" in entry:
+                entry["first_seen_at"] = previous_entry["first_seen_at"]
+            if without_timestamp_fields(entry) == without_timestamp_fields(previous_entry):
+                for field_name in ("created_at", "updated_at", "last_seen_at"):
+                    if field_name in previous_entry and field_name in entry:
+                        entry[field_name] = previous_entry[field_name]
+
+    if (
+        previous_memory.get("updated_at")
+        and without_timestamp_fields(memory) == without_timestamp_fields(previous_memory)
+    ):
+        memory["updated_at"] = previous_memory["updated_at"]
 
 
 def validate_campaign_id(campaign_id: str) -> str:
@@ -402,6 +448,8 @@ def rebuild_memory_from_packs(
     pack_ids: list[str] | None = None,
 ) -> dict[str, Any]:
     campaign = load_json_or_default(campaign_json_path(campaign_id, campaigns_dir), default_campaign(campaign_id))
+    memory_path = campaign_memory_path(campaign_id, campaigns_dir)
+    previous_memory = read_json(memory_path) if memory_path.exists() else None
     if pack_ids is None:
         pack_ids = [
             str(pack.get("pack_id"))
@@ -417,6 +465,7 @@ def rebuild_memory_from_packs(
     for pack_id in pack_ids:
         update_memory_from_single_pack(memory, campaign_id, pack_id, campaigns_dir)
 
+    preserve_memory_timestamps(memory, previous_memory)
     save_memory(memory, campaigns_dir)
     render_campaign_summary(campaign_id, campaigns_dir)
     return memory

@@ -99,13 +99,6 @@ def safe_text(value: Any) -> str:
     return str(value or "").strip()
 
 
-def campaign_prefix_from_quest(classname_quests: str) -> str:
-    marker = "_Story_"
-    if marker in classname_quests:
-        return classname_quests.split(marker, 1)[0]
-    return classname_quests
-
-
 def extract_person_from_title(title: str) -> str:
     if title.startswith("Поговори с "):
         return title[len("Поговори с ") :].strip()
@@ -154,7 +147,15 @@ def iter_campaign_tasks(campaign_dir: Path) -> list[tuple[str, dict[str, Any], d
     return [(pack_id, quest, task) for _pn, _qn, _tn, pack_id, quest, task in rows]
 
 
-def build_actions(campaign_id: str, campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR) -> tuple[list[list[str]], dict[str, Any]]:
+def should_export_pack(pack_id: str, current_pack_id: str | None) -> bool:
+    return current_pack_id is None or pack_id == current_pack_id
+
+
+def build_actions(
+    campaign_id: str,
+    campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR,
+    current_pack_id: str | None = None,
+) -> tuple[list[list[str]], dict[str, Any]]:
     campaign_dir = campaigns_dir / campaign_id
     if not campaign_dir.exists():
         raise FileNotFoundError(f"campaign not found: {campaign_dir}")
@@ -173,7 +174,7 @@ def build_actions(campaign_id: str, campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR)
         quest_classname = safe_text(quest.get("classname_quests"))
         if not quest_classname:
             continue
-        _pack_id = pack_id
+        export_current_task = should_export_pack(pack_id, current_pack_id)
         quest_character = safe_text(quest.get("character"))
         task_type = safe_text(task.get("task_type"))
         template_id = safe_text(task.get("task_template_id"))
@@ -190,6 +191,8 @@ def build_actions(campaign_id: str, campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR)
             action_id = f"{icon}_Dialog_{dialog_counters[icon]}"
             person_title = quest_character or extract_person_from_title(safe_text(task_object.get("title"))) or icon
             entity_titles.setdefault(icon, person_title)
+            if not export_current_task:
+                continue
             text = safe_text(task.get("dialogue_replica")) or safe_text(quest.get("description"))
             dialog_rows.append(
                 DialogActionRow(
@@ -208,7 +211,7 @@ def build_actions(campaign_id: str, campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR)
 
         if kind == "search":
             hog_classname = safe_text(task_object.get("param"))
-            if hog_classname:
+            if hog_classname and export_current_task:
                 search_rows.append(
                     SearchActionRow(
                         identifier=f"search_{hog_classname}",
@@ -232,6 +235,9 @@ def build_actions(campaign_id: str, campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR)
             give_counters[target_classname] = give_counters.get(target_classname, 0) + 1
             action_id = f"action_{target_classname}_Give_{give_counters[target_classname]}"
             target_title = entity_titles.get(target_classname) or extract_person_from_hint(safe_text(task_object.get("hint"))) or safe_text(task_object.get("title")) or target_classname
+            entity_titles.setdefault(target_classname, target_title)
+            if not export_current_task:
+                continue
             icon = safe_text(task_object.get("icon"))
             open_price = f"asset={icon}:1" if icon else ""
             give_rows.append(
@@ -362,6 +368,7 @@ def build_actions(campaign_id: str, campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR)
         "dialog_actions": len(dialog_rows),
         "search_actions": len(search_rows),
         "give_actions": len(give_rows),
+        "current_pack_id": current_pack_id or "",
         "packs_scanned": [path.name for path in sorted((p for p in campaign_dir.glob("pack_*") if p.is_dir()), key=lambda p: parse_pack_number(p.name))],
     }
     return rows, summary
@@ -372,8 +379,9 @@ def build_actions_table_file(
     output_csv: Path,
     summary_json: Path,
     campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR,
+    current_pack_id: str | None = None,
 ) -> dict[str, Any]:
-    rows, summary = build_actions(campaign_id, campaigns_dir=campaigns_dir)
+    rows, summary = build_actions(campaign_id, campaigns_dir=campaigns_dir, current_pack_id=current_pack_id)
     write_csv(output_csv, rows)
     write_json(summary_json, summary)
     return summary
@@ -383,13 +391,20 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build actions CSV for dialogs, gives and hog search actions.")
     parser.add_argument("campaign_id")
     parser.add_argument("--campaigns-dir", type=Path, default=DEFAULT_CAMPAIGNS_DIR)
+    parser.add_argument("--pack", default="", help="Optional current pack id. When set, export only actions from this pack while preserving campaign-wide numbering.")
     parser.add_argument("--output-csv", type=Path, default=None)
     parser.add_argument("--summary-json", type=Path, default=None)
     args = parser.parse_args(argv)
 
     output_csv = args.output_csv or args.campaigns_dir / args.campaign_id / GENERATED_ACTIONS_CSV_NAME
     summary_json = args.summary_json or args.campaigns_dir / args.campaign_id / GENERATED_ACTIONS_SUMMARY_NAME
-    summary = build_actions_table_file(args.campaign_id, output_csv, summary_json, campaigns_dir=args.campaigns_dir)
+    summary = build_actions_table_file(
+        args.campaign_id,
+        output_csv,
+        summary_json,
+        campaigns_dir=args.campaigns_dir,
+        current_pack_id=args.pack or None,
+    )
     print(f"actions csv written: {output_csv}")
     print(f"summary written: {summary_json}")
     print(f"entities: {summary['entities']}")

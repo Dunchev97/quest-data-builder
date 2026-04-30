@@ -36,7 +36,6 @@ CSV можно создавать только если:
 1. Верхний блок `Квест группа` из `quest_group.json`.
 2. Затем quest-блок каждого квеста из `filled_tasks.json`.
 3. Затем task-блоки каждого квеста из `task_object`.
-4. Отдельно создаёт `generated_actions.csv` для персонажей, диалогов, HOG search и Give actions.
 
 Нельзя на этапе 6:
 
@@ -100,10 +99,6 @@ python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>
 
 ```text
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
-campaigns/<campaign_id>/<pack_id>/generated_actions.csv
-campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
 ```
-
-`generated_actions.csv` содержит только actions текущего pack. Для нумерации `Dialog_N` и `Give_N` код просматривает предыдущие pack-и campaign, чтобы не дублировать идентификаторы.
 
 После `python src/workflow_fast.py stage6` память campaign уже обновлена автоматически. Если использовался низкоуровневый `export_csv.py`, отдельно запусти `python src/update_campaign_memory.py <campaign_id> --pack <pack_id>`.

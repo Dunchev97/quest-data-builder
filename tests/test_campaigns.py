@@ -153,6 +153,20 @@ class CampaignTests(unittest.TestCase):
             self.assertEqual(memory["packs"]["pack_001"]["tasks_found"], 3)
             self.assertEqual(memory["packs"]["pack_001"]["quest_group"], str(target / "quest_group.json"))
 
+    def test_rebuild_memory_is_stable_when_pack_did_not_change(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            create_campaign("Event_2026", campaigns_dir=root)
+            create_pack("Event_2026", campaigns_dir=root)
+            target = pack_dir("Event_2026", "pack_001", root)
+            write_json(target / "context_pack.json", sample_context_pack())
+            write_json(target / "filled_tasks.json", sample_filled_tasks())
+
+            first = update_memory_from_pack("Event_2026", "pack_001", root)
+            second = update_memory_from_pack("Event_2026", "pack_001", root)
+
+            self.assertEqual(second, first)
+
     def test_rebuild_memory_removes_replaced_entities(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

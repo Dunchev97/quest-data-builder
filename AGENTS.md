@@ -109,12 +109,14 @@ Stage 6 должен брать `filled_tasks.json` и `quest_group.json` из �
 
 ```text
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
+campaigns/<campaign_id>/<pack_id>/generated_actions.csv
+campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
 ```
 
 ## Роли ИИ И Кода
 
 - ИИ отвечает за творческие решения: сюжет, реплики, выбор task types, смысловые `task_choices` по контексту, загадки, `choice_reason`, тексты quest group.
-- Код отвечает за guardrails: parsing, context pack, сборку strict `filled_tasks.json` из `task_choices.json`, validation, approval gates, CSV export, campaign memory.
+- Код отвечает за guardrails: parsing, context pack, сборку strict `filled_tasks.json` из `task_choices.json`, validation, approval gates, CSV export, actions CSV export, campaign memory.
 - Не выдумывать игровые факты. Classname, title, location, collection, garbage, flower и связи должны приходить из parsed/generated/quest-ready data.
 - Для задач `in_guest` нельзя предлагать мусор, локации, `collection_drop` или `gr_garbage`, привязанные к локациям с тегом `world`; такие кандидаты допустимы только для домашних задач.
 

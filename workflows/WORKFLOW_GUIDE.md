@@ -109,6 +109,8 @@ quest_group_choices.json
 quest_group.validation.json
 quest_group.preview.md
 generated_quests.csv
+generated_actions.csv
+generated_actions.summary.json
 ```
 
 `output/` - локальная временная витрина. Нельзя считать файлы из `output/` актуальными для campaign, если эти файлы не перенесены в папку pack. Для основного quest workflow предпочитай сразу писать постоянные артефакты в `campaigns/<campaign_id>/<pack_id>/`.
@@ -132,6 +134,7 @@ generated_quests.csv
 - валидирует quest group;
 - проверяет approval gates;
 - экспортирует CSV;
+- экспортирует actions CSV для персонажей, Give и HOG search;
 - обновляет campaign memory.
 - валидирует JSON результата pot description, если результат сохраняется.
 
@@ -278,7 +281,7 @@ python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <p
 
 ### Stage 5 - Quest Group
 
-Цель: ИИ анализирует все квесты pack и пишет `quest_group_choices.json`, а код собирает общий блок quest group для страницы журнала.
+Цель: ИИ анализирует все квесты pack и пишет тексты quest group, а код собирает общий блок quest group для страницы журнала. `quest_group_choices.json` можно сохранить для истории и повторяемости, но быстрый wrapper также принимает тексты через CLI-параметры.
 
 Быстрая команда:
 
@@ -312,7 +315,7 @@ python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack
 
 ### Stage 6 - CSV Export
 
-Цель: технически развернуть утвержденные `quest_group.json` и `filled_tasks.json` в CSV.
+Цель: технически развернуть утвержденные `quest_group.json` и `filled_tasks.json` в CSV, а также собрать отдельный CSV персонажей и quest actions.
 
 Быстрая команда:
 
@@ -333,7 +336,11 @@ campaigns/<campaign_id>/<pack_id>/quest_group.validation.json
 
 ```text
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
+campaigns/<campaign_id>/<pack_id>/generated_actions.csv
+campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
 ```
+
+`generated_actions.csv` содержит только actions текущего pack. Для нумерации `Dialog_N` и `Give_N` код просматривает предыдущие pack-и campaign, чтобы не создавать дубли.
 
 CSV не создается, если:
 

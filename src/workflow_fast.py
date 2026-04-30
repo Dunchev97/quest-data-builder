@@ -257,16 +257,19 @@ def run_stage6(args: argparse.Namespace) -> int:
             quest_group_validation_path,
             allow_stale=args.allow_stale_validation,
         )
+        filled_tasks = export_csv.read_json(input_path)
+        quest_group = export_csv.read_json(quest_group_path)
         summary = export_csv.export_filled_tasks_to_csv(
-            export_csv.read_json(input_path),
+            filled_tasks,
             output_csv_path,
-            quest_group=export_csv.read_json(quest_group_path),
+            quest_group=quest_group,
         )
         actions_summary = actions_table_builder.build_actions_table_file(
             campaign_id=campaign_id,
             output_csv=actions_csv_path,
             summary_json=actions_summary_path,
             campaigns_dir=args.campaigns_dir,
+            current_pack_id=pack_id,
         )
         memory = update_memory_from_pack(campaign_id, pack_id, args.campaigns_dir)
     except (OSError, ValueError, FileNotFoundError) as exc:
@@ -316,26 +319,30 @@ def run_approve(args: argparse.Namespace) -> int:
 def run_status(args: argparse.Namespace) -> int:
     campaign_id, pack_id = resolve_ids(args)
     files = [
-        STAGE2_TEXT,
-        STAGE3_TEXT,
-        QUEST_PLAN_RESOLVED,
-        CONTEXT_PACK,
-        TASK_CHOICES,
-        FILLED_TASKS_BUILD,
-        FILLED_TASKS,
-        FILLED_TASKS_VALIDATION,
-        QUEST_GROUP_CHOICES,
-        QUEST_GROUP,
-        QUEST_GROUP_VALIDATION,
-        GENERATED_QUESTS,
-        GENERATED_ACTIONS,
-        GENERATED_ACTIONS_SUMMARY,
+        (STAGE2_TEXT, True),
+        (STAGE3_TEXT, True),
+        (QUEST_PLAN_RESOLVED, True),
+        (CONTEXT_PACK, True),
+        (TASK_CHOICES, True),
+        (FILLED_TASKS_BUILD, True),
+        (FILLED_TASKS, True),
+        (FILLED_TASKS_VALIDATION, True),
+        (QUEST_GROUP_CHOICES, False),
+        (QUEST_GROUP, True),
+        (QUEST_GROUP_VALIDATION, True),
+        (GENERATED_QUESTS, True),
+        (GENERATED_ACTIONS, True),
+        (GENERATED_ACTIONS_SUMMARY, True),
     ]
     print(f"campaign: {campaign_id}")
     print(f"pack: {pack_id}")
-    for filename in files:
+    for filename, required in files:
         path = pack_artifact(campaign_id, pack_id, filename, args.campaigns_dir)
-        print(f"{filename}: {'ok' if path.exists() else 'missing'}")
+        if path.exists():
+            status = "ok"
+        else:
+            status = "missing" if required else "optional-missing"
+        print(f"{filename}: {status}")
     return 0
 
 
