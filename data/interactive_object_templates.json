@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "min_selected_objects": 2,
+  "templates": [
+    {
+      "id": "exchanger",
+      "display_name_ru": "Exchanger: обмен ресурсами с друзьями",
+      "mechanic_prefix": "Exchanger",
+      "counts_as": 1,
+      "paired": false,
+      "result_resource_suffix": "Exchanger_R_1",
+      "list_fields": {
+        "part_resource_titles": 5,
+        "generator_titles": 5
+      },
+      "required_fields": [
+        "exchanger_title",
+        "result_resource_title"
+      ],
+      "defaults": {
+        "source_mode": "generator",
+        "location_title": "Тронный зал Камелота",
+        "exchanger_title": "Стол ювелира",
+        "generator_base_title": "Ювелирная шкатулка",
+        "generator_titles": [
+          "Ювелирная шкатулка с золотой основой",
+          "Ювелирная шкатулка с красной эмалью",
+          "Ювелирная шкатулка с серебряными мечами",
+          "Ювелирная шкатулка с синим сапфиром",
+          "Ювелирная шкатулка с золотой цепочкой"
+        ],
+        "part_group_title": "Детали знака",
+        "part_resource_titles": [
+          "Золотая основа",
+          "Красная эмаль",
+          "Серебряные мечи",
+          "Синий сапфир",
+          "Золотая цепочка"
+        ],
+        "result_resource_title": "Знак рыцаря Камелота",
+        "result_resource_description": "Собери 5 видов деталей знака, чтобы создать итоговый ресурс."
+      }
+    },
+    {
+      "id": "chest_1",
+      "display_name_ru": "Chest_1: коллекционный сундук Home/Guest",
+      "mechanic_prefix": "Chest_1",
+      "counts_as": 1,
+      "paired": true,
+      "result_resource_suffix": "Chest_1_R_1",
+      "required_fields": [
+        "object_title",
+        "activation_resource_title",
+        "result_resource_title"
+      ],
+      "defaults": {
+        "object_title": "Запертый сундук",
+        "activation_resource_title": "Отмычки",
+        "result_resource_title": "Реликвия Камелота",
+        "activation_resource_description": "Убирай мусор Лужайки в гостях.",
+        "result_resource_description": "Можно получить из Запертого сундука дома или в гостях.",
+        "instruction_title": "ВНИМАНИЕ! Можно получить награду только раз в 1 час 30 минут!"
+      }
+    },
+    {
+      "id": "help_1",
+      "display_name_ru": "HELP_1: обменник с активацией Home/Guest",
+      "mechanic_prefix": "HELP_1",
+      "counts_as": 1,
+      "paired": true,
+      "result_resource_suffix": "HELP_1_R_Opener",
+      "required_fields": [
+        "object_title",
+        "activation_resource_title",
+        "path_resource_title",
+        "result_resource_title"
+      ],
+      "defaults": {
+        "object_title": "Рыцарский факел",
+        "activation_resource_title": "Священное масло",
+        "path_resource_title": "Искра доблести",
+        "result_resource_title": "Пламя доблести",
+        "mark_1": "Дары",
+        "mark_2": "Обереги",
+        "activation_comment": "Зажги объект, чтобы друзья могли взаимодействовать с ним.",
+        "active_state_comment": "После активации объект работает в течение 6 часов, затем его нужно активировать снова.",
+        "help_comment": "Когда друзья взаимодействуют с твоим активированным объектом, тебе приходит ресурс помощи. Принимай помощь и создавай итоговый ресурс.",
+        "guest_conditions_title": "Друг не активировал объект! Приходи позже."
+      }
+    }
+  ]
+}

@@ -93,6 +93,30 @@ class BuildResourceTableTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
+            (pack_dir / "interactive_objects.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "selected_objects": [
+                            {
+                                "template_id": "chest_1",
+                                "object_title": "Запертый сундук",
+                                "activation_resource_title": "Отмычки",
+                                "result_resource_title": "Реликвия Камелота",
+                            },
+                            {
+                                "template_id": "help_1",
+                                "object_title": "Рыцарский факел",
+                                "activation_resource_title": "Священное масло",
+                                "path_resource_title": "Искра доблести",
+                                "result_resource_title": "Пламя доблести",
+                            },
+                        ],
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
 
             rows, summary = build_resource_table("Event_2026", campaigns_dir=root / "campaigns")
 
@@ -110,7 +134,7 @@ class BuildResourceTableTests(unittest.TestCase):
 
             flat_rows = [";".join(str(cell) for cell in row) for row in rows]
             self.assertTrue(any("active_quest=Event_2026_Story_1+asset!=Event_2026_R_1:1" in row for row in flat_rows))
-            self.assertTrue(any("asset=Event_2026_ASK_1:1+asset=Event_2026_GR_1:1+asset=Event_2026_ASK_1:1+asset=Event_2026_GR_1:1" in row for row in flat_rows))
+            self.assertTrue(any("asset=Event_2026_ASK_1:1+asset=Event_2026_GR_1:1+asset=Event_2026_Chest_1_R_1:1+asset=Event_2026_HELP_1_R_Opener:1" in row for row in flat_rows))
 
             output_csv = root / "resource_table.csv"
             write_csv(output_csv, rows)

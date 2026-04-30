@@ -11,6 +11,7 @@ try:
     from . import build_quest_group as quest_group_builder
     from . import build_resource_table as resource_table_builder
     from . import export_csv
+    from . import interactive_objects as interactive_objects_builder
     from . import parse_stage3
     from . import task_type_resolver
     from . import validate_task_objects
@@ -28,6 +29,7 @@ except ImportError:
     import build_quest_group as quest_group_builder
     import build_resource_table as resource_table_builder
     import export_csv
+    import interactive_objects as interactive_objects_builder
     import parse_stage3
     import task_type_resolver
     import validate_task_objects
@@ -61,6 +63,9 @@ QUEST_GROUP_PREVIEW = "quest_group.preview.md"
 GENERATED_QUESTS = "generated_quests.csv"
 GENERATED_ACTIONS = "generated_actions.csv"
 GENERATED_ACTIONS_SUMMARY = "generated_actions.summary.json"
+INTERACTIVE_OBJECTS = "interactive_objects.json"
+INTERACTIVE_OBJECTS_PREVIEW = "interactive_objects.preview.md"
+GENERATED_INTERACTIVE_OBJECTS_SUMMARY = "generated_interactive_objects.summary.json"
 
 
 def pack_artifact(campaign_id: str, pack_id: str, filename: str, campaigns_dir: Path) -> Path:
@@ -243,6 +248,8 @@ def run_stage6(args: argparse.Namespace) -> int:
     output_csv_path = pack_artifact(campaign_id, pack_id, GENERATED_QUESTS, args.campaigns_dir)
     actions_csv_path = pack_artifact(campaign_id, pack_id, GENERATED_ACTIONS, args.campaigns_dir)
     actions_summary_path = pack_artifact(campaign_id, pack_id, GENERATED_ACTIONS_SUMMARY, args.campaigns_dir)
+    interactive_manifest_path = pack_artifact(campaign_id, pack_id, INTERACTIVE_OBJECTS, args.campaigns_dir)
+    interactive_summary_path = pack_artifact(campaign_id, pack_id, GENERATED_INTERACTIVE_OBJECTS_SUMMARY, args.campaigns_dir)
 
     approval_error = export_csv.stage5_approval_error(args.context, campaign_id, pack_id)
     if approval_error is not None and not args.allow_unapproved:
@@ -257,6 +264,15 @@ def run_stage6(args: argparse.Namespace) -> int:
             quest_group_validation_path,
             allow_stale=args.allow_stale_validation,
         )
+        interactive_summary = None
+        if interactive_manifest_path.exists():
+            interactive_summary = interactive_objects_builder.build_interactive_objects_files(
+                campaign_id=campaign_id,
+                pack_id=pack_id,
+                manifest_path=interactive_manifest_path,
+                output_dir=pack_artifact(campaign_id, pack_id, "", args.campaigns_dir),
+                summary_path=interactive_summary_path,
+            )
         filled_tasks = export_csv.read_json(input_path)
         quest_group = export_csv.read_json(quest_group_path)
         summary = export_csv.export_filled_tasks_to_csv(
@@ -284,6 +300,12 @@ def run_stage6(args: argparse.Namespace) -> int:
         f"(entities={actions_summary['entities']} dialog={actions_summary['dialog_actions']} "
         f"search={actions_summary['search_actions']} give={actions_summary['give_actions']})"
     )
+    if interactive_summary is not None:
+        print(
+            "interactive object csv written: "
+            f"{len(interactive_summary['files_written'])} files "
+            f"(summary={interactive_summary_path})"
+        )
     print(f"memory updated: used_garbage={len(memory.get('used_garbage', {}))} used_flowers={len(memory.get('used_flowers', {}))}")
     return 0
 
@@ -307,6 +329,46 @@ def run_resource_table(args: argparse.Namespace) -> int:
     return 0 if not summary["warnings"] else 2
 
 
+def run_interactive_objects(args: argparse.Namespace) -> int:
+    campaign_id, pack_id = resolve_ids(args)
+    manifest_path = pack_artifact(campaign_id, pack_id, INTERACTIVE_OBJECTS, args.campaigns_dir)
+    preview_path = pack_artifact(campaign_id, pack_id, INTERACTIVE_OBJECTS_PREVIEW, args.campaigns_dir)
+    summary_path = pack_artifact(campaign_id, pack_id, GENERATED_INTERACTIVE_OBJECTS_SUMMARY, args.campaigns_dir)
+
+    if args.select:
+        manifest = interactive_objects_builder.default_manifest(args.select)
+        interactive_objects_builder.write_json(manifest_path, manifest)
+        print(f"interactive object selection written: {manifest_path}")
+
+    if not manifest_path.exists():
+        print(f"interactive_objects.json not found: {manifest_path}")
+        print("Ask the user to choose at least two interactive objects and save the selection first.")
+        return 1
+
+    try:
+        validation = interactive_objects_builder.write_preview(campaign_id, pack_id, manifest_path, preview_path)
+        export_summary = None
+        if args.export:
+            export_summary = interactive_objects_builder.build_interactive_objects_files(
+                campaign_id=campaign_id,
+                pack_id=pack_id,
+                manifest_path=manifest_path,
+                output_dir=pack_artifact(campaign_id, pack_id, "", args.campaigns_dir),
+                summary_path=summary_path,
+            )
+    except (OSError, ValueError, FileNotFoundError) as exc:
+        print(str(exc))
+        return 2
+
+    print(f"interactive objects selected: {validation['summary']['selected_count']}")
+    print(f"errors: {validation['summary']['errors']}")
+    print(f"preview written: {preview_path}")
+    if export_summary is not None:
+        print(f"interactive object csv written: {len(export_summary['files_written'])} files")
+        print(f"summary written: {summary_path}")
+    return 0 if validation["summary"]["errors"] == 0 else 2
+
+
 def run_approve(args: argparse.Namespace) -> int:
     campaign_id, pack_id = resolve_ids(args)
     context = approve_stage(load_context(args.context), args.stage, campaign_id=campaign_id, pack_id=pack_id, notes=args.notes)
@@ -323,6 +385,8 @@ def run_status(args: argparse.Namespace) -> int:
         (STAGE3_TEXT, True),
         (QUEST_PLAN_RESOLVED, True),
         (CONTEXT_PACK, True),
+        (INTERACTIVE_OBJECTS, False),
+        (INTERACTIVE_OBJECTS_PREVIEW, False),
         (TASK_CHOICES, True),
         (FILLED_TASKS_BUILD, True),
         (FILLED_TASKS, True),
@@ -333,6 +397,7 @@ def run_status(args: argparse.Namespace) -> int:
         (GENERATED_QUESTS, True),
         (GENERATED_ACTIONS, True),
         (GENERATED_ACTIONS_SUMMARY, True),
+        (GENERATED_INTERACTIVE_OBJECTS_SUMMARY, False),
     ]
     print(f"campaign: {campaign_id}")
     print(f"pack: {pack_id}")
@@ -400,6 +465,12 @@ def build_parser() -> argparse.ArgumentParser:
     resource_table_parser.add_argument("--output-csv", type=Path, default=None)
     resource_table_parser.add_argument("--summary-json", type=Path, default=None)
     resource_table_parser.set_defaults(func=run_resource_table)
+
+    interactive_parser = subparsers.add_parser("interactive-objects", help="Validate selected interactive objects and optionally export their CSV files.")
+    add_pack_options(interactive_parser)
+    interactive_parser.add_argument("--select", action="append", default=None, help="Template id to write into interactive_objects.json. Repeatable.")
+    interactive_parser.add_argument("--export", action="store_true", help="Also export generated_interactive_objects_*.csv.")
+    interactive_parser.set_defaults(func=run_interactive_objects)
 
     approve_parser = subparsers.add_parser("approve", help="Approve a workflow stage in active_context.")
     add_pack_options(approve_parser)

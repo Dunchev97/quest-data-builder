@@ -326,7 +326,9 @@ Amounts и prices:
 1. Найти соседние resource tasks в том же quest рядом с craft task.
 2. Взять первый и второй ингредиент из этих task.
 3. Количество взять из `task_object.amount`.
-4. Для прототипа 3-й ингредиент = копия 1-го, 4-й ингредиент = копия 2-го.
+4. Найти выбранные интерактивные объекты pack в `campaigns/<campaign_id>/<pack_id>/interactive_objects.json`.
+5. Взять `_R_` ресурсы первых двух выбранных интерактивных объектов как 3-й и 4-й ингредиенты.
+6. Если `interactive_objects.json` есть, но в нем меньше двух объектов, recipe не создавать и вывести warning.
 
 Пример:
 
@@ -335,14 +337,14 @@ ingredient_1_asset=CucumberFestival_2026_ASK_1
 ingredient_1_asset_amount=1
 ingredient_2_asset=CucumberFestival_2026_GR_1
 ingredient_2_asset_amount=1
-ingredient_3_asset=CucumberFestival_2026_ASK_1
+ingredient_3_asset=CucumberFestival_2026_Chest_1_R_1
 ingredient_3_asset_amount=1
-ingredient_4_asset=CucumberFestival_2026_GR_1
+ingredient_4_asset=CucumberFestival_2026_HELP_1_R_Opener
 ingredient_4_asset_amount=1
-ingredients=asset=CucumberFestival_2026_ASK_1:1+asset=CucumberFestival_2026_GR_1:1+asset=CucumberFestival_2026_ASK_1:1+asset=CucumberFestival_2026_GR_1:1
+ingredients=asset=CucumberFestival_2026_ASK_1:1+asset=CucumberFestival_2026_GR_1:1+asset=CucumberFestival_2026_Chest_1_R_1:1+asset=CucumberFestival_2026_HELP_1_R_Opener:1
 ```
 
-Не создавать `CL`, `Exchanger`, `Story_HELP_Opener` и другие сложные ингредиенты на этом этапе.
+Не дублировать 1-й и 2-й ингредиенты в 3-й и 4-й слот, если для pack уже зафиксированы интерактивные объекты.
 
 ## Валидация Перед Выдачей
 

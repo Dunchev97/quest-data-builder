@@ -8,6 +8,19 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+try:
+    from .interactive_objects import (
+        INTERACTIVE_OBJECTS_NAME,
+        InteractiveIngredient,
+        recipe_ingredients_from_file,
+    )
+except ImportError:
+    from interactive_objects import (
+        INTERACTIVE_OBJECTS_NAME,
+        InteractiveIngredient,
+        recipe_ingredients_from_file,
+    )
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CAMPAIGNS_DIR = PROJECT_ROOT / "campaigns"
@@ -54,6 +67,7 @@ class Resource:
     kind: str
     classname: str
     title: str
+    pack_id: str
     quest_classname: str
     task_number: int | None
     task_type: str
@@ -167,12 +181,28 @@ def iter_pack_dirs(campaign_dir: Path, pack_ids: list[str] | None = None) -> lis
     return [path for path in sorted(campaign_dir.glob("pack_*")) if path.is_dir()]
 
 
-def collect_resources(campaign_id: str, pack_dirs: list[Path]) -> tuple[list[HogResource], list[Resource], list[dict[str, Any]]]:
+def collect_resources(
+    campaign_id: str,
+    pack_dirs: list[Path],
+) -> tuple[list[HogResource], list[Resource], dict[str, list[InteractiveIngredient]], list[dict[str, Any]]]:
     hogs: list[HogResource] = []
     resources: list[Resource] = []
+    interactive_ingredients_by_pack: dict[str, list[InteractiveIngredient]] = {}
     warnings: list[dict[str, Any]] = []
 
     for pack_dir in pack_dirs:
+        interactive_path = pack_dir / INTERACTIVE_OBJECTS_NAME
+        if interactive_path.exists():
+            ingredients, validation = recipe_ingredients_from_file(campaign_id, interactive_path)
+            interactive_ingredients_by_pack[pack_dir.name] = ingredients
+            for item in validation.get("errors", []):
+                warnings.append(
+                    {
+                        "pack": pack_dir.name,
+                        "warning": f"interactive_objects.json: {item.get('code')}: {item.get('message')}",
+                    }
+                )
+
         filled_tasks_path = pack_dir / "filled_tasks.json"
         context_pack_path = pack_dir / "context_pack.json"
         if not filled_tasks_path.exists():
@@ -213,6 +243,7 @@ def collect_resources(campaign_id: str, pack_dirs: list[Path]) -> tuple[list[Hog
                         kind=kind,
                         classname=str(classname),
                         title=normalize_title(task_object.get("title"), kind),
+                        pack_id=pack_dir.name,
                         quest_classname=quest_classname,
                         task_number=task_number,
                         task_type=str(task.get("task_type") or ""),
@@ -223,7 +254,7 @@ def collect_resources(campaign_id: str, pack_dirs: list[Path]) -> tuple[list[Hog
                     )
                 )
 
-    return hogs, resources, warnings
+    return hogs, resources, interactive_ingredients_by_pack, warnings
 
 
 def block(rows: list[list[Any]], title_row: list[Any], types_row: list[Any], headers_row: list[Any], data_rows: list[list[Any]]) -> None:
@@ -298,9 +329,14 @@ def gr_assets(resource: Resource) -> str:
     return ""
 
 
-def recipe_rows(prefix: str, resources: list[Resource]) -> tuple[list[list[Any]], list[dict[str, Any]]]:
+def recipe_rows(
+    prefix: str,
+    resources: list[Resource],
+    interactive_ingredients_by_pack: dict[str, list[InteractiveIngredient]] | None = None,
+) -> tuple[list[list[Any]], list[dict[str, Any]]]:
     result: list[list[Any]] = []
     warnings: list[dict[str, Any]] = []
+    interactive_ingredients_by_pack = interactive_ingredients_by_pack or {}
     by_quest: dict[str, list[Resource]] = {}
     for resource in resources:
         by_quest.setdefault(resource.quest_classname, []).append(resource)
@@ -321,7 +357,20 @@ def recipe_rows(prefix: str, resources: list[Resource]) -> tuple[list[list[Any]]
                 }
             )
             continue
-        ingredients = [ingredients[0], ingredients[1], ingredients[0], ingredients[1]]
+        selected_interactive = interactive_ingredients_by_pack.get(craft.pack_id)
+        if selected_interactive is None:
+            ingredients = [ingredients[0], ingredients[1], ingredients[0], ingredients[1]]
+        elif len(selected_interactive) < 2:
+            warnings.append(
+                {
+                    "resource": craft.classname,
+                    "pack": craft.pack_id,
+                    "warning": "recipe needs two selected interactive object R resources; recipe skipped",
+                }
+            )
+            continue
+        else:
+            ingredients = [ingredients[0], ingredients[1], selected_interactive[0], selected_interactive[1]]
         ingredient_parts = [f"asset={item.classname}:{item.amount}" for item in ingredients]
         identifier = f"{craft.classname}_Recipe"
         result.append(
@@ -350,7 +399,12 @@ def recipe_rows(prefix: str, resources: list[Resource]) -> tuple[list[list[Any]]
     return result, warnings
 
 
-def build_rows(campaign_id: str, hogs: list[HogResource], resources: list[Resource]) -> tuple[list[list[Any]], list[dict[str, Any]]]:
+def build_rows(
+    campaign_id: str,
+    hogs: list[HogResource],
+    resources: list[Resource],
+    interactive_ingredients_by_pack: dict[str, list[InteractiveIngredient]] | None = None,
+) -> tuple[list[list[Any]], list[dict[str, Any]]]:
     rows: list[list[Any]] = []
     warnings: list[dict[str, Any]] = []
     by_kind = {kind: [resource for resource in resources if resource.kind == kind] for kind in RESOURCE_KINDS}
@@ -542,7 +596,7 @@ def build_rows(campaign_id: str, hogs: list[HogResource], resources: list[Resour
         ],
     )
 
-    recipe_data, recipe_warnings = recipe_rows(campaign_id, resources)
+    recipe_data, recipe_warnings = recipe_rows(campaign_id, resources, interactive_ingredients_by_pack)
     warnings.extend(recipe_warnings)
     block(
         rows,
@@ -589,8 +643,8 @@ def build_resource_table(
     if not campaign_dir.exists():
         raise FileNotFoundError(f"campaign not found: {campaign_dir}")
     pack_dirs = iter_pack_dirs(campaign_dir, pack_ids)
-    hogs, resources, warnings = collect_resources(campaign_id, pack_dirs)
-    rows, row_warnings = build_rows(campaign_id, hogs, resources)
+    hogs, resources, interactive_ingredients_by_pack, warnings = collect_resources(campaign_id, pack_dirs)
+    rows, row_warnings = build_rows(campaign_id, hogs, resources, interactive_ingredients_by_pack)
     warnings.extend(row_warnings)
     summary = {
         "campaign_id": campaign_id,
@@ -598,6 +652,10 @@ def build_resource_table(
         "blocks": [cell for row in rows for cell in row if str(cell).strip() in BLOCK_TITLES],
         "hogs": len(hogs),
         "resources": {kind: len([resource for resource in resources if resource.kind == kind]) for kind in RESOURCE_KINDS},
+        "interactive_recipe_ingredients": {
+            pack_id: [item.classname for item in ingredients]
+            for pack_id, ingredients in interactive_ingredients_by_pack.items()
+        },
         "warnings": warnings,
     }
     return rows, summary

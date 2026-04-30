@@ -10,6 +10,7 @@
 - `workflows/POT_DESCRIPTION_WORKFLOW.md` - workflow описания горшков по изображению.
 - `workflows/RESOURCE_TABLE_WORKFLOW.md` - workflow CSV-таблицы ресурсов для дева.
 - `workflows/workflow_modes.json` - машинная карта режимов, ключевиков и entrypoints.
+- `data/interactive_object_templates.json` - поддержанные шаблоны интерактивных объектов.
 - `Инструкция этап 1.txt` ... `Инструкция этап 6.txt` - подробные playbook-и этапов.
 - `campaigns/<campaign_id>/campaign_tone.md` - тон campaign, стиль юмора, запреты на абсурдные формулировки и тематический словарь.
 
@@ -67,6 +68,7 @@ python src/workflow_fast.py approve --stage <stage> --campaign <campaign_id> --p
 
 ```bash
 python src/workflow_fast.py status --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py interactive-objects --campaign <campaign_id> --pack <pack_id> --select chest_1 --select help_1
 python src/workflow_fast.py stage3 --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py context --campaign <campaign_id> --pack <pack_id>
@@ -99,6 +101,8 @@ quest_plan.json
 quest_plan.resolved.json
 context_pack.json
 context_pack.preview.md
+interactive_objects.json
+interactive_objects.preview.md
 task_choices.json
 filled_tasks.build.json
 filled_tasks.json
@@ -111,6 +115,8 @@ quest_group.preview.md
 generated_quests.csv
 generated_actions.csv
 generated_actions.summary.json
+generated_interactive_objects_*.csv
+generated_interactive_objects.summary.json
 ```
 
 `output/` - локальная временная витрина. Нельзя считать файлы из `output/` актуальными для campaign, если эти файлы не перенесены в папку pack. Для основного quest workflow предпочитай сразу писать постоянные артефакты в `campaigns/<campaign_id>/<pack_id>/`.
@@ -120,6 +126,7 @@ generated_actions.summary.json
 ИИ делает творческие решения:
 
 - пишет этапы 1-2;
+- перед началом нового pack спрашивает, какие минимум 2 интерактивных объекта нужны, и фиксирует выбор в `interactive_objects.json`;
 - выбирает task types на этапе 3;
 - заполняет смысловые `task_choices` на этапе 4 по `context_pack`;
 - пишет тексты `quest_group` на этапе 5.
@@ -134,6 +141,7 @@ generated_actions.summary.json
 - валидирует quest group;
 - проверяет approval gates;
 - экспортирует CSV;
+- экспортирует CSV интерактивных объектов по `data/interactive_object_templates.json`;
 - экспортирует actions CSV для персонажей, Give и HOG search;
 - обновляет campaign memory.
 - валидирует JSON результата pot description, если результат сохраняется.
@@ -171,6 +179,28 @@ python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack
 - `export_csv.py` требует approval stage 5.
 
 ## Workflow 1-6
+
+### Перед Stage 1 - Интерактивные Объекты
+
+Перед началом нового pack Codex должен спросить пользователя, какие 2 или больше интерактивных объекта выбрать. Меньше двух выбирать нельзя. Сейчас поддержаны:
+
+- `exchanger` - Exchanger / обмен ресурсами с друзьями; источник ресурсов может быть `generator` или `gr`.
+- `chest_1` - парный `Chest_1_Home` + `Chest_1_Guest`; пара считается одним интерактивным объектом.
+- `help_1` - парный `HELP_1_Home` + `HELP_1_Guest`; пара считается одним интерактивным объектом.
+
+Выбор фиксировать в:
+
+```text
+campaigns/<campaign_id>/<pack_id>/interactive_objects.json
+```
+
+Быстрая команда для первичной фиксации выбранных шаблонов:
+
+```bash
+python src/workflow_fast.py interactive-objects --campaign <campaign_id> --pack <pack_id> --select chest_1 --select help_1
+```
+
+После этого ИИ может вручную дополнить JSON тематическими названиями объектов и ресурсов. Ресурсы выбранных объектов с суффиксом `_R_` используются как 3-й и 4-й ингредиенты craft recipe в таблице ресурсов.
 
 ### Stage 1 - Сюжетная Структура
 
@@ -315,7 +345,7 @@ python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack
 
 ### Stage 6 - CSV Export
 
-Цель: технически развернуть утвержденные `quest_group.json` и `filled_tasks.json` в CSV, а также собрать отдельный CSV персонажей и quest actions.
+Цель: технически развернуть утвержденные `quest_group.json` и `filled_tasks.json` в CSV, собрать отдельный CSV персонажей и quest actions, а также выгрузить CSV выбранных интерактивных объектов.
 
 Быстрая команда:
 
@@ -330,6 +360,7 @@ campaigns/<campaign_id>/<pack_id>/filled_tasks.json
 campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json
 campaigns/<campaign_id>/<pack_id>/quest_group.json
 campaigns/<campaign_id>/<pack_id>/quest_group.validation.json
+campaigns/<campaign_id>/<pack_id>/interactive_objects.json
 ```
 
 И пишет:
@@ -338,6 +369,8 @@ campaigns/<campaign_id>/<pack_id>/quest_group.validation.json
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
+campaigns/<campaign_id>/<pack_id>/generated_interactive_objects_*.csv
+campaigns/<campaign_id>/<pack_id>/generated_interactive_objects.summary.json
 ```
 
 `generated_actions.csv` содержит только actions текущего pack. Для нумерации `Dialog_N` и `Give_N` код просматривает предыдущие pack-и campaign, чтобы не создавать дубли.
@@ -347,6 +380,7 @@ CSV не создается, если:
 - approval stage 5 отсутствует;
 - validation stage 4 содержит errors;
 - validation stage 5 содержит errors;
+- `interactive_objects.json` есть, но в нем выбрано меньше двух интерактивных объектов или неизвестный template id;
 - validation-файл устарел относительно входного JSON.
 
 `workflow_fast.py stage6` после успешного CSV сам обновляет campaign memory. Если использовался низкоуровневый `export_csv.py`, обновить память отдельно:
@@ -418,6 +452,7 @@ docs/resource_table_template.csv
 - собирать быстрой командой `python src/workflow_fast.py resource-table --campaign <campaign_id>` или низкоуровневой командой `python src/build_resource_table.py <campaign_id>`;
 - писать CSV для одного pack в `campaigns/<campaign_id>/<pack_id>/resource_table.csv` только если пользователь явно попросил фильтр по pack;
 - создавать только блоки ресурсов, которые реально есть;
+- для recipe craft брать 1-й и 2-й ингредиенты из соседних resource tasks, а 3-й и 4-й - из первых двух выбранных интерактивных `_R_` ресурсов pack;
 - отделять блоки минимум одной пустой строкой;
 - не копировать prefix из примера `Fun12`, использовать текущий generated prefix.
 

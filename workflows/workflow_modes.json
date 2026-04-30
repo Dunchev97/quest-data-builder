@@ -12,9 +12,10 @@
         "quest_count_or_auto",
         "stage_approval"
       ],
-      "clarification_ru": "Перед генерацией нового pack нужно явно указать количество квестов или написать: придумай сколько хочешь.",
+      "clarification_ru": "Перед генерацией нового pack нужно явно указать количество квестов или написать: придумай сколько хочешь. Также нужно выбрать минимум 2 интерактивных объекта для pack.",
       "approval_gates_ru": [
         "Codex выполняет только один этап за раз.",
+        "Перед stage 1 Codex спрашивает, какие минимум 2 интерактивных объекта выбрать, и фиксирует выбор в campaigns/<campaign_id>/<pack_id>/interactive_objects.json.",
         "После этапа 1 нужно показать пользователю сюжетную структуру и ждать явный апрув.",
         "После этапа 2 нужно показать реплики начала/завершения и ждать явный апрув.",
         "После этапа 3 нужно показать выбранные шаблоны тасков и ждать явный апрув.",
@@ -55,10 +56,16 @@
         "сколько хочешь",
         "любое количество",
         "новая тема",
-        "персонажи"
+        "персонажи",
+        "интерактивные объекты",
+        "interactive objects",
+        "Chest",
+        "HELP",
+        "Exchanger"
       ],
       "entrypoints": [
         "python src/create_pack.py <campaign_id>",
+        "python src/workflow_fast.py interactive-objects --campaign <campaign_id> --pack <pack_id> --select chest_1 --select help_1",
         "python src/workflow_fast.py stage3 --campaign <campaign_id> --pack <pack_id>",
         "python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>",
         "python src/workflow_fast.py context --campaign <campaign_id> --pack <pack_id>",
@@ -135,7 +142,7 @@
     {
       "id": "csv_export",
       "name_ru": "CSV-экспорт",
-      "description_ru": "Этап 6: проверка этапов 4-5 и разворачивание quest_group.json + filled_tasks.json из папки pack в CSV.",
+      "description_ru": "Этап 6: проверка этапов 4-5 и разворачивание quest_group.json + filled_tasks.json из папки pack в CSV, плюс CSV выбранных интерактивных объектов.",
       "default_stage": "6",
       "requires_context": [
         "campaign_id",
@@ -151,6 +158,7 @@
         "сгенерируй таблицу",
         "выгрузи csv",
         "generated_quests.csv",
+        "generated_interactive_objects",
         "структура csv"
       ],
       "entrypoints": [

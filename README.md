@@ -116,13 +116,14 @@ python src/update_campaign_memory.py MeatballRain_2026 --pack pack_002 --from-ou
 
 | Этап | Что Делает | Главный Результат | Approval |
 | --- | --- | --- | --- |
+| Перед 1 | Выбор интерактивных объектов | `interactive_objects.json` | не нужен, но нужен выбор пользователя |
 | 1 | Сюжетная структура pack | `stage1_story.txt` | нужен |
 | 2 | Реплики начала/завершения | `stage2_story.txt` | нужен |
 | 3 | План квестов и task templates | `stage3_quests.txt`, `quest_plan*.json` | нужен |
 | 3.1 | Context pack для ИИ | `context_pack.json` | не нужен |
 | 4 | Task choices, filled task objects + validation | `task_choices.json`, `filled_tasks.json`, `filled_tasks.validation.json` | нужен |
 | 5 | Quest group pack | `quest_group.json` | нужен |
-| 6 | CSV export | `generated_quests.csv`, `generated_actions.csv` | запускается только после approval stage 5 |
+| 6 | CSV export | `generated_quests.csv`, `generated_actions.csv`, `generated_interactive_objects_*.csv` | запускается только после approval stage 5 |
 
 Технические gates:
 
@@ -135,6 +136,14 @@ python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack
 ## Основные Команды Этапов
 
 Быстрый маршрут через wrapper. Если `workspace/active_context.json` уже содержит нужные `campaign_id` и `pack_id`, параметры `--campaign` и `--pack` можно не писать.
+
+Перед этапом 1:
+
+```bash
+python src/workflow_fast.py interactive-objects --campaign <campaign_id> --pack <pack_id> --select chest_1 --select help_1
+```
+
+Фиксирует выбранные интерактивные объекты pack в `interactive_objects.json`. Перед новым pack нужно выбрать минимум два объекта; `Chest_1_Home/Guest` и `HELP_1_Home/Guest` считаются одним объектом.
 
 Этап 3:
 
@@ -172,6 +181,8 @@ Stage 6 читает `filled_tasks.json` и `quest_group.json` из папки p
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
+campaigns/<campaign_id>/<pack_id>/generated_interactive_objects_*.csv
+campaigns/<campaign_id>/<pack_id>/generated_interactive_objects.summary.json
 ```
 
 `generated_actions.csv` содержит actions текущего pack, а нумерация диалогов и Give учитывает предыдущие pack-и campaign.

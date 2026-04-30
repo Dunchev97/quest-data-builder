@@ -152,6 +152,138 @@ class WorkflowFastTests(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             self.assertTrue((pack_dir / "quest_group.json").exists())
 
+    def test_interactive_objects_fast_command_writes_selection_preview(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            campaigns_dir = root / "campaigns"
+            pack_dir = campaigns_dir / "Event_2026" / "pack_001"
+            pack_dir.mkdir(parents=True)
+
+            exit_code = workflow_fast.main(
+                [
+                    "interactive-objects",
+                    "--campaign",
+                    "Event_2026",
+                    "--pack",
+                    "pack_001",
+                    "--campaigns-dir",
+                    str(campaigns_dir),
+                    "--select",
+                    "chest_1",
+                    "--select",
+                    "help_1",
+                ]
+            )
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue((pack_dir / "interactive_objects.json").exists())
+            self.assertTrue((pack_dir / "interactive_objects.preview.md").exists())
+
+    def test_stage6_exports_interactive_object_csv_files(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            campaigns_dir = root / "campaigns"
+            context_path = root / "active_context.json"
+            campaign_dir = campaigns_dir / "Event_2026"
+            pack_dir = campaign_dir / "pack_001"
+            pack_dir.mkdir(parents=True)
+            (campaign_dir / "campaign.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "campaign_id": "Event_2026",
+                        "packs": [{"pack_id": "pack_001"}],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (campaign_dir / "campaign_memory.json").write_text(
+                json.dumps({"version": 1, "campaign_id": "Event_2026", "packs": {}}),
+                encoding="utf-8",
+            )
+            (pack_dir / "filled_tasks.json").write_text(
+                json.dumps(
+                    {
+                        "quests": [
+                            {
+                                "classname_quests": "Event_2026_Story_1",
+                                "title_quest": "Проверка",
+                                "tasks": [],
+                            }
+                        ]
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (pack_dir / "context_pack.json").write_text(json.dumps({"quests": []}), encoding="utf-8")
+            (pack_dir / "filled_tasks.validation.json").write_text(
+                json.dumps({"summary": {"errors": 0, "warnings": 0}}),
+                encoding="utf-8",
+            )
+            (pack_dir / "quest_group.json").write_text(
+                json.dumps(
+                    {
+                        "input": "/quest_group/fun/Fun13_Story_1.proto.js",
+                        "output": "/quest_group/fun/Event_2026_pack_001.proto.js",
+                        "title": "Проверочная группа",
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (pack_dir / "quest_group.validation.json").write_text(
+                json.dumps({"summary": {"errors": 0, "warnings": 0}}),
+                encoding="utf-8",
+            )
+            (pack_dir / "interactive_objects.json").write_text(
+                json.dumps(
+                    {
+                        "version": 1,
+                        "selected_objects": [
+                            {"template_id": "chest_1"},
+                            {"template_id": "help_1"},
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            context_path.write_text(
+                json.dumps(
+                    {
+                        "campaign_id": "Event_2026",
+                        "pack_id": "pack_001",
+                        "stage_approvals": {
+                            "5": {
+                                "approved": True,
+                                "campaign_id": "Event_2026",
+                                "pack_id": "pack_001",
+                            }
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            exit_code = workflow_fast.main(
+                [
+                    "stage6",
+                    "--campaign",
+                    "Event_2026",
+                    "--pack",
+                    "pack_001",
+                    "--campaigns-dir",
+                    str(campaigns_dir),
+                    "--context",
+                    str(context_path),
+                ]
+            )
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue((pack_dir / "generated_interactive_objects_chest_1.csv").exists())
+            self.assertTrue((pack_dir / "generated_interactive_objects_help_1.csv").exists())
+            self.assertTrue((pack_dir / "generated_interactive_objects.summary.json").exists())
+
 
 if __name__ == "__main__":
     unittest.main()

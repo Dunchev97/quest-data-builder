@@ -14,6 +14,8 @@ DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "output"
 DEFAULT_INPUT_DIR = PROJECT_ROOT / "input"
 GENERATED_ASSET_KINDS = ("HOG", "GR", "ASK", "PER", "CL", "FA", "R")
 TIMESTAMP_FIELDS = {"created_at", "updated_at", "first_seen_at", "last_seen_at"}
+INTERACTIVE_OBJECTS_NAME = "interactive_objects.json"
+INTERACTIVE_OBJECTS_PREVIEW_NAME = "interactive_objects.preview.md"
 
 PACK_FILE_CANDIDATES = [
     (DEFAULT_INPUT_DIR / "stage3_quests.txt", "stage3_quests.txt"),
@@ -26,6 +28,8 @@ PACK_FILE_CANDIDATES = [
     (DEFAULT_OUTPUT_DIR / "quest_plan.resolved.preview.md", "quest_plan.resolved.preview.md"),
     (DEFAULT_OUTPUT_DIR / "context_pack.json", "context_pack.json"),
     (DEFAULT_OUTPUT_DIR / "context_pack.preview.md", "context_pack.preview.md"),
+    (DEFAULT_OUTPUT_DIR / INTERACTIVE_OBJECTS_NAME, INTERACTIVE_OBJECTS_NAME),
+    (DEFAULT_OUTPUT_DIR / INTERACTIVE_OBJECTS_PREVIEW_NAME, INTERACTIVE_OBJECTS_PREVIEW_NAME),
     (DEFAULT_OUTPUT_DIR / "filled_tasks.json", "filled_tasks.json"),
     (DEFAULT_OUTPUT_DIR / "filled_tasks.validation.json", "filled_tasks.validation.json"),
     (DEFAULT_OUTPUT_DIR / "filled_tasks.preview.md", "filled_tasks.preview.md"),
@@ -241,6 +245,10 @@ def create_pack(
     stage3_path = target / "stage3_quests.txt"
     if not stage3_path.exists():
         write_text(stage3_path, "")
+
+    interactive_path = target / INTERACTIVE_OBJECTS_NAME
+    if not interactive_path.exists():
+        write_json(interactive_path, {"version": 1, "selected_objects": []})
 
     packs = campaign.setdefault("packs", [])
     if pack_id not in [item.get("pack_id") for item in packs if isinstance(item, dict)]:
@@ -482,6 +490,7 @@ def update_memory_from_single_pack(
     context_pack_path = target / "context_pack.json"
     quest_group_path = target / "quest_group.json"
     quest_group_validation_path = target / "quest_group.validation.json"
+    interactive_objects_path = target / INTERACTIVE_OBJECTS_NAME
     if not filled_tasks_path.exists():
         raise FileNotFoundError(f"filled_tasks.json not found in pack: {filled_tasks_path}")
     if not context_pack_path.exists():
@@ -519,6 +528,8 @@ def update_memory_from_single_pack(
         pack_memory["quest_group"] = str(quest_group_path)
     if quest_group_validation_path.exists():
         pack_memory["quest_group_validation"] = str(quest_group_validation_path)
+    if interactive_objects_path.exists():
+        pack_memory["interactive_objects"] = str(interactive_objects_path)
     memory.setdefault("packs", {})[pack_id] = pack_memory
 
 

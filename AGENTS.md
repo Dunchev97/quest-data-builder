@@ -17,6 +17,7 @@
 - `workflows/WORKFLOW_GUIDE.md` - порядок работы по этапам 1-6.
 - `workflows/POT_DESCRIPTION_WORKFLOW.md` - workflow описания горшков по картинке.
 - `workflows/RESOURCE_TABLE_WORKFLOW.md` - workflow CSV-таблицы ресурсов для дева.
+- `data/interactive_object_templates.json` - поддержанные шаблоны интерактивных объектов.
 - `workflows/workflow_modes.json` - ключевики и режимы для `workflow_context.py`.
 
 ## Локальная среда и скорость
@@ -62,6 +63,8 @@ workspace/active_context.json
 Правила:
 
 - Выполнять только один этап за раз.
+- Перед Stage 1 нового pack спросить пользователя, какие минимум 2 интерактивных объекта выбрать; `Chest_*_Home/Guest` и `HELP_*_Home/Guest` считаются одним объектом.
+- Выбранные интерактивные объекты фиксировать в `campaigns/<campaign_id>/<pack_id>/interactive_objects.json`.
 - После каждого творческого этапа показывать результат пользователю и ждать явный approval.
 - Stage 3.1 - технический подготовительный шаг без отдельного approval; запускать после утвержденного stage 3 перед stage 4.
 - Stage 5 нельзя собирать до approval stage 4.
@@ -93,12 +96,13 @@ workspace/active_context.json
 - создавать только блоки, для которых есть ресурсы в выбранной campaign или явно выбранных pack;
 - сохранять минимум одну пустую строку между блоками;
 - не использовать `Fun12`, если текущий prefix другой.
+- В recipe craft 3-й и 4-й ингредиенты брать из первых двух выбранных интерактивных `_R_` ресурсов pack, а не дублировать 1-й и 2-й ингредиенты.
 
 ## Где Хранить Артефакты
 
 - `output/` - локальный временный рабочий прогон, не источник правды для campaign и не место для коммита.
 - `campaigns/<campaign_id>/<pack_id>/` - постоянное место для файлов pack.
-- Для quest workflow все постоянные артефакты этапов 1-6 хранить в `campaigns/<campaign_id>/<pack_id>/`, включая `quest_plan.json`, `quest_plan.resolved.json` и `context_pack.json`.
+- Для quest workflow все постоянные артефакты этапов 1-6 хранить в `campaigns/<campaign_id>/<pack_id>/`, включая `interactive_objects.json`, `quest_plan.json`, `quest_plan.resolved.json` и `context_pack.json`.
 - `quest_group.json` всегда хранить в папке pack:
 
 ```text
@@ -111,6 +115,8 @@ Stage 6 должен брать `filled_tasks.json` и `quest_group.json` из �
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
+campaigns/<campaign_id>/<pack_id>/generated_interactive_objects_*.csv
+campaigns/<campaign_id>/<pack_id>/generated_interactive_objects.summary.json
 ```
 
 ## Роли ИИ И Кода
