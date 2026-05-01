@@ -143,6 +143,42 @@ class BuildActionsTableTests(unittest.TestCase):
             self.assertEqual(summary["search_actions"], 1)
             self.assertTrue(any("money=2" in row for row in flat_rows))
 
+    def test_exports_quest_helpers_without_actions(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            campaigns_dir = Path(temp_dir) / "campaigns"
+            pack_dir = campaigns_dir / "Event_2026" / "pack_001"
+            pack_dir.mkdir(parents=True)
+
+            write_json(
+                pack_dir / "filled_tasks.json",
+                {
+                    "quests": [
+                        {
+                            "classname_quests": "Event_2026_Story_1",
+                            "quest_number": 1,
+                            "character": "Наблюдатель",
+                            "helper": "Event_2026_Character_1",
+                            "tasks": [
+                                {
+                                    "task_number": 1,
+                                    "task_template_id": "TT-004",
+                                    "task_type": "HOG clean_debris location",
+                                    "task_object": {"param": "Event_2026_HOG_1"},
+                                }
+                            ],
+                        }
+                    ]
+                },
+            )
+
+            rows, summary = build_actions("Event_2026", campaigns_dir=campaigns_dir, current_pack_id="pack_001")
+
+            block_index = next(index for index, row in enumerate(rows) if len(row) > 1 and row[1] == "ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ")
+            self.assertEqual(rows[block_index + 2][1:6], ["input", "output", "classname", "title", "id"])
+            self.assertNotIn("behaviour.0.actions", rows[block_index + 2])
+            self.assertTrue(any(len(row) > 4 and row[3] == "Event_2026_Character_1" and row[4] == "Наблюдатель" for row in rows))
+            self.assertEqual(summary["entities_without_actions"], 1)
+
 
 if __name__ == "__main__":
     unittest.main()

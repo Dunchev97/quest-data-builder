@@ -430,11 +430,23 @@ def apply_campaign_memory_filters(
     pool: list[dict[str, Any]],
     campaign_memory: dict[str, Any] | None,
     force_candidate_id: str | None = None,
+    current_pack_id: str | None = None,
 ) -> tuple[list[dict[str, Any]], list[str]]:
     if not campaign_memory or force_candidate_id:
         return pool, []
 
-    memory_sets = campaign_memory_entity_sets(campaign_memory)
+    memory_for_filters = campaign_memory
+    if current_pack_id:
+        memory_for_filters = dict(campaign_memory)
+        for bucket in ("used_candidate_ids", "used_garbage", "used_collections", "used_flowers", "used_locations"):
+            values = campaign_memory.get(bucket)
+            if isinstance(values, dict):
+                memory_for_filters[bucket] = {
+                    key: value
+                    for key, value in values.items()
+                    if not (isinstance(value, dict) and value.get("pack_id") == current_pack_id)
+                }
+    memory_sets = campaign_memory_entity_sets(memory_for_filters)
     fresh = [candidate for candidate in pool if not candidate_is_used_by_campaign(candidate, memory_sets)]
     excluded = len(pool) - len(fresh)
     if excluded == 0:
@@ -613,7 +625,7 @@ def build_context_pack(
                 pool, guest_world_notes = apply_guest_world_guardrail(pool, task)
                 context_task["notes"].extend(guest_world_notes)
                 _avoid_ids, _prefer_ids, force_id = candidate_override_sets(manual_override)
-                pool, campaign_notes = apply_campaign_memory_filters(pool, campaign_memory, force_candidate_id=force_id)
+                pool, campaign_notes = apply_campaign_memory_filters(pool, campaign_memory, force_candidate_id=force_id, current_pack_id=current_pack_id)
                 context_task["notes"].extend(campaign_notes)
                 for issue in override_issues:
                     issues.append(

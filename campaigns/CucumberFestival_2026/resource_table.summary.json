@@ -1,0 +1,34 @@
+{
+  "campaign_id": "CucumberFestival_2026",
+  "packs": [
+    "pack_001"
+  ],
+  "blocks": [
+    "HOG",
+    "GR ассет",
+    "GR способы получения",
+    "GR ПАКЕТЫ",
+    "ASK",
+    "ASK пост экшен",
+    "ASK ПАКЕТЫ",
+    "PER",
+    "PER пост экшен",
+    "PER ПАКЕТЫ",
+    "R ассет",
+    "Рецепты 4 ингридиента"
+  ],
+  "hogs": 5,
+  "resources": {
+    "ASK": 2,
+    "PER": 1,
+    "GR": 7,
+    "FG": 0,
+    "FA": 0,
+    "R": 3
+  },
+  "interactive_recipe_ingredients": [
+    "CucumberFestival_2026_Chest_1_R_1",
+    "CucumberFestival_2026_HELP_1_R_Opener"
+  ],
+  "warnings": []
+}

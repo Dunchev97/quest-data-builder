@@ -176,8 +176,8 @@ class WorkflowFastTests(unittest.TestCase):
             )
 
             self.assertEqual(exit_code, 0)
-            self.assertTrue((pack_dir / "interactive_objects.json").exists())
-            self.assertTrue((pack_dir / "interactive_objects.preview.md").exists())
+            self.assertTrue((campaigns_dir / "Event_2026" / "interactive_objects.json").exists())
+            self.assertTrue((campaigns_dir / "Event_2026" / "interactive_objects.preview.md").exists())
 
     def test_stage6_exports_interactive_object_csv_files(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -236,7 +236,7 @@ class WorkflowFastTests(unittest.TestCase):
                 json.dumps({"summary": {"errors": 0, "warnings": 0}}),
                 encoding="utf-8",
             )
-            (pack_dir / "interactive_objects.json").write_text(
+            (campaign_dir / "interactive_objects.json").write_text(
                 json.dumps(
                     {
                         "version": 1,
@@ -280,9 +280,11 @@ class WorkflowFastTests(unittest.TestCase):
             )
 
             self.assertEqual(exit_code, 0)
-            self.assertTrue((pack_dir / "generated_interactive_objects_chest_1.csv").exists())
-            self.assertTrue((pack_dir / "generated_interactive_objects_help_1.csv").exists())
-            self.assertTrue((pack_dir / "generated_interactive_objects.summary.json").exists())
+            self.assertTrue((campaign_dir / "generated_interactive_objects_chest_1.csv").exists())
+            self.assertTrue((campaign_dir / "generated_interactive_objects_help_1.csv").exists())
+            self.assertTrue((campaign_dir / "generated_interactive_objects.summary.json").exists())
+            self.assertTrue((campaign_dir / "resource_table.csv").exists())
+            self.assertTrue((campaign_dir / "resource_table.summary.json").exists())
 
 
 if __name__ == "__main__":

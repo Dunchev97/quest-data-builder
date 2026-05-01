@@ -12,10 +12,10 @@
         "quest_count_or_auto",
         "stage_approval"
       ],
-      "clarification_ru": "Перед генерацией нового pack нужно явно указать количество квестов или написать: придумай сколько хочешь. Также нужно выбрать минимум 2 интерактивных объекта для pack.",
+      "clarification_ru": "Перед генерацией новой campaign нужно явно указать количество квестов или написать: придумай сколько хочешь. Также нужно выбрать минимум 2 интерактивных объекта на всю campaign и описать их сущность, либо оставить детали на ИИ.",
       "approval_gates_ru": [
         "Codex выполняет только один этап за раз.",
-        "Перед stage 1 Codex спрашивает, какие минимум 2 интерактивных объекта выбрать, и фиксирует выбор в campaigns/<campaign_id>/<pack_id>/interactive_objects.json.",
+        "Перед stage 1 новой campaign Codex спрашивает, какие минимум 2 интерактивных объекта выбрать на всю campaign, уточняет сущность объектов и ресурсов, и фиксирует выбор в campaigns/<campaign_id>/interactive_objects.json.",
         "После этапа 1 нужно показать пользователю сюжетную структуру и ждать явный апрув.",
         "После этапа 2 нужно показать реплики начала/завершения и ждать явный апрув.",
         "После этапа 3 нужно показать выбранные шаблоны тасков и ждать явный апрув.",
@@ -65,7 +65,7 @@
       ],
       "entrypoints": [
         "python src/create_pack.py <campaign_id>",
-        "python src/workflow_fast.py interactive-objects --campaign <campaign_id> --pack <pack_id> --select chest_1 --select help_1",
+        "python src/workflow_fast.py interactive-objects --campaign <campaign_id> --select chest_1 --select help_1",
         "python src/workflow_fast.py stage3 --campaign <campaign_id> --pack <pack_id>",
         "python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>",
         "python src/workflow_fast.py context --campaign <campaign_id> --pack <pack_id>",

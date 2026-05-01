@@ -12,7 +12,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CAMPAIGNS_DIR = PROJECT_ROOT / "campaigns"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "output"
 DEFAULT_INPUT_DIR = PROJECT_ROOT / "input"
-GENERATED_ASSET_KINDS = ("HOG", "GR", "ASK", "PER", "CL", "FA", "R")
+GENERATED_ASSET_KINDS = ("HOG", "GR", "ASK", "PER", "CL", "FA", "R", "Character")
 TIMESTAMP_FIELDS = {"created_at", "updated_at", "first_seen_at", "last_seen_at"}
 INTERACTIVE_OBJECTS_NAME = "interactive_objects.json"
 INTERACTIVE_OBJECTS_PREVIEW_NAME = "interactive_objects.preview.md"
@@ -213,6 +213,9 @@ def create_campaign(
     memory = default_memory(campaign_id)
     save_campaign(campaign, campaigns_dir)
     save_memory(memory, campaigns_dir)
+    interactive_path = campaign_dir(campaign_id, campaigns_dir) / INTERACTIVE_OBJECTS_NAME
+    if not interactive_path.exists():
+        write_json(interactive_path, {"version": 1, "selected_objects": []})
     render_campaign_summary(campaign_id, campaigns_dir)
     return campaign
 
@@ -245,10 +248,6 @@ def create_pack(
     stage3_path = target / "stage3_quests.txt"
     if not stage3_path.exists():
         write_text(stage3_path, "")
-
-    interactive_path = target / INTERACTIVE_OBJECTS_NAME
-    if not interactive_path.exists():
-        write_json(interactive_path, {"version": 1, "selected_objects": []})
 
     packs = campaign.setdefault("packs", [])
     if pack_id not in [item.get("pack_id") for item in packs if isinstance(item, dict)]:
@@ -490,7 +489,7 @@ def update_memory_from_single_pack(
     context_pack_path = target / "context_pack.json"
     quest_group_path = target / "quest_group.json"
     quest_group_validation_path = target / "quest_group.validation.json"
-    interactive_objects_path = target / INTERACTIVE_OBJECTS_NAME
+    interactive_objects_path = campaign_dir(campaign_id, campaigns_dir) / INTERACTIVE_OBJECTS_NAME
     if not filled_tasks_path.exists():
         raise FileNotFoundError(f"filled_tasks.json not found in pack: {filled_tasks_path}")
     if not context_pack_path.exists():
@@ -504,6 +503,21 @@ def update_memory_from_single_pack(
     selected_count = 0
     for quest in filled_tasks.get("quests", []):
         classname = quest.get("classname_quests")
+        helper = quest.get("helper") or quest.get("quest_helper") or quest.get("character_classname")
+        if isinstance(helper, str) and classname:
+            prefix = str(classname).split("_Story_", 1)[0]
+            if helper.startswith(prefix):
+                add_usage(
+                    memory,
+                    "used_generated_assets",
+                    helper,
+                    {
+                        "pack_id": pack_id,
+                        "classname_quests": classname,
+                        "field": "helper",
+                        "title": quest.get("character"),
+                    },
+                )
         for task in quest.get("tasks", []):
             task_count += 1
             template_id = task.get("task_template_id")

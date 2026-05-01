@@ -37,6 +37,9 @@ CSV можно создавать только если:
 2. Затем quest-блок каждого квеста из `filled_tasks.json`.
 3. Затем task-блоки каждого квеста из `task_object`.
 4. Отдельно создаёт `generated_actions.csv` для персонажей, диалогов, HOG search и Give actions.
+5. Вместе с остальными CSV создаёт campaign-level `resource_table.csv` и `resource_table.summary.json`: таблица собирает ресурсы по всем `campaigns/<campaign_id>/pack_*` и строится по шаблону `docs/resource_table_template.csv` / правилам `workflows/RESOURCE_TABLE_WORKFLOW.md`.
+
+В `generated_actions.csv` должны попадать не только персонажи с диалогом/Give, но и персонажи-helper без экшенов. Для них нужен отдельный блок `ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ`; в этом блоке не писать колонку/параметр `behaviour.0.actions`.
 
 Нельзя на этапе 6:
 
@@ -102,8 +105,14 @@ python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
+campaigns/<campaign_id>/generated_interactive_objects_*.csv
+campaigns/<campaign_id>/generated_interactive_objects.summary.json
+campaigns/<campaign_id>/resource_table.csv
+campaigns/<campaign_id>/resource_table.summary.json
 ```
 
 `generated_actions.csv` содержит только actions текущего pack. Для нумерации `Dialog_N` и `Give_N` код просматривает предыдущие pack-и campaign, чтобы не дублировать идентификаторы.
+
+`resource_table.csv` на этапе 6 не запускать отдельным обязательным шагом после CSV: `workflow_fast.py stage6` обязан пересобрать его сам вместе с остальным экспортом и положить файл на уровень campaign.
 
 После `python src/workflow_fast.py stage6` память campaign уже обновлена автоматически. Если использовался низкоуровневый `export_csv.py`, отдельно запусти `python src/update_campaign_memory.py <campaign_id> --pack <pack_id>`.

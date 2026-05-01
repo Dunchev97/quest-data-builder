@@ -1,0 +1,839 @@
+{
+  "quests": [
+    {
+      "classname_quests": "CucumberFestival_2026_Story_1",
+      "title_quest": "Сенсация с первой полосы",
+      "quest_number": 1,
+      "description": "Домовенок, держи меня за блокнот! Я приехала делать праздничный репортаж, а тут программа гуляний похожа на маринованную карту сокровищ. Вот тут вроде конкурс хруста, тут пятно рассола, а тут, кажется, автограф чьего-то локтя. Помоги восстановить расписание, пока я не написала правду слишком драматично.",
+      "congratulation": "Прекрасно! Теперь у праздника снова есть порядок, а у меня - заголовок без паники. Напишу: 'Домовятия хрустит по расписанию'. Звучит солидно, бодро и почти не липнет к пальцам.",
+      "character": "Журналистка Герда из журнала Домовита",
+      "helper": "CucumberFestival_2026_Character_1",
+      "tasks": [
+        {
+          "task_number": 1,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "choice_reason": "Диалог открывает газетный тон серии: Герда задает темп празднику и сразу превращает огуречную суету в репортаж.",
+          "task_object": {
+            "type": "action",
+            "icon": "CucumberFestival_2026_Character_1",
+            "action": "CucumberFestival_2026_Character_1_Dialog_1",
+            "title": "Поговори с Журналисткой Гердой из журнала Домовита",
+            "hint": "Поговори с Журналисткой Гердой из журнала Домовита. Для этого просто кликни на неё. Она находится в Мир.",
+            "go_to_location": [
+              {
+                "classname": "CucumberFestival_2026_Character_1"
+              }
+            ],
+            "identifier": ""
+          },
+          "dialogue_replica": "Герда уже шуршит блокнотом: праздник огурца требует первой полосы, а первая полоса требует героев, укропа и хоть одного приличного пятна рассола."
+        },
+        {
+          "task_number": 2,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette",
+          "selected_candidate_id": "flower:FlowerLaysDill",
+          "choice_reason": "Укропчик прямо связан с огуречным праздником и выглядит как праздничная зелень для первой полосы Герды.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerLaysDill",
+            "is_silhouette": 1,
+            "amount": 30,
+            "price": 10,
+            "title": "Угадай загаданный цветок",
+            "hint": "Угадай загаданный цветок и собери его в гостях у друга",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 3,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "Для старта праздника игрок ищет конкретные газетные заголовки, которые Герда рассыпала в суете.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "CucumberFestival_2026_HOG_1",
+            "search_action": "search_CucumberFestival_2026_HOG_1",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "CucumberFestival_2026_HOG_1"
+              }
+            ],
+            "amount": 20,
+            "price": 20,
+            "title": "Найди огуречные заголовки",
+            "hint": "Найди огуречные заголовки. Место поиска: Мир. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_2",
+      "title_quest": "Дело о зеленом следе",
+      "quest_number": 2,
+      "description": "Мяу... то есть, официально заявляю: у почетной бочки обнаружен след. Зеленый, мокрый, самоуверенный. Неподготовленный глаз сказал бы: 'кто-то наступил в рассол'. Мой глаз говорит: 'дело пахнет огурцом'. Собери улики, помощник, и ничего не облизывай до протокола.",
+      "congratulation": "Следы собраны, пятна сравнены, соль учтена. Преступник пока не пойман, но дело стало хрустеть куда отчетливее. Хорошая работа. Я бы пожал тебе руку, но лапы заняты дедукцией.",
+      "character": "Кот детектив Котовски",
+      "helper": "CucumberFestival_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 4,
+          "task_template_id": "TT-024",
+          "task_template_name": "Загадка на мусор в гостях",
+          "task_type": "garbage classname in_guest mystery",
+          "selected_candidate_id": "garbage:Garbage_Zoo_3",
+          "choice_reason": "Следы лапок поддерживают детективную часть без повтора расследования тарелки: Котовски читает след как улику праздника.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "Garbage_Zoo_3",
+            "is_hide": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Загадка, мусор в гостях",
+            "hint": "Три малых знака у ворот, Котовски носом их прочтет. Не шум, не крошка, не клубок, А чей-то быстрый поворот.",
+            "identifier": "",
+            "in_guest": 1
+          }
+        },
+        {
+          "task_number": 5,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "selected_candidate_id": "gr_garbage:Cucumber:guest",
+          "choice_reason": "Надкусанный огурец в гостях дает самый прямой источник зеленого следа и рассольной улики.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberFestival_2026_GR_1",
+            "icon": "CucumberFestival_2026_GR_1",
+            "amount": 40,
+            "price": 40,
+            "title": "Найди каплю зеленого рассола",
+            "hint": "Убирай мусор Надкусанные огурцы в гостях, чтобы найти. Место поиска: Оранжерея.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 6,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette",
+          "selected_candidate_id": "collection_drop:CucumberCollection1:Cucumber:home",
+          "choice_reason": "Огуречный рассол предметно продолжает зеленый след и не дублирует выбранный мусор-загадку.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberCollection1",
+            "icon": "CucumberCollection1",
+            "is_silhouette": 1,
+            "amount": 10,
+            "price": 20,
+            "title": "Угадай элемент коллекции",
+            "hint": "Угадай элемент коллекции и найди его дома или в гостях у друзей",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_3",
+      "title_quest": "Рассол строгой выдержки",
+      "quest_number": 3,
+      "description": "Эх, домовятушка, праздник без рассола - это не праздник, а овощное недоразумение! Нужны травки, крышечки да ложечки мерные, а то я на глаз плесну, и огурцы начнут советы давать. Давай помогай, пока котел ведет себя прилично.",
+      "congratulation": "Вот теперь рассол как надо: строгий, душистый и никого не учит жизни. С таким угощением даже Кощей размякнет. Ну, не душой, так хотя бы выражением лица.",
+      "character": "Баба яга",
+      "helper": "CucumberFestival_2026_Character_3",
+      "tasks": [
+        {
+          "task_number": 7,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "selected_candidate_id": null,
+          "choice_reason": "Стеклянные пробки являются закрывающей деталью баночки рассола строгой выдержки: без них рассол не удержит вкус и праздничный аромат.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberFestival_2026_ASK_1",
+            "icon": "CucumberFestival_2026_ASK_1",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей стеклянные пробки для бочки",
+            "hint": "Попроси у друзей или купи.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 8,
+          "task_template_id": "TT-017",
+          "task_template_name": "GR с цветов дома",
+          "task_type": "get_asset GR flower",
+          "selected_candidate_id": "flower:FlowerLaysPotato",
+          "choice_reason": "Крахмальная печать выдержки служит наклейкой-пломбой на баночке рассола строгой выдержки и показывает, что заготовка прошла проверку Бабы яги.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberFestival_2026_GR_2",
+            "icon": "CucumberFestival_2026_GR_2",
+            "amount": 40,
+            "price": 30,
+            "title": "Получи крахмальную печать выдержки",
+            "hint": "Собирай цветы Картошечка дома, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 9,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Итоговый предмет квеста - конкретная баночка, которую Баба яга признает достаточно строгой для праздника.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "CucumberFestival_2026_R_1",
+            "icon": "CucumberFestival_2026_R_1",
+            "amount": 1,
+            "title": "Создай баночку рассола строгой выдержки",
+            "go_to_location": [
+              {
+                "classname": "CucumberFestival_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_4",
+      "title_quest": "Золотая табличка мецената",
+      "quest_number": 4,
+      "description": "Домовенок, случилось досадное покушение на величие! Моя золотая табличка мецената исчезла среди этих ваших лент, бантиков и прочей народной зелени. Без нее публика может не понять, кто здесь самый выдающийся благодетель огурца. Найди табличку немедленно.",
+      "congratulation": "Ага! Вот она, сияет почти как моя репутация. Благодарю. Теперь праздник снова обретает достойный центр внимания. Ну и огурец, разумеется, где-то рядом.",
+      "character": "Кощей",
+      "helper": "CucumberFestival_2026_Character_4",
+      "tasks": [
+        {
+          "task_number": 10,
+          "task_template_id": "TT-029",
+          "task_template_name": "Силуэт мусора в гостях",
+          "task_type": "garbage classname is_silhouette in_guest",
+          "selected_candidate_id": "garbage:Cucumber",
+          "choice_reason": "Надкусанный огурец - очевидная улика для таблички мецената: кто-то уже пробовал экспонат до церемонии.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "Cucumber",
+            "is_silhouette": 1,
+            "amount": 40,
+            "price": 20,
+            "title": "Угадай загаданный мусор",
+            "hint": "Угадай загаданный мусор и убери его в гостях у друзей",
+            "identifier": "",
+            "in_guest": 1
+          }
+        },
+        {
+          "task_number": 11,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette",
+          "selected_candidate_id": "collection_drop:CandyWrapperCollection3:CandyWrapper:home",
+          "choice_reason": "Золотая нива поддерживает золотую табличку Кощея и при этом не использует тот же источник, что огуречный силуэт.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CandyWrapperCollection3",
+            "icon": "CandyWrapperCollection3",
+            "is_silhouette": 1,
+            "amount": 10,
+            "price": 20,
+            "title": "Угадай элемент коллекции",
+            "hint": "Угадай элемент коллекции и найди его дома или в гостях у друзей",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 12,
+          "task_template_id": "TT-005",
+          "task_template_name": "HOG в локациях дома",
+          "task_type": "HOG clean_debris home_locations",
+          "selected_candidate_id": null,
+          "choice_reason": "Кощей ищет именно буквы для таблички, а не абстрактный почет; предмет можно увидеть и собрать.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "CucumberFestival_2026_HOG_2",
+            "amount": 3,
+            "price": 30,
+            "title": "Найди золотые буквы мецената",
+            "hint": "Найди золотые буквы мецената. Они могут быть в Оранжерея, Обзорная.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_5",
+      "title_quest": "Интервью с бочкой",
+      "quest_number": 5,
+      "description": "Я решила взять интервью у бочки. Не смотри так: некоторые бочки рассказывают больше, чем чиновники на открытии праздника. Нужны рассольные ключики, сухое место для блокнота и кто-нибудь храбрый, кто откроет крышку без фонтана. Ты как раз выглядишь достаточно храбро.",
+      "congratulation": "Интервью состоялось! Бочка молчала достойно, зато аромат дал исчерпывающий комментарий. Я записала: 'источник близкий к рассолу подтверждает - праздник будет громким'. Отличный материал!",
+      "character": "Журналистка Герда из журнала Домовита",
+      "helper": "CucumberFestival_2026_Character_1",
+      "tasks": [
+        {
+          "task_number": 13,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "selected_candidate_id": "garbage:BrokenBank",
+          "choice_reason": "Разбитая банка напрямую связана с интервью у бочки: после такого репортажа таре явно нужна проверка.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "BrokenBank",
+            "in_guest": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Убери мусор Разбитые банки в гостях",
+            "hint": "Убери мусор Разбитые банки в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Погребок, Стеклодувня.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 14,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "selected_candidate_id": "gr_garbage:BrokenBall:guest",
+          "choice_reason": "Рваный мяч дает круглую форму для шуточной печати, а источник не повторяет разбитую банку из соседнего задания.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberFestival_2026_GR_3",
+            "icon": "CucumberFestival_2026_GR_3",
+            "amount": 40,
+            "price": 40,
+            "title": "Найди круглую печать бочкового интервью",
+            "hint": "Убирай мусор Рваные мячи в гостях, чтобы найти. Место поиска: Гараж.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 15,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette",
+          "selected_candidate_id": "flower:FlowerSeaBuckthorn",
+          "choice_reason": "Облепиха по цвету и ягодной кислоте хорошо поддерживает тему бочки, рассола и яркого интервью.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerSeaBuckthorn",
+            "is_silhouette": 1,
+            "amount": 30,
+            "price": 10,
+            "title": "Угадай загаданный цветок",
+            "hint": "Угадай загаданный цветок и собери его в гостях у друга",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_6",
+      "title_quest": "Подозрительная хрусткость",
+      "quest_number": 6,
+      "description": "На конкурсе хруста прозвучал хруст, который оскорбил мое профессиональное ухо. Слишком громко, слишком эффектно, слишком 'посмотрите на меня'. Проверь образцы, салфетки и соль. Если это реквизит, мы выведем его на чистую тарелку.",
+      "congratulation": "Так я и думал: хруст был усилен хитрой подставкой. Убрали лишнее - и конкурс снова честный. Запомни, настоящий огурец не нуждается в театральных спецэффектах. Он хрустит с достоинством.",
+      "character": "Кот детектив Котовски",
+      "helper": "CucumberFestival_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 16,
+          "task_template_id": "TT-007",
+          "task_template_name": "HOG поиск истинного среди ложного",
+          "task_type": "HOG clean_debris true_among_false",
+          "selected_candidate_id": null,
+          "choice_reason": "Игрок сравнивает похожие предметы и выбирает настоящий огурец, что точно соответствует механике истинного среди ложного.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "CucumberFestival_2026_HOG_3",
+            "amount": 1,
+            "price": 1,
+            "title": "Найди настоящий хрустящий огурец",
+            "hint": "Настоящий огурец ровный, зеленый и с каплей рассола у хвостика; подделки блестят слишком театрально.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 17,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette",
+          "selected_candidate_id": "collection_drop:GarbageNapkinsCollection5:GarbageNapkins:home",
+          "choice_reason": "Поварской колпак поддерживает дегустацию и подозрительную хрусткость: кто-то явно готовился профессионально.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "GarbageNapkinsCollection5",
+            "icon": "GarbageNapkinsCollection5",
+            "is_silhouette": 1,
+            "amount": 10,
+            "price": 20,
+            "title": "Угадай элемент коллекции",
+            "hint": "Угадай элемент коллекции и найди его дома или в гостях у друзей",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 18,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower",
+          "selected_candidate_id": "flower:FlowerLaysDill",
+          "choice_reason": "Укропчик в гостях прямо усиливает дегустацию и огуречную хрусткость.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberFestival_2026_GR_4",
+            "icon": "CucumberFestival_2026_GR_4",
+            "amount": 80,
+            "price": 40,
+            "title": "Получи душистую веточку для пробы",
+            "hint": "Собирай цветы Укропчик в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_7",
+      "title_quest": "Укропный переполох",
+      "quest_number": 7,
+      "description": "Ох, рассыпался мой душистый укроп! Теперь половина стола пахнет праздником, а другая половина - подозрительно тоже праздником. Собери пучки, отдели их от мишуры, да помоги банке настояться. Малосольные огурчики сами себя приличными не сделают.",
+      "congratulation": "Вот так-то лучше! Укроп на месте, банка благоухает, гости будут ходить кругами и делать вид, что просто мимо проходили. Хорошая работа, домовятушко.",
+      "character": "Баба яга",
+      "helper": "CucumberFestival_2026_Character_3",
+      "tasks": [
+        {
+          "task_number": 19,
+          "task_template_id": "TT-009",
+          "task_template_name": "Получить PER",
+          "task_type": "get_asset PER",
+          "selected_candidate_id": null,
+          "choice_reason": "Парадные пучки укропа вплетаются в укропную гирлянду для танцев как главная зеленая основа украшения.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberFestival_2026_PER_1",
+            "icon": "CucumberFestival_2026_PER_1",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей парадные пучки укропа",
+            "hint": "Отправь личные просьбы друзьям или купи.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 20,
+          "task_template_id": "TT-013",
+          "task_template_name": "GR с мусора в локации дома",
+          "task_type": "get_asset GR garbage location_tags",
+          "selected_candidate_id": "gr_garbage:BagOfFertilizer:home",
+          "choice_reason": "Зеленая садовая бирка крепится к укропной гирлянде для танцев и подписывает ее как праздничное огородное украшение.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberFestival_2026_GR_5",
+            "icon": "CucumberFestival_2026_GR_5",
+            "amount": 30,
+            "price": 40,
+            "title": "Найди зеленую садовую бирку",
+            "hint": "Убирай мусор в локации Оранжерея, Курятник, Чародейная дома, чтобы найти.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 21,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Баба яга устраивает переполох вокруг укропа, поэтому итогом становится физическая гирлянда для гуляний.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "CucumberFestival_2026_R_2",
+            "icon": "CucumberFestival_2026_R_2",
+            "amount": 1,
+            "title": "Создай укропную гирлянду для танцев",
+            "go_to_location": [
+              {
+                "classname": "CucumberFestival_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_8",
+      "title_quest": "Трон для Огуречного короля",
+      "quest_number": 8,
+      "description": "Я создал трон, достойный короля! Правда, огурец на нем выглядит... э-э... скромно. Возможно, три яруса золота и колонны были легким излишеством. Помоги убрать лишнее, но аккуратно: величие должно остаться, просто не давить на овощ.",
+      "congratulation": "Теперь помост выглядит благородно и не спорит с главным огурцом за власть. Признаю, умеренность иногда тоже производит впечатление. Но только иногда.",
+      "character": "Кощей",
+      "helper": "CucumberFestival_2026_Character_4",
+      "tasks": [
+        {
+          "task_number": 22,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "Для трона нужен осязаемый элемент мебели, а не просто королевское настроение; ножки можно искать как HOG-предмет.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "CucumberFestival_2026_HOG_4",
+            "search_action": "search_CucumberFestival_2026_HOG_4",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "CucumberFestival_2026_HOG_4"
+              }
+            ],
+            "amount": 20,
+            "price": 20,
+            "title": "Найди резные ножки трона",
+            "hint": "Найди резные ножки трона. Место поиска: Трюм. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 23,
+          "task_template_id": "TT-030",
+          "task_template_name": "Силуэт мусора дома",
+          "task_type": "garbage classname is_silhouette",
+          "selected_candidate_id": "garbage:BrokenBarrel",
+          "choice_reason": "Разбитая бочка дает подходящие доски для трона Огуречного короля и сохраняет связь с засолочной темой.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "BrokenBarrel",
+            "is_silhouette": 1,
+            "amount": 20,
+            "price": 40,
+            "title": "Угадай загаданный мусор и убери его дома",
+            "hint": "Угадай загаданный мусор и убери его дома",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 24,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower",
+          "selected_candidate_id": "flower:FlowerHibiscus",
+          "choice_reason": "Гибискус дает яркую декоративную кисточку для трона, чтобы предмет выглядел празднично и заметно.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberFestival_2026_GR_6",
+            "icon": "CucumberFestival_2026_GR_6",
+            "amount": 80,
+            "price": 40,
+            "title": "Получи алую королевскую кисточку",
+            "hint": "Собирай цветы Гибискус в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_9",
+      "title_quest": "Фотография века",
+      "quest_number": 9,
+      "description": "Нужна фотография века! Бочка слева, банка справа, Кощей желательно не везде сразу, Котовски пусть не щурится как обвинитель, а Баба яга пусть не держит половник над чужой шляпой. Собери реквизит и помоги расставить всех, пока кадр не стал судебным заседанием.",
+      "congratulation": "Есть кадр! Все улыбаются, бочка не течет, банка блестит, а Кощей поместился почти целиком в свою долю славы. Это будет разворот номера, чувствую журналистским носом.",
+      "character": "Журналистка Герда из журнала Домовита",
+      "helper": "CucumberFestival_2026_Character_1",
+      "tasks": [
+        {
+          "task_number": 25,
+          "task_template_id": "TT-034",
+          "task_template_name": "Фото предмета",
+          "task_type": "action post_photo",
+          "selected_candidate_id": null,
+          "choice_reason": "Фотография века логично делается с Гердой как автором праздничного репортажа, а кухня поддерживает тему дегустации.",
+          "task_object": {
+            "type": "action",
+            "action": "post_photo",
+            "icon": "CucumberFestival_2026_Character_1",
+            "param": "CucumberFestival_2026_Character_1",
+            "go_to_location": [
+              {
+                "classname": "CucumberFestival_2026_Character_1"
+              }
+            ],
+            "amount": 1,
+            "title": "Сфотографируйся с Журналисткой Гердой из журнала Домовита",
+            "hint": "Журналистка Герда из журнала Домовита - персонаж, с которым нужно сфотографироваться. Найди её у себя на Кухня и нажми на иконку \"Сделать фотографию\" в правом верхнем углу. Наведи фокус на Журналистку Герду из журнала Домовита, сфотографируйся с ней и нажми \"Славненько\".",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 26,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette",
+          "selected_candidate_id": "flower:FlowerFuchsia",
+          "choice_reason": "Фуксия связана с фотографическим коллекционным кандидатом в этом же квесте и дает яркий кадр для журнала.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerFuchsia",
+            "is_silhouette": 1,
+            "amount": 30,
+            "price": 10,
+            "title": "Угадай загаданный цветок",
+            "hint": "Угадай загаданный цветок и собери его в гостях у друга",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 27,
+          "task_template_id": "TT-026",
+          "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection mystery",
+          "selected_candidate_id": "collection_drop:FlowerFuchsiaCollection5:FlowerFuchsia:home",
+          "choice_reason": "Фотография фуксии напрямую поддерживает квест про снимок века и не требует выдумывать новый коллекционный источник.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "FlowerFuchsiaCollection5",
+            "icon": "FlowerFuchsiaCollection5",
+            "is_hide": 1,
+            "amount": 10,
+            "price": 30,
+            "title": "Загадка, предмет из коллекции",
+            "hint": "В рамке цвет, смешок и свет, Для журнала лучше нет. Не листок и не строка, Праздник щелкнул свысока.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_10",
+      "title_quest": "Парад ровного строя",
+      "quest_number": 10,
+      "description": "Парад огурцов требует дисциплины. А у нас маленькие катятся, пузатые спорят, кривой требует персональный марш. Подготовь таблички, ленты и подставки. Мы наведем порядок без давления на личную форму каждого участника.",
+      "congratulation": "Строй принят. Огурцы стоят уверенно, таблички читаются, кривой получил почетный угол обзора и перестал возмущаться. Иногда порядок - это не прямая линия, а грамотно поставленная подставка.",
+      "character": "Кот детектив Котовски",
+      "helper": "CucumberFestival_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 28,
+          "task_template_id": "TT-025",
+          "task_template_name": "Загадка на мусор дома",
+          "task_type": "garbage classname mystery",
+          "selected_candidate_id": "garbage:BrokenStick",
+          "choice_reason": "Сломанный посох подходит параду как командный жезл, который нужно опознать по загадке.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "BrokenStick",
+            "is_hide": 1,
+            "amount": 20,
+            "price": 40,
+            "title": "Загадка, мусор дома",
+            "hint": "В строю команду подаю, Но сам надломлен на краю. Не меч, не ветка для костра, А знак парада до утра.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 29,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname",
+          "selected_candidate_id": "garbage:Drumstick",
+          "choice_reason": "Барабанная палочка нужна для парада и не повторяет источник загадки, поэтому задания не выглядят одним действием.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "Drumstick",
+            "amount": 20,
+            "price": 40,
+            "title": "Убери мусор Барабанные палочки дома",
+            "hint": "Убери мусор Барабанные палочки дома. Для этого просто кликни на нужный мусор дома. Место поиска: Хижина Чинга.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 30,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette",
+          "selected_candidate_id": "flower:FlowerFive",
+          "choice_reason": "Роза дает парадное украшение строя и визуально отличается от огуречных предметов, сохраняя праздничность.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerFive",
+            "is_silhouette": 1,
+            "amount": 30,
+            "price": 10,
+            "title": "Угадай загаданный цветок",
+            "hint": "Угадай загаданный цветок и собери его в гостях у друга",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_11",
+      "title_quest": "Огуречный оберег от скуки",
+      "quest_number": 11,
+      "description": "Гуляниям нужен оберег от скуки! Не магия какая-нибудь темная, а честная праздничная штука: ленточки, баночки, огуречный вид и щепотка моей мудрости. Только смотри, не тащи что попало, а то оберег начнет икать рассолом.",
+      "congratulation": "Красота! Оберег веселый, зеленый и пока никого не кусает - значит, получился правильно. Теперь праздник до финала дотянет бодро, а если кто заскучает, я ему этим оберегом помашу.",
+      "character": "Баба яга",
+      "helper": "CucumberFestival_2026_Character_3",
+      "tasks": [
+        {
+          "task_number": 31,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "selected_candidate_id": null,
+          "choice_reason": "Медные колечки являются крепежной рамкой огуречного оберега от скуки, чтобы амулет держался на ленте и не развалился.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberFestival_2026_ASK_2",
+            "icon": "CucumberFestival_2026_ASK_2",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей медные колечки для оберега",
+            "hint": "Попроси у друзей или купи.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 32,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower",
+          "selected_candidate_id": "flower:FlowerCvetikSemicvetik",
+          "choice_reason": "Семицветная ленточка удачи продевается через медные колечки и становится яркой подвеской огуречного оберега от скуки.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "CucumberFestival_2026_GR_7",
+            "icon": "CucumberFestival_2026_GR_7",
+            "amount": 80,
+            "price": 40,
+            "title": "Получи семицветную ленточку удачи",
+            "hint": "Собирай цветы Цветик-семицветик в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 33,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Итоговый предмет точно совпадает с целью квеста: защитить праздник от скуки видимым амулетом.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "CucumberFestival_2026_R_3",
+            "icon": "CucumberFestival_2026_R_3",
+            "amount": 1,
+            "title": "Создай огуречный оберег от скуки",
+            "go_to_location": [
+              {
+                "classname": "CucumberFestival_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "CucumberFestival_2026_Story_12",
+      "title_quest": "Финальный хруст Домовятии",
+      "quest_number": 12,
+      "description": "Выяснилось, что главный огурец не похищен, а помещен в самое почетное место. Да, это была моя инструкция. Да, возможно, ее поняли слишком буквально. Верни огурец на церемонию, раздай угощения и проследи, чтобы финал был величественным, но без обвинительных взглядов в мою сторону.",
+      "congratulation": "Финальный хруст состоялся! Огурец возвращен, угощения розданы, публика довольна, а мое величие почти не пострадало. Признаю: праздник удался. И даже не только благодаря мне.",
+      "character": "Кощей",
+      "helper": "CucumberFestival_2026_Character_4",
+      "tasks": [
+        {
+          "task_number": 34,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "choice_reason": "Финальный диалог с Кощеем закрепляет церемонию и подводит к последнему сбору праздничных ресурсов.",
+          "task_object": {
+            "type": "action",
+            "icon": "CucumberFestival_2026_Character_4",
+            "action": "CucumberFestival_2026_Character_4_Dialog_2",
+            "title": "Поговори с Кощеем",
+            "hint": "Поговори с Кощеем. Для этого просто кликни на него. Он находится в Мир.",
+            "go_to_location": [
+              {
+                "classname": "CucumberFestival_2026_Character_4"
+              }
+            ],
+            "identifier": ""
+          },
+          "dialogue_replica": "Кощей торжественно проверяет финальный хруст: если огурец звучит бодро, праздник удался; если нет, он грозит написать акт на три свитка."
+        },
+        {
+          "task_number": 35,
+          "task_template_id": "TT-003",
+          "task_template_name": "HOG в мире",
+          "task_type": "HOG clean_debris world",
+          "selected_candidate_id": null,
+          "choice_reason": "Фанфары - конкретный праздничный предмет для финального HOG в мире, который завершает гуляния.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "CucumberFestival_2026_HOG_5",
+            "search_action": "search_CucumberFestival_2026_HOG_5",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "CucumberFestival_2026_HOG_5"
+              }
+            ],
+            "amount": 15,
+            "price": 50,
+            "title": "Найди огуречные фанфары",
+            "hint": "Найди огуречные фанфары. Место поиска: Мир. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 36,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:AshesCollection3:Ashes:home",
+          "choice_reason": "Факел подходит финальной церемонии: им можно торжественно подсветить возвращение главного огурца и завершить праздник без выдуманной CL-награды.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "AshesCollection3",
+            "icon": "AshesCollection3",
+            "amount": 10,
+            "price": 20,
+            "title": "Найди факел",
+            "hint": "Факел - элемент коллекции, выпадает при уборке мусора Пепел дома и в гостях. Место поиска: Котельная.",
+            "identifier": ""
+          }
+        }
+      ]
+    }
+  ]
+}

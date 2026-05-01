@@ -265,7 +265,8 @@
       "name_ru": "Получить CL (награда за коллекцию)",
       "task_type": "get_asset CL",
       "category": "collection_reward",
-      "status": "supported",
+      "status": "not_ready",
+      "disabled_reason": "Не использовать: для CL-награды за коллекцию нет достоверного списка collection rewards.",
       "data_needs": [
         "quest_context",
         "generated_resource",

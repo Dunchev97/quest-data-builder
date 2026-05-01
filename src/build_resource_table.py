@@ -183,25 +183,51 @@ def iter_pack_dirs(campaign_dir: Path, pack_ids: list[str] | None = None) -> lis
 
 def collect_resources(
     campaign_id: str,
+    campaign_dir: Path,
     pack_dirs: list[Path],
-) -> tuple[list[HogResource], list[Resource], dict[str, list[InteractiveIngredient]], list[dict[str, Any]]]:
+) -> tuple[list[HogResource], list[Resource], list[InteractiveIngredient], list[dict[str, Any]]]:
     hogs: list[HogResource] = []
     resources: list[Resource] = []
-    interactive_ingredients_by_pack: dict[str, list[InteractiveIngredient]] = {}
+    interactive_ingredients: list[InteractiveIngredient] = []
     warnings: list[dict[str, Any]] = []
 
-    for pack_dir in pack_dirs:
-        interactive_path = pack_dir / INTERACTIVE_OBJECTS_NAME
-        if interactive_path.exists():
-            ingredients, validation = recipe_ingredients_from_file(campaign_id, interactive_path)
-            interactive_ingredients_by_pack[pack_dir.name] = ingredients
+    campaign_interactive_path = campaign_dir / INTERACTIVE_OBJECTS_NAME
+    if campaign_interactive_path.exists():
+        ingredients, validation = recipe_ingredients_from_file(campaign_id, campaign_interactive_path)
+        summary = validation.get("summary", {})
+        has_only_empty_selection_error = (
+            summary.get("selected_count") == 0
+            and summary.get("errors") == 1
+            and len(validation.get("errors", [])) == 1
+            and validation["errors"][0].get("code") == "not_enough_interactive_objects"
+        )
+        if has_only_empty_selection_error:
+            pass
+        elif summary.get("errors"):
             for item in validation.get("errors", []):
                 warnings.append(
                     {
-                        "pack": pack_dir.name,
                         "warning": f"interactive_objects.json: {item.get('code')}: {item.get('message')}",
                     }
                 )
+        else:
+            interactive_ingredients = ingredients
+
+    for pack_dir in pack_dirs:
+        if not interactive_ingredients:
+            interactive_path = pack_dir / INTERACTIVE_OBJECTS_NAME
+            if interactive_path.exists():
+                ingredients, validation = recipe_ingredients_from_file(campaign_id, interactive_path)
+                if validation.get("summary", {}).get("errors"):
+                    for item in validation.get("errors", []):
+                        warnings.append(
+                            {
+                                "pack": pack_dir.name,
+                                "warning": f"interactive_objects.json: {item.get('code')}: {item.get('message')}",
+                            }
+                        )
+                else:
+                    interactive_ingredients = ingredients
 
         filled_tasks_path = pack_dir / "filled_tasks.json"
         context_pack_path = pack_dir / "context_pack.json"
@@ -254,7 +280,7 @@ def collect_resources(
                     )
                 )
 
-    return hogs, resources, interactive_ingredients_by_pack, warnings
+    return hogs, resources, interactive_ingredients, warnings
 
 
 def block(rows: list[list[Any]], title_row: list[Any], types_row: list[Any], headers_row: list[Any], data_rows: list[list[Any]]) -> None:
@@ -332,16 +358,16 @@ def gr_assets(resource: Resource) -> str:
 def recipe_rows(
     prefix: str,
     resources: list[Resource],
-    interactive_ingredients_by_pack: dict[str, list[InteractiveIngredient]] | None = None,
+    interactive_ingredients: list[InteractiveIngredient] | None = None,
 ) -> tuple[list[list[Any]], list[dict[str, Any]]]:
     result: list[list[Any]] = []
     warnings: list[dict[str, Any]] = []
-    interactive_ingredients_by_pack = interactive_ingredients_by_pack or {}
+    interactive_ingredients = interactive_ingredients or []
     by_quest: dict[str, list[Resource]] = {}
     for resource in resources:
         by_quest.setdefault(resource.quest_classname, []).append(resource)
 
-    for craft in [resource for resource in resources if resource.kind == "R"]:
+    for craft_index, craft in enumerate([resource for resource in resources if resource.kind == "R"]):
         quest_resources = sorted(by_quest.get(craft.quest_classname, []), key=lambda item: item.task_number or 0)
         before = [
             item
@@ -357,20 +383,24 @@ def recipe_rows(
                 }
             )
             continue
-        selected_interactive = interactive_ingredients_by_pack.get(craft.pack_id)
-        if selected_interactive is None:
+        if not interactive_ingredients:
             ingredients = [ingredients[0], ingredients[1], ingredients[0], ingredients[1]]
-        elif len(selected_interactive) < 2:
+        elif len(interactive_ingredients) < 2:
             warnings.append(
                 {
                     "resource": craft.classname,
-                    "pack": craft.pack_id,
                     "warning": "recipe needs two selected interactive object R resources; recipe skipped",
                 }
             )
             continue
         else:
-            ingredients = [ingredients[0], ingredients[1], selected_interactive[0], selected_interactive[1]]
+            start = craft_index * 2
+            ingredients = [
+                ingredients[0],
+                ingredients[1],
+                interactive_ingredients[start % len(interactive_ingredients)],
+                interactive_ingredients[(start + 1) % len(interactive_ingredients)],
+            ]
         ingredient_parts = [f"asset={item.classname}:{item.amount}" for item in ingredients]
         identifier = f"{craft.classname}_Recipe"
         result.append(
@@ -403,7 +433,7 @@ def build_rows(
     campaign_id: str,
     hogs: list[HogResource],
     resources: list[Resource],
-    interactive_ingredients_by_pack: dict[str, list[InteractiveIngredient]] | None = None,
+    interactive_ingredients: list[InteractiveIngredient] | None = None,
 ) -> tuple[list[list[Any]], list[dict[str, Any]]]:
     rows: list[list[Any]] = []
     warnings: list[dict[str, Any]] = []
@@ -596,7 +626,7 @@ def build_rows(
         ],
     )
 
-    recipe_data, recipe_warnings = recipe_rows(campaign_id, resources, interactive_ingredients_by_pack)
+    recipe_data, recipe_warnings = recipe_rows(campaign_id, resources, interactive_ingredients)
     warnings.extend(recipe_warnings)
     block(
         rows,
@@ -643,8 +673,8 @@ def build_resource_table(
     if not campaign_dir.exists():
         raise FileNotFoundError(f"campaign not found: {campaign_dir}")
     pack_dirs = iter_pack_dirs(campaign_dir, pack_ids)
-    hogs, resources, interactive_ingredients_by_pack, warnings = collect_resources(campaign_id, pack_dirs)
-    rows, row_warnings = build_rows(campaign_id, hogs, resources, interactive_ingredients_by_pack)
+    hogs, resources, interactive_ingredients, warnings = collect_resources(campaign_id, campaign_dir, pack_dirs)
+    rows, row_warnings = build_rows(campaign_id, hogs, resources, interactive_ingredients)
     warnings.extend(row_warnings)
     summary = {
         "campaign_id": campaign_id,
@@ -652,10 +682,7 @@ def build_resource_table(
         "blocks": [cell for row in rows for cell in row if str(cell).strip() in BLOCK_TITLES],
         "hogs": len(hogs),
         "resources": {kind: len([resource for resource in resources if resource.kind == kind]) for kind in RESOURCE_KINDS},
-        "interactive_recipe_ingredients": {
-            pack_id: [item.classname for item in ingredients]
-            for pack_id, ingredients in interactive_ingredients_by_pack.items()
-        },
+        "interactive_recipe_ingredients": [item.classname for item in interactive_ingredients],
         "warnings": warnings,
     }
     return rows, summary

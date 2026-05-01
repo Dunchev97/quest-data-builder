@@ -147,8 +147,72 @@ def iter_campaign_tasks(campaign_dir: Path) -> list[tuple[str, dict[str, Any], d
     return [(pack_id, quest, task) for _pn, _qn, _tn, pack_id, quest, task in rows]
 
 
+def iter_campaign_quests(campaign_dir: Path) -> list[tuple[str, dict[str, Any]]]:
+    rows: list[tuple[int, int, str, dict[str, Any]]] = []
+    for pack_dir in sorted((path for path in campaign_dir.glob("pack_*") if path.is_dir()), key=lambda path: parse_pack_number(path.name)):
+        filled_tasks_path = pack_dir / FILLED_TASKS_NAME
+        if not filled_tasks_path.exists():
+            continue
+        data = read_json(filled_tasks_path)
+        for quest_index, quest in enumerate(data.get("quests", []), start=1):
+            rows.append((parse_pack_number(pack_dir.name), quest_number(quest, quest_index), pack_dir.name, quest))
+    rows.sort(key=lambda item: (item[0], item[1]))
+    return [(pack_id, quest) for _pn, _qn, pack_id, quest in rows]
+
+
 def should_export_pack(pack_id: str, current_pack_id: str | None) -> bool:
     return current_pack_id is None or pack_id == current_pack_id
+
+
+def task_object_from_entry(task_entry: dict[str, Any]) -> dict[str, Any]:
+    task_object = task_entry.get("task_object")
+    return task_object if isinstance(task_object, dict) else task_entry
+
+
+def explicit_quest_helper(quest: dict[str, Any]) -> str:
+    for field_name in ("helper", "quest_helper", "character_classname"):
+        value = quest.get(field_name)
+        if value:
+            return str(value)
+
+    extra = quest.get("extra")
+    if isinstance(extra, dict) and extra.get("helper"):
+        return str(extra["helper"])
+
+    character = quest.get("Character", quest.get("character"))
+    if isinstance(character, str) and "_" in character and " " not in character.strip():
+        return character
+    return ""
+
+
+def task_character_classname(task_entry: dict[str, Any]) -> str:
+    task_object = task_object_from_entry(task_entry)
+    go_to_location = task_object.get("go_to_location")
+    if isinstance(go_to_location, list):
+        for item in go_to_location:
+            if isinstance(item, dict):
+                classname = item.get("classname")
+                if isinstance(classname, str) and "Character" in classname:
+                    return classname
+
+    for field_name in ("icon", "param", "action"):
+        value = task_object.get(field_name)
+        if isinstance(value, str) and "Character" in value:
+            if field_name == "action" and "_Dialog_" in value:
+                return value.split("_Dialog_", 1)[0]
+            return value
+    return ""
+
+
+def quest_helper_classname(quest: dict[str, Any]) -> str:
+    explicit = explicit_quest_helper(quest)
+    if explicit:
+        return explicit
+    for task_entry in quest.get("tasks", []):
+        classname = task_character_classname(task_entry)
+        if classname:
+            return classname
+    return ""
 
 
 def build_actions(
@@ -160,7 +224,7 @@ def build_actions(
     if not campaign_dir.exists():
         raise FileNotFoundError(f"campaign not found: {campaign_dir}")
 
-    dialog_counters: dict[str, int] = {}
+    dialog_counter = 0
     give_counters: dict[str, int] = {}
     entity_rows: dict[str, EntityRow] = {}
     entity_titles: dict[str, str] = {}
@@ -169,6 +233,31 @@ def build_actions(
     dialog_rows: list[DialogActionRow] = []
     search_rows: list[SearchActionRow] = []
     give_rows: list[GiveActionRow] = []
+
+    def register_entity(classname: str, title: str) -> EntityRow | None:
+        nonlocal entity_order
+        if not classname:
+            return None
+        if title:
+            entity_titles.setdefault(classname, title)
+        if classname not in entity_rows:
+            entity_order += 1
+            entity_rows[classname] = EntityRow(
+                classname=classname,
+                title=entity_titles.get(classname) or title or classname,
+                order=entity_order,
+            )
+        elif title and entity_rows[classname].title == classname:
+            entity_rows[classname].title = title
+        return entity_rows[classname]
+
+    for pack_id, quest in iter_campaign_quests(campaign_dir):
+        helper = quest_helper_classname(quest)
+        helper_title = safe_text(quest.get("character")) or helper
+        if helper:
+            entity_titles.setdefault(helper, helper_title)
+            if should_export_pack(pack_id, current_pack_id):
+                register_entity(helper, helper_title)
 
     for pack_id, quest, task in iter_campaign_tasks(campaign_dir):
         quest_classname = safe_text(quest.get("classname_quests"))
@@ -187,8 +276,9 @@ def build_actions(
             icon = safe_text(task_object.get("icon"))
             if not icon:
                 continue
-            dialog_counters[icon] = dialog_counters.get(icon, 0) + 1
-            action_id = f"{icon}_Dialog_{dialog_counters[icon]}"
+            dialog_counter += 1
+            task_action = safe_text(task_object.get("action"))
+            action_id = task_action if task_action.startswith(f"{icon}_Dialog_") else f"{icon}_Dialog_{dialog_counter}"
             person_title = quest_character or extract_person_from_title(safe_text(task_object.get("title"))) or icon
             entity_titles.setdefault(icon, person_title)
             if not export_current_task:
@@ -203,10 +293,9 @@ def build_actions(
                     text=text,
                 )
             )
-            if icon not in entity_rows:
-                entity_order += 1
-                entity_rows[icon] = EntityRow(classname=icon, title=person_title, order=entity_order)
-            entity_rows[icon].actions.append(EntityAction(action_id=action_id))
+            entity = register_entity(icon, person_title)
+            if entity is not None:
+                entity.actions.append(EntityAction(action_id=action_id))
             continue
 
         if kind == "search":
@@ -249,10 +338,9 @@ def build_actions(
                     open_price=open_price,
                 )
             )
-            if target_classname not in entity_rows:
-                entity_order += 1
-                entity_rows[target_classname] = EntityRow(classname=target_classname, title=target_title, order=entity_order)
-            entity_rows[target_classname].actions.append(EntityAction(action_id=action_id))
+            entity = register_entity(target_classname, target_title)
+            if entity is not None:
+                entity.actions.append(EntityAction(action_id=action_id))
             continue
 
     rows: list[list[str]] = []
@@ -263,6 +351,27 @@ def build_actions(
 
     for count in sorted(groups):
         group_rows = groups[count]
+        if count == 0:
+            rows.append(["", "ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ"])
+            rows.append(["ml", "string", "string", "string", "string", "int", "", "", "", ""])
+            rows.append(["", "input", "output", "classname", "title", "id", "", "", "", ""])
+            for entity in group_rows:
+                rows.append(
+                    [
+                        "",
+                        FURNITURE_TEMPLATE_INPUT,
+                        entity_output_path(campaign_id, entity.classname),
+                        entity.classname,
+                        entity.title,
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                    ]
+                )
+            rows.append([])
+            continue
         rows.append(["", f"ПЕРСОНАЖИ с {count} " + ("ЭКШЕНОМ" if count == 1 else "ЭКШЕНАМИ")])
         rows.append(["ml", "string", "string", "string", "string", "array", "int", "", "", ""])
         rows.append(["", "input", "output", "classname", "title", "behaviour.0.actions", "id", "", "", ""])
@@ -365,6 +474,7 @@ def build_actions(
     summary = {
         "campaign_id": campaign_id,
         "entities": len(entities_sorted),
+        "entities_without_actions": len(groups.get(0, [])),
         "dialog_actions": len(dialog_rows),
         "search_actions": len(search_rows),
         "give_actions": len(give_rows),

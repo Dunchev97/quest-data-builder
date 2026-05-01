@@ -1,0 +1,25 @@
+;ОБЪЕКТ Chest_Guest;;;;;;;;;;;;
+temp_01;string;string;string;string;string;string;string;string;string;string;string;int;
+;input;output;classname;title;action_availability_conditions;open_price;extra.description_window;extra.reward_description;extra.instruction_title;extra.tile_till_window;extra.open_btn_window;extra.open_now_btn_window;id
+;/chest/Dacha_2025/Dacha_2025_Chest_1_Guest.proto.js;/chest/Fun/CucumberFestival_2026/CucumberFestival_2026_Chest_1_Guest.proto.js;CucumberFestival_2026_Chest_1_Guest;Бочка с солеными огурцами;stuff=CucumberFestival_2026_Chest_1_Home;asset=CucumberFestival_2026_Chest_1_GR_1:3;Положи Рассольные ключики в Бочку с солеными огурцами, чтобы получить Хрустящую реликвию праздника;Собирай Хрустящую реликвию праздника, кликая на Бочку с солеными огурцами дома и в гостях.;ВНИМАНИЕ! Бочку можно открыть только после подготовки рассольного ключика!;Можно получить через:;Получить;Получить сейчас за {price};
+
+;ОБЪЕКТ Chest_Home;;;;;;;;;;;;
+temp_01;string;string;string;string;string;string;string;string;string;string;string;int;
+;input;output;classname;title;action_availability_conditions;open_price;extra.description_window;extra.reward_description;extra.instruction_title;extra.tile_till_window;extra.open_btn_window;extra.open_now_btn_window;id
+;/chest/Dacha_2025/Dacha_2025_Chest_1_Home.proto.js;/chest/Fun/CucumberFestival_2026/CucumberFestival_2026_Chest_1_Home.proto.js;CucumberFestival_2026_Chest_1_Home;Бочка с солеными огурцами;stuff=CucumberFestival_2026_Chest_1_Home;asset=CucumberFestival_2026_Chest_1_GR_1:3;Положи Рассольные ключики в Бочку с солеными огурцами, чтобы получить Хрустящую реликвию праздника;Собирай Хрустящую реликвию праздника, кликая на Бочку с солеными огурцами дома и в гостях.;ВНИМАНИЕ! Бочку можно открыть только после подготовки рассольного ключика!;Можно получить через:;Получить;Получить сейчас за {price};
+
+;АССЕТЫ Ресурсов;;;;;;
+temp_01;string;string;string;string;string;string;int
+;input;output;classname;title;description;meta_info;id
+;/quest_item/Fun/Fun10/Fun10_Chest_1_GR_1.proto.js;/quest_item/Fun/CucumberFestival_2026/CucumberFestival_2026_Chest_1_GR_1.proto.js;CucumberFestival_2026_Chest_1_GR_1;Рассольные ключики;Нужны, чтобы открыть крепко закупоренную бочку с праздничными солеными огурцами.;pack_asset=CucumberFestival_2026_Chest_1_GR_1_Package;
+;/quest_item/Fun/Fun10/Fun10_Chest_1_CL_1.proto.js;/quest_item/Fun/CucumberFestival_2026/CucumberFestival_2026_Chest_1_R_1.proto.js;CucumberFestival_2026_Chest_1_R_1;Хрустящая реликвия праздника;Редкий огурец из праздничной бочки: хрустит так торжественно, что даже Кощей просит тише.;;
+
+;ПАКЕТЫ ДЛЯ ПРОДАЖИ;;;;;;;;;
+temp_01;string;string;string;ignore;string;string;int;ignore;string;int
+;input;output;classname;asset;title;reward;price;Количество ассетов;stuff_icon;id
+;/asset_package/Fun/Fun10/Fun10_Chest_1_GR_1_Package.proto.js;/asset_package/Fun/CucumberFestival_2026/CucumberFestival_2026_Chest_1_GR_1_Package.proto.js;CucumberFestival_2026_Chest_1_GR_1_Package;CucumberFestival_2026_Chest_1_GR_1;Рассольные ключики;asset=CucumberFestival_2026_Chest_1_GR_1:3;4;3;CucumberFestival_2026_Chest_1_GR_1;
+
+;СПОСОБ ВЫПАДЕНИЯ GR;;;;;;;;
+temp_01;string;string;ignore;array;array;int;string;string;int
+;input;output;file_name;actions;location_tags;rand_reward.p;rand_reward.asset;conditions;id
+;/global_reward/Fun11/Fun11_Chest_1_GR_1.proto.js;/global_reward/CucumberFestival_2026/CucumberFestival_2026_Chest_1_GR_1.proto.js;CucumberFestival_2026_Chest_1_GR_1;clean_garbage_in_guest;lawn;40;CucumberFestival_2026_Chest_1_GR_1;stuff=CucumberFestival_2026_Chest_1_Home;

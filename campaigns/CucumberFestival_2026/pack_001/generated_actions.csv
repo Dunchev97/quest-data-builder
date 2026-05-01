@@ -1,0 +1,27 @@
+;ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ
+ml;string;string;string;string;int;;;;
+;input;output;classname;title;id;;;;
+;/furniture/Fun/Fun10/Character/Fun10_Character_1_1.proto.js;/furniture/Fun/CucumberFestival_2026/Character/CucumberFestival_2026_Character_2.proto.js;CucumberFestival_2026_Character_2;Кот детектив Котовски;;;;;
+;/furniture/Fun/Fun10/Character/Fun10_Character_1_1.proto.js;/furniture/Fun/CucumberFestival_2026/Character/CucumberFestival_2026_Character_3.proto.js;CucumberFestival_2026_Character_3;Баба яга;;;;;
+
+;ПЕРСОНАЖИ с 1 ЭКШЕНОМ
+ml;string;string;string;string;array;int;;;
+;input;output;classname;title;behaviour.0.actions;id;;;
+;/furniture/Fun/Fun10/Character/Fun10_Character_1_1.proto.js;/furniture/Fun/CucumberFestival_2026/Character/CucumberFestival_2026_Character_1.proto.js;CucumberFestival_2026_Character_1;Журналистка Герда из журнала Домовита;CucumberFestival_2026_Character_1_Dialog_1;;;;
+;/furniture/Fun/Fun10/Character/Fun10_Character_1_1.proto.js;/furniture/Fun/CucumberFestival_2026/Character/CucumberFestival_2026_Character_4.proto.js;CucumberFestival_2026_Character_4;Кощей;CucumberFestival_2026_Character_4_Dialog_2;;;;
+
+;ЭКШЕНЫ ДИАЛОГИ
+sl;string;string;string;string;string;string;string;string;int
+;input;output;identifier;conditions;stuff_actions.0.window_spec.view_window;stuff_actions.0.window_spec.icon.0.icon_mc;stuff_actions.0.window_spec.text_fields.0.text;stuff_actions.0.window_spec.text_fields.1.text;id
+;/quest_action/Fun/Fun10/Fun10_Character_1_1_Dialog_1.proto.js;/quest_action/Fun/CucumberFestival_2026/CucumberFestival_2026_Character_1_Dialog_1.proto.js;CucumberFestival_2026_Character_1_Dialog_1;active_quest=CucumberFestival_2026_Story_1;Character_Dialog_Window;CucumberFestival_2026_Character_1;Журналистка Герда из журнала Домовита;Герда уже шуршит блокнотом: праздник огурца требует первой полосы, а первая полоса требует героев, укропа и хоть одного приличного пятна рассола.;
+;/quest_action/Fun/Fun10/Fun10_Character_1_1_Dialog_1.proto.js;/quest_action/Fun/CucumberFestival_2026/CucumberFestival_2026_Character_4_Dialog_2.proto.js;CucumberFestival_2026_Character_4_Dialog_2;active_quest=CucumberFestival_2026_Story_12;Character_Dialog_Window;CucumberFestival_2026_Character_4;Кощей;"Кощей торжественно проверяет финальный хруст: если огурец звучит бодро, праздник удался; если нет, он грозит написать акт на три свитка.";
+
+;ЭКШЕНЫ search
+sl;string;string;string;string;replace;;int;;
+;input;output;identifier;open_price;find;replace;id;;
+;/quest_action/Fun/Fun10/search_Fun10_HOG_1.proto.js;/quest_action/Fun/CucumberFestival_2026/search_CucumberFestival_2026_HOG_1.proto.js;search_CucumberFestival_2026_HOG_1;money=2;Fun10_HOG_1;CucumberFestival_2026_HOG_1;;;
+;/quest_action/Fun/Fun10/search_Fun10_HOG_1.proto.js;/quest_action/Fun/CucumberFestival_2026/search_CucumberFestival_2026_HOG_2.proto.js;search_CucumberFestival_2026_HOG_2;money=2;Fun10_HOG_1;CucumberFestival_2026_HOG_2;;;
+;/quest_action/Fun/Fun10/search_Fun10_HOG_1.proto.js;/quest_action/Fun/CucumberFestival_2026/search_CucumberFestival_2026_HOG_3.proto.js;search_CucumberFestival_2026_HOG_3;money=2;Fun10_HOG_1;CucumberFestival_2026_HOG_3;;;
+;/quest_action/Fun/Fun10/search_Fun10_HOG_1.proto.js;/quest_action/Fun/CucumberFestival_2026/search_CucumberFestival_2026_HOG_4.proto.js;search_CucumberFestival_2026_HOG_4;money=2;Fun10_HOG_1;CucumberFestival_2026_HOG_4;;;
+;/quest_action/Fun/Fun10/search_Fun10_HOG_1.proto.js;/quest_action/Fun/CucumberFestival_2026/search_CucumberFestival_2026_HOG_5.proto.js;search_CucumberFestival_2026_HOG_5;money=2;Fun10_HOG_1;CucumberFestival_2026_HOG_5;;;
+

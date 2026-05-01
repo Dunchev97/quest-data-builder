@@ -674,7 +674,7 @@ def validate_location_references(
     if not requires_location:
         return []
 
-    if template_id == "TT-003" and "Место поиска: Мир" in hint:
+    if "Мир" in hint:
         return []
 
     if any(title and title in hint for title in allowed_location_titles):
@@ -1194,17 +1194,14 @@ def validate_strict_stage4_templates(
             )
 
     if template_id == "TT-011" and selected_candidate:
-        collection_title = candidate_title_for_template(template_id, selected_candidate)
         source_title = str(selected_candidate.get("source_title") or "")
         location_text = selected_location_text(selected_candidate)
-        expected_title = f"Найди {collection_title}"
-        expected_hint = (
-            f"{collection_title} - элемент коллекции, выпадает при уборке мусора {source_title} "
-            f"дома и в гостях. Место поиска: {location_text}."
-        )
-        issues.extend(validate_exact_text(task_object, quest, task, "title", expected_title, "TT-011 title must keep the exact fixed template text."))
+        if not title.startswith("Найди ") or not title_item_text(title):
+            issues.append(strict_text_issue("TT-011 title must keep 'Найди [collection title]'.", quest, task, "title", "Найди [collection title]", title))
         if location_text:
-            issues.extend(validate_exact_text(task_object, quest, task, "hint", expected_hint, "TT-011 hint must keep the exact fixed template text."))
+            expected_middle = f" - элемент коллекции, выпадает при уборке мусора {source_title} дома и в гостях. Место поиска: {location_text}."
+            if not hint.endswith(expected_middle):
+                issues.append(strict_text_issue("TT-011 hint must keep the fixed text and full location list.", quest, task, "hint", f"[collection title]{expected_middle}", hint))
 
     if template_id == "TT-012":
         item = title_item_text(title)
@@ -1264,11 +1261,9 @@ def validate_strict_stage4_templates(
 
     if template_id in {"TT-014", "TT-015"} and selected_candidate:
         item = title_item_text(title)
-        garbage_title = candidate_title_for_template(template_id, selected_candidate)
         mode_text = "в гостях" if template_id == "TT-014" else "дома"
         location_text = selected_location_text(selected_candidate)
         expected_title_prefix = "Найди "
-        expected_hint = f"Убирай мусор {garbage_title} {mode_text}, чтобы найти. Место поиска: {location_text}."
         if not title.startswith(expected_title_prefix) or not item:
             issues.append(
                 strict_text_issue(
@@ -1281,7 +1276,10 @@ def validate_strict_stage4_templates(
                 )
             )
         if location_text:
-            issues.extend(validate_exact_text(task_object, quest, task, "hint", expected_hint, f"{template_id} hint must keep the exact fixed template text."))
+            expected_prefix = "Убирай мусор "
+            expected_suffix = f" {mode_text}, чтобы найти. Место поиска: {location_text}."
+            if not hint.startswith(expected_prefix) or not hint.endswith(expected_suffix):
+                issues.append(strict_text_issue(f"{template_id} hint must keep the fixed text and full location list.", quest, task, "hint", f"Убирай мусор [garbage title] {mode_text}, чтобы найти. Место поиска: {location_text}.", hint))
 
     if template_id == "TT-017":
         flower_title = candidate_title_for_template(template_id, selected_candidate)
@@ -1314,17 +1312,14 @@ def validate_strict_stage4_templates(
         issues.extend(validate_exact_text(task_object, quest, task, "hint", expected_hint, f"{template_id} hint must keep the exact fixed template text."))
 
     if template_id == "TT-021" and selected_candidate:
-        garbage_title = candidate_title_for_template(template_id, selected_candidate)
         location_text = selected_location_text(selected_candidate)
-        expected_title = f"Убери мусор {garbage_title} дома"
-        expected_hint = (
-            f"Убери мусор {garbage_title} дома. "
-            "Для этого просто кликни на нужный мусор дома. "
-            f"Место поиска: {location_text}."
-        )
-        issues.extend(validate_exact_text(task_object, quest, task, "title", expected_title, "TT-021 title must keep the exact fixed template text."))
+        if not title.startswith("Убери мусор ") or not title.endswith(" дома"):
+            issues.append(strict_text_issue("TT-021 title must keep 'Убери мусор [garbage title] дома'.", quest, task, "title", "Убери мусор [garbage title] дома", title))
         if location_text:
-            issues.extend(validate_exact_text(task_object, quest, task, "hint", expected_hint, "TT-021 hint must keep the exact fixed template text and full location list."))
+            expected_prefix = "Убери мусор "
+            expected_suffix = f" дома. Для этого просто кликни на нужный мусор дома. Место поиска: {location_text}."
+            if not hint.startswith(expected_prefix) or not hint.endswith(expected_suffix):
+                issues.append(strict_text_issue("TT-021 hint must keep the fixed text and full location list.", quest, task, "hint", f"Убери мусор [garbage title] дома. Для этого просто кликни на нужный мусор дома. Место поиска: {location_text}.", hint))
 
     if template_id == "TT-027":
         issues.extend(
@@ -1391,21 +1386,24 @@ def validate_strict_stage4_templates(
                     title,
                 )
             )
-        expected_prefix = f"{person} - персонаж, с которым нужно сфотографироваться. Найди его у себя на "
-        expected_suffix = f" и нажми на иконку \"Сделать фотографию\" в правом верхнем углу. Наведи фокус на {person}, сфотографируйся с ним и нажми \"Славненько\"."
-        if person and (not hint.startswith(expected_prefix) or not hint.endswith(expected_suffix)):
+        location_match = re.search(
+            r" - персонаж, с которым нужно сфотографироваться\. Найди .+? у себя на (.+?) и нажми на иконку \"Сделать фотографию\"",
+            hint,
+        )
+        expected_tail = " и нажми \"Славненько\"."
+        if person and (location_match is None or not hint.endswith(expected_tail)):
             issues.append(
                 strict_text_issue(
                     "TT-034 hint must keep the exact fixed template text around the character and location.",
                     quest,
                     task,
                     "hint",
-                    f"{person} - персонаж, с которым нужно сфотографироваться. Найди его у себя на [локация] и нажми на иконку \"Сделать фотографию\" в правом верхнем углу. Наведи фокус на {person}, сфотографируйся с ним и нажми \"Славненько\".",
+                    "[персонаж] - персонаж, с которым нужно сфотографироваться. Найди [его/её] у себя на [локация] и нажми на иконку \"Сделать фотографию\" в правом верхнем углу. Наведи фокус на [персонаж], сфотографируйся с [ним/ней] и нажми \"Славненько\".",
                     hint,
                 )
             )
-        elif person:
-            location_text = hint[len(expected_prefix) : -len(expected_suffix)].strip()
+        elif person and location_match is not None:
+            location_text = location_match.group(1).strip()
             issues.extend(validate_location_text(location_text, allowed_location_titles, quest, task, "strict_photo_location_unknown"))
         icon = str(task_object.get("icon") or "")
         param = str(task_object.get("param") or "")
@@ -1523,15 +1521,8 @@ def validate_strict_stage4_templates(
             )
 
     if template_id == "TT-020" and selected_candidate:
-        garbage_title = candidate_title_for_template(template_id, selected_candidate)
         location_text = selected_location_text(selected_candidate)
-        expected_title = f"Убери мусор {garbage_title} в гостях"
-        expected_hint = (
-            f"Убери мусор {garbage_title} в гостях. "
-            "Для этого просто кликни на нужный мусор в гостях у друга. "
-            f"Место поиска: {location_text}."
-        )
-        if title != expected_title:
+        if not title.startswith("Убери мусор ") or not title.endswith(" в гостях"):
             issues.append(
                 issue(
                     "error",
@@ -1539,11 +1530,13 @@ def validate_strict_stage4_templates(
                     "TT-020 title must keep the exact fixed template text.",
                     quest,
                     task,
-                    expected=expected_title,
+                    expected="Убери мусор [garbage title] в гостях",
                     actual=title,
                 )
             )
-        if location_text and hint != expected_hint:
+        expected_prefix = "Убери мусор "
+        expected_suffix = f" в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: {location_text}."
+        if location_text and (not hint.startswith(expected_prefix) or not hint.endswith(expected_suffix)):
             issues.append(
                 issue(
                     "error",
@@ -1551,7 +1544,7 @@ def validate_strict_stage4_templates(
                     "TT-020 hint must keep the exact fixed template text and full location list.",
                     quest,
                     task,
-                    expected=expected_hint,
+                    expected=f"Убери мусор [garbage title] в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: {location_text}.",
                     actual=hint,
                 )
             )

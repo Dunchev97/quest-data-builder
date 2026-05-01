@@ -63,13 +63,23 @@ workspace/active_context.json
 Правила:
 
 - Выполнять только один этап за раз.
-- Перед Stage 1 нового pack спросить пользователя, какие минимум 2 интерактивных объекта выбрать; `Chest_*_Home/Guest` и `HELP_*_Home/Guest` считаются одним объектом.
-- Выбранные интерактивные объекты фиксировать в `campaigns/<campaign_id>/<pack_id>/interactive_objects.json`.
+- При создании новой campaign не спрашивать `campaign_id`: придумать стабильный англоязычный id по теме пользователя, например `<Theme>_2026`.
+- При создании нового pack не спрашивать `pack_id`: брать следующий номер по порядку через campaign metadata, начиная с `pack_001`.
+- Перед Stage 1 новой campaign спросить пользователя, какие минимум 2 интерактивных объекта выбрать на всю campaign; `Chest_*_Home/Guest` и `HELP_*_Home/Guest` считаются одним объектом.
+- В той же анкете спросить сущность выбранных объектов и ресурсов; если пользователь оставляет выбор за ИИ, заполнять тематически по сути campaign.
+- Выбранные интерактивные объекты фиксировать в `campaigns/<campaign_id>/interactive_objects.json`.
+- Если пользователь выбирает несколько объектов одной механики, нумеровать их последовательно (`Chest_1`, `Chest_2`, `HELP_1`, `HELP_2`, `Exchanger_1`, `Exchanger_2`). В остальных случаях ресурсы выбранных объектов не менять на протяжении campaign.
 - После каждого творческого этапа показывать результат пользователю и ждать явный approval.
+- После Stage 3 в сводке по каждому квесту показывать не только `Task template ID`, но и `task_template_names` / русские названия шаблонов, например: `TT-001 Диалог / TT-008 Получить ASK / TT-004 HOG на локации`.
 - Stage 3.1 - технический подготовительный шаг без отдельного approval; запускать после утвержденного stage 3 перед stage 4.
 - Stage 5 нельзя собирать до approval stage 4.
 - Stage 6 нельзя запускать до approval stage 5.
+- Stage 6 обязательно вместе с остальными CSV пересобирает campaign-level `campaigns/<campaign_id>/resource_table.csv` и `resource_table.summary.json`: таблица ресурсов агрегирует все `pack_*` текущей campaign по `docs/resource_table_template.csv` / `workflows/RESOURCE_TABLE_WORKFLOW.md`, а не создается отдельным ручным шагом после экспорта.
+- В `generated_actions.csv` создавать и персонажей без экшенов: отдельный блок с заголовком `ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ`, строки персонажей без параметра `behaviour.0.actions`.
 - Approval записывать через `src/workflow_context.py approve`.
+- На Stage 3 task templates `TT-008` (`get_asset ASK`) и `TT-009` (`get_asset PER`) использовать только внутри квестов, где в этом же квесте есть `TT-002` (`get_and_decrease_asset craft`) или `TT-033` (`action give`). В обычных поисковых/сюжетных квестах без craft/give не ставить ASK/PER.
+- На Stage 3 любой HOG template (`TT-003`-`TT-007`) нельзя ставить в квест, если в предыдущем квесте в любом task уже был HOG.
+- В крафтовых квестах чередовать `ASK` и `PER` между собой: если предыдущий крафтовый квест использовал `ASK`, следующий крафтовый должен использовать `PER`, и наоборот.
 
 ## Pot Description Workflow
 
@@ -96,13 +106,13 @@ workspace/active_context.json
 - создавать только блоки, для которых есть ресурсы в выбранной campaign или явно выбранных pack;
 - сохранять минимум одну пустую строку между блоками;
 - не использовать `Fun12`, если текущий prefix другой.
-- В recipe craft 3-й и 4-й ингредиенты брать из первых двух выбранных интерактивных `_R_` ресурсов pack, а не дублировать 1-й и 2-й ингредиенты.
+- В recipe craft 3-й и 4-й ингредиенты брать из выбранных интерактивных `_R_` ресурсов campaign по кругу: 1-й craft = объекты 1+2, 2-й craft = 3+4, если 4-го нет = 3+1, дальше продолжать по кругу. Не дублировать 1-й и 2-й ингредиенты, если есть выбранные interactive resources.
 
 ## Где Хранить Артефакты
 
 - `output/` - локальный временный рабочий прогон, не источник правды для campaign и не место для коммита.
 - `campaigns/<campaign_id>/<pack_id>/` - постоянное место для файлов pack.
-- Для quest workflow все постоянные артефакты этапов 1-6 хранить в `campaigns/<campaign_id>/<pack_id>/`, включая `interactive_objects.json`, `quest_plan.json`, `quest_plan.resolved.json` и `context_pack.json`.
+- Для quest workflow все постоянные артефакты этапов 1-6 хранить в `campaigns/<campaign_id>/<pack_id>/`, включая `quest_plan.json`, `quest_plan.resolved.json` и `context_pack.json`. Campaign-level `interactive_objects.json` хранить отдельно в `campaigns/<campaign_id>/interactive_objects.json`.
 - `quest_group.json` всегда хранить в папке pack:
 
 ```text
@@ -115,16 +125,21 @@ Stage 6 должен брать `filled_tasks.json` и `quest_group.json` из �
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
-campaigns/<campaign_id>/<pack_id>/generated_interactive_objects_*.csv
-campaigns/<campaign_id>/<pack_id>/generated_interactive_objects.summary.json
+campaigns/<campaign_id>/generated_interactive_objects_*.csv
+campaigns/<campaign_id>/generated_interactive_objects.summary.json
+campaigns/<campaign_id>/resource_table.csv
+campaigns/<campaign_id>/resource_table.summary.json
 ```
 
 ## Роли ИИ И Кода
 
 - ИИ отвечает за творческие решения: сюжет, реплики, выбор task types, смысловые `task_choices` по контексту, загадки, `choice_reason`, тексты quest group.
-- Код отвечает за guardrails: parsing, context pack, сборку strict `filled_tasks.json` из `task_choices.json`, validation, approval gates, CSV export, actions CSV export, campaign memory.
+- Код отвечает за guardrails: parsing, context pack, сборку strict `filled_tasks.json` из `task_choices.json`, validation, approval gates, CSV export, actions CSV export, обязательный Stage 6 export campaign-level `resource_table.csv`, campaign memory.
 - Не выдумывать игровые факты. Classname, title, location, collection, garbage, flower и связи должны приходить из parsed/generated/quest-ready data.
 - Для задач `in_guest` нельзя предлагать мусор, локации, `collection_drop` или `gr_garbage`, привязанные к локациям с тегом `world`; такие кандидаты допустимы только для домашних задач.
+- `TT-010` / `Получить CL (награда за коллекцию)` не использовать: у workflow нет достоверного списка наград за коллекции.
+- Загадки писать в одну строку: строки с переносами сворачивать в обычные предложения.
+- В русских `title` и `hint` использовать нужные падежи, а не сырые названия из индекса: `с Журналисткой Гердой`, `Барабанные палочки`, `в Бочку`, `получить Хрустящую реликвию`.
 
 ## Проверки
 

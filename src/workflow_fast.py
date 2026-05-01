@@ -63,6 +63,8 @@ QUEST_GROUP_PREVIEW = "quest_group.preview.md"
 GENERATED_QUESTS = "generated_quests.csv"
 GENERATED_ACTIONS = "generated_actions.csv"
 GENERATED_ACTIONS_SUMMARY = "generated_actions.summary.json"
+RESOURCE_TABLE = "resource_table.csv"
+RESOURCE_TABLE_SUMMARY = "resource_table.summary.json"
 INTERACTIVE_OBJECTS = "interactive_objects.json"
 INTERACTIVE_OBJECTS_PREVIEW = "interactive_objects.preview.md"
 GENERATED_INTERACTIVE_OBJECTS_SUMMARY = "generated_interactive_objects.summary.json"
@@ -248,8 +250,12 @@ def run_stage6(args: argparse.Namespace) -> int:
     output_csv_path = pack_artifact(campaign_id, pack_id, GENERATED_QUESTS, args.campaigns_dir)
     actions_csv_path = pack_artifact(campaign_id, pack_id, GENERATED_ACTIONS, args.campaigns_dir)
     actions_summary_path = pack_artifact(campaign_id, pack_id, GENERATED_ACTIONS_SUMMARY, args.campaigns_dir)
-    interactive_manifest_path = pack_artifact(campaign_id, pack_id, INTERACTIVE_OBJECTS, args.campaigns_dir)
-    interactive_summary_path = pack_artifact(campaign_id, pack_id, GENERATED_INTERACTIVE_OBJECTS_SUMMARY, args.campaigns_dir)
+    resource_table_path = args.campaigns_dir / campaign_id / RESOURCE_TABLE
+    resource_table_summary_path = args.campaigns_dir / campaign_id / RESOURCE_TABLE_SUMMARY
+    campaign_interactive_manifest_path = args.campaigns_dir / campaign_id / INTERACTIVE_OBJECTS
+    pack_interactive_manifest_path = pack_artifact(campaign_id, pack_id, INTERACTIVE_OBJECTS, args.campaigns_dir)
+    interactive_manifest_path = campaign_interactive_manifest_path if campaign_interactive_manifest_path.exists() else pack_interactive_manifest_path
+    interactive_summary_path = args.campaigns_dir / campaign_id / GENERATED_INTERACTIVE_OBJECTS_SUMMARY
 
     approval_error = export_csv.stage5_approval_error(args.context, campaign_id, pack_id)
     if approval_error is not None and not args.allow_unapproved:
@@ -266,13 +272,17 @@ def run_stage6(args: argparse.Namespace) -> int:
         )
         interactive_summary = None
         if interactive_manifest_path.exists():
-            interactive_summary = interactive_objects_builder.build_interactive_objects_files(
-                campaign_id=campaign_id,
-                pack_id=pack_id,
-                manifest_path=interactive_manifest_path,
-                output_dir=pack_artifact(campaign_id, pack_id, "", args.campaigns_dir),
-                summary_path=interactive_summary_path,
-            )
+            interactive_validation = interactive_objects_builder.validate_manifest_file(interactive_manifest_path)
+            if interactive_validation["summary"]["errors"] == 0:
+                interactive_summary = interactive_objects_builder.build_interactive_objects_files(
+                    campaign_id=campaign_id,
+                    pack_id=pack_id,
+                    manifest_path=interactive_manifest_path,
+                    output_dir=args.campaigns_dir / campaign_id,
+                    summary_path=interactive_summary_path,
+                )
+            else:
+                print(f"interactive object csv skipped: {interactive_validation['summary']['errors']} validation errors")
         filled_tasks = export_csv.read_json(input_path)
         quest_group = export_csv.read_json(quest_group_path)
         summary = export_csv.export_filled_tasks_to_csv(
@@ -288,6 +298,9 @@ def run_stage6(args: argparse.Namespace) -> int:
             current_pack_id=pack_id,
         )
         memory = update_memory_from_pack(campaign_id, pack_id, args.campaigns_dir)
+        resource_rows, resource_summary = resource_table_builder.build_resource_table(campaign_id, campaigns_dir=args.campaigns_dir)
+        resource_table_builder.write_csv(resource_table_path, resource_rows)
+        resource_table_builder.write_json(resource_table_summary_path, resource_summary)
     except (OSError, ValueError, FileNotFoundError) as exc:
         print(str(exc))
         return 2
@@ -307,6 +320,7 @@ def run_stage6(args: argparse.Namespace) -> int:
             f"(summary={interactive_summary_path})"
         )
     print(f"memory updated: used_garbage={len(memory.get('used_garbage', {}))} used_flowers={len(memory.get('used_flowers', {}))}")
+    print(f"resource table written: {resource_table_path} (blocks={len(resource_summary['blocks'])} warnings={len(resource_summary['warnings'])})")
     return 0
 
 
@@ -330,10 +344,11 @@ def run_resource_table(args: argparse.Namespace) -> int:
 
 
 def run_interactive_objects(args: argparse.Namespace) -> int:
-    campaign_id, pack_id = resolve_ids(args)
-    manifest_path = pack_artifact(campaign_id, pack_id, INTERACTIVE_OBJECTS, args.campaigns_dir)
-    preview_path = pack_artifact(campaign_id, pack_id, INTERACTIVE_OBJECTS_PREVIEW, args.campaigns_dir)
-    summary_path = pack_artifact(campaign_id, pack_id, GENERATED_INTERACTIVE_OBJECTS_SUMMARY, args.campaigns_dir)
+    campaign_id, pack_id = resolve_ids(args, require_pack=False)
+    campaign_dir_path = args.campaigns_dir / campaign_id
+    manifest_path = campaign_dir_path / INTERACTIVE_OBJECTS
+    preview_path = campaign_dir_path / INTERACTIVE_OBJECTS_PREVIEW
+    summary_path = campaign_dir_path / GENERATED_INTERACTIVE_OBJECTS_SUMMARY
 
     if args.select:
         manifest = interactive_objects_builder.default_manifest(args.select)
@@ -353,7 +368,7 @@ def run_interactive_objects(args: argparse.Namespace) -> int:
                 campaign_id=campaign_id,
                 pack_id=pack_id,
                 manifest_path=manifest_path,
-                output_dir=pack_artifact(campaign_id, pack_id, "", args.campaigns_dir),
+                output_dir=campaign_dir_path,
                 summary_path=summary_path,
             )
     except (OSError, ValueError, FileNotFoundError) as exc:
@@ -397,10 +412,23 @@ def run_status(args: argparse.Namespace) -> int:
         (GENERATED_QUESTS, True),
         (GENERATED_ACTIONS, True),
         (GENERATED_ACTIONS_SUMMARY, True),
-        (GENERATED_INTERACTIVE_OBJECTS_SUMMARY, False),
     ]
     print(f"campaign: {campaign_id}")
     print(f"pack: {pack_id}")
+    campaign_files = [
+        (INTERACTIVE_OBJECTS, False),
+        (INTERACTIVE_OBJECTS_PREVIEW, False),
+        (GENERATED_INTERACTIVE_OBJECTS_SUMMARY, False),
+        (RESOURCE_TABLE, False),
+        (RESOURCE_TABLE_SUMMARY, False),
+    ]
+    for filename, required in campaign_files:
+        path = args.campaigns_dir / campaign_id / filename
+        if path.exists():
+            status = "ok"
+        else:
+            status = "missing" if required else "optional-missing"
+        print(f"campaign/{filename}: {status}")
     for filename, required in files:
         path = pack_artifact(campaign_id, pack_id, filename, args.campaigns_dir)
         if path.exists():

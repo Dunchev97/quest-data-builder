@@ -57,6 +57,61 @@ GENERIC_REASON_MARKERS = (
     "логично подходит",
     "выбран по смыслу",
 )
+CASE_FORMS = {
+    "Журналистка Герда из журнала Домовита": {
+        "nominative": "Журналистка Герда из журнала Домовита",
+        "accusative": "Журналистку Герду из журнала Домовита",
+        "instrumental": "Журналисткой Гердой из журнала Домовита",
+        "object_pronoun": "неё",
+        "find_pronoun": "её",
+        "focus_pronoun": "неё",
+        "with_pronoun": "ней",
+        "subject_pronoun": "Она",
+    },
+    "Баба яга": {
+        "nominative": "Баба яга",
+        "accusative": "Бабу ягу",
+        "instrumental": "Бабой ягой",
+        "object_pronoun": "неё",
+        "find_pronoun": "её",
+        "focus_pronoun": "неё",
+        "with_pronoun": "ней",
+        "subject_pronoun": "Она",
+    },
+    "Кот детектив Котовски": {
+        "nominative": "Кот детектив Котовски",
+        "accusative": "кота детектива Котовски",
+        "instrumental": "котом детективом Котовски",
+        "object_pronoun": "него",
+        "find_pronoun": "его",
+        "focus_pronoun": "него",
+        "with_pronoun": "ним",
+        "subject_pronoun": "Он",
+    },
+    "Кощей": {
+        "nominative": "Кощей",
+        "accusative": "Кощея",
+        "instrumental": "Кощеем",
+        "object_pronoun": "него",
+        "find_pronoun": "его",
+        "focus_pronoun": "него",
+        "with_pronoun": "ним",
+        "subject_pronoun": "Он",
+    },
+    "Барабанная палочка": {"plural": "Барабанные палочки", "accusative": "барабанные палочки"},
+    "Разбитая банка": {"plural": "Разбитые банки", "accusative": "разбитые банки"},
+    "Надкусанный огурец": {"plural": "Надкусанные огурцы", "accusative": "надкусанные огурцы"},
+    "Рваный мяч": {"plural": "Рваные мячи", "accusative": "рваные мячи"},
+    "Мешок от удобрения": {"plural": "Мешки от удобрения", "accusative": "мешки от удобрения"},
+    "капля зеленого рассола": {"accusative": "каплю зеленого рассола"},
+    "крахмальная печать выдержки": {"accusative": "крахмальную печать выдержки"},
+    "круглая печать бочкового интервью": {"accusative": "круглую печать бочкового интервью"},
+    "душистая веточка для пробы": {"accusative": "душистую веточку для пробы"},
+    "зеленая садовая бирка": {"accusative": "зеленую садовую бирку"},
+    "алая королевская кисточка": {"accusative": "алую королевскую кисточку"},
+    "семицветная ленточка удачи": {"accusative": "семицветную ленточку удачи"},
+    "Факел": {"accusative": "факел"},
+}
 
 
 def read_json(path: Path) -> Any:
@@ -143,11 +198,82 @@ def generated_sequence_offsets(context_pack: dict[str, Any]) -> dict[tuple[str, 
 class BuildState:
     def __init__(self, context_pack: dict[str, Any]) -> None:
         self.counters = generated_sequence_offsets(context_pack)
+        self.dialog_counter = 0
+        self.characters: dict[tuple[str, str], str] = {}
 
     def next_generated(self, prefix: str, kind: str) -> str:
         key = (prefix, kind)
         self.counters[key] = self.counters.get(key, 0) + 1
         return f"{prefix}_{kind}_{self.counters[key]}"
+
+    def next_dialog_action(self, icon: str) -> str:
+        self.dialog_counter += 1
+        return f"{icon}_Dialog_{self.dialog_counter}"
+
+    def character_classname(self, prefix: str, person: str, override: Any = None) -> str:
+        override_text = str(override or "").strip()
+        if override_text:
+            return override_text
+        key = (prefix, person)
+        if key not in self.characters:
+            self.characters[key] = self.next_generated(prefix, "Character")
+        return self.characters[key]
+
+
+def one_line_text(value: Any) -> str:
+    return " ".join(str(value or "").split())
+
+
+def form_from_choice(choice: dict[str, Any], case_name: str) -> str:
+    keys = (
+        f"title_{case_name}",
+        f"item_title_{case_name}",
+        f"person_{case_name}",
+        f"{case_name}_title",
+    )
+    for key in keys:
+        value = str(choice.get(key) or "").strip()
+        if value:
+            return value
+    return ""
+
+
+def phrase_form(value: Any, case_name: str, choice: dict[str, Any] | None = None) -> str:
+    text = str(value or "").strip()
+    if choice:
+        provided = form_from_choice(choice, case_name)
+        if provided:
+            return provided
+    forms = CASE_FORMS.get(text)
+    if forms and forms.get(case_name):
+        return str(forms[case_name])
+    return text
+
+
+def item_accusative(value: Any, choice: dict[str, Any] | None = None) -> str:
+    return phrase_form(value, "accusative", choice)
+
+
+def garbage_task_title(value: Any, choice: dict[str, Any] | None = None) -> str:
+    return phrase_form(value, "plural", choice)
+
+
+def person_form(value: Any, case_name: str, choice: dict[str, Any] | None = None) -> str:
+    return phrase_form(value, case_name, choice)
+
+
+def person_pronoun(value: Any, key: str) -> str:
+    text = str(value or "").strip()
+    forms = CASE_FORMS.get(text) or {}
+    if forms.get(key):
+        return str(forms[key])
+    if key == "subject_pronoun":
+        return "Она" if text.endswith("а") or "Журналистка" in text or "Баба" in text else "Он"
+    if key == "with_pronoun":
+        return "ней" if text.endswith("а") or "Журналистка" in text or "Баба" in text else "ним"
+    if key == "find_pronoun":
+        return "её" if text.endswith("а") or "Журналистка" in text or "Баба" in text else "его"
+    return "неё" if text.endswith("а") or "Журналистка" in text or "Баба" in text else "него"
 
 
 def context_location_titles(context_quest: dict[str, Any]) -> list[str]:
@@ -268,7 +394,7 @@ def riddle_text(choice: dict[str, Any], selected: dict[str, Any] | None, templat
     for key in ("riddle", "hint", "mystery_hint"):
         value = str(choice.get(key) or "").strip()
         if value:
-            return value
+            return one_line_text(value)
     answer = candidate_title_for_template(template_id, selected)
     issues.append(
         {
@@ -353,7 +479,7 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Попроси у друзей {item_title}",
+            "title": f"Попроси у друзей {item_accusative(item_title, choice)}",
             "hint": "Попроси у друзей или купи.",
             "identifier": "",
         }
@@ -364,13 +490,16 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Попроси у друзей {item_title}",
+            "title": f"Попроси у друзей {item_accusative(item_title, choice)}",
             "hint": "Отправь личные просьбы друзьям или купи.",
             "identifier": "",
         }
     if template_id == "TT-010":
-        collection_title = candidate_title_for_template("TT-011", selected)
-        source_title = str((selected or {}).get("source_title") or "")
+        collection_title = (
+            str(choice.get("collection_title") or "").strip()
+            or candidate_title_for_template("TT-011", selected)
+            or "праздничной коллекции"
+        )
         location_text = location_text_from_choice_or_candidate(context_quest, choice, selected)
         return {
             "type": "get_asset",
@@ -378,8 +507,8 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Найди {item_title}",
-            "hint": f"{item_title} можно получить за сбор коллекции {collection_title} при уборке мусора {source_title} в локации {location_text} дома и в гостях.",
+            "title": f"Найди {item_accusative(item_title, choice)}",
+            "hint": f"{item_title} можно получить за сбор коллекции {collection_title} при уборке мусора в локации {location_text} дома и в гостях.",
             "identifier": "",
         }
     if template_id == "TT-012":
@@ -390,7 +519,7 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Получи {item_title}",
+            "title": f"Получи {item_accusative(item_title, choice)}",
             "hint": f"{item_title} можно получить {action_text}",
             "identifier": "",
         }
@@ -402,12 +531,12 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Найди {item_title}",
+            "title": f"Найди {item_accusative(item_title, choice)}",
             "hint": f"Убирай мусор в локации {location_text} дома, чтобы найти.",
             "identifier": "",
         }
     if template_id in {"TT-014", "TT-015"}:
-        garbage_title = candidate_title_for_template(template_id, selected)
+        garbage_title = garbage_task_title(candidate_title_for_template(template_id, selected), choice)
         mode_text = "в гостях" if template_id == "TT-014" else "дома"
         location_text = location_text_from_choice_or_candidate(context_quest, choice, selected)
         return {
@@ -416,7 +545,7 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Найди {item_title}",
+            "title": f"Найди {item_accusative(item_title, choice)}",
             "hint": f"Убирай мусор {garbage_title} {mode_text}, чтобы найти. Место поиска: {location_text}.",
             "identifier": "",
         }
@@ -432,7 +561,7 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Получи {item_title}",
+            "title": f"Получи {item_accusative(item_title, choice)}",
             "hint": hint,
             "identifier": "",
         }
@@ -455,15 +584,17 @@ def build_task_object(
 
     if template_id == "TT-001":
         person = str(choice.get("person") or context_quest.get("character") or "").strip()
-        icon = str(choice.get("character_classname") or f"{prefix}_Character_{context_quest.get('quest_number') or 1}")
-        object_pronoun, subject_pronoun = dialogue_pronouns(context_quest, person)
+        icon = state.character_classname(prefix, person, choice.get("character_classname"))
+        person_with = person_form(person, "instrumental", choice)
+        object_pronoun = str(choice.get("object_pronoun") or person_pronoun(person, "object_pronoun"))
+        subject_pronoun = str(choice.get("subject_pronoun") or person_pronoun(person, "subject_pronoun"))
         location_title = first_location_title(context_quest, choice)
         return {
             "type": "action",
             "icon": icon,
-            "action": f"{icon}_Dialog_{context_task.get('task_number') or 1}",
-            "title": f"Поговори с {person}",
-            "hint": f"Поговори с {person}. Для этого просто кликни на {object_pronoun}. {subject_pronoun} находится в {location_title}.",
+            "action": state.next_dialog_action(icon),
+            "title": f"Поговори с {person_with}",
+            "hint": f"Поговори с {person_with}. Для этого просто кликни на {object_pronoun}. {subject_pronoun} находится в {location_title}.",
             "go_to_location": [{"classname": icon}],
             "identifier": "",
         }
@@ -475,7 +606,7 @@ def build_task_object(
             "classname": classname,
             "icon": classname,
             "amount": task_amount(choice, defaults),
-            "title": f"Создай {item_title}",
+            "title": f"Создай {item_accusative(item_title, choice)}",
             "go_to_location": [{"classname": f"{prefix}_Workbench_1"}],
             "hint": "Для создания используй Станок.",
             "identifier": "",
@@ -535,7 +666,7 @@ def build_task_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Найди {collection_title}",
+            "title": f"Найди {item_accusative(collection_title, choice)}",
             "hint": f"{collection_title} - элемент коллекции, выпадает при уборке мусора {source_title} дома и в гостях. Место поиска: {location_text}.",
             "identifier": "",
         }
@@ -579,7 +710,7 @@ def build_task_object(
                 "param": flower_classname,
                 "amount": task_amount(choice, defaults),
                 "price": task_price(choice, defaults),
-                "title": f"Собери {flower_title} {place}",
+                "title": f"Собери {item_accusative(flower_title, choice)} {place}",
                 "hint": hint,
                 "identifier": "",
             }
@@ -587,6 +718,7 @@ def build_task_object(
 
     if template_id in GARBAGE_TEMPLATES:
         garbage_title = candidate_title_for_template(template_id, selected)
+        garbage_title_for_task = garbage_task_title(garbage_title, choice)
         garbage_classname = str((selected or {}).get("garbage_classname") or "")
         location_text = location_text_from_choice_or_candidate(context_quest, choice, selected)
         in_guest = template_id in {"TT-020", "TT-024", "TT-029"}
@@ -625,8 +757,8 @@ def build_task_object(
                 "in_guest": 1,
                 "amount": task_amount(choice, defaults),
                 "price": task_price(choice, defaults),
-                "title": f"Убери мусор {garbage_title} в гостях",
-                "hint": f"Убери мусор {garbage_title} в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: {location_text}.",
+                "title": f"Убери мусор {garbage_title_for_task} в гостях",
+                "hint": f"Убери мусор {garbage_title_for_task} в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: {location_text}.",
                 "identifier": "",
             }
         return {
@@ -634,8 +766,8 @@ def build_task_object(
             "classname": garbage_classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Убери мусор {garbage_title} дома",
-            "hint": f"Убери мусор {garbage_title} дома. Для этого просто кликни на нужный мусор дома. Место поиска: {location_text}.",
+            "title": f"Убери мусор {garbage_title_for_task} дома",
+            "hint": f"Убери мусор {garbage_title_for_task} дома. Для этого просто кликни на нужный мусор дома. Место поиска: {location_text}.",
             "identifier": "",
         }
 
@@ -693,13 +825,18 @@ def build_task_object(
             "go_to_location": [{"classname": item_classname}],
             "amount": task_amount(choice, defaults),
             "title": title,
-            "hint": f"Передай {item_title} персонажу {person}. Он находится на {location_title}.",
+            "hint": f"Передай {item_accusative(item_title, choice)} персонажу {person}. Он находится на {location_title}.",
             "identifier": "",
         }
 
     if template_id == "TT-034":
         person = str(choice.get("person") or context_quest.get("character") or "").strip()
-        icon = str(choice.get("character_classname") or f"{prefix}_Character_{context_quest.get('quest_number') or 1}")
+        icon = state.character_classname(prefix, person, choice.get("character_classname"))
+        person_with = person_form(person, "instrumental", choice)
+        person_acc = person_form(person, "accusative", choice)
+        person_nom = person_form(person, "nominative", choice)
+        find_pronoun = str(choice.get("find_pronoun") or person_pronoun(person, "find_pronoun"))
+        with_pronoun = str(choice.get("with_pronoun") or person_pronoun(person, "with_pronoun"))
         location_title = first_location_title(context_quest, choice)
         return {
             "type": "action",
@@ -708,8 +845,8 @@ def build_task_object(
             "param": icon,
             "go_to_location": [{"classname": icon}],
             "amount": task_amount(choice, defaults),
-            "title": f"Сфотографируйся с {person}",
-            "hint": f"{person} - персонаж, с которым нужно сфотографироваться. Найди его у себя на {location_title} и нажми на иконку \"Сделать фотографию\" в правом верхнем углу. Наведи фокус на {person}, сфотографируйся с ним и нажми \"Славненько\".",
+            "title": f"Сфотографируйся с {person_with}",
+            "hint": f"{person_nom} - персонаж, с которым нужно сфотографироваться. Найди {find_pronoun} у себя на {location_title} и нажми на иконку \"Сделать фотографию\" в правом верхнем углу. Наведи фокус на {person_acc}, сфотографируйся с {with_pronoun} и нажми \"Славненько\".",
             "identifier": "",
         }
 
@@ -753,6 +890,9 @@ def build_filled_tasks(
             for key in ("classname_quests", "title_quest", "quest_number", "description", "congratulation", "character")
             if key in context_quest
         }
+        character = str(context_quest.get("character") or "").strip()
+        if character:
+            filled_quest["helper"] = state.character_classname(quest_prefix(classname_quests), character)
         filled_quest["tasks"] = []
 
         for context_task in as_list(context_quest.get("tasks")):

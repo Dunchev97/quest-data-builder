@@ -31,6 +31,26 @@ def manifest() -> dict[str, object]:
     }
 
 
+def duplicate_chest_manifest() -> dict[str, object]:
+    return {
+        "version": 1,
+        "selected_objects": [
+            {
+                "template_id": "chest_1",
+                "object_title": "First chest",
+                "activation_resource_title": "First key",
+                "result_resource_title": "First relic",
+            },
+            {
+                "template_id": "chest_1",
+                "object_title": "Second chest",
+                "activation_resource_title": "Second key",
+                "result_resource_title": "Second relic",
+            },
+        ],
+    }
+
+
 class InteractiveObjectsTests(unittest.TestCase):
     def test_validates_minimum_selected_objects(self) -> None:
         validation = validate_manifest({"version": 1, "selected_objects": [{"template_id": "chest_1"}]})
@@ -44,6 +64,12 @@ class InteractiveObjectsTests(unittest.TestCase):
         self.assertEqual(validation["summary"]["errors"], 0)
         self.assertEqual([item.classname for item in ingredients], ["Event_2026_Chest_1_R_1", "Event_2026_HELP_1_R_Opener"])
         self.assertEqual([item.amount for item in ingredients], [1, 1])
+
+    def test_duplicate_object_templates_are_numbered(self) -> None:
+        ingredients, validation = recipe_ingredients_from_manifest("Event_2026", duplicate_chest_manifest())
+
+        self.assertEqual(validation["summary"]["errors"], 0)
+        self.assertEqual([item.classname for item in ingredients], ["Event_2026_Chest_1_R_1", "Event_2026_Chest_2_R_1"])
 
     def test_exports_interactive_csv_files_without_fun12_outputs(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

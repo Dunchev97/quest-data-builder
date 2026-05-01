@@ -75,6 +75,8 @@ def sample_filled_tasks() -> dict[str, object]:
             {
                 "classname_quests": "Event_2026_Story_1",
                 "quest_number": 1,
+                "character": "Наблюдатель",
+                "helper": "Event_2026_Character_1",
                 "tasks": [
                     {
                         "task_number": 1,
@@ -150,6 +152,7 @@ class CampaignTests(unittest.TestCase):
             self.assertIn("PlateCollection1", memory["used_collections"])
             self.assertIn("Котельная", memory["used_locations"])
             self.assertIn("Event_2026_ASK_1", memory["used_generated_assets"])
+            self.assertIn("Event_2026_Character_1", memory["used_generated_assets"])
             self.assertEqual(memory["packs"]["pack_001"]["tasks_found"], 3)
             self.assertEqual(memory["packs"]["pack_001"]["quest_group"], str(target / "quest_group.json"))
 
@@ -211,11 +214,13 @@ class CampaignTests(unittest.TestCase):
         self.assertEqual(offsets[("Event_2026", "HOG")], 2)
         self.assertEqual(offsets[("Event_2026", "GR")], 4)
         self.assertEqual(offsets[("Other_2026", "ASK")], 3)
-        self.assertNotIn(("Event_2026", "Character"), offsets)
+        self.assertEqual(offsets[("Event_2026", "Character")], 1)
 
         offsets_without_current_pack = generated_sequence_offsets_for_json(memory, current_pack_id="pack_002")
         self.assertEqual(offsets_without_current_pack["Event_2026"]["HOG"], 2)
         self.assertNotIn("GR", offsets_without_current_pack["Event_2026"])
+        offsets_without_pack_1 = generated_sequence_offsets_for_json(memory, current_pack_id="pack_001")
+        self.assertNotIn("Character", offsets_without_pack_1.get("Event_2026", {}))
 
 
 if __name__ == "__main__":

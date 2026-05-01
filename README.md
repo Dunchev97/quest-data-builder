@@ -140,8 +140,11 @@ python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack
 Перед этапом 1:
 
 ```bash
-python src/workflow_fast.py interactive-objects --campaign <campaign_id> --pack <pack_id> --select chest_1 --select help_1
+python src/workflow_fast.py interactive-objects --campaign <campaign_id> --select chest_1 --select help_1
 ```
+
+Интерактивные объекты выбираются на всю campaign и сохраняются в `campaigns/<campaign_id>/interactive_objects.json`.
+Перед Stage 1 Codex должен спросить минимум 2 объекта и короткую анкету по их сущности: как выглядит объект, какой ресурс дает, чем он тематически является. Если пользователь оставляет выбор за ИИ, Codex заполняет это по теме campaign.
 
 Фиксирует выбранные интерактивные объекты pack в `interactive_objects.json`. Перед новым pack нужно выбрать минимум два объекта; `Chest_1_Home/Guest` и `HELP_1_Home/Guest` считаются одним объектом.
 
@@ -181,8 +184,8 @@ Stage 6 читает `filled_tasks.json` и `quest_group.json` из папки p
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
-campaigns/<campaign_id>/<pack_id>/generated_interactive_objects_*.csv
-campaigns/<campaign_id>/<pack_id>/generated_interactive_objects.summary.json
+campaigns/<campaign_id>/generated_interactive_objects_*.csv
+campaigns/<campaign_id>/generated_interactive_objects.summary.json
 ```
 
 `generated_actions.csv` содержит actions текущего pack, а нумерация диалогов и Give учитывает предыдущие pack-и campaign.

@@ -1,0 +1,37 @@
+;ОБЪЕКТ HELP_1_Home;;;;;;;;;;;;;;
+temp_01;string;string;string;string;string;string;string;string;string;string;string;string;string;string;int
+;input;output;classname;title;open_price;extra.window_spec.view_window;extra.window_spec.main_asset;extra.window_spec.mark_1;extra.window_spec.mark_2;extra.window_spec.comment_1;extra.window_spec.comment_2;extra.window_spec.comment_3;extra.window_spec.comment_4;extra.window_spec.comment_4;id
+;/chest/Veles_2024/Veles_2024_Chest_2_Home.proto.js;/chest/Fun/CucumberFestival_2026/CucumberFestival_2026_HELP_1_Home.proto.js;CucumberFestival_2026_HELP_1_Home;Банка малосольных огурчиков;asset=CucumberFestival_2026_HELP_1_ASK_Open_1:10;CucumberFestival_2026_HELP_1_Window;CucumberFestival_2026_HELP_1_R_Opener;Огурцы;Угощения;Когда друзья угощаются из активированной банки, ты получаешь малосольные дольки. Собери их в полноценный гостинец.;Добавь душистый укроп, чтобы банка настоялась и стала готова к дружеским угощениям.;После активации банка источает праздничный аромат малосольных огурчиков и работает ограниченное время.;Активировать;Активируй объект;
+
+;ОБЪЕКТ HELP_1_Guest;;;;;;;;;;
+temp_01;string;string;string;string;string;string;string;string;string;int;int
+;input;output;classname;title;stuff_icon;behaviour.1.chest;behaviour.1.conditions_title;rand_reward.asset;rand_reward_in_guest.asset;daily_help_limit;id
+;/furniture/Veles_2024/Veles_2024_Stuff_2_Guest.proto.js;/furniture/Fun/CucumberFestival_2026/CucumberFestival_2026_HELP_1_Guest.proto.js;CucumberFestival_2026_HELP_1_Guest;Банка малосольных огурчиков;CucumberFestival_2026_HELP_1_Guest_StuffIcon;CucumberFestival_2026_HELP_1_Home;Банка еще не настоялась! Загляни к другу позже.;CucumberFestival_2026_HELP_1_R_OpenerPath;CucumberFestival_2026_HELP_1_R_OpenerPath;5;
+
+;АССЕТЫ Ресурсов HELP;;;;;
+temp_01;string;string;string;string;string;int
+;input;output;classname;title;meta_info;id
+;/quest_item/Fun/Fun10/Fun10_FunCollection_2_HELP_1_R_OpenerPath.proto.js;/quest_item/Fun/CucumberFestival_2026/CucumberFestival_2026_HELP_1_R_OpenerPath.proto.js;CucumberFestival_2026_HELP_1_R_OpenerPath;Малосольная долька;pack_asset=CucumberFestival_2026_HELP_1_R_OpenerPath_Package;
+;/quest_item/Fun/Fun10/Fun10_FunCollection_2_HELP_1_R_Opener.proto.js;/quest_item/Fun/CucumberFestival_2026/CucumberFestival_2026_HELP_1_R_Opener.proto.js;CucumberFestival_2026_HELP_1_R_Opener;Малосольный гостинец;pack_asset=CucumberFestival_2026_HELP_1_R_Opener_Package;
+
+;АССЕТЫ Ресурсов ASK;;;;;;;
+temp_01;string;string;string;string;string;string;string;int
+;input;output;classname;view_classname;title;description;meta_info;id
+;/quest_item/Fun/Fun10/resource/Fun10_ASK_1.proto.js;/quest_item/Fun/CucumberFestival_2026/CucumberFestival_2026_HELP_1_ASK_Open_1.proto.js;CucumberFestival_2026_HELP_1_ASK_Open_1;CucumberFestival_2026_HELP_1_ASK_Open_1;Душистый укроп;Попроси у друзей или купи.;pack_asset=CucumberFestival_2026_HELP_1_ASK_Open_1_Package;
+
+;ПОСТЭКШЕНЫ ASK и PER;;;;;;;;
+temp_01;string;string;string;string;string;int;int;int;int
+;input;output;identifier;title;poster_reward;clicks_limit;life_time;send_interval;id
+;/post_action/ask_for_Fun10_ASK_10.proto.js;/post_action/ask_for_CucumberFestival_2026_HELP_1_ASK_Open_1.proto.js;ask_for_CucumberFestival_2026_HELP_1_ASK_Open_1;Душистый укроп;asset=CucumberFestival_2026_HELP_1_ASK_Open_1:1;5;43200;7200;
+
+;ПАКЕТЫ ДЛЯ ПРОДАЖИ;;;;;;;;;
+temp_01;string;string;string;ignore;string;string;int;ignore;string;int
+;input;output;classname;asset;title;reward;price;Количество ассетов;stuff_icon;id
+;/asset_package/Fun/Fun10/Fun10_FunCollection_2_HELP_1_R_OpenerPath_Package.proto.js;/asset_package/Fun/CucumberFestival_2026/CucumberFestival_2026_HELP_1_R_OpenerPath_Package.proto.js;CucumberFestival_2026_HELP_1_R_OpenerPath_Package;CucumberFestival_2026_HELP_1_R_OpenerPath;Малосольная долька;asset=CucumberFestival_2026_HELP_1_R_OpenerPath:3;3;1;CucumberFestival_2026_HELP_1_R_OpenerPath;
+;/asset_package/Fun/Fun10/Fun10_FunCollection_2_HELP_1_R_Opener_Package.proto.js;/asset_package/Fun/CucumberFestival_2026/CucumberFestival_2026_HELP_1_R_Opener_Package.proto.js;CucumberFestival_2026_HELP_1_R_Opener_Package;CucumberFestival_2026_HELP_1_R_Opener;Малосольный гостинец;asset=CucumberFestival_2026_HELP_1_R_Opener:15;15;1;CucumberFestival_2026_HELP_1_R_Opener;
+;/asset_package/Fun/Fun10/resource/Fun10_ASK_1_Package.proto.js;/asset_package/Fun/CucumberFestival_2026/CucumberFestival_2026_HELP_1_ASK_Open_1_Package.proto.js;CucumberFestival_2026_HELP_1_ASK_Open_1_Package;CucumberFestival_2026_HELP_1_ASK_Open_1;Душистый укроп;asset=CucumberFestival_2026_HELP_1_ASK_Open_1:2;2;1;CucumberFestival_2026_HELP_1_ASK_Open_1;
+
+;РЕЦЕПТ HELP_R_Opener;;;;;;
+temp_01;string;string;string;string;string;string;int
+;input;output;identifier;reward;tags.2;ingredients;id
+;/recipe/Fun/Fun10/Fun10_FunCollection_2_HELP_1_R_Opener_Recipe.proto.js;/recipe/Fun/CucumberFestival_2026/CucumberFestival_2026_HELP_1_R_Opener_Recipe.proto.js;CucumberFestival_2026_HELP_1_R_Opener_Recipe;asset=CucumberFestival_2026_HELP_1_R_Opener:1;CucumberFestival_2026;asset=CucumberFestival_2026_HELP_1_R_OpenerPath:5;

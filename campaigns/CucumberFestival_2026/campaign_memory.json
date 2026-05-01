@@ -1,0 +1,1049 @@
+{
+  "version": 1,
+  "campaign_id": "CucumberFestival_2026",
+  "created_at": "2026-05-01T10:30:54.113032+00:00",
+  "updated_at": "2026-05-01T20:31:20.634877+00:00",
+  "packs": {
+    "pack_001": {
+      "pack_id": "pack_001",
+      "updated_at": "2026-05-01T20:14:15.658156+00:00",
+      "filled_tasks": "I:\\quest-data-builder\\campaigns\\CucumberFestival_2026\\pack_001\\filled_tasks.json",
+      "context_pack": "I:\\quest-data-builder\\campaigns\\CucumberFestival_2026\\pack_001\\context_pack.json",
+      "tasks_found": 36,
+      "selected_candidates_found": 22,
+      "quest_group": "I:\\quest-data-builder\\campaigns\\CucumberFestival_2026\\pack_001\\quest_group.json",
+      "quest_group_validation": "I:\\quest-data-builder\\campaigns\\CucumberFestival_2026\\pack_001\\quest_group.validation.json",
+      "interactive_objects": "I:\\quest-data-builder\\campaigns\\CucumberFestival_2026\\interactive_objects.json"
+    }
+  },
+  "used_candidate_ids": {
+    "flower:FlowerLaysDill": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_1",
+      "task_number": 2,
+      "task_template_id": "TT-031",
+      "domain": "flower",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.244924+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246752+00:00"
+    },
+    "garbage:Garbage_Zoo_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_2",
+      "task_number": 4,
+      "task_template_id": "TT-024",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.244924+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.244924+00:00"
+    },
+    "gr_garbage:Cucumber:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_2",
+      "task_number": 5,
+      "task_template_id": "TT-014",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "collection_drop:CucumberCollection1:Cucumber:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_2",
+      "task_number": 6,
+      "task_template_id": "TT-028",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "flower:FlowerLaysPotato": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-017",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "garbage:Cucumber": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_4",
+      "task_number": 10,
+      "task_template_id": "TT-029",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "collection_drop:CandyWrapperCollection3:CandyWrapper:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_4",
+      "task_number": 11,
+      "task_template_id": "TT-028",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "garbage:BrokenBank": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_5",
+      "task_number": 13,
+      "task_template_id": "TT-020",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "gr_garbage:BrokenBall:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-014",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "flower:FlowerSeaBuckthorn": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-031",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "collection_drop:GarbageNapkinsCollection5:GarbageNapkins:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_6",
+      "task_number": 17,
+      "task_template_id": "TT-028",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246752+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246752+00:00"
+    },
+    "gr_garbage:BagOfFertilizer:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_7",
+      "task_number": 20,
+      "task_template_id": "TT-013",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "garbage:BrokenBarrel": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_8",
+      "task_number": 23,
+      "task_template_id": "TT-030",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "flower:FlowerHibiscus": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_8",
+      "task_number": 24,
+      "task_template_id": "TT-016",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "flower:FlowerFuchsia": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_9",
+      "task_number": 26,
+      "task_template_id": "TT-031",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "collection_drop:FlowerFuchsiaCollection5:FlowerFuchsia:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_9",
+      "task_number": 27,
+      "task_template_id": "TT-026",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "garbage:BrokenStick": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_10",
+      "task_number": 28,
+      "task_template_id": "TT-025",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "garbage:Drumstick": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_10",
+      "task_number": 29,
+      "task_template_id": "TT-021",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "flower:FlowerFive": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_10",
+      "task_number": 30,
+      "task_template_id": "TT-031",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "flower:FlowerCvetikSemicvetik": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_11",
+      "task_number": 32,
+      "task_template_id": "TT-016",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "collection_drop:AshesCollection3:Ashes:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_12",
+      "task_number": 36,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T20:14:15.658156+00:00",
+      "last_seen_at": "2026-05-01T20:14:15.658156+00:00"
+    }
+  },
+  "used_task_templates": {
+    "TT-001": {
+      "pack_id": "pack_001",
+      "task_template_name": "Диалог",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.244924+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "TT-031": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт цветка в гостях",
+      "uses": 4,
+      "first_seen_at": "2026-05-01T14:59:50.244924+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "TT-004": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG на локации",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.244924+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "TT-024": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на мусор в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.244924+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.244924+00:00"
+    },
+    "TT-014": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с конкретного мусора в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "TT-028": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+      "uses": 3,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246752+00:00"
+    },
+    "TT-008": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить ASK",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "TT-017": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с цветов дома",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "TT-002": {
+      "pack_id": "pack_001",
+      "task_template_name": "Крафт",
+      "uses": 3,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "TT-029": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт мусора в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "TT-005": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG в локациях дома",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "TT-020": {
+      "pack_id": "pack_001",
+      "task_template_name": "Уборка конкретного мусора в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "TT-007": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG поиск истинного среди ложного",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "TT-016": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с цветов в гостях",
+      "uses": 3,
+      "first_seen_at": "2026-05-01T14:59:50.246752+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "TT-009": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить PER",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246752+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246752+00:00"
+    },
+    "TT-013": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с мусора в локации дома",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "TT-030": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт мусора дома",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "TT-034": {
+      "pack_id": "pack_001",
+      "task_template_name": "Фото предмета",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "TT-026": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "TT-025": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на мусор дома",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "TT-021": {
+      "pack_id": "pack_001",
+      "task_template_name": "Уборка конкретного мусора дома",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "TT-003": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG в мире",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "TT-011": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T20:14:15.658156+00:00",
+      "last_seen_at": "2026-05-01T20:14:15.658156+00:00"
+    }
+  },
+  "used_garbage": {
+    "Garbage_Zoo_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_2",
+      "task_number": 4,
+      "task_template_id": "TT-024",
+      "classname": "Garbage_Zoo_3",
+      "title": "Следы лапок",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.244924+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.244924+00:00"
+    },
+    "Cucumber": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_2",
+      "task_number": 5,
+      "task_template_id": "TT-014",
+      "classname": "Cucumber",
+      "title": "Надкусанный огурец",
+      "uses": 3,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "used_as": "collection_source"
+    },
+    "CandyWrapper": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_4",
+      "task_number": 11,
+      "task_template_id": "TT-028",
+      "classname": "CandyWrapper",
+      "title": "Фантик",
+      "used_as": "collection_source",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "BrokenBank": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_5",
+      "task_number": 13,
+      "task_template_id": "TT-020",
+      "classname": "BrokenBank",
+      "title": "Разбитая банка",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "BrokenBall": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-014",
+      "classname": "BrokenBall",
+      "title": "Рваный мяч",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "GarbageNapkins": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_6",
+      "task_number": 17,
+      "task_template_id": "TT-028",
+      "classname": "GarbageNapkins",
+      "title": "Салфетки",
+      "used_as": "collection_source",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246752+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246752+00:00"
+    },
+    "BagOfFertilizer": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_7",
+      "task_number": 20,
+      "task_template_id": "TT-013",
+      "classname": "BagOfFertilizer",
+      "title": "Мешок от удобрения",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "BrokenBarrel": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_8",
+      "task_number": 23,
+      "task_template_id": "TT-030",
+      "classname": "BrokenBarrel",
+      "title": "Разбитая бочка",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "BrokenStick": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_10",
+      "task_number": 28,
+      "task_template_id": "TT-025",
+      "classname": "BrokenStick",
+      "title": "Сломанный посох",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "Drumstick": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_10",
+      "task_number": 29,
+      "task_template_id": "TT-021",
+      "classname": "Drumstick",
+      "title": "Барабанная палочка",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "Ashes": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_12",
+      "task_number": 36,
+      "task_template_id": "TT-011",
+      "classname": "Ashes",
+      "title": "Пепел",
+      "used_as": "collection_source",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T20:14:15.658156+00:00",
+      "last_seen_at": "2026-05-01T20:14:15.658156+00:00"
+    }
+  },
+  "used_collections": {
+    "CucumberCollection1": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_2",
+      "task_number": 6,
+      "task_template_id": "TT-028",
+      "classname": "CucumberCollection1",
+      "title": "Огуречный рассол",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "CandyWrapperCollection3": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_4",
+      "task_number": 11,
+      "task_template_id": "TT-028",
+      "classname": "CandyWrapperCollection3",
+      "title": "Золотая нива",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "GarbageNapkinsCollection5": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_6",
+      "task_number": 17,
+      "task_template_id": "TT-028",
+      "classname": "GarbageNapkinsCollection5",
+      "title": "Поварской колпак",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246752+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246752+00:00"
+    },
+    "FlowerFuchsiaCollection5": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_9",
+      "task_number": 27,
+      "task_template_id": "TT-026",
+      "classname": "FlowerFuchsiaCollection5",
+      "title": "Фотография фуксии",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "AshesCollection3": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_12",
+      "task_number": 36,
+      "task_template_id": "TT-011",
+      "classname": "AshesCollection3",
+      "title": "Факел",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T20:14:15.658156+00:00",
+      "last_seen_at": "2026-05-01T20:14:15.658156+00:00"
+    }
+  },
+  "used_flowers": {
+    "FlowerLaysDill": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_1",
+      "task_number": 2,
+      "task_template_id": "TT-031",
+      "classname": "FlowerLaysDill",
+      "title": "Укропчик",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.244924+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246752+00:00"
+    },
+    "FlowerLaysPotato": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-017",
+      "classname": "FlowerLaysPotato",
+      "title": "Картошечка",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "FlowerSeaBuckthorn": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-031",
+      "classname": "FlowerSeaBuckthorn",
+      "title": "Облепиха",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "FlowerHibiscus": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_8",
+      "task_number": 24,
+      "task_template_id": "TT-016",
+      "classname": "FlowerHibiscus",
+      "title": "Гибискус",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "FlowerFuchsia": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_9",
+      "task_number": 26,
+      "task_template_id": "TT-031",
+      "classname": "FlowerFuchsia",
+      "title": "Фуксия",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "FlowerFive": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_10",
+      "task_number": 30,
+      "task_template_id": "TT-031",
+      "classname": "FlowerFive",
+      "title": "Роза",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "FlowerCvetikSemicvetik": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_11",
+      "task_number": 32,
+      "task_template_id": "TT-016",
+      "classname": "FlowerCvetikSemicvetik",
+      "title": "Цветик-семицветик",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    }
+  },
+  "used_locations": {
+    "Зоопарк": {
+      "code": "66",
+      "title": "Зоопарк",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_2",
+      "task_number": 4,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.244924+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.244924+00:00"
+    },
+    "Оранжерея": {
+      "code": "31",
+      "title": "Оранжерея",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_2",
+      "task_number": 5,
+      "uses": 4,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "Лавка": {
+      "code": "12",
+      "title": "Лавка",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_4",
+      "task_number": 11,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "Светлица": {
+      "code": "4",
+      "title": "Светлица",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_4",
+      "task_number": 11,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "Рукодельня": {
+      "code": "5",
+      "title": "Рукодельня",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_4",
+      "task_number": 11,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "Погребок": {
+      "code": "10",
+      "title": "Погребок",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_5",
+      "task_number": 13,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "Стеклодувня": {
+      "code": "42",
+      "title": "Стеклодувня",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_5",
+      "task_number": 13,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "Гараж": {
+      "code": "43",
+      "title": "Гараж",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_5",
+      "task_number": 14,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "Кухня": {
+      "code": "86",
+      "title": "Кухня",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_6",
+      "task_number": 17,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246752+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246752+00:00"
+    },
+    "Курятник": {
+      "code": "32",
+      "title": "Курятник",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_7",
+      "task_number": 20,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "Чародейная": {
+      "code": "91",
+      "title": "Чародейная",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_7",
+      "task_number": 20,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "Трюм": {
+      "code": "73",
+      "title": "Трюм",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_8",
+      "task_number": 23,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "Бальная зала": {
+      "code": "81",
+      "title": "Бальная зала",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_10",
+      "task_number": 28,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "Хижина Чинга": {
+      "code": "14",
+      "title": "Хижина Чинга",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_10",
+      "task_number": 29,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "Котельная": {
+      "code": "65",
+      "title": "Котельная",
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_12",
+      "task_number": 36,
+      "uses": 1,
+      "first_seen_at": "2026-05-01T20:14:15.658156+00:00",
+      "last_seen_at": "2026-05-01T20:14:15.658156+00:00"
+    }
+  },
+  "used_generated_assets": {
+    "CucumberFestival_2026_Character_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_1",
+      "field": "helper",
+      "title": "Журналистка Герда из журнала Домовита",
+      "uses": 6,
+      "first_seen_at": "2026-05-01T14:59:50.244924+00:00",
+      "last_seen_at": "2026-05-01T20:31:20.650719+00:00",
+      "task_number": 1,
+      "task_template_id": "TT-001"
+    },
+    "CucumberFestival_2026_HOG_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_1",
+      "task_number": 3,
+      "task_template_id": "TT-004",
+      "title": "Найди огуречные заголовки",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.244924+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.244924+00:00"
+    },
+    "CucumberFestival_2026_Character_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_2",
+      "field": "helper",
+      "title": "Кот детектив Котовски",
+      "uses": 3,
+      "first_seen_at": "2026-05-01T20:14:15.656638+00:00",
+      "last_seen_at": "2026-05-01T20:31:20.651726+00:00"
+    },
+    "CucumberFestival_2026_GR_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_2",
+      "task_number": 5,
+      "task_template_id": "TT-014",
+      "title": "Найди каплю зеленого рассола",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T20:14:15.654113+00:00"
+    },
+    "CucumberFestival_2026_Character_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_3",
+      "field": "helper",
+      "title": "Баба яга",
+      "uses": 3,
+      "first_seen_at": "2026-05-01T20:31:20.649204+00:00",
+      "last_seen_at": "2026-05-01T20:31:20.651726+00:00"
+    },
+    "CucumberFestival_2026_ASK_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_3",
+      "task_number": 7,
+      "task_template_id": "TT-008",
+      "title": "Попроси у друзей стеклянные пробки для бочки",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "CucumberFestival_2026_GR_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-017",
+      "title": "Получи крахмальную печать выдержки",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T20:14:15.654113+00:00"
+    },
+    "CucumberFestival_2026_R_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_3",
+      "task_number": 9,
+      "task_template_id": "TT-002",
+      "title": "Создай баночку рассола строгой выдержки",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "CucumberFestival_2026_Character_4": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_4",
+      "field": "helper",
+      "title": "Кощей",
+      "uses": 4,
+      "first_seen_at": "2026-05-01T20:31:20.649204+00:00",
+      "last_seen_at": "2026-05-01T20:31:20.651726+00:00",
+      "task_number": 34,
+      "task_template_id": "TT-001"
+    },
+    "CucumberFestival_2026_HOG_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_4",
+      "task_number": 12,
+      "task_template_id": "TT-005",
+      "title": "Найди золотые буквы мецената",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "CucumberFestival_2026_GR_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-014",
+      "title": "Найди круглую печать бочкового интервью",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T20:14:15.655630+00:00"
+    },
+    "CucumberFestival_2026_HOG_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_6",
+      "task_number": 16,
+      "task_template_id": "TT-007",
+      "title": "Найди настоящий хрустящий огурец",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.245939+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.245939+00:00"
+    },
+    "CucumberFestival_2026_GR_4": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_6",
+      "task_number": 18,
+      "task_template_id": "TT-016",
+      "title": "Получи душистую веточку для пробы",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.246752+00:00",
+      "last_seen_at": "2026-05-01T20:14:15.655630+00:00"
+    },
+    "CucumberFestival_2026_PER_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_7",
+      "task_number": 19,
+      "task_template_id": "TT-009",
+      "title": "Попроси у друзей парадные пучки укропа",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.246752+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "CucumberFestival_2026_GR_5": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_7",
+      "task_number": 20,
+      "task_template_id": "TT-013",
+      "title": "Найди зеленую садовую бирку",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T20:14:15.655630+00:00"
+    },
+    "CucumberFestival_2026_R_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_7",
+      "task_number": 21,
+      "task_template_id": "TT-002",
+      "title": "Создай укропную гирлянду для танцев",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "CucumberFestival_2026_HOG_4": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_8",
+      "task_number": 22,
+      "task_template_id": "TT-004",
+      "title": "Найди резные ножки трона",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "CucumberFestival_2026_GR_6": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_8",
+      "task_number": 24,
+      "task_template_id": "TT-016",
+      "title": "Получи алую королевскую кисточку",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T20:14:15.656638+00:00"
+    },
+    "CucumberFestival_2026_ASK_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_11",
+      "task_number": 31,
+      "task_template_id": "TT-008",
+      "title": "Попроси у друзей медные колечки для оберега",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "CucumberFestival_2026_GR_7": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_11",
+      "task_number": 32,
+      "task_template_id": "TT-016",
+      "title": "Получи семицветную ленточку удачи",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T20:14:15.657649+00:00"
+    },
+    "CucumberFestival_2026_R_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_11",
+      "task_number": 33,
+      "task_template_id": "TT-002",
+      "title": "Создай огуречный оберег от скуки",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    },
+    "CucumberFestival_2026_HOG_5": {
+      "pack_id": "pack_001",
+      "classname_quests": "CucumberFestival_2026_Story_12",
+      "task_number": 35,
+      "task_template_id": "TT-003",
+      "title": "Найди огуречные фанфары",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-05-01T14:59:50.246953+00:00",
+      "last_seen_at": "2026-05-01T14:59:50.246953+00:00"
+    }
+  }
+}

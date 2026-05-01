@@ -18,6 +18,15 @@ INTERACTIVE_OBJECTS_PREVIEW_NAME = "interactive_objects.preview.md"
 GENERATED_INTERACTIVE_SUMMARY_NAME = "generated_interactive_objects.summary.json"
 MIN_SELECTED_OBJECTS = 2
 CSV_ENCODING = "cp1251"
+CASE_FORMS = {
+    "Бочка с солеными огурцами": {"accusative": "Бочку с солеными огурцами"},
+    "Банка малосольных огурчиков": {"accusative": "Банку малосольных огурчиков"},
+    "Хрустящая реликвия праздника": {"accusative": "Хрустящую реликвию праздника"},
+    "Малосольная долька": {"accusative": "Малосольную дольку"},
+    "Малосольный гостинец": {"accusative": "Малосольный гостинец"},
+    "Рассольные ключики": {"accusative": "Рассольные ключики"},
+    "Душистый укроп": {"accusative": "Душистый укроп"},
+}
 
 
 @dataclass(frozen=True)
@@ -25,6 +34,7 @@ class InteractiveIngredient:
     template_id: str
     classname: str
     title: str
+    object_id: str
     amount: int = 1
 
 
@@ -67,6 +77,15 @@ def clean_text(value: Any) -> str:
     return str(value or "").strip()
 
 
+def phrase_form(value: Any, case_name: str) -> str:
+    text = clean_text(value)
+    return str((CASE_FORMS.get(text) or {}).get(case_name) or text)
+
+
+def accusative(value: Any) -> str:
+    return phrase_form(value, "accusative")
+
+
 def ensure_period(value: str) -> str:
     value = value.strip()
     if not value:
@@ -90,6 +109,18 @@ def normalize_raw_selection(raw: Any) -> dict[str, Any]:
     return {}
 
 
+def mechanic_family(mechanic_prefix: str) -> str:
+    match = re.fullmatch(r"(.+)_1", mechanic_prefix)
+    return match.group(1) if match else mechanic_prefix
+
+
+def numbered_mechanic_prefix(default_prefix: str, number: int, duplicate_count: int) -> str:
+    family = mechanic_family(default_prefix)
+    if duplicate_count > 1 or default_prefix.endswith("_1"):
+        return f"{family}_{number}"
+    return default_prefix
+
+
 def merged_selection(raw: Any, templates: dict[str, dict[str, Any]]) -> dict[str, Any]:
     selection = normalize_raw_selection(raw)
     template_id = clean_text(selection.get("template_id") or selection.get("id"))
@@ -97,7 +128,6 @@ def merged_selection(raw: Any, templates: dict[str, dict[str, Any]]) -> dict[str
     merged = dict(template.get("defaults") or {})
     merged.update(selection)
     merged["template_id"] = template_id
-    merged["object_id"] = clean_text(merged.get("object_id")) or template_id
     return merged
 
 
@@ -111,7 +141,32 @@ def selected_objects(manifest: dict[str, Any], templates: dict[str, dict[str, An
         if item.get("enabled") is False:
             continue
         result.append(item)
-    return result
+
+    family_totals: dict[str, int] = {}
+    for item in result:
+        template = templates.get(str(item.get("template_id"))) or {}
+        family = mechanic_family(clean_text(template.get("mechanic_prefix")) or str(item.get("template_id")))
+        family_totals[family] = family_totals.get(family, 0) + 1
+
+    family_seen: dict[str, int] = {}
+    normalized: list[dict[str, Any]] = []
+    for item in result:
+        template = templates.get(str(item.get("template_id"))) or {}
+        default_prefix = clean_text(template.get("mechanic_prefix")) or str(item.get("template_id"))
+        family = mechanic_family(default_prefix)
+        explicit_number = item.get("object_number")
+        if explicit_number not in (None, ""):
+            number = int(explicit_number)
+        else:
+            family_seen[family] = family_seen.get(family, 0) + 1
+            number = family_seen[family]
+        mechanic_prefix = clean_text(item.get("mechanic_prefix")) or numbered_mechanic_prefix(default_prefix, number, family_totals.get(family, 1))
+        updated = dict(item)
+        updated["object_number"] = number
+        updated["mechanic_prefix"] = mechanic_prefix
+        updated["object_id"] = clean_text(updated.get("object_id")) or mechanic_prefix.lower()
+        normalized.append(updated)
+    return normalized
 
 
 def selected_count(objects: list[dict[str, Any]], templates: dict[str, dict[str, Any]]) -> int:
@@ -196,7 +251,7 @@ def validate_manifest(
             )
         seen_object_ids.add(object_id)
 
-        result_suffix = clean_text(template.get("result_resource_suffix"))
+        result_suffix = result_resource_suffix(selection, template)
         if result_suffix in seen_result_suffixes:
             errors.append(
                 {
@@ -251,8 +306,17 @@ def validate_manifest_file(path: Path, templates_path: Path = DEFAULT_TEMPLATES_
     return validate_manifest(read_json(path), load_templates(templates_path))
 
 
-def result_resource_classname(campaign_id: str, template: dict[str, Any]) -> str:
-    return f"{campaign_id}_{template['result_resource_suffix']}"
+def result_resource_suffix(selection: dict[str, Any], template: dict[str, Any]) -> str:
+    suffix = clean_text(template.get("result_resource_suffix"))
+    default_prefix = clean_text(template.get("mechanic_prefix"))
+    mechanic_prefix = clean_text(selection.get("mechanic_prefix")) or default_prefix
+    if suffix.startswith(default_prefix):
+        return mechanic_prefix + suffix[len(default_prefix):]
+    return suffix
+
+
+def result_resource_classname(campaign_id: str, selection: dict[str, Any], template: dict[str, Any]) -> str:
+    return f"{campaign_id}_{result_resource_suffix(selection, template)}"
 
 
 def recipe_ingredients_from_manifest(
@@ -272,8 +336,9 @@ def recipe_ingredients_from_manifest(
         ingredients.append(
             InteractiveIngredient(
                 template_id=str(selection["template_id"]),
-                classname=result_resource_classname(campaign_id, template),
+                classname=result_resource_classname(campaign_id, selection, template),
                 title=title,
+                object_id=str(selection.get("object_id") or selection.get("template_id")),
                 amount=1,
             )
         )
@@ -315,7 +380,7 @@ def fit_row(row: list[Any], width: int) -> list[Any]:
 
 
 def chest_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
-    prefix = template_object_prefix(campaign_id, "Chest_1")
+    prefix = template_object_prefix(campaign_id, clean_text(selection.get("mechanic_prefix")) or "Chest_1")
     guest = f"{prefix}_Guest"
     home = f"{prefix}_Home"
     gr = f"{prefix}_GR_1"
@@ -325,11 +390,11 @@ def chest_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     result_title = clean_text(selection.get("result_resource_title"))
     description_window = first_non_empty(
         selection.get("description_window"),
-        f"Положи {activation_title} в {object_title}, чтобы получить {result_title}",
+        f"Положи {accusative(activation_title)} в {accusative(object_title)}, чтобы получить {accusative(result_title)}",
     )
     reward_description = first_non_empty(
         selection.get("reward_description"),
-        f"Собирай {result_title}, кликая на {object_title} дома и в гостях.",
+        f"Собирай {accusative(result_title)}, кликая на {accusative(object_title)} дома и в гостях.",
     )
     instruction_title = clean_text(selection.get("instruction_title"))
 
@@ -467,7 +532,7 @@ def chest_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
 
 
 def help_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
-    prefix = template_object_prefix(campaign_id, "HELP_1")
+    prefix = template_object_prefix(campaign_id, clean_text(selection.get("mechanic_prefix")) or "HELP_1")
     home = f"{prefix}_Home"
     guest = f"{prefix}_Guest"
     result = f"{prefix}_R_Opener"
@@ -691,8 +756,9 @@ def help_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
 
 
 def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
-    exchanger = f"{campaign_id}_Exchanger"
-    result = f"{campaign_id}_Exchanger_R_1"
+    mechanic_prefix = clean_text(selection.get("mechanic_prefix")) or "Exchanger"
+    exchanger = f"{campaign_id}_{mechanic_prefix}"
+    result = f"{campaign_id}_{mechanic_prefix}_R_1"
     source_mode = clean_text(selection.get("source_mode")) or "generator"
     exchanger_title = clean_text(selection.get("exchanger_title"))
     location_title = clean_text(selection.get("location_title"))
@@ -702,8 +768,8 @@ def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any
     generator_titles = [clean_text(value) for value in as_list(selection.get("generator_titles"))]
     result_title = clean_text(selection.get("result_resource_title"))
 
-    rg_classnames = [f"{campaign_id}_Exchanger_RG_{index}" for index in range(1, 6)]
-    generator_classnames = [f"{campaign_id}_Exchanger_Generator_{index}" for index in range(1, 6)]
+    rg_classnames = [f"{campaign_id}_{mechanic_prefix}_RG_{index}" for index in range(1, 6)]
+    generator_classnames = [f"{campaign_id}_{mechanic_prefix}_Generator_{index}" for index in range(1, 6)]
     rows: list[list[Any]] = []
 
     if source_mode == "generator":
@@ -822,7 +888,7 @@ def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any
                 f"{result}_Recipe",
                 f"asset={result}:1",
                 "+".join(f"asset={classname}:4" for classname in rg_classnames),
-                f"stuff={exchanger}_1",
+                f"stuff={exchanger}",
                 "",
             ]
         ],
@@ -901,7 +967,7 @@ def render_preview(campaign_id: str, pack_id: str, validation: dict[str, Any], t
     ]
     for selection in validation["objects"]:
         template = templates.get(selection.get("template_id")) or {}
-        result = f"{campaign_id}_{template.get('result_resource_suffix') or ''}"
+        result = result_resource_classname(campaign_id, selection, template) if template else ""
         title = first_non_empty(selection.get("result_resource_title"), template.get("display_name_ru"))
         lines.append(f"- `{selection.get('template_id')}` -> `{result}`: {title}")
 
@@ -960,7 +1026,7 @@ def build_interactive_objects_files(
             {
                 "template_id": template_id,
                 "object_id": selection.get("object_id") or template_id,
-                "result_resource": result_resource_classname(campaign_id, template),
+                "result_resource": result_resource_classname(campaign_id, selection, template),
                 "csv": str(output_csv),
                 "rows": len(rows),
             }

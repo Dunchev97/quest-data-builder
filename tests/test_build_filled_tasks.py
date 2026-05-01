@@ -226,6 +226,7 @@ class BuildFilledTasksTests(unittest.TestCase):
         result = build_filled_tasks(context_pack(), choices())
 
         self.assertEqual(result["summary"]["issues"], 0)
+        self.assertEqual(result["quests"][0]["helper"], "Event_2026_Character_1")
         tasks = result["quests"][0]["tasks"]
         self.assertEqual(tasks[0]["task_object"]["hint"], "Поговори с Царевна Несмеяна. Для этого просто кликни на неё. Она находится в Оранжерея.")
         self.assertEqual(tasks[1]["task_object"]["hint"], "Найди огуречный значок. Место поиска: Оранжерея. Если найти все не удаётся, можно купить подсказку.")
