@@ -2,6 +2,78 @@
 
 ЭТАП 4: ЗАПОЛНЕНИЕ TASKS
 
+## Формат context_pack.json
+
+`context_pack.json` — единственный вход для ИИ на этапе 4. Он содержит:
+- Структуру квестов (title, description, character, task_template_id)
+- **Кандидаты** для каждого таска — реальные игровые данные из `data/quest_ready_index.json`
+- **Нумерацию** для generated-сущностей (GR_1, ASK_1, HOG_1 и т.д.)
+
+### Компактный формат кандидатов
+
+Каждый кандидат содержит минимум полей, необходимых ИИ для выбора:
+
+**garbage:**
+```json
+{
+  "candidate_id": "garbage:StainedGlass",
+  "domain": "garbage",
+  "garbage_classname": "StainedGlass",
+  "garbage_title": "Витражное стекло",
+  "locations": ["Хижина Чинга", "Двор Чинга"],
+  "has_world_location": true
+}
+```
+
+**flower:**
+```json
+{
+  "candidate_id": "flower:FlowerBlueRose",
+  "domain": "flower",
+  "flower_classname": "FlowerBlueRose",
+  "flower_title": "Синяя роза"
+}
+```
+
+**collection_drop:**
+```json
+{
+  "candidate_id": "collection_drop:ApricotStoneCollection1:ApricotStone:home",
+  "domain": "collection_drop",
+  "collection_classname": "ApricotStoneCollection1",
+  "collection_title": "Абрикосовый пирог",
+  "source_classname": "ApricotStone",
+  "source_title": "Абрикосовая косточка",
+  "mode": "home",
+  "locations": ["Двор Чинга"],
+  "has_world_location": false
+}
+```
+
+**gr_garbage:**
+```json
+{
+  "candidate_id": "gr_garbage:ApricotStone:home",
+  "domain": "gr_garbage",
+  "garbage_classname": "ApricotStone",
+  "garbage_title": "Абрикосовая косточка",
+  "mode": "home",
+  "locations": ["Двор Чинга"],
+  "has_world_location": false
+}
+```
+
+**Что ИИ делает:**
+1. Читает `task_template_id` и `candidate_domain` для таска
+2. Смотрит список `candidates` — обычно 12 штук
+3. Выбирает **ровно один** `candidate_id` по смыслу квеста
+4. Записывает выбор в `task_choices.json`
+
+**Не нужно делать:**
+- Не переписывать `search_text` или `tags` кандидатов
+- Не выбирать кандидатов вне списка
+- Не думать что `candidate_id` нужно разбирать — это строка для кода
+
 ГЛОССАРИЙ ТЕРМИНОВ
 
 Термин | Описание
@@ -56,13 +128,13 @@ ASK (просьба) | [Тема]_[Год]_ASK_[Номер] | Easter_2025_ASK_1
 - `campaigns/<campaign_id>/<pack_id>/filled_tasks.json` — собирает код
 - `campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json` — пишет validator
 
-После заполнения `task_choices.json` обязательно запустить сборку и проверку:
+После сохранения `task_choices.json` ИИ обязан автоматически запустить сборку и проверку:
 
 ```bash
 python src/workflow_fast.py fill --campaign <campaign_id> --pack <pack_id>
 ```
 
-Если сборщик или валидатор нашел ошибки, нужно исправить `campaigns/<campaign_id>/<pack_id>/task_choices.json` или попросить ИИ перезаполнить конкретные task.
+После успешной сборки ИИ обязан вывести пользователю полный путь к `filled_tasks.json` и краткую сводку для проверки.
 
 ГЛАВНОЕ ПРАВИЛО ЭТАПА 4
 
@@ -340,7 +412,7 @@ Generated-предметы `GR`, `ASK`, `PER`, `CL`, `FA`, `R` должны бы
 6. Заполнить смысловые поля в `task_choices.json`: `selected_candidate_id`, `item_title`, `location_title`, `riddle`, `dialogue_replica`.
 7. Проверить, что выбранные реальные данные взяты только из `candidates`, а generated-предметы являются конкретными предметами.
 8. Сохранить итоговый JSON в `campaigns/<campaign_id>/<pack_id>/task_choices.json`.
-9. Запустить `python src/workflow_fast.py fill --campaign <campaign_id> --pack <pack_id>`.
+9. Сохранить `task_choices.json` и автоматически запустить `python src/workflow_fast.py fill --campaign <campaign_id> --pack <pack_id>`. После сборки вывести полный путь к `filled_tasks.json` и сводку validation для проверки.
 
 КРИТИЧЕСКИЕ ОШИБКИ ЭТАПА 4
 

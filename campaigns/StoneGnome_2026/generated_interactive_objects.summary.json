@@ -1,0 +1,29 @@
+{
+  "campaign_id": "StoneGnome_2026",
+  "pack_id": "pack_002",
+  "manifest": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\interactive_objects.json",
+  "selected_count": 3,
+  "files_written": [
+    {
+      "template_id": "chest_1",
+      "object_id": "chest_1",
+      "result_resource": "StoneGnome_2026_Chest_1_R_1",
+      "csv": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\generated_interactive_objects_chest_1.csv",
+      "rows": 25
+    },
+    {
+      "template_id": "help_1",
+      "object_id": "help_1",
+      "result_resource": "StoneGnome_2026_HELP_1_R_Opener",
+      "csv": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\generated_interactive_objects_help_1.csv",
+      "rows": 37
+    },
+    {
+      "template_id": "exchanger",
+      "object_id": "exchanger",
+      "result_resource": "StoneGnome_2026_Exchanger_R_1",
+      "csv": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\generated_interactive_objects_exchanger.csv",
+      "rows": 38
+    }
+  ]
+}

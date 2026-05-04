@@ -1,0 +1,255 @@
+{
+  "quests": [
+    {
+      "classname_quests": "StoneGnome_2026_Story_1",
+      "tasks": [
+        {
+          "task_number": 1,
+          "dialogue_replica": "Домовёнок, ты только посмотри! Я тут пяткой по полу постучала — и люк открылся! Там внизу что-то блестит, переливается, я даже глазам не поверила!",
+          "person": "Шапокляк"
+        },
+        {
+          "task_number": 2,
+          "selected_candidate_id": "collection_drop:ApricotStoneCollection1:ApricotStone:home",
+          "choice_reason": "Шапокляк увидела блестящие камни при открытии люка — абрикосовая косточка как драгоценный камень"
+        },
+        {
+          "task_number": 3,
+          "selected_candidate_id": "flower:FlowerBlueRose",
+          "item_title": "Подземный блёст",
+          "choice_reason": "Светящийся цветок для украшения пути к люку"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_2",
+      "tasks": [
+        {
+          "task_number": 4,
+          "item_title": "Осколки треснувшей печи",
+          "choice_reason": "HOG для поиска осколков стекла от треснувшей печи Мирослава"
+        },
+        {
+          "task_number": 5,
+          "selected_candidate_id": "garbage:StainedGlass",
+          "choice_reason": "Цветной стеклянный мусор связан с печью и стеклодувной мастерской"
+        },
+        {
+          "task_number": 6,
+          "selected_candidate_id": "flower:FlowerMagazine4_Hippeastrum",
+          "item_title": "Пламёк печи",
+          "choice_reason": "Яркий цветок, ассоциирующийся с огнём и жаром печи"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "tasks": [
+        {
+          "task_number": 7,
+          "selected_candidate_id": "garbage:BigHome_Garbage_Bar_NeonStick",
+          "choice_reason": "Неоновые палочки — яркие блестящие предметы, подходят для поиска рубина в трещинах"
+        },
+        {
+          "task_number": 8,
+          "selected_candidate_id": "flower:FlowerPinkRose",
+          "choice_reason": "Розовый цветок созвучен рубину по цвету и красоте"
+        },
+        {
+          "task_number": 9,
+          "selected_candidate_id": "gr_garbage:ArmorOfSnail:home",
+          "item_title": "Щиток рубинового стража",
+          "choice_reason": "Твёрдый блестящий предмет, ассоциируется с защитой и драгоценностями"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_4",
+      "tasks": [
+        {
+          "task_number": 10,
+          "item_title": "Смазка для шестерёнок",
+          "choice_reason": "Крафт: Мирослав создаёт смазку для механизма Борьки"
+        },
+        {
+          "task_number": 11,
+          "item_title": "Трубочка стеклодува",
+          "choice_reason": "Трубочка стеклодува — тонкий стеклянный цилиндр, через который Мирослав выдувает смолу и масло в смазку. Без неё смазку для шестерёнок не приготовить."
+        },
+        {
+          "task_number": 12,
+          "selected_candidate_id": "gr_garbage:BagOfFertilizer:guest",
+          "item_title": "Мешочек с песком",
+          "choice_reason": "Мешочек с мелким песком — абразивная составляющая смазки. Песок очищает шестерёнки от ржавчины и грязи перед нанесением масла."
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_5",
+      "tasks": [
+        {
+          "task_number": 13,
+          "selected_candidate_id": "garbage:BittingPie",
+          "riddle": "На земле лежу, в гостях меня найдёшь, убери меня скорей, загадка моя простая, но вкусная.",
+          "choice_reason": "Mystery: загадка на мусор в гостях — пирог в лабиринте"
+        },
+        {
+          "task_number": 14,
+          "selected_candidate_id": "collection_drop:GarbageFireflyCollection3:GarbageFirefly:home",
+          "riddle": "Светлюсь в темноте, летаю без крыльев, в банке меня найдёшь, уборщик мусора.",
+          "choice_reason": "Mystery: загадка на коллекцию — светлячки для светящегося лабиринта"
+        },
+        {
+          "task_number": 15,
+          "selected_candidate_id": "flower:FlowerDahlia",
+          "riddle": "Как звезда, но не на небе, красна, но не рассвет, в горшке росту, а не в поле.",
+          "choice_reason": "Mystery: загадка на цветок в гостях — яркий цветок для лабиринта"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_6",
+      "tasks": [
+        {
+          "task_number": 16,
+          "dialogue_replica": "Эх, домовёнок, я тут заблудился, как щенок в тумане! Зашёл в зал с этими вашими зеркальными камнями — и всё, ноги не слушаются, глаза разбегаются.",
+          "person": "Дед Домовед"
+        },
+        {
+          "task_number": 17,
+          "selected_candidate_id": "garbage:ClayLump",
+          "choice_reason": "Глиняные комья в гостях — материал для залепки зеркал, чтобы убрать блики"
+        },
+        {
+          "task_number": 18,
+          "selected_candidate_id": "gr_garbage:BigHome_Garbage_Overview_Ammonit:guest",
+          "item_title": "Тёмный кристалл",
+          "choice_reason": "GR из мусора гостей — тёмный кристалл для поглощения бликов"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_7",
+      "tasks": [
+        {
+          "task_number": 19,
+          "item_title": "Матовая паста",
+          "choice_reason": "Give: Мирослав создаёт пасту для матирования стеклянной лестницы"
+        },
+        {
+          "task_number": 20,
+          "item_title": "Песок рубиновых отвалов",
+          "choice_reason": "Рубиновый песок — основной абразив матовой пасты. Микрочастицы драгоценного камня в составе песка при смешивании с маслом создают шлифующую смесь, которая матовит стекло и убирает блики."
+        },
+        {
+          "task_number": 21,
+          "selected_candidate_id": "garbage:GlassblowingTube",
+          "choice_reason": "Стеклодувная трубочка — мусор из мастерской Мирослава, связан с ремонтом лестницы"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_8",
+      "tasks": [
+        {
+          "task_number": 22,
+          "item_title": "Детали шкатулки Гордона",
+          "choice_reason": "HOG: поиск деталей шкатулки, разбросанных по мастерской ювелира"
+        },
+        {
+          "task_number": 23,
+          "selected_candidate_id": "flower:FlowerCvetikSemicvetik",
+          "item_title": "Цветик-радуга",
+          "choice_reason": "Яркий разноцветный цветок для украшения шкатулки из пяти камней"
+        },
+        {
+          "task_number": 24,
+          "item_title": "Праздничный гномий танец",
+          "choice_reason": "FA: экшен на площади у друга — гномы танцуют в честь будущего шедевра"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_9",
+      "tasks": [
+        {
+          "task_number": 25,
+          "item_title": "Сумочка для кристаллов",
+          "choice_reason": "Крафт: Борька создаёт прочную сумочку, чтобы больше не рассыпать кристаллы"
+        },
+        {
+          "task_number": 26,
+          "item_title": "Плотная ткань",
+          "choice_reason": "Плотная ткань из старых рудных мешков — основа сумочки для кристаллов. Борька сшил её сам, она выдерживает вес камней и не рвётся при переноске."
+        },
+        {
+          "task_number": 27,
+          "selected_candidate_id": "collection_drop:BagOfFertilizerCollection1:BagOfFertilizer:home",
+          "choice_reason": "Силуэт коллекции: угадай и найди элемент коллекции для украшения сумочки"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_10",
+      "tasks": [
+        {
+          "task_number": 28,
+          "selected_candidate_id": "flower:FlowerBlueRose",
+          "choice_reason": "Сбор голубых роз в гостях — нежные цветы для музыкального зала"
+        },
+        {
+          "task_number": 29,
+          "selected_candidate_id": "flower:FlowerDahlia",
+          "choice_reason": "Сбор георгин дома — яркие цветы для украшения кристаллического зала"
+        },
+        {
+          "task_number": 30,
+          "selected_candidate_id": "flower:FlowerFuchsia",
+          "item_title": "Звонкая фуксия",
+          "choice_reason": "GR из цветов дома — фуксия, которая звенит как колокольчик"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_11",
+      "tasks": [
+        {
+          "task_number": 31,
+          "item_title": "Ключики от сундука",
+          "choice_reason": "HOG: поиск ключиков от старинного сундука Деда Домоведа"
+        },
+        {
+          "task_number": 32,
+          "item_title": "Праздничный гномий хоровод",
+          "choice_reason": "FA: экшен на площади у друга — гномы водят хоровод вокруг сундука"
+        },
+        {
+          "task_number": 33,
+          "selected_candidate_id": "gr_garbage:FrozenFlower:home",
+          "item_title": "Замороженная реликвия",
+          "choice_reason": "GR из мусора локации дома — холодный кристалл, подходящий для сундука"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_12",
+      "tasks": [
+        {
+          "task_number": 34,
+          "item_title": "Памятный снимок с гномами",
+          "choice_reason": "Фото предмета: запечатлеть прощальный пир с бородатыми друзьями"
+        },
+        {
+          "task_number": 35,
+          "selected_candidate_id": "flower:FlowerCvetikSemicvetik",
+          "choice_reason": "Сбор цветов дома для украшения праздничного стола"
+        },
+        {
+          "task_number": 36,
+          "selected_candidate_id": "flower:FlowerBlueRose",
+          "choice_reason": "Сбор цветов в гостях для букета на прощание"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "summary": {
+    "quests_found": 5,
+    "tasks_found": 15,
+    "valid_tasks": 15,
+    "errors": 0,
+    "warnings": 0
+  },
+  "tasks": [
+    {
+      "classname_quests": "StoneGnome_2026_Story_13",
+      "quest_number": 1,
+      "task_number": 37,
+      "task_template_id": "TT-001",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_13",
+      "quest_number": 1,
+      "task_number": 38,
+      "task_template_id": "TT-020",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_13",
+      "quest_number": 1,
+      "task_number": 39,
+      "task_template_id": "TT-011",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_14",
+      "quest_number": 2,
+      "task_number": 40,
+      "task_template_id": "TT-004",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_14",
+      "quest_number": 2,
+      "task_number": 41,
+      "task_template_id": "TT-021",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_14",
+      "quest_number": 2,
+      "task_number": 42,
+      "task_template_id": "TT-017",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "quest_number": 3,
+      "task_number": 43,
+      "task_template_id": "TT-001",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "quest_number": 3,
+      "task_number": 44,
+      "task_template_id": "TT-020",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "quest_number": 3,
+      "task_number": 45,
+      "task_template_id": "TT-015",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "quest_number": 4,
+      "task_number": 46,
+      "task_template_id": "TT-018",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "quest_number": 4,
+      "task_number": 47,
+      "task_template_id": "TT-011",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "quest_number": 4,
+      "task_number": 48,
+      "task_template_id": "TT-015",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_17",
+      "quest_number": 5,
+      "task_number": 49,
+      "task_template_id": "TT-002",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_17",
+      "quest_number": 5,
+      "task_number": 50,
+      "task_template_id": "TT-008",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_17",
+      "quest_number": 5,
+      "task_number": 51,
+      "task_template_id": "TT-014",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

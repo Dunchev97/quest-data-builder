@@ -1,0 +1,347 @@
+{
+  "quests": [
+    {
+      "classname_quests": "StoneGnome_2026_Story_13",
+      "title_quest": "Кто опрокинул суп?",
+      "quest_number": 1,
+      "description": "Домовёнок, беда! Кто-то... то есть что-то... а может, что-то кто-то! Короче, рубиновый суп разлит! По стенам брызги, на полу лужа, а рядом — следы от шестерёнок! Это же улики! Поможешь расследовать? Я уже надела свой лучший расследовательский шарф!",
+      "congratulation": "Ага! Значит старый механизм от вибрации сбросил ведро! Вот оно что... Ну, я конечно могла предположить, но так интригующе было расследовать! Спасибо, дружок, теперь я хоть знаю куда подкладывать подставку под ведро.",
+      "character": "Шапокляк",
+      "helper": "StoneGnome_2026_Character_6",
+      "tasks": [
+        {
+          "task_number": 37,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "choice_reason": "Выбор поддерживает действие квеста «Кто опрокинул суп?» и не меняет строгий шаблон задания.",
+          "task_object": {
+            "type": "action",
+            "icon": "StoneGnome_2026_Character_6",
+            "action": "StoneGnome_2026_Character_6_Dialog_1",
+            "title": "Поговори с Шапокляк",
+            "hint": "Поговори с Шапокляк. Для этого просто кликни на него. Он находится в Кухня.",
+            "go_to_location": [
+              {
+                "classname": "StoneGnome_2026_Character_6"
+              }
+            ],
+            "identifier": ""
+          },
+          "dialogue_replica": "Дружок, я тут шарфик поправила — и тут же что-то грохнулось! Следы ведут к старому механизму, а рядом валяется дырявое ведро. Похоже, его сбросил очередной виброзвон!"
+        },
+        {
+          "task_number": 38,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "selected_candidate_id": "garbage:LeakyBucket",
+          "choice_reason": "Дырявое ведро в Конюшне — ключевая улика! Именно оно упало от вибрации механизма и разлило рубиновый суп.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "LeakyBucket",
+            "in_guest": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Убери мусор Дырявое ведро в гостях",
+            "hint": "Убери мусор Дырявое ведро в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Конюшня.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 39,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:GarbageSpoonCollection1:GarbageSpoon:home",
+          "choice_reason": "Луковый суп из коллекции поварёшки — идеальное завершение кулинарного расследования Шапокляк.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "GarbageSpoonCollection1",
+            "icon": "GarbageSpoonCollection1",
+            "amount": 10,
+            "price": 20,
+            "title": "Найди Луковый суп",
+            "hint": "Луковый суп - элемент коллекции, выпадает при уборке мусора Половник дома и в гостях. Место поиска: Кухня.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_14",
+      "title_quest": "Куда делся молоток?",
+      "quest_number": 2,
+      "description": "Дружок, тут катастрофа невероятного масштаба! Мой рабочий молоток — тот, что я тридцать лет точил — пропал! Без него я как стеклодув без рук! Посмотри в мастерской, может, завалился под полку? Или в печь упал? Или кто-то... укатил?! Это невыносимо!",
+      "congratulation": "Что?! Борька укатил его в шахту?! На тачке?! Ну, конечно, а как иначе... Ладно, главное — нашёлся. Спасибо, дружок, теперь я снова могу творить! А Борьке я лично вылью целый чан обломков стекла.",
+      "character": "Мирослав Щербатый",
+      "helper": "StoneGnome_2026_Character_7",
+      "tasks": [
+        {
+          "task_number": 40,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "HOG: поиск молотка Мирослава среди завалов стеклянных обломков и металлической стружки.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "StoneGnome_2026_HOG_4",
+            "search_action": "search_StoneGnome_2026_HOG_4",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "StoneGnome_2026_HOG_4"
+              }
+            ],
+            "amount": 20,
+            "price": 20,
+            "title": "Найди Обломки и стружка в мастерской",
+            "hint": "Найди Обломки и стружка в мастерской. Место поиска: Двор Чинга. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 41,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname",
+          "selected_candidate_id": "garbage:ApricotStone",
+          "choice_reason": "Абрикосовые косточки во дворе — Борька подобрал их вместе с молотком, перепутав с добычей.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "ApricotStone",
+            "amount": 20,
+            "price": 40,
+            "title": "Убери мусор Абрикосовая косточка дома",
+            "hint": "Убери мусор Абрикосовая косточка дома. Для этого просто кликни на нужный мусор дома. Место поиска: Двор Чинга.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 42,
+          "task_template_id": "TT-017",
+          "task_template_name": "GR с цветов дома",
+          "task_type": "get_asset GR flower",
+          "selected_candidate_id": "flower:FlowerFive",
+          "choice_reason": "Яркая роза для украшения мастерской Мирослава после поиска молотка, напоминающая рубиновый блеск.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_GR_9",
+            "icon": "StoneGnome_2026_GR_9",
+            "amount": 40,
+            "price": 30,
+            "title": "Получи Рубиновая роза",
+            "hint": "Собирай цветы Роза дома, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "title_quest": "Почему гаснут фонари?",
+      "quest_number": 3,
+      "description": "Домовёнок, тут дела страшные! Фонари гаснут один за другим, прямо на моих глазах! Это не просто так — это призраки старых шахт, я сто пудов уверен! Я такое видел в молодости... ну, или слышал... ну, точно читал где-то! Поможешь разобраться? А то мне уже и ворочаться страшно.",
+      "congratulation": "А, пыль и крошка забили кристаллы? Ну конечно! А я-то думал... Ха! Призраки! В моё время тоже пыль была настоящая, не вот эта ваша современная. Спасибо, дружок, теперь светло и можно спать спокойно. Хотя я, конечно, и рассчитывал на привидение...",
+      "character": "Дед Домовед",
+      "helper": "StoneGnome_2026_Character_8",
+      "tasks": [
+        {
+          "task_number": 43,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "choice_reason": "Выбор поддерживает действие квеста «Почему гаснут фонари?» и не меняет строгий шаблон задания.",
+          "task_object": {
+            "type": "action",
+            "icon": "StoneGnome_2026_Character_8",
+            "action": "StoneGnome_2026_Character_8_Dialog_2",
+            "title": "Поговори с Дед Домовед",
+            "hint": "Поговори с Дед Домовед. Для этого просто кликни на него. Он находится в Серверная комната.",
+            "go_to_location": [
+              {
+                "classname": "StoneGnome_2026_Character_8"
+              }
+            ],
+            "identifier": ""
+          },
+          "dialogue_replica": "Эх, дружок, фонари гаснут один за другим! Я думал, это призраки старых шахт, а оказалось — никакие не призраки! Но без света мне и чихнуть страшно, не то что механизмы чинить!"
+        },
+        {
+          "task_number": 44,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "selected_candidate_id": "garbage:Chips",
+          "choice_reason": "Стружка в мастерской — источник пыли и крошки, которые забивают кристаллы фонарей и гасят свет.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "Chips",
+            "in_guest": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Убери мусор Стружка в гостях",
+            "hint": "Убери мусор Стружка в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Мастерская, Гараж, Голубятня.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 45,
+          "task_template_id": "TT-015",
+          "task_template_name": "GR с конкретного мусора дома",
+          "task_type": "get_asset GR garbage classname",
+          "selected_candidate_id": "gr_garbage:Ashes:home",
+          "choice_reason": "Пепел из котельной — основа для очищающей крошки, которая удаляет нагар и пыль с кристаллов фонарей.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_GR_10",
+            "icon": "StoneGnome_2026_GR_10",
+            "amount": 15,
+            "price": 30,
+            "title": "Найди Очищающая кристаллическая крошка",
+            "hint": "Убирай мусор Пепел дома, чтобы найти. Место поиска: Котельная.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "title_quest": "Перепутанные драгоценности",
+      "quest_number": 4,
+      "description": "Домовёнок, ТРАГЕДИЯ невиданных масштабов! Моя шкатулка — моя жизнь, моя гордость! — разворочена! Рубины с сапфирами! Изумруды без изумрудов! А янтаря вообще нет! Это подстава! Это заговор! Поможешь найти пропажу? Мне нужно всё вернуть на места, а то я просто не могу дышать в этом хаосе!",
+      "congratulation": "Дед Домовед?! Он пытался «помочь»?! И янтарь в его кармане?! Боже мой, ну конечно! Старик всегда всё теряет, но чтобы прямо в кармане... Ладно, главное — камни на месте. Спасибо, дружок, теперь я опять могу спокойно любоваться своими сокровищами. А Деду я подарю специальный ящик — «не трогать».",
+      "character": "Гордон Рубиновый",
+      "helper": "StoneGnome_2026_Character_9",
+      "tasks": [
+        {
+          "task_number": 46,
+          "task_template_id": "TT-018",
+          "task_template_name": "Сбор цветов дома (зависит от времени роста)",
+          "task_type": "action take_crop",
+          "selected_candidate_id": "flower:FlowerPeony",
+          "choice_reason": "Пионы для украшения шкатулки Гордона и придания ей уютного вида после переполоха.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop",
+            "param": "FlowerPeony",
+            "amount": 30,
+            "price": 20,
+            "title": "Собери Пион дома",
+            "hint": "Собирай Пион дома. Чтобы собрать растение, кликни на горшок с нужным растением",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 47,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:PickCollection2:Pick:home",
+          "choice_reason": "Янтарь из коллекции кирки — пропавший камень из шкатулки, который Дед Домовед случайно запихнул в карман.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "PickCollection2",
+            "icon": "PickCollection2",
+            "amount": 10,
+            "price": 20,
+            "title": "Найди Янтарь",
+            "hint": "Янтарь - элемент коллекции, выпадает при уборке мусора Кирка дома и в гостях. Место поиска: Сокровищница, Пещера.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 48,
+          "task_template_id": "TT-015",
+          "task_template_name": "GR с конкретного мусора дома",
+          "task_type": "get_asset GR garbage classname",
+          "selected_candidate_id": "gr_garbage:BigHome_Garbage_Overview_Silver:home",
+          "choice_reason": "Родированное серебро для создания оправы перепутанным драгоценностям Гордона.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_GR_11",
+            "icon": "StoneGnome_2026_GR_11",
+            "amount": 15,
+            "price": 30,
+            "title": "Найди Серебряная оправа",
+            "hint": "Убирай мусор Родированное серебро дома, чтобы найти. Место поиска: Обзорная.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_17",
+      "title_quest": "Механизм встал — дело раскрыто",
+      "quest_number": 5,
+      "description": "Домовёнок, СТОП все работы! Главный механизм встал. Сундук не открывается, фонари не горят, печь не жарит. Всё потому что мелкие беды из прошлого никто не чинил — суп на рычаге, янтарь в шестерёнке, пыль в кристаллах. Нужно всё собрать, разобрать и починить. Не то городу конец. Поможешь? Тут без друга не справлюсь, борода мешает в механизмах лезть.",
+      "congratulation": "Вот так! Механизм работает, горы руды идут, фонари горят, рубины блестят! Я знал, что вместе мы справимся. Спасибо тебе, дружок, ты настоящий друг подземелья! А вообще... может, ты ещё задержишься? У нас тут ещё одна пещера завалилась...",
+      "character": "Борька Тихий Ход",
+      "helper": "StoneGnome_2026_Character_10",
+      "tasks": [
+        {
+          "task_number": 49,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Крафт: Борька собирает компоненты для создания смазки, которая разблокирует главный механизм и вернёт свет в город.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "StoneGnome_2026_R_3",
+            "icon": "StoneGnome_2026_R_3",
+            "amount": 1,
+            "title": "Создай Кристаллическая смазка для шестерёнок",
+            "go_to_location": [
+              {
+                "classname": "StoneGnome_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 50,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "selected_candidate_id": null,
+          "choice_reason": "Шестерёнка из дымчатого кварца — основной компонент кристаллической смазки. Её микрочастицы перемалываются в абразивный порошок, который смешивают с маслом для создания смазки.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_ASK_2",
+            "icon": "StoneGnome_2026_ASK_2",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей Шестерёнка из дымчатого кварца",
+            "hint": "Попроси у друзей или купи.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 51,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "selected_candidate_id": "gr_garbage:GarbageSpoon:guest",
+          "choice_reason": "Металлический порошок, выделенный из половника, — второй абразивный компонент кристаллической смазки. Смешивается с порошком шестерёнки и маслом, создавая густую смесь для рычагов.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_GR_12",
+            "icon": "StoneGnome_2026_GR_12",
+            "amount": 40,
+            "price": 40,
+            "title": "Найди Смывка для рычагов",
+            "hint": "Убирай мусор Половник в гостях, чтобы найти. Место поиска: Кухня.",
+            "identifier": ""
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,623 @@
+{
+  "quests": [
+    {
+      "classname_quests": "StoneGnome_2026_Story_1",
+      "title_quest": "Люк в подвале",
+      "quest_number": 1,
+      "task_numbers": [
+        1,
+        2,
+        3
+      ],
+      "task_template_ids": [
+        "TT-001",
+        "TT-011",
+        "TT-016"
+      ],
+      "task_template_names": [
+        "Диалог",
+        "Получить элемент коллекции (зависит от редкости)",
+        "GR с цветов в гостях"
+      ],
+      "task_types": [
+        "action dialog",
+        "get_asset Collection",
+        "get_asset GR in_guest flower"
+      ],
+      "description": "Домовёнок, ты только посмотри! Я тут пяткой по полу постучала — и люк открылся! Там внизу что-то блестит, переливается, я даже глазам не поверила! Поможешь убрать вокруг мусор и всё подготовить? А то я одна туда не полезу, мне ж страшно... ну, чуть-чуть страшно, но очень интересно!",
+      "congratulation": "Ура, дорожка свободна! Теперь точно спустимся и увидим все эти чудеса! Спасибо, дружок, без тебя бы я только верхушку люка разглядывала.",
+      "character": "Шапокляк",
+      "raw_text": "Classname quests: StoneGnome_2026_Story_1\ntitle_quest: Люк в подвале\n№ quest: 1\n№ task: 1 2 3\nTask template ID: TT-001 / TT-011 / TT-016\nTask template name: Диалог / Получить элемент коллекции (зависит от редкости) / GR с цветов в гостях\nTask type: action dialog / get_asset Collection / get_asset GR in_guest flower\ndescription: \"Домовёнок, ты только посмотри! Я тут пяткой по полу постучала — и люк открылся! Там внизу что-то блестит, переливается, я даже глазам не поверила! Поможешь убрать вокруг мусор и всё подготовить? А то я одна туда не полезу, мне ж страшно... ну, чуть-чуть страшно, но очень интересно!\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Ура, дорожка свободна! Теперь точно спустимся и увидим все эти чудеса! Спасибо, дружок, без тебя бы я только верхушку люка разглядывала.\"\nCharacter: Шапокляк\n\nОбоснование:\n1. Контекст: Мирослав чинит треснувшую печь.\n2. Логика выбора: позиция Q2 — HOG #1 + Уборка дома + GR цветов дома.\n3. Проверка паттернов: первый HOG; уборка дома; разнообразие.\n4. Уникальность: TT-004 первая.",
+      "tasks": [
+        {
+          "task_number": 1,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog"
+        },
+        {
+          "task_number": 2,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection"
+        },
+        {
+          "task_number": 3,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_2",
+      "title_quest": "Печь дала трещину",
+      "quest_number": 2,
+      "task_numbers": [
+        4,
+        5,
+        6
+      ],
+      "task_template_ids": [
+        "TT-004",
+        "TT-021",
+        "TT-017"
+      ],
+      "task_template_names": [
+        "HOG на локации",
+        "Уборка конкретного мусора дома",
+        "GR с цветов дома"
+      ],
+      "task_types": [
+        "HOG clean_debris location",
+        "garbage classname",
+        "get_asset GR flower"
+      ],
+      "description": "Ой-ой-ой, дружок, беда невиданная! Печь моя, родимая, треснула, трещина идёт вот так — зигзагом, и стекло сыпется! Если сейчас не подкрепить и не заделать, все мои заготовки застыдутся и пойдут трещинами. Поможешь найти смесь для заделки и укрепления?",
+      "congratulation": "Фух, ты спаситель! Печь стоит, стекло не трескается. Теперь можно дальше работать. А то я уж думал, мой хрустальный шар так и останется мечтой...",
+      "character": "Мирослав Щербатый",
+      "raw_text": "Classname quests: StoneGnome_2026_Story_2\ntitle_quest: Печь дала трещину\n№ quest: 2\n№ task: 4 5 6\nTask template ID: TT-004 / TT-021 / TT-017\nTask template name: HOG на локации / Уборка конкретного мусора дома / GR с цветов дома\nTask type: HOG clean_debris location / garbage classname / get_asset GR flower\ndescription: \"Ой-ой-ой, дружок, беда невиданная! Печь моя, родимая, треснула, трещина идёт вот так — зигзагом, и стекло сыпется! Если сейчас не подкрепить и не заделать, все мои заготовки застыдутся и пойдут трещинами. Поможешь найти смесь для заделки и укрепления?\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Фух, ты спаситель! Печь стоит, стекло не трескается. Теперь можно дальше работать. А то я уж думал, мой хрустальный шар так и останется мечтой...\"\nCharacter: Мирослав Щербатый\n\nОбоснование:\n1. Контекст: Гордон потерял рубин. Ищем скрытые предметы.\n2. Логика выбора: позиция Q3 — Силуэт группа 2 + GR из мусора дома.\n3. Проверка паттернов: силуэты группой (2 задания); первый силуэт pack.\n4. Уникальность: TT-030 и TT-032 первые.",
+      "tasks": [
+        {
+          "task_number": 4,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location"
+        },
+        {
+          "task_number": 5,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname"
+        },
+        {
+          "task_number": 6,
+          "task_template_id": "TT-017",
+          "task_template_name": "GR с цветов дома",
+          "task_type": "get_asset GR flower"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "title_quest": "Где мой рубинчик",
+      "quest_number": 3,
+      "task_numbers": [
+        7,
+        8,
+        9
+      ],
+      "task_template_ids": [
+        "TT-030",
+        "TT-032",
+        "TT-015"
+      ],
+      "task_template_names": [
+        "Силуэт мусора дома",
+        "Силуэт цветка дома (зависит от времени роста)",
+        "GR с конкретного мусора дома"
+      ],
+      "task_types": [
+        "garbage classname is_silhouette",
+        "action take_crop is_silhouette",
+        "get_asset GR garbage classname"
+      ],
+      "description": "Домовёнок, трагедия невыносимая! Мой любимый рубин — тот, что я три года огранивал — скатился в щель между камнями! Без него я как ювелир ничто, пустое место в бархатном поясе! Поможешь отыскать? А то я так и буду стоять над трещиной и ворчать.",
+      "congratulation": "Нашёлся, родимый! Ах, как блестит, как переливается! Теперь я снова могу творить шедевры. Спасибо, дружок, ты просто герой подземного мира!",
+      "character": "Гордон Рубиновый",
+      "raw_text": "Classname quests: StoneGnome_2026_Story_3\ntitle_quest: Где мой рубинчик\n№ quest: 3\n№ task: 7 8 9\nTask template ID: TT-030 / TT-032 / TT-015\nTask template name: Силуэт мусора дома / Силуэт цветка дома (зависит от времени роста) / GR с конкретного мусора дома\nTask type: garbage classname is_silhouette / action take_crop is_silhouette / get_asset GR garbage classname\ndescription: \"Домовёнок, трагедия невыносимая! Мой любимый рубин — тот, что я три года огранивал — скатился в щель между камнями! Без него я как ювелир ничто, пустое место в бархатном поясе! Поможешь отыскать? А то я так и буду стоять над трещиной и ворчать.\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Нашёлся, родимый! Ах, как блестит, как переливается! Теперь я снова могу творить шедевры. Спасибо, дружок, ты просто герой подземного мира!\"\nCharacter: Гордон Рубиновый\n\nОбоснование:\n1. Контекст: Борька сломал механизм. Создаём смазку/заплатку.\n2. Логика выбора: позиция Q4 — Крафт #1 + ASK #1 + GR мусора гость (TT-014 #1).\n3. Проверка паттернов: craft на позиции 4; ASK для компонентов; TT-014 первая из двух.\n4. Уникальность: первая craft-like; первая ASK.",
+      "tasks": [
+        {
+          "task_number": 7,
+          "task_template_id": "TT-030",
+          "task_template_name": "Силуэт мусора дома",
+          "task_type": "garbage classname is_silhouette"
+        },
+        {
+          "task_number": 8,
+          "task_template_id": "TT-032",
+          "task_template_name": "Силуэт цветка дома (зависит от времени роста)",
+          "task_type": "action take_crop is_silhouette"
+        },
+        {
+          "task_number": 9,
+          "task_template_id": "TT-015",
+          "task_template_name": "GR с конкретного мусора дома",
+          "task_type": "get_asset GR garbage classname"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_4",
+      "title_quest": "Борода в шестерёнки",
+      "quest_number": 4,
+      "task_numbers": [
+        10,
+        11,
+        12
+      ],
+      "task_template_ids": [
+        "TT-002",
+        "TT-008",
+        "TT-014"
+      ],
+      "task_template_names": [
+        "Крафт",
+        "Получить ASK",
+        "GR с конкретного мусора в гостях"
+      ],
+      "task_types": [
+        "get_and_decrease_asset craft",
+        "get_asset ASK",
+        "get_asset GR in_guest garbage classname"
+      ],
+      "description": "Эх, домовёнок... Борода мешает, как всегда. Ремонтировал я подъёмник, а борода в шестерёнки попала — щёлк, и всё разлетелось. Теперь руда не поднимается, механизм стоит. Поможешь разобрать и собрать заново? Только аккуратно, тут темно и много деталей.",
+      "congratulation": "Вот так, теперь крутится, как надо. Борода пока отодвинута. Спасибо, дружок, без тебя бы я ещё долго сидел в темноте и ворчал.",
+      "character": "Борька Тихий Ход",
+      "raw_text": "Classname quests: StoneGnome_2026_Story_4\ntitle_quest: Борода в шестерёнки\n№ quest: 4\n№ task: 10 11 12\nTask template ID: TT-002 / TT-008 / TT-014\nTask template name: Крафт / Получить ASK / GR с конкретного мусора в гостях\nTask type: get_and_decrease_asset craft / get_asset ASK / get_asset GR in_guest garbage classname\ndescription: \"Эх, домовёнок... Борода мешает, как всегда. Ремонтировал я подъёмник, а борода в шестерёнки попала — щёлк, и всё разлетелось. Теперь руда не поднимается, механизм стоит. Поможешь разобрать и собрать заново? Только аккуратно, тут темно и много деталей.\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Вот так, теперь крутится, как надо. Борода пока отодвинута. Спасибо, дружок, без тебя бы я ещё долго сидел в темноте и ворчал.\"\nCharacter: Борька Тихий Ход\n\nОбоснование:\n1. Контекст: Шапокляк чистит светящийся лабиринт. Загадки!\n2. Логика выбора: позиция Q5 — Mystery группа 3 + цветы гость.\n3. Проверка паттернов: 3 mystery задания в одном квесте; первый mystery pack.\n4. Уникальность: первая mystery группа.",
+      "tasks": [
+        {
+          "task_number": 10,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft"
+        },
+        {
+          "task_number": 11,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK"
+        },
+        {
+          "task_number": 12,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_5",
+      "title_quest": "Светящийся лабиринт",
+      "quest_number": 5,
+      "task_numbers": [
+        13,
+        14,
+        15
+      ],
+      "task_template_ids": [
+        "TT-024",
+        "TT-026",
+        "TT-022"
+      ],
+      "task_template_names": [
+        "Загадка на мусор в гостях",
+        "Загадка на коллекцию (зависит от редкости)",
+        "Загадка на цветок в гостях"
+      ],
+      "task_types": [
+        "garbage classname in_guest mystery",
+        "get_asset Collection mystery",
+        "action take_crop_in_guest mystery"
+      ],
+      "description": "Домовёнок, тут такое чудо! Я нашла лабиринт, а в нём камни светятся — зелёным, голубым, розовым! Но тропинка завалена всяким хламом, и пройти нельзя. Поможешь расчистить? А потом самые красивые кристаллы соберём, они же такие блестящие...",
+      "congratulation": "Ура, проход свободен! И смотри, какие камни мы нашли — они переливаются, как радуга! Спасибо, дружок, теперь этот лабиринт моё любимое место.",
+      "character": "Шапокляк",
+      "raw_text": "Classname quests: StoneGnome_2026_Story_5\ntitle_quest: Светящийся лабиринт\n№ quest: 5\n№ task: 13 14 15\nTask template ID: TT-024 / TT-026 / TT-022\nTask template name: Загадка на мусор в гостях / Загадка на коллекцию (зависит от редкости) / Загадка на цветок в гостях\nTask type: garbage classname in_guest mystery / get_asset Collection mystery / action take_crop_in_guest mystery\ndescription: \"Домовёнок, тут такое чудо! Я нашла лабиринт, а в нём камни светятся — зелёным, голубым, розовым! Но тропинка завалена всяким хламом, и пройти нельзя. Поможешь расчистить? А потом самые красивые кристаллы соберём, они же такие блестящие...\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Ура, проход свободен! И смотри, какие камни мы нашли — они переливаются, как радуга! Спасибо, дружок, теперь этот лабиринт моё любимое место.\"\nCharacter: Шапокляк\n\nОбоснование:\n1. Контекст: Дед заблудился в бликах. Нужно убрать путь.\n2. Логика выбора: позиция Q6 — Диалог #2 + Уборка мусора гость + TT-014 #2 (последняя).\n3. Проверка паттернов: TT-001 вторая (макс 2); TT-014 вторая (макс 2).\n4. Уникальность: TT-001 последняя; TT-014 последняя.",
+      "tasks": [
+        {
+          "task_number": 13,
+          "task_template_id": "TT-024",
+          "task_template_name": "Загадка на мусор в гостях",
+          "task_type": "garbage classname in_guest mystery"
+        },
+        {
+          "task_number": 14,
+          "task_template_id": "TT-026",
+          "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection mystery"
+        },
+        {
+          "task_number": 15,
+          "task_template_id": "TT-022",
+          "task_template_name": "Загадка на цветок в гостях",
+          "task_type": "action take_crop_in_guest mystery"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_6",
+      "title_quest": "Заблудился в бликах",
+      "quest_number": 6,
+      "task_numbers": [
+        16,
+        17,
+        18
+      ],
+      "task_template_ids": [
+        "TT-001",
+        "TT-020",
+        "TT-014"
+      ],
+      "task_template_names": [
+        "Диалог",
+        "Уборка конкретного мусора в гостях",
+        "GR с конкретного мусора в гостях"
+      ],
+      "task_types": [
+        "action dialog",
+        "garbage classname in_guest",
+        "get_asset GR in_guest garbage classname"
+      ],
+      "description": "Эх, домовёнок, я тут заблудился, как щенок в тумане! Зашёл в зал с этими вашими зеркальными камнями — и всё, ноги не слушаются, глаза разбегаются. Всё отражается, всё бликует, я даже себя в трёх экземплярах вижу. Поможешь вывести меня отсюда? А то я уже начал ворчать, что вот раньше кристаллы были понятнее...",
+      "congratulation": "Ах, свежий воздух, ну или хотя бы привычная темнота! Спасибо, дружок, вывел меня из этого зеркального кошмара. Теперь я знаю — к зеркальным кристаллам только с фонарём и картой.",
+      "character": "Дед Домовед",
+      "raw_text": "Classname quests: StoneGnome_2026_Story_6\ntitle_quest: Заблудился в бликах\n№ quest: 6\n№ task: 16 17 18\nTask template ID: TT-001 / TT-020 / TT-014\nTask template name: Диалог / Уборка конкретного мусора в гостях / GR с конкретного мусора в гостях\nTask type: action dialog / garbage classname in_guest / get_asset GR in_guest garbage classname\ndescription: \"Эх, домовёнок, я тут заблудился, как щенок в тумане! Зашёл в зал с этими вашими зеркальными камнями — и всё, ноги не слушаются, глаза разбегаются. Всё отражается, всё бликует, я даже себя в трёх экземплярах вижу. Поможешь вывести меня отсюда? А то я уже начал ворчать, что вот раньше кристаллы были понятнее...\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Ах, свежий воздух, ну или хотя бы привычная темнота! Спасибо, дружок, вывел меня из этого зеркального кошмара. Теперь я знаю — к зеркальным кристаллам только с фонарём и картой.\"\nCharacter: Дед Домовед\n\nОбоснование:\n1. Контекст: Мирослав делает прозрачную лестницу матовой. Передача предмета.\n2. Логика выбора: позиция Q7 — Give-like #2 + PER #1 + Уборка дома.\n3. Проверка паттернов: TT-033 give-like; PER первый; между craft Q4 и give Q7 = 2 квеста (Q5, Q6).\n4. Уникальность: первая PER.",
+      "tasks": [
+        {
+          "task_number": 16,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog"
+        },
+        {
+          "task_number": 17,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest"
+        },
+        {
+          "task_number": 18,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_7",
+      "title_quest": "Стеклянная лестница",
+      "quest_number": 7,
+      "task_numbers": [
+        19,
+        20,
+        21
+      ],
+      "task_template_ids": [
+        "TT-033",
+        "TT-009",
+        "TT-021"
+      ],
+      "task_template_names": [
+        "Передача предмета",
+        "Получить PER",
+        "Уборка конкретного мусора дома"
+      ],
+      "task_types": [
+        "action give",
+        "get_asset PER",
+        "garbage classname"
+      ],
+      "description": "Дружок, кошмар невыносимый! Я построил лестницу в мастерскую из идеального стекла — прозрачного, чистого, без единого пузырька! А она оказалась слишком прозрачной... Борька уже трижды ударился лбом, потому что не видит ступеней. Мирослав трясётся, путает слова, не знает что делать. Поможешь найти песок для матирования или что-то, чтобы ступени хоть чуть-чуть заметны стали?",
+      "congratulation": "Фух, наконец-то ступени видны! Борька снова ходит с целым лбом. Спасибо, дружок, теперь моя лестница и красивая, и безопасная. А то я уж думал, придётся её разбивать...",
+      "character": "Мирослав Щербатый",
+      "raw_text": "Classname quests: StoneGnome_2026_Story_7\ntitle_quest: Стеклянная лестница\n№ quest: 7\n№ task: 19 20 21\nTask template ID: TT-033 / TT-009 / TT-021\nTask template name: Передача предмета / Получить PER / Уборка конкретного мусора дома\nTask type: action give / get_asset PER / garbage classname\ndescription: \"Дружок, кошмар невыносимый! Я построил лестницу в мастерскую из идеального стекла — прозрачного, чистого, без единого пузырька! А она оказалась слишком прозрачной... Борька уже трижды ударился лбом, потому что не видит ступеней. Мирослав трясётся, путает слова, не знает что делать. Поможешь найти песок для матирования или что-то, чтобы ступени хоть чуть-чуть заметны стали?\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Фух, наконец-то ступени видны! Борька снова ходит с целым лбом. Спасибо, дружок, теперь моя лестница и красивая, и безопасная. А то я уж думал, придётся её разбивать...\"\nCharacter: Мирослав Щербатый\n\nОбоснование:\n1. Контекст: Гордон создаёт шкатулку из камней. HOG + коллекция.\n2. Логика выбора: позиция Q8 — HOG #2 + Коллекция #2 + FA.\n3. Проверка паттернов: HOG второй (после Q2); коллекция вторая (после Q1); FA первый.\n4. Уникальность: без повторов TT.",
+      "tasks": [
+        {
+          "task_number": 19,
+          "task_template_id": "TT-033",
+          "task_template_name": "Передача предмета",
+          "task_type": "action give"
+        },
+        {
+          "task_number": 20,
+          "task_template_id": "TT-009",
+          "task_template_name": "Получить PER",
+          "task_type": "get_asset PER"
+        },
+        {
+          "task_number": 21,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_8",
+      "title_quest": "Шкатулка для шедевра",
+      "quest_number": 8,
+      "task_numbers": [
+        22,
+        23,
+        24
+      ],
+      "task_template_ids": [
+        "TT-004",
+        "TT-016",
+        "TT-012"
+      ],
+      "task_template_names": [
+        "HOG на локации",
+        "GR с цветов в гостях",
+        "Получить FA (экшен на площади у друга)"
+      ],
+      "task_types": [
+        "HOG clean_debris location",
+        "get_asset GR in_guest flower",
+        "get_asset FA"
+      ],
+      "description": "Домовёнок, великий день настал! Я решил создать свой главный шедевр — шкатулку из пяти драгоценных камней! Рубин, сапфир, янтарь, аметист, изумруд — всё должно быть гранёным и безупречным! Но детали разбросаны по мастерской, я сам не справлюсь. Поможешь собрать? Это будет такая шкатулка, что все гномы ахнут!",
+      "congratulation": "Вот она, моя гордость! Шкатулка готова, камни сияют, замок щёлкает как часики. Спасибо, дружок, теперь в моей мастерской есть настоящее чудо! Я даже пояс новый куплю, чтобы соответствовать.",
+      "character": "Гордон Рубиновый",
+      "raw_text": "Classname quests: StoneGnome_2026_Story_8\ntitle_quest: Шкатулка для шедевра\n№ quest: 8\n№ task: 22 23 24\nTask template ID: TT-004 / TT-016 / TT-012\nTask template name: HOG на локации / GR с цветов в гостях / Получить FA (экшен на площади у друга)\nTask type: HOG clean_debris location / get_asset GR in_guest flower / get_asset FA\ndescription: \"Домовёнок, великий день настал! Я решил создать свой главный шедевр — шкатулку из пяти драгоценных камней! Рубин, сапфир, янтарь, аметист, изумруд — всё должно быть гранёным и безупречным! Но детали разбросаны по мастерской, я сам не справлюсь. Поможешь собрать? Это будет такая шкатулка, что все гномы ахнут!\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Вот она, моя гордость! Шкатулка готова, камни сияют, замок щёлкает как часики. Спасибо, дружок, теперь в моей мастерской есть настоящее чудо! Я даже пояс новый куплю, чтобы соответствовать.\"\nCharacter: Гордон Рубиновый\n\nОбоснование:\n1. Контекст: Борька рассыпал кристаллы. Создаём сумочку/мешочек для сбора.\n2. Логика выбора: позиция Q9 — Крафт #3 + PER #2 + Силуэт коллекции.\n3. Проверка паттернов: craft третий (Q4, Q7, Q9); PER второй; силуэт коллекции.\n4. Уникальность: ТТ-028 первая; PER вторая.",
+      "tasks": [
+        {
+          "task_number": 22,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location"
+        },
+        {
+          "task_number": 23,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower"
+        },
+        {
+          "task_number": 24,
+          "task_template_id": "TT-012",
+          "task_template_name": "Получить FA (экшен на площади у друга)",
+          "task_type": "get_asset FA"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_9",
+      "title_quest": "Кристаллы раскатались",
+      "quest_number": 9,
+      "task_numbers": [
+        25,
+        26,
+        27
+      ],
+      "task_template_ids": [
+        "TT-002",
+        "TT-009",
+        "TT-028"
+      ],
+      "task_template_names": [
+        "Крафт",
+        "Получить PER",
+        "Силуэт элемент коллекции (зависит от редкости)"
+      ],
+      "task_types": [
+        "get_and_decrease_asset craft",
+        "get_asset PER",
+        "get_asset Collection is_silhouette"
+      ],
+      "description": "Эх, домовёнок... Опять борода. Нёс я мешок с драгоценными кристаллами — споткнулся, как всегда, о свою собственную бороду — и всё рассыпалось по шахте. Теперь камни в щелях, в щебёнке, в воде. Нужно собрать, пока никто не ступил и не раздавил. Поможешь?",
+      "congratulation": "Собрали все, ничего не потеряли. Даже тот маленький, что в щель укатился — нашёлся. Спасибо, дружок, без тебя бы я до сих пор на коленях лазил.",
+      "character": "Борька Тихий Ход",
+      "raw_text": "Classname quests: StoneGnome_2026_Story_9\ntitle_quest: Кристаллы раскатались\n№ quest: 9\n№ task: 25 26 27\nTask template ID: TT-002 / TT-009 / TT-028\nTask template name: Крафт / Получить PER / Силуэт элемент коллекции (зависит от редкости)\nTask type: get_and_decrease_asset craft / get_asset PER / get_asset Collection is_silhouette\ndescription: \"Эх, домовёнок... Опять борода. Нёс я мешок с драгоценными кристаллами — споткнулся, как всегда, о свою собственную бороду — и всё рассыпалось по шахте. Теперь камни в щелях, в щебёнке, в воде. Нужно собрать, пока никто не ступил и не раздавил. Поможешь?\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Собрали все, ничего не потеряли. Даже тот маленький, что в щель укатился — нашёлся. Спасибо, дружок, без тебя бы я до сих пор на коленях лазил.\"\nCharacter: Борька Тихий Ход\n\nОбоснование:\n1. Контекст: Шапокляк починила музыкальный кристалл. Собираем цветы для мелодии.\n2. Логика выбора: позиция Q10 — Цветы: гость + дома + GR дома. Только цветы!\n3. Проверка паттернов: разнообразие без HOG/craft/dialog.\n4. Уникальность: нет повторов TT.",
+      "tasks": [
+        {
+          "task_number": 25,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft"
+        },
+        {
+          "task_number": 26,
+          "task_template_id": "TT-009",
+          "task_template_name": "Получить PER",
+          "task_type": "get_asset PER"
+        },
+        {
+          "task_number": 27,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_10",
+      "title_quest": "Разбитая мелодия",
+      "quest_number": 10,
+      "task_numbers": [
+        28,
+        29,
+        30
+      ],
+      "task_template_ids": [
+        "TT-019",
+        "TT-018",
+        "TT-017"
+      ],
+      "task_template_names": [
+        "Сбор цветов в гостях",
+        "Сбор цветов дома (зависит от времени роста)",
+        "GR с цветов дома"
+      ],
+      "task_types": [
+        "action take_crop_in_guest",
+        "action take_crop",
+        "get_asset GR flower"
+      ],
+      "description": "Домовёнок, тут беда прямо музыкальная! Я нашла зал, где кристаллы звенят, если их коснуться — гномы тут каждый вечер песни играют. Но один кристалл треснул, и теперь вся мелодия поехала — звучит как кот в пустом барабане! Гномы в ужасе, а я хочу услышать настоящую подземную песню. Поможешь починить?",
+      "congratulation": "Слушай, как звучит! Чисто, звонко, как настоящая подземная колыбельная! Спасибо, дружок, теперь я могу тут сидеть часами и слушать. Гномы тоже обрадовались — уже танцуют.",
+      "character": "Шапокляк",
+      "raw_text": "Classname quests: StoneGnome_2026_Story_10\ntitle_quest: Разбитая мелодия\n№ quest: 10\n№ task: 28 29 30\nTask template ID: TT-019 / TT-018 / TT-017\nTask template name: Сбор цветов в гостях / Сбор цветов дома (зависит от времени роста) / GR с цветов дома\nTask type: action take_crop_in_guest / action take_crop / get_asset GR flower\ndescription: \"Домовёнок, тут беда прямо музыкальная! Я нашла зал, где кристаллы звенят, если их коснуться — гномы тут каждый вечер песни играют. Но один кристалл треснул, и теперь вся мелодия поехала — звучит как кот в пустом барабане! Гномы в ужасе, а я хочу услышать настоящую подземную песню. Поможешь починить?\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Слушай, как звучит! Чисто, звонко, как настоящая подземная колыбельная! Спасибо, дружок, теперь я могу тут сидеть часами и слушать. Гномы тоже обрадовались — уже танцуют.\"\nCharacter: Шапокляк\n\nОбоснование:\n1. Контекст: Дед нашёл сундук. HOG + GR из мусора локации + цветы гость.\n2. Логика выбора: позиция Q11 — HOG #3 + GR локации + цветы гость.\n3. Проверка паттернов: HOG третий (Q2, Q8, Q11); между Q8 и Q11 = 2 квеста.\n4. Уникальность: TT-013 первая.",
+      "tasks": [
+        {
+          "task_number": 28,
+          "task_template_id": "TT-019",
+          "task_template_name": "Сбор цветов в гостях",
+          "task_type": "action take_crop_in_guest"
+        },
+        {
+          "task_number": 29,
+          "task_template_id": "TT-018",
+          "task_template_name": "Сбор цветов дома (зависит от времени роста)",
+          "task_type": "action take_crop"
+        },
+        {
+          "task_number": 30,
+          "task_template_id": "TT-017",
+          "task_template_name": "GR с цветов дома",
+          "task_type": "get_asset GR flower"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_11",
+      "title_quest": "Запертый сундук",
+      "quest_number": 11,
+      "task_numbers": [
+        31,
+        32,
+        33
+      ],
+      "task_template_ids": [
+        "TT-004",
+        "TT-012",
+        "TT-013"
+      ],
+      "task_template_names": [
+        "HOG на локации",
+        "Получить FA (экшен на площади у друга)",
+        "GR с мусора в локации дома"
+      ],
+      "task_types": [
+        "HOG clean_debris location",
+        "get_asset FA",
+        "get_asset GR garbage location_tags"
+      ],
+      "description": "Случилось непредвиденное, домовёнок! Я тут шатался по пещерам и нашёл старинный сундук — внутри точно припасы для пути домой, всякие нужные штуки. Но замок хрустальный, и без особых щипчиков не открыть. Я своими руками только путаюсь. Поможешь отыскать щипчики и открыть сундук?",
+      "congratulation": "Открылся! Там и припасы, и парочка подземных сюрпризов. Спасибо, дружок, теперь путь домой будет гораздо легче. Хотя... может, ещё немного погуляем здесь? Мне уже нравится.",
+      "character": "Дед Домовед",
+      "raw_text": "Classname quests: StoneGnome_2026_Story_11\ntitle_quest: Запертый сундук\n№ quest: 11\n№ task: 31 32 33\nTask template ID: TT-004 / TT-012 / TT-013\nTask template name: HOG на локации / Получить FA (экшен на площади у друга) / GR с мусора в локации дома\nTask type: HOG clean_debris location / get_asset FA / get_asset GR garbage location_tags\ndescription: \"Случилось непредвиденное, домовёнок! Я тут шатался по пещерам и нашёл старинный сундук — внутри точно припасы для пути домой, всякие нужные штуки. Но замок хрустальный, и без особых щипчиков не открыть. Я своими руками только путаюсь. Поможешь отыскать щипчики и открыть сундук?\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Открылся! Там и припасы, и парочка подземных сюрпризов. Спасибо, дружок, теперь путь домой будет гораздо легче. Хотя... может, ещё немного погуляем здесь? Мне уже нравится.\"\nCharacter: Дед Домовед\n\nОбоснование:\n1. Контекст: Финальный пир у гномов. Фото + цветы.\n2. Логика выбора: позиция Q12 — Фото #1 (только в финале!) + цветы.\n3. Проверка паттернов: TT-034 только здесь. Нет ASK/PER (уже было достаточно).\n4. Уникальность: TT-034 первая.",
+      "tasks": [
+        {
+          "task_number": 31,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location"
+        },
+        {
+          "task_number": 32,
+          "task_template_id": "TT-012",
+          "task_template_name": "Получить FA (экшен на площади у друга)",
+          "task_type": "get_asset FA"
+        },
+        {
+          "task_number": 33,
+          "task_template_id": "TT-013",
+          "task_template_name": "GR с мусора в локации дома",
+          "task_type": "get_asset GR garbage location_tags"
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_12",
+      "title_quest": "Прощальный пир в глубинах",
+      "quest_number": 12,
+      "task_numbers": [
+        34,
+        35,
+        36
+      ],
+      "task_template_ids": [
+        "TT-034",
+        "TT-018",
+        "TT-019"
+      ],
+      "task_template_names": [
+        "Фото предмета",
+        "Сбор цветов дома (зависит от времени роста)",
+        "Сбор цветов в гостях"
+      ],
+      "task_types": [
+        "action post_photo",
+        "action take_crop",
+        "action take_crop_in_guest"
+      ],
+      "description": "Домовёнок, дружок, друг мой! Мы тут с гномами решили — раз вы помогли нам столько всего наладить и починить, нужно отблагодарить по-настоящему! Будет прощальный пир — со светящимися фонарями, кристальными блюдами и подземными угощениями. Поможешь накрыть стол и зажечь фонари? А то Борька опять бородой всё сбрасывает, а Мирослав путается в салфетках...",
+      "congratulation": "Вот это был пир! Стол ломился, фонари горели, гномы пели, и даже Дед Домовед потанцевал! Спасибо тебе, дружок, за всё. Надеемся, ты ещё к нам заглянешь — тоннель теперь всегда открыт!",
+      "character": "Шапокляк",
+      "raw_text": "Classname quests: StoneGnome_2026_Story_12\ntitle_quest: Прощальный пир в глубинах\n№ quest: 12\n№ task: 34 35 36\nTask template ID: TT-034 / TT-018 / TT-019\nTask template name: Фото предмета / Сбор цветов дома (зависит от времени роста) / Сбор цветов в гостях\nTask type: action post_photo / action take_crop / action take_crop_in_guest\ndescription: \"Домовёнок, дружок, друг мой! Мы тут с гномами решили — раз вы помогли нам столько всего наладить и починить, нужно отблагодарить по-настоящему! Будет прощальный пир — со светящимися фонарями, кристальными блюдами и подземными угощениями. Поможешь накрыть стол и зажечь фонари? А то Борька опять бородой всё сбрасывает, а Мирослав путается в салфетках...\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Вот это был пир! Стол ломился, фонари горели, гномы пели, и даже Дед Домовед потанцевал! Спасибо тебе, дружок, за всё. Надеемся, ты ещё к нам заглянешь — тоннель теперь всегда открыт!\"\nCharacter: Шапокляк\n\nКонец пакета квестов 1.",
+      "tasks": [
+        {
+          "task_number": 34,
+          "task_template_id": "TT-034",
+          "task_template_name": "Фото предмета",
+          "task_type": "action post_photo"
+        },
+        {
+          "task_number": 35,
+          "task_template_id": "TT-018",
+          "task_template_name": "Сбор цветов дома (зависит от времени роста)",
+          "task_type": "action take_crop"
+        },
+        {
+          "task_number": 36,
+          "task_template_id": "TT-019",
+          "task_template_name": "Сбор цветов в гостях",
+          "task_type": "action take_crop_in_guest"
+        }
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "code": "craft_like_tasks_too_close",
+      "quest_index": 7,
+      "classname_quests": "StoneGnome_2026_Story_7",
+      "task_template_id": "TT-033",
+      "previous_classname_quests": "StoneGnome_2026_Story_4",
+      "previous_task_template_id": "TT-002",
+      "min_quest_spacing": 4,
+      "message": "TT-002 and TT-033 are craft-like templates and must not be placed close together; use roughly one craft-like task per 4 quests."
+    },
+    {
+      "code": "craft_like_tasks_too_close",
+      "quest_index": 9,
+      "classname_quests": "StoneGnome_2026_Story_9",
+      "task_template_id": "TT-002",
+      "previous_classname_quests": "StoneGnome_2026_Story_7",
+      "previous_task_template_id": "TT-033",
+      "min_quest_spacing": 4,
+      "message": "TT-002 and TT-033 are craft-like templates and must not be placed close together; use roughly one craft-like task per 4 quests."
+    },
+    {
+      "code": "stage2_story_empty",
+      "message": "Stage 2 text was provided, but no quest start/finish blocks were parsed."
+    }
+  ],
+  "summary": {
+    "quests_found": 12,
+    "tasks_found": 36,
+    "issues": 3
+  }
+}

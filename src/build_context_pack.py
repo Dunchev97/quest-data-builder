@@ -527,8 +527,35 @@ def filtered_pool_for_task(domain: str, pools: dict[str, list[dict[str, Any]]], 
     return pool
 
 
-def strip_search_text(candidate: dict[str, Any]) -> dict[str, Any]:
-    return {key: value for key, value in candidate.items() if key != "search_text"}
+def compact_candidate(candidate: dict[str, Any]) -> dict[str, Any]:
+    """Return compact candidate for context pack output."""
+    domain = candidate["domain"]
+    result: dict[str, Any] = {"candidate_id": candidate["candidate_id"], "domain": domain}
+
+    if domain == "garbage":
+        result["garbage_classname"] = candidate["garbage_classname"]
+        result["garbage_title"] = candidate["garbage_title"]
+        result["locations"] = [{"title": loc.get("title"), "code": loc.get("code")} for loc in candidate.get("locations", [])]
+        result["has_world_location"] = candidate.get("has_world_location", False)
+    elif domain == "flower":
+        result["flower_classname"] = candidate["flower_classname"]
+        result["flower_title"] = candidate["flower_title"]
+    elif domain == "collection_drop":
+        result["collection_classname"] = candidate["collection_classname"]
+        result["collection_title"] = candidate["collection_title"]
+        result["source_classname"] = candidate["source_classname"]
+        result["source_title"] = candidate["source_title"]
+        result["mode"] = candidate["mode"]
+        result["locations"] = [{"title": loc.get("title"), "code": loc.get("code")} for loc in candidate.get("locations", [])]
+        result["has_world_location"] = candidate.get("has_world_location", False)
+    elif domain == "gr_garbage":
+        result["garbage_classname"] = candidate["garbage_classname"]
+        result["garbage_title"] = candidate["garbage_title"]
+        result["mode"] = candidate["mode"]
+        result["locations"] = [{"title": loc.get("title"), "code": loc.get("code")} for loc in candidate.get("locations", [])]
+        result["has_world_location"] = candidate.get("has_world_location", False)
+
+    return result
 
 
 def load_history(path: Path, reset: bool = False) -> dict[str, Any]:
@@ -647,7 +674,7 @@ def build_context_pack(
                     candidate_limit,
                     prefer_candidate_ids=prefer_ids,
                 )
-                context_task["candidates"] = [strip_search_text(candidate) for candidate in selected]
+                context_task["candidates"] = [compact_candidate(candidate) for candidate in selected]
                 context_task["notes"].extend(notes)
                 for candidate in selected:
                     cid = candidate["candidate_id"]

@@ -1,0 +1,833 @@
+{
+  "quests": [
+    {
+      "classname_quests": "StoneGnome_2026_Story_1",
+      "title_quest": "Люк в подвале",
+      "quest_number": 1,
+      "description": "Домовёнок, ты только посмотри! Я тут пяткой по полу постучала — и люк открылся! Там внизу что-то блестит, переливается, я даже глазам не поверила! Поможешь убрать вокруг мусор и всё подготовить? А то я одна туда не полезу, мне ж страшно... ну, чуть-чуть страшно, но очень интересно!",
+      "congratulation": "Ура, дорожка свободна! Теперь точно спустимся и увидим все эти чудеса! Спасибо, дружок, без тебя бы я только верхушку люка разглядывала.",
+      "character": "Шапокляк",
+      "helper": "StoneGnome_2026_Character_1",
+      "tasks": [
+        {
+          "task_number": 1,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "choice_reason": "Выбор поддерживает действие квеста «Люк в подвале» и не меняет строгий шаблон задания.",
+          "task_object": {
+            "type": "action",
+            "icon": "StoneGnome_2026_Character_1",
+            "action": "StoneGnome_2026_Character_1_Dialog_1",
+            "title": "Поговори с Шапокляк",
+            "hint": "Поговори с Шапокляк. Для этого просто кликни на него. Он находится в Хижина Чинга.",
+            "go_to_location": [
+              {
+                "classname": "StoneGnome_2026_Character_1"
+              }
+            ],
+            "identifier": ""
+          },
+          "dialogue_replica": "Домовёнок, ты только посмотри! Я тут пяткой по полу постучала — и люк открылся! Там внизу что-то блестит, переливается, я даже глазам не поверила!"
+        },
+        {
+          "task_number": 2,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:ApricotStoneCollection1:ApricotStone:home",
+          "choice_reason": "Шапокляк увидела блестящие камни при открытии люка — абрикосовая косточка как драгоценный камень",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "ApricotStoneCollection1",
+            "icon": "ApricotStoneCollection1",
+            "amount": 10,
+            "price": 20,
+            "title": "Найди Абрикосовый пирог",
+            "hint": "Абрикосовый пирог - элемент коллекции, выпадает при уборке мусора Абрикосовая косточка дома и в гостях. Место поиска: Двор Чинга.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 3,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower",
+          "selected_candidate_id": "flower:FlowerBlueRose",
+          "choice_reason": "Светящийся цветок для украшения пути к люку",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_GR_1",
+            "icon": "StoneGnome_2026_GR_1",
+            "amount": 80,
+            "price": 40,
+            "title": "Получи Подземный блёст",
+            "hint": "Собирай цветы Синяя роза в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_2",
+      "title_quest": "Печь дала трещину",
+      "quest_number": 2,
+      "description": "Ой-ой-ой, дружок, беда невиданная! Печь моя, родимая, треснула, трещина идёт вот так — зигзагом, и стекло сыпется! Если сейчас не подкрепить и не заделать, все мои заготовки застыдутся и пойдут трещинами. Поможешь найти смесь для заделки и укрепления?",
+      "congratulation": "Фух, ты спаситель! Печь стоит, стекло не трескается. Теперь можно дальше работать. А то я уж думал, мой хрустальный шар так и останется мечтой...",
+      "character": "Мирослав Щербатый",
+      "helper": "StoneGnome_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 4,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "HOG для поиска осколков стекла от треснувшей печи Мирослава",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "StoneGnome_2026_HOG_1",
+            "search_action": "search_StoneGnome_2026_HOG_1",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "StoneGnome_2026_HOG_1"
+              }
+            ],
+            "amount": 20,
+            "price": 20,
+            "title": "Найди Осколки треснувшей печи",
+            "hint": "Найди Осколки треснувшей печи. Место поиска: Барная комната. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 5,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname",
+          "selected_candidate_id": "garbage:StainedGlass",
+          "choice_reason": "Цветной стеклянный мусор связан с печью и стеклодувной мастерской",
+          "task_object": {
+            "type": "garbage",
+            "classname": "StainedGlass",
+            "amount": 20,
+            "price": 40,
+            "title": "Убери мусор Цветное стекло дома",
+            "hint": "Убери мусор Цветное стекло дома. Для этого просто кликни на нужный мусор дома. Место поиска: Стеклодувня, Покои Метелицы.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 6,
+          "task_template_id": "TT-017",
+          "task_template_name": "GR с цветов дома",
+          "task_type": "get_asset GR flower",
+          "selected_candidate_id": "flower:FlowerMagazine4_Hippeastrum",
+          "choice_reason": "Яркий цветок, ассоциирующийся с огнём и жаром печи",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_GR_2",
+            "icon": "StoneGnome_2026_GR_2",
+            "amount": 40,
+            "price": 30,
+            "title": "Получи Пламёк печи",
+            "hint": "Собирай цветы Гиппеаструм дома, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "title_quest": "Где мой рубинчик",
+      "quest_number": 3,
+      "description": "Домовёнок, трагедия невыносимая! Мой любимый рубин — тот, что я три года огранивал — скатился в щель между камнями! Без него я как ювелир ничто, пустое место в бархатном поясе! Поможешь отыскать? А то я так и буду стоять над трещиной и ворчать.",
+      "congratulation": "Нашёлся, родимый! Ах, как блестит, как переливается! Теперь я снова могу творить шедевры. Спасибо, дружок, ты просто герой подземного мира!",
+      "character": "Гордон Рубиновый",
+      "helper": "StoneGnome_2026_Character_3",
+      "tasks": [
+        {
+          "task_number": 7,
+          "task_template_id": "TT-030",
+          "task_template_name": "Силуэт мусора дома",
+          "task_type": "garbage classname is_silhouette",
+          "selected_candidate_id": "garbage:BigHome_Garbage_Bar_NeonStick",
+          "choice_reason": "Неоновые палочки — яркие блестящие предметы, подходят для поиска рубина в трещинах",
+          "task_object": {
+            "type": "garbage",
+            "classname": "BigHome_Garbage_Bar_NeonStick",
+            "is_silhouette": 1,
+            "amount": 20,
+            "price": 40,
+            "title": "Угадай загаданный мусор и убери его дома",
+            "hint": "Угадай загаданный мусор и убери его дома",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 8,
+          "task_template_id": "TT-032",
+          "task_template_name": "Силуэт цветка дома (зависит от времени роста)",
+          "task_type": "action take_crop is_silhouette",
+          "selected_candidate_id": "flower:FlowerPinkRose",
+          "choice_reason": "Розовый цветок созвучен рубину по цвету и красоте",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop",
+            "param": "FlowerPinkRose",
+            "is_silhouette": 1,
+            "amount": 30,
+            "price": 20,
+            "title": "Угадай загаданный цветок и собери его дома",
+            "hint": "Угадай загаданный цветок и собери его дома",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 9,
+          "task_template_id": "TT-015",
+          "task_template_name": "GR с конкретного мусора дома",
+          "task_type": "get_asset GR garbage classname",
+          "selected_candidate_id": "gr_garbage:ArmorOfSnail:home",
+          "choice_reason": "Твёрдый блестящий предмет, ассоциируется с защитой и драгоценностями",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_GR_3",
+            "icon": "StoneGnome_2026_GR_3",
+            "amount": 15,
+            "price": 30,
+            "title": "Найди Щиток рубинового стража",
+            "hint": "Убирай мусор Панцирь улитки дома, чтобы найти. Место поиска: Озеро девичьих слез, Пещера.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_4",
+      "title_quest": "Борода в шестерёнки",
+      "quest_number": 4,
+      "description": "Эх, домовёнок... Борода мешает, как всегда. Ремонтировал я подъёмник, а борода в шестерёнки попала — щёлк, и всё разлетелось. Теперь руда не поднимается, механизм стоит. Поможешь разобрать и собрать заново? Только аккуратно, тут темно и много деталей.",
+      "congratulation": "Вот так, теперь крутится, как надо. Борода пока отодвинута. Спасибо, дружок, без тебя бы я ещё долго сидел в темноте и ворчал.",
+      "character": "Борька Тихий Ход",
+      "helper": "StoneGnome_2026_Character_4",
+      "tasks": [
+        {
+          "task_number": 10,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Крафт: Мирослав создаёт смазку для механизма Борьки",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "StoneGnome_2026_R_1",
+            "icon": "StoneGnome_2026_R_1",
+            "amount": 1,
+            "title": "Создай Смазка для шестерёнок",
+            "go_to_location": [
+              {
+                "classname": "StoneGnome_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 11,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "selected_candidate_id": null,
+          "choice_reason": "Трубочка стеклодува — тонкий стеклянный цилиндр, через который Мирослав выдувает смолу и масло в смазку. Без неё смазку для шестерёнок не приготовить.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_ASK_1",
+            "icon": "StoneGnome_2026_ASK_1",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей Трубочка стеклодува",
+            "hint": "Попроси у друзей или купи.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 12,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "selected_candidate_id": "gr_garbage:BagOfFertilizer:guest",
+          "choice_reason": "Мешочек с мелким песком — абразивная составляющая смазки. Песок очищает шестерёнки от ржавчины и грязи перед нанесением масла.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_GR_4",
+            "icon": "StoneGnome_2026_GR_4",
+            "amount": 40,
+            "price": 40,
+            "title": "Найди Мешочек с песком",
+            "hint": "Убирай мусор Мешки от удобрения в гостях, чтобы найти. Место поиска: Оранжерея, Курятник, Чародейная.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_5",
+      "title_quest": "Светящийся лабиринт",
+      "quest_number": 5,
+      "description": "Домовёнок, тут такое чудо! Я нашла лабиринт, а в нём камни светятся — зелёным, голубым, розовым! Но тропинка завалена всяким хламом, и пройти нельзя. Поможешь расчистить? А потом самые красивые кристаллы соберём, они же такие блестящие...",
+      "congratulation": "Ура, проход свободен! И смотри, какие камни мы нашли — они переливаются, как радуга! Спасибо, дружок, теперь этот лабиринт моё любимое место.",
+      "character": "Шапокляк",
+      "helper": "StoneGnome_2026_Character_1",
+      "tasks": [
+        {
+          "task_number": 13,
+          "task_template_id": "TT-024",
+          "task_template_name": "Загадка на мусор в гостях",
+          "task_type": "garbage classname in_guest mystery",
+          "selected_candidate_id": "garbage:BittingPie",
+          "choice_reason": "Mystery: загадка на мусор в гостях — пирог в лабиринте",
+          "task_object": {
+            "type": "garbage",
+            "classname": "BittingPie",
+            "is_hide": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Загадка, мусор в гостях",
+            "hint": "На земле лежу, в гостях меня найдёшь, убери меня скорей, загадка моя простая, но вкусная.",
+            "identifier": "",
+            "in_guest": 1
+          }
+        },
+        {
+          "task_number": 14,
+          "task_template_id": "TT-026",
+          "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection mystery",
+          "selected_candidate_id": "collection_drop:GarbageFireflyCollection3:GarbageFirefly:home",
+          "choice_reason": "Mystery: загадка на коллекцию — светлячки для светящегося лабиринта",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "GarbageFireflyCollection3",
+            "icon": "GarbageFireflyCollection3",
+            "is_hide": 1,
+            "amount": 10,
+            "price": 30,
+            "title": "Загадка, предмет из коллекции",
+            "hint": "Светлюсь в темноте, летаю без крыльев, в банке меня найдёшь, уборщик мусора.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 15,
+          "task_template_id": "TT-022",
+          "task_template_name": "Загадка на цветок в гостях",
+          "task_type": "action take_crop_in_guest mystery",
+          "selected_candidate_id": "flower:FlowerDahlia",
+          "choice_reason": "Mystery: загадка на цветок в гостях — яркий цветок для лабиринта",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerDahlia",
+            "is_hide": 1,
+            "amount": 60,
+            "price": 25,
+            "title": "Загадка, цветы в гостях у друга",
+            "hint": "Как звезда, но не на небе, красна, но не рассвет, в горшке росту, а не в поле.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_6",
+      "title_quest": "Заблудился в бликах",
+      "quest_number": 6,
+      "description": "Эх, домовёнок, я тут заблудился, как щенок в тумане! Зашёл в зал с этими вашими зеркальными камнями — и всё, ноги не слушаются, глаза разбегаются. Всё отражается, всё бликует, я даже себя в трёх экземплярах вижу. Поможешь вывести меня отсюда? А то я уже начал ворчать, что вот раньше кристаллы были понятнее...",
+      "congratulation": "Ах, свежий воздух, ну или хотя бы привычная темнота! Спасибо, дружок, вывел меня из этого зеркального кошмара. Теперь я знаю — к зеркальным кристаллам только с фонарём и картой.",
+      "character": "Дед Домовед",
+      "helper": "StoneGnome_2026_Character_5",
+      "tasks": [
+        {
+          "task_number": 16,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "choice_reason": "Выбор поддерживает действие квеста «Заблудился в бликах» и не меняет строгий шаблон задания.",
+          "task_object": {
+            "type": "action",
+            "icon": "StoneGnome_2026_Character_5",
+            "action": "StoneGnome_2026_Character_5_Dialog_2",
+            "title": "Поговори с Дед Домовед",
+            "hint": "Поговори с Дед Домовед. Для этого просто кликни на него. Он находится в Мастерская.",
+            "go_to_location": [
+              {
+                "classname": "StoneGnome_2026_Character_5"
+              }
+            ],
+            "identifier": ""
+          },
+          "dialogue_replica": "Эх, домовёнок, я тут заблудился, как щенок в тумане! Зашёл в зал с этими вашими зеркальными камнями — и всё, ноги не слушаются, глаза разбегаются."
+        },
+        {
+          "task_number": 17,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "selected_candidate_id": "garbage:ClayLump",
+          "choice_reason": "Глиняные комья в гостях — материал для залепки зеркал, чтобы убрать блики",
+          "task_object": {
+            "type": "garbage",
+            "classname": "ClayLump",
+            "in_guest": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Убери мусор Комок глины в гостях",
+            "hint": "Убери мусор Комок глины в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Мастерская.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 18,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "selected_candidate_id": "gr_garbage:BigHome_Garbage_Overview_Ammonit:guest",
+          "choice_reason": "GR из мусора гостей — тёмный кристалл для поглощения бликов",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_GR_5",
+            "icon": "StoneGnome_2026_GR_5",
+            "amount": 40,
+            "price": 40,
+            "title": "Найди Тёмный кристалл",
+            "hint": "Убирай мусор Аммонит в гостях, чтобы найти. Место поиска: Обзорная.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_7",
+      "title_quest": "Стеклянная лестница",
+      "quest_number": 7,
+      "description": "Дружок, кошмар невыносимый! Я построил лестницу в мастерскую из идеального стекла — прозрачного, чистого, без единого пузырька! А она оказалась слишком прозрачной... Борька уже трижды ударился лбом, потому что не видит ступеней. Мирослав трясётся, путает слова, не знает что делать. Поможешь найти песок для матирования или что-то, чтобы ступени хоть чуть-чуть заметны стали?",
+      "congratulation": "Фух, наконец-то ступени видны! Борька снова ходит с целым лбом. Спасибо, дружок, теперь моя лестница и красивая, и безопасная. А то я уж думал, придётся её разбивать...",
+      "character": "Мирослав Щербатый",
+      "helper": "StoneGnome_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 19,
+          "task_template_id": "TT-033",
+          "task_template_name": "Передача предмета",
+          "task_type": "action give",
+          "selected_candidate_id": null,
+          "choice_reason": "Give: Мирослав создаёт пасту для матирования стеклянной лестницы",
+          "task_object": {
+            "type": "action",
+            "action": "StoneGnome_2026_Give_19_Give",
+            "icon": "StoneGnome_2026_Give_19",
+            "go_to_location": [
+              {
+                "classname": "StoneGnome_2026_Give_19"
+              }
+            ],
+            "amount": 1,
+            "title": "Передай Матовая паста",
+            "hint": "Передай Матовая паста персонажу Мирослав Щербатый. Он находится на Стеклодувня.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 20,
+          "task_template_id": "TT-009",
+          "task_template_name": "Получить PER",
+          "task_type": "get_asset PER",
+          "selected_candidate_id": null,
+          "choice_reason": "Рубиновый песок — основной абразив матовой пасты. Микрочастицы драгоценного камня в составе песка при смешивании с маслом создают шлифующую смесь, которая матовит стекло и убирает блики.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_PER_1",
+            "icon": "StoneGnome_2026_PER_1",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей Песок рубиновых отвалов",
+            "hint": "Отправь личные просьбы друзьям или купи.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 21,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname",
+          "selected_candidate_id": "garbage:GlassblowingTube",
+          "choice_reason": "Стеклодувная трубочка — мусор из мастерской Мирослава, связан с ремонтом лестницы",
+          "task_object": {
+            "type": "garbage",
+            "classname": "GlassblowingTube",
+            "amount": 20,
+            "price": 40,
+            "title": "Убери мусор Трубка для выдувания стекла дома",
+            "hint": "Убери мусор Трубка для выдувания стекла дома. Для этого просто кликни на нужный мусор дома. Место поиска: Стеклодувня, Ледяной сад.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_8",
+      "title_quest": "Шкатулка для шедевра",
+      "quest_number": 8,
+      "description": "Домовёнок, великий день настал! Я решил создать свой главный шедевр — шкатулку из пяти драгоценных камней! Рубин, сапфир, янтарь, аметист, изумруд — всё должно быть гранёным и безупречным! Но детали разбросаны по мастерской, я сам не справлюсь. Поможешь собрать? Это будет такая шкатулка, что все гномы ахнут!",
+      "congratulation": "Вот она, моя гордость! Шкатулка готова, камни сияют, замок щёлкает как часики. Спасибо, дружок, теперь в моей мастерской есть настоящее чудо! Я даже пояс новый куплю, чтобы соответствовать.",
+      "character": "Гордон Рубиновый",
+      "helper": "StoneGnome_2026_Character_3",
+      "tasks": [
+        {
+          "task_number": 22,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "HOG: поиск деталей шкатулки, разбросанных по мастерской ювелира",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "StoneGnome_2026_HOG_2",
+            "search_action": "search_StoneGnome_2026_HOG_2",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "StoneGnome_2026_HOG_2"
+              }
+            ],
+            "amount": 20,
+            "price": 20,
+            "title": "Найди Детали шкатулки Гордона",
+            "hint": "Найди Детали шкатулки Гордона. Место поиска: Мир. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 23,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower",
+          "selected_candidate_id": "flower:FlowerCvetikSemicvetik",
+          "choice_reason": "Яркий разноцветный цветок для украшения шкатулки из пяти камней",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_GR_6",
+            "icon": "StoneGnome_2026_GR_6",
+            "amount": 80,
+            "price": 40,
+            "title": "Получи Цветик-радуга",
+            "hint": "Собирай цветы Цветик-семицветик в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 24,
+          "task_template_id": "TT-012",
+          "task_template_name": "Получить FA (экшен на площади у друга)",
+          "task_type": "get_asset FA",
+          "selected_candidate_id": null,
+          "choice_reason": "FA: экшен на площади у друга — гномы танцуют в честь будущего шедевра",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_FA_1",
+            "icon": "StoneGnome_2026_FA_1",
+            "amount": 10,
+            "price": 20,
+            "title": "Получи Праздничный гномий танец",
+            "hint": "Праздничный гномий танец можно получить за действие на площади у друга",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_9",
+      "title_quest": "Кристаллы раскатались",
+      "quest_number": 9,
+      "description": "Эх, домовёнок... Опять борода. Нёс я мешок с драгоценными кристаллами — споткнулся, как всегда, о свою собственную бороду — и всё рассыпалось по шахте. Теперь камни в щелях, в щебёнке, в воде. Нужно собрать, пока никто не ступил и не раздавил. Поможешь?",
+      "congratulation": "Собрали все, ничего не потеряли. Даже тот маленький, что в щель укатился — нашёлся. Спасибо, дружок, без тебя бы я до сих пор на коленях лазил.",
+      "character": "Борька Тихий Ход",
+      "helper": "StoneGnome_2026_Character_4",
+      "tasks": [
+        {
+          "task_number": 25,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Крафт: Борька создаёт прочную сумочку, чтобы больше не рассыпать кристаллы",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "StoneGnome_2026_R_2",
+            "icon": "StoneGnome_2026_R_2",
+            "amount": 1,
+            "title": "Создай Сумочка для кристаллов",
+            "go_to_location": [
+              {
+                "classname": "StoneGnome_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 26,
+          "task_template_id": "TT-009",
+          "task_template_name": "Получить PER",
+          "task_type": "get_asset PER",
+          "selected_candidate_id": null,
+          "choice_reason": "Плотная ткань из старых рудных мешков — основа сумочки для кристаллов. Борька сшил её сам, она выдерживает вес камней и не рвётся при переноске.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_PER_2",
+            "icon": "StoneGnome_2026_PER_2",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей Плотная ткань",
+            "hint": "Отправь личные просьбы друзьям или купи.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 27,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette",
+          "selected_candidate_id": "collection_drop:BagOfFertilizerCollection1:BagOfFertilizer:home",
+          "choice_reason": "Силуэт коллекции: угадай и найди элемент коллекции для украшения сумочки",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "BagOfFertilizerCollection1",
+            "icon": "BagOfFertilizerCollection1",
+            "is_silhouette": 1,
+            "amount": 10,
+            "price": 20,
+            "title": "Угадай элемент коллекции",
+            "hint": "Угадай элемент коллекции и найди его дома или в гостях у друзей",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_10",
+      "title_quest": "Разбитая мелодия",
+      "quest_number": 10,
+      "description": "Домовёнок, тут беда прямо музыкальная! Я нашла зал, где кристаллы звенят, если их коснуться — гномы тут каждый вечер песни играют. Но один кристалл треснул, и теперь вся мелодия поехала — звучит как кот в пустом барабане! Гномы в ужасе, а я хочу услышать настоящую подземную песню. Поможешь починить?",
+      "congratulation": "Слушай, как звучит! Чисто, звонко, как настоящая подземная колыбельная! Спасибо, дружок, теперь я могу тут сидеть часами и слушать. Гномы тоже обрадовались — уже танцуют.",
+      "character": "Шапокляк",
+      "helper": "StoneGnome_2026_Character_1",
+      "tasks": [
+        {
+          "task_number": 28,
+          "task_template_id": "TT-019",
+          "task_template_name": "Сбор цветов в гостях",
+          "task_type": "action take_crop_in_guest",
+          "selected_candidate_id": "flower:FlowerBlueRose",
+          "choice_reason": "Сбор голубых роз в гостях — нежные цветы для музыкального зала",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerBlueRose",
+            "amount": 40,
+            "price": 20,
+            "title": "Собери Синяя роза в гостях",
+            "hint": "Собирай Синяя роза в гостях. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 29,
+          "task_template_id": "TT-018",
+          "task_template_name": "Сбор цветов дома (зависит от времени роста)",
+          "task_type": "action take_crop",
+          "selected_candidate_id": "flower:FlowerDahlia",
+          "choice_reason": "Сбор георгин дома — яркие цветы для украшения кристаллического зала",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop",
+            "param": "FlowerDahlia",
+            "amount": 30,
+            "price": 20,
+            "title": "Собери Георгин дома",
+            "hint": "Собирай Георгин дома. Чтобы собрать растение, кликни на горшок с нужным растением",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 30,
+          "task_template_id": "TT-017",
+          "task_template_name": "GR с цветов дома",
+          "task_type": "get_asset GR flower",
+          "selected_candidate_id": "flower:FlowerFuchsia",
+          "choice_reason": "GR из цветов дома — фуксия, которая звенит как колокольчик",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_GR_7",
+            "icon": "StoneGnome_2026_GR_7",
+            "amount": 40,
+            "price": 30,
+            "title": "Получи Звонкая фуксия",
+            "hint": "Собирай цветы Фуксия дома, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_11",
+      "title_quest": "Запертый сундук",
+      "quest_number": 11,
+      "description": "Случилось непредвиденное, домовёнок! Я тут шатался по пещерам и нашёл старинный сундук — внутри точно припасы для пути домой, всякие нужные штуки. Но замок хрустальный, и без особых щипчиков не открыть. Я своими руками только путаюсь. Поможешь отыскать щипчики и открыть сундук?",
+      "congratulation": "Открылся! Там и припасы, и парочка подземных сюрпризов. Спасибо, дружок, теперь путь домой будет гораздо легче. Хотя... может, ещё немного погуляем здесь? Мне уже нравится.",
+      "character": "Дед Домовед",
+      "helper": "StoneGnome_2026_Character_5",
+      "tasks": [
+        {
+          "task_number": 31,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "HOG: поиск ключиков от старинного сундука Деда Домоведа",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "StoneGnome_2026_HOG_3",
+            "search_action": "search_StoneGnome_2026_HOG_3",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "StoneGnome_2026_HOG_3"
+              }
+            ],
+            "amount": 20,
+            "price": 20,
+            "title": "Найди Ключики от сундука",
+            "hint": "Найди Ключики от сундука. Место поиска: Ледяной сад. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 32,
+          "task_template_id": "TT-012",
+          "task_template_name": "Получить FA (экшен на площади у друга)",
+          "task_type": "get_asset FA",
+          "selected_candidate_id": null,
+          "choice_reason": "FA: экшен на площади у друга — гномы водят хоровод вокруг сундука",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_FA_2",
+            "icon": "StoneGnome_2026_FA_2",
+            "amount": 10,
+            "price": 20,
+            "title": "Получи Праздничный гномий хоровод",
+            "hint": "Праздничный гномий хоровод можно получить за действие на площади у друга",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 33,
+          "task_template_id": "TT-013",
+          "task_template_name": "GR с мусора в локации дома",
+          "task_type": "get_asset GR garbage location_tags",
+          "selected_candidate_id": "gr_garbage:FrozenFlower:home",
+          "choice_reason": "GR из мусора локации дома — холодный кристалл, подходящий для сундука",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "StoneGnome_2026_GR_8",
+            "icon": "StoneGnome_2026_GR_8",
+            "amount": 30,
+            "price": 40,
+            "title": "Найди Замороженная реликвия",
+            "hint": "Убирай мусор в локации Ледяной сад дома, чтобы найти.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_12",
+      "title_quest": "Прощальный пир в глубинах",
+      "quest_number": 12,
+      "description": "Домовёнок, дружок, друг мой! Мы тут с гномами решили — раз вы помогли нам столько всего наладить и починить, нужно отблагодарить по-настоящему! Будет прощальный пир — со светящимися фонарями, кристальными блюдами и подземными угощениями. Поможешь накрыть стол и зажечь фонари? А то Борька опять бородой всё сбрасывает, а Мирослав путается в салфетках...",
+      "congratulation": "Вот это был пир! Стол ломился, фонари горели, гномы пели, и даже Дед Домовед потанцевал! Спасибо тебе, дружок, за всё. Надеемся, ты ещё к нам заглянешь — тоннель теперь всегда открыт!",
+      "character": "Шапокляк",
+      "helper": "StoneGnome_2026_Character_1",
+      "tasks": [
+        {
+          "task_number": 34,
+          "task_template_id": "TT-034",
+          "task_template_name": "Фото предмета",
+          "task_type": "action post_photo",
+          "selected_candidate_id": null,
+          "choice_reason": "Фото предмета: запечатлеть прощальный пир с бородатыми друзьями",
+          "task_object": {
+            "type": "action",
+            "action": "post_photo",
+            "icon": "StoneGnome_2026_Character_1",
+            "param": "StoneGnome_2026_Character_1",
+            "go_to_location": [
+              {
+                "classname": "StoneGnome_2026_Character_1"
+              }
+            ],
+            "amount": 1,
+            "title": "Сфотографируйся с Шапокляк",
+            "hint": "Шапокляк - персонаж, с которым нужно сфотографироваться. Найди его у себя на Мир и нажми на иконку \"Сделать фотографию\" в правом верхнем углу. Наведи фокус на Шапокляк, сфотографируйся с ним и нажми \"Славненько\".",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 35,
+          "task_template_id": "TT-018",
+          "task_template_name": "Сбор цветов дома (зависит от времени роста)",
+          "task_type": "action take_crop",
+          "selected_candidate_id": "flower:FlowerCvetikSemicvetik",
+          "choice_reason": "Сбор цветов дома для украшения праздничного стола",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop",
+            "param": "FlowerCvetikSemicvetik",
+            "amount": 30,
+            "price": 20,
+            "title": "Собери Цветик-семицветик дома",
+            "hint": "Собирай Цветик-семицветик дома. Чтобы собрать растение, кликни на горшок с нужным растением",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 36,
+          "task_template_id": "TT-019",
+          "task_template_name": "Сбор цветов в гостях",
+          "task_type": "action take_crop_in_guest",
+          "selected_candidate_id": "flower:FlowerBlueRose",
+          "choice_reason": "Сбор цветов в гостях для букета на прощание",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerBlueRose",
+            "amount": 40,
+            "price": 20,
+            "title": "Собери Синяя роза в гостях",
+            "hint": "Собирай Синяя роза в гостях. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          }
+        }
+      ]
+    }
+  ]
+}

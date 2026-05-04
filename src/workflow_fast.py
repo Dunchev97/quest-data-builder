@@ -172,7 +172,11 @@ def run_fill(args: argparse.Namespace) -> int:
     print(f"build summary written: {build_path}")
     if summary["issues"]:
         return 2
-    return run_validate(args)
+    validate_rc = run_validate(args)
+    # Always remind the user where to inspect the result
+    print(f"\nStage-4 artifact for review: {output_path}")
+    print(f"Validation result: {validate_rc} (0=ok, 2=errors/warnings)")
+    return validate_rc
 
 
 def run_validate(args: argparse.Namespace) -> int:

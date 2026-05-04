@@ -1,0 +1,25 @@
+;ОБЪЕКТ Chest_Guest;;;;;;;;;;;;
+temp_01;string;string;string;string;string;string;string;string;string;string;string;int;
+;input;output;classname;title;action_availability_conditions;open_price;extra.description_window;extra.reward_description;extra.instruction_title;extra.tile_till_window;extra.open_btn_window;extra.open_now_btn_window;id
+;/chest/Dacha_2025/Dacha_2025_Chest_1_Guest.proto.js;/chest/Fun/StoneGnome_2026/StoneGnome_2026_Chest_1_Guest.proto.js;StoneGnome_2026_Chest_1_Guest;Хрустальный сундук;stuff=StoneGnome_2026_Chest_1_Home;asset=StoneGnome_2026_Chest_1_GR_1:3;Положи Отмычки-щипчики в Хрустальный сундук, чтобы получить Драгоценный подгорный камешек;Собирай Драгоценный подгорный камешек, кликая на Хрустальный сундук дома и в гостях.;ВНИМАНИЕ! Сундук можно открыть только после подготовки отмычек-щипчиков!;Можно получить через:;Получить;Получить сейчас за {price};
+
+;ОБЪЕКТ Chest_Home;;;;;;;;;;;;
+temp_01;string;string;string;string;string;string;string;string;string;string;string;int;
+;input;output;classname;title;action_availability_conditions;open_price;extra.description_window;extra.reward_description;extra.instruction_title;extra.tile_till_window;extra.open_btn_window;extra.open_now_btn_window;id
+;/chest/Dacha_2025/Dacha_2025_Chest_1_Home.proto.js;/chest/Fun/StoneGnome_2026/StoneGnome_2026_Chest_1_Home.proto.js;StoneGnome_2026_Chest_1_Home;Хрустальный сундук;stuff=StoneGnome_2026_Chest_1_Home;asset=StoneGnome_2026_Chest_1_GR_1:3;Положи Отмычки-щипчики в Хрустальный сундук, чтобы получить Драгоценный подгорный камешек;Собирай Драгоценный подгорный камешек, кликая на Хрустальный сундук дома и в гостях.;ВНИМАНИЕ! Сундук можно открыть только после подготовки отмычек-щипчиков!;Можно получить через:;Получить;Получить сейчас за {price};
+
+;АССЕТЫ Ресурсов;;;;;;
+temp_01;string;string;string;string;string;string;int
+;input;output;classname;title;description;meta_info;id
+;/quest_item/Fun/Fun10/Fun10_Chest_1_GR_1.proto.js;/quest_item/Fun/StoneGnome_2026/StoneGnome_2026_Chest_1_GR_1.proto.js;StoneGnome_2026_Chest_1_GR_1;Отмычки-щипчики;Нужны, чтобы приподнять хрустальную крышку сундука подземного гнома.;pack_asset=StoneGnome_2026_Chest_1_GR_1_Package;
+;/quest_item/Fun/Fun10/Fun10_Chest_1_CL_1.proto.js;/quest_item/Fun/StoneGnome_2026/StoneGnome_2026_Chest_1_R_1.proto.js;StoneGnome_2026_Chest_1_R_1;Драгоценный подгорный камешек;Камни, добытые в сердце подземных пещер сильнейшими кристаллическими искрами, хранят в себе блики ста тысяч древних светильников.;;
+
+;ПАКЕТЫ ДЛЯ ПРОДАЖИ;;;;;;;;;
+temp_01;string;string;string;ignore;string;string;int;ignore;string;int
+;input;output;classname;asset;title;reward;price;Количество ассетов;stuff_icon;id
+;/asset_package/Fun/Fun10/Fun10_Chest_1_GR_1_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_Chest_1_GR_1_Package.proto.js;StoneGnome_2026_Chest_1_GR_1_Package;StoneGnome_2026_Chest_1_GR_1;Отмычки-щипчики;asset=StoneGnome_2026_Chest_1_GR_1:3;4;3;StoneGnome_2026_Chest_1_GR_1;
+
+;СПОСОБ ВЫПАДЕНИЯ GR;;;;;;;;
+temp_01;string;string;ignore;array;array;int;string;string;int
+;input;output;file_name;actions;location_tags;rand_reward.p;rand_reward.asset;conditions;id
+;/global_reward/Fun11/Fun11_Chest_1_GR_1.proto.js;/global_reward/StoneGnome_2026/StoneGnome_2026_Chest_1_GR_1.proto.js;StoneGnome_2026_Chest_1_GR_1;clean_garbage_in_guest;lawn;40;StoneGnome_2026_Chest_1_GR_1;stuff=StoneGnome_2026_Chest_1_Home;

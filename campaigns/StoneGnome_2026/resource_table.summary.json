@@ -1,0 +1,50 @@
+{
+  "campaign_id": "StoneGnome_2026",
+  "packs": [
+    "pack_001",
+    "pack_002"
+  ],
+  "blocks": [
+    "HOG",
+    "GR ассет",
+    "GR способы получения",
+    "GR ПАКЕТЫ",
+    "ASK",
+    "ASK пост экшен",
+    "ASK ПАКЕТЫ",
+    "PER",
+    "PER пост экшен",
+    "PER ПАКЕТЫ",
+    "R ассет",
+    "FA ассет",
+    "FA Пакеты"
+  ],
+  "hogs": 4,
+  "resources": {
+    "ASK": 2,
+    "PER": 2,
+    "GR": 12,
+    "FG": 0,
+    "FA": 2,
+    "R": 3
+  },
+  "interactive_recipe_ingredients": [
+    "StoneGnome_2026_Chest_1_R_1",
+    "StoneGnome_2026_HELP_1_R_Opener",
+    "StoneGnome_2026_Exchanger_R_1"
+  ],
+  "warnings": [
+    {
+      "resource": "StoneGnome_2026_R_1",
+      "warning": "recipe has fewer than two nearby resource tasks; recipe skipped"
+    },
+    {
+      "resource": "StoneGnome_2026_R_2",
+      "warning": "recipe has fewer than two nearby resource tasks; recipe skipped"
+    },
+    {
+      "resource": "StoneGnome_2026_R_3",
+      "warning": "recipe has fewer than two nearby resource tasks; recipe skipped"
+    }
+  ]
+}

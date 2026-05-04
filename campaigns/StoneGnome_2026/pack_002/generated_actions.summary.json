@@ -1,0 +1,13 @@
+{
+  "campaign_id": "StoneGnome_2026",
+  "entities": 5,
+  "entities_without_actions": 3,
+  "dialog_actions": 2,
+  "search_actions": 1,
+  "give_actions": 0,
+  "current_pack_id": "pack_002",
+  "packs_scanned": [
+    "pack_001",
+    "pack_002"
+  ]
+}

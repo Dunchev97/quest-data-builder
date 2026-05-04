@@ -1,0 +1,1394 @@
+{
+  "version": 1,
+  "campaign_id": "StoneGnome_2026",
+  "created_at": "2026-05-04T09:59:47.985895+00:00",
+  "updated_at": "2026-05-04T13:16:05.125218+00:00",
+  "packs": {
+    "pack_001": {
+      "pack_id": "pack_001",
+      "updated_at": "2026-05-04T09:59:47.989896+00:00",
+      "filled_tasks": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\pack_001\\filled_tasks.json",
+      "context_pack": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\pack_001\\context_pack.json",
+      "tasks_found": 36,
+      "selected_candidates_found": 22,
+      "quest_group": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\pack_001\\quest_group.json",
+      "quest_group_validation": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\pack_001\\quest_group.validation.json",
+      "interactive_objects": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\interactive_objects.json"
+    },
+    "pack_002": {
+      "pack_id": "pack_002",
+      "updated_at": "2026-05-04T13:16:05.130219+00:00",
+      "filled_tasks": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\pack_002\\filled_tasks.json",
+      "context_pack": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\pack_002\\context_pack.json",
+      "tasks_found": 15,
+      "selected_candidates_found": 10,
+      "quest_group": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\pack_002\\quest_group.json",
+      "quest_group_validation": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\pack_002\\quest_group.validation.json",
+      "interactive_objects": "D:\\quest-data-builder\\campaigns\\StoneGnome_2026\\interactive_objects.json"
+    }
+  },
+  "used_candidate_ids": {
+    "collection_drop:ApricotStoneCollection1:ApricotStone:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_1",
+      "task_number": 2,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "flower:FlowerBlueRose": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_1",
+      "task_number": 3,
+      "task_template_id": "TT-016",
+      "domain": "flower",
+      "uses": 3,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "garbage:StainedGlass": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_2",
+      "task_number": 5,
+      "task_template_id": "TT-021",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "flower:FlowerMagazine4_Hippeastrum": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_2",
+      "task_number": 6,
+      "task_template_id": "TT-017",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "garbage:BigHome_Garbage_Bar_NeonStick": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "task_number": 7,
+      "task_template_id": "TT-030",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "flower:FlowerPinkRose": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-032",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "gr_garbage:ArmorOfSnail:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "task_number": 9,
+      "task_template_id": "TT-015",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "gr_garbage:BagOfFertilizer:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_4",
+      "task_number": 12,
+      "task_template_id": "TT-014",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "garbage:BittingPie": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_5",
+      "task_number": 13,
+      "task_template_id": "TT-024",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "collection_drop:GarbageFireflyCollection3:GarbageFirefly:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-026",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "flower:FlowerDahlia": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-022",
+      "domain": "flower",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "garbage:ClayLump": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_6",
+      "task_number": 17,
+      "task_template_id": "TT-020",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "gr_garbage:BigHome_Garbage_Overview_Ammonit:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_6",
+      "task_number": 18,
+      "task_template_id": "TT-014",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "garbage:GlassblowingTube": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_7",
+      "task_number": 21,
+      "task_template_id": "TT-021",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "flower:FlowerCvetikSemicvetik": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_8",
+      "task_number": 23,
+      "task_template_id": "TT-016",
+      "domain": "flower",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "collection_drop:BagOfFertilizerCollection1:BagOfFertilizer:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_9",
+      "task_number": 27,
+      "task_template_id": "TT-028",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "flower:FlowerFuchsia": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_10",
+      "task_number": 30,
+      "task_template_id": "TT-017",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "gr_garbage:FrozenFlower:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_11",
+      "task_number": 33,
+      "task_template_id": "TT-013",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "garbage:LeakyBucket": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_13",
+      "task_number": 38,
+      "task_template_id": "TT-020",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "collection_drop:GarbageSpoonCollection1:GarbageSpoon:home": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_13",
+      "task_number": 39,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "garbage:ApricotStone": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_14",
+      "task_number": 41,
+      "task_template_id": "TT-021",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "flower:FlowerFive": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_14",
+      "task_number": 42,
+      "task_template_id": "TT-017",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "garbage:Chips": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "task_number": 44,
+      "task_template_id": "TT-020",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "gr_garbage:Ashes:home": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "task_number": 45,
+      "task_template_id": "TT-015",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "flower:FlowerPeony": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "task_number": 46,
+      "task_template_id": "TT-018",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "collection_drop:PickCollection2:Pick:home": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "task_number": 47,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "gr_garbage:BigHome_Garbage_Overview_Silver:home": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "task_number": 48,
+      "task_template_id": "TT-015",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "gr_garbage:GarbageSpoon:guest": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_17",
+      "task_number": 51,
+      "task_template_id": "TT-014",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    }
+  },
+  "used_task_templates": {
+    "TT-001": {
+      "pack_id": "pack_001",
+      "task_template_name": "Диалог",
+      "uses": 4,
+      "first_seen_at": "2026-05-04T09:59:47.987893+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "TT-011": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+      "uses": 3,
+      "first_seen_at": "2026-05-04T09:59:47.987893+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "TT-016": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с цветов в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "TT-004": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG на локации",
+      "uses": 4,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "TT-021": {
+      "pack_id": "pack_001",
+      "task_template_name": "Уборка конкретного мусора дома",
+      "uses": 3,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "TT-017": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с цветов дома",
+      "uses": 3,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "TT-030": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт мусора дома",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "TT-032": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт цветка дома (зависит от времени роста)",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "TT-015": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с конкретного мусора дома",
+      "uses": 3,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "TT-002": {
+      "pack_id": "pack_001",
+      "task_template_name": "Крафт",
+      "uses": 3,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "TT-008": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить ASK",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "TT-014": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с конкретного мусора в гостях",
+      "uses": 3,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "TT-024": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на мусор в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "TT-026": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "TT-022": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на цветок в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "TT-020": {
+      "pack_id": "pack_001",
+      "task_template_name": "Уборка конкретного мусора в гостях",
+      "uses": 3,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "TT-033": {
+      "pack_id": "pack_001",
+      "task_template_name": "Передача предмета",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "TT-009": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить PER",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "TT-012": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить FA (экшен на площади у друга)",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "TT-028": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "TT-019": {
+      "pack_id": "pack_001",
+      "task_template_name": "Сбор цветов в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "TT-018": {
+      "pack_id": "pack_001",
+      "task_template_name": "Сбор цветов дома (зависит от времени роста)",
+      "uses": 3,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "TT-013": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с мусора в локации дома",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "TT-034": {
+      "pack_id": "pack_001",
+      "task_template_name": "Фото предмета",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    }
+  },
+  "used_garbage": {
+    "StainedGlass": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_2",
+      "task_number": 5,
+      "task_template_id": "TT-021",
+      "classname": "StainedGlass",
+      "title": "Цветное стекло",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "BigHome_Garbage_Bar_NeonStick": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "task_number": 7,
+      "task_template_id": "TT-030",
+      "classname": "BigHome_Garbage_Bar_NeonStick",
+      "title": "Неоновая палочка ",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "ArmorOfSnail": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "task_number": 9,
+      "task_template_id": "TT-015",
+      "classname": "ArmorOfSnail",
+      "title": "Панцирь улитки",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "BagOfFertilizer": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_4",
+      "task_number": 12,
+      "task_template_id": "TT-014",
+      "classname": "BagOfFertilizer",
+      "title": "Мешок от удобрения",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "BittingPie": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_5",
+      "task_number": 13,
+      "task_template_id": "TT-024",
+      "classname": "BittingPie",
+      "title": "Надкусанный пирожок",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "ClayLump": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_6",
+      "task_number": 17,
+      "task_template_id": "TT-020",
+      "classname": "ClayLump",
+      "title": "Комок глины",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "BigHome_Garbage_Overview_Ammonit": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_6",
+      "task_number": 18,
+      "task_template_id": "TT-014",
+      "classname": "BigHome_Garbage_Overview_Ammonit",
+      "title": "Аммонит",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "GlassblowingTube": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_7",
+      "task_number": 21,
+      "task_template_id": "TT-021",
+      "classname": "GlassblowingTube",
+      "title": "Трубка для выдувания стекла",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "FrozenFlower": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_11",
+      "task_number": 33,
+      "task_template_id": "TT-013",
+      "classname": "FrozenFlower",
+      "title": "Ледяной цветок",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "LeakyBucket": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_13",
+      "task_number": 38,
+      "task_template_id": "TT-020",
+      "classname": "LeakyBucket",
+      "title": "Дырявое ведро",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "ApricotStone": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_14",
+      "task_number": 41,
+      "task_template_id": "TT-021",
+      "classname": "ApricotStone",
+      "title": "Абрикосовая косточка",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "Chips": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "task_number": 44,
+      "task_template_id": "TT-020",
+      "classname": "Chips",
+      "title": "Стружка",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "Ashes": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "task_number": 45,
+      "task_template_id": "TT-015",
+      "classname": "Ashes",
+      "title": "Пепел",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "BigHome_Garbage_Overview_Silver": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "task_number": 48,
+      "task_template_id": "TT-015",
+      "classname": "BigHome_Garbage_Overview_Silver",
+      "title": "Родированное серебро",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "GarbageSpoon": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_17",
+      "task_number": 51,
+      "task_template_id": "TT-014",
+      "classname": "GarbageSpoon",
+      "title": "Половник",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    }
+  },
+  "used_collections": {
+    "ApricotStoneCollection1": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_1",
+      "task_number": 2,
+      "task_template_id": "TT-011",
+      "classname": "ApricotStoneCollection1",
+      "title": "Абрикосовый пирог",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "GarbageFireflyCollection3": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-026",
+      "classname": "GarbageFireflyCollection3",
+      "title": "Светящийся браслет",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "BagOfFertilizerCollection1": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_9",
+      "task_number": 27,
+      "task_template_id": "TT-028",
+      "classname": "BagOfFertilizerCollection1",
+      "title": "Мать-и-мачеха",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "GarbageSpoonCollection1": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_13",
+      "task_number": 39,
+      "task_template_id": "TT-011",
+      "classname": "GarbageSpoonCollection1",
+      "title": "Луковый суп",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "PickCollection2": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "task_number": 47,
+      "task_template_id": "TT-011",
+      "classname": "PickCollection2",
+      "title": "Янтарь",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    }
+  },
+  "used_flowers": {
+    "FlowerBlueRose": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_1",
+      "task_number": 3,
+      "task_template_id": "TT-016",
+      "classname": "FlowerBlueRose",
+      "title": "Синяя роза",
+      "uses": 3,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "FlowerMagazine4_Hippeastrum": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_2",
+      "task_number": 6,
+      "task_template_id": "TT-017",
+      "classname": "FlowerMagazine4_Hippeastrum",
+      "title": "Гиппеаструм",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "FlowerPinkRose": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-032",
+      "classname": "FlowerPinkRose",
+      "title": "Роза Нежная страсть",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "FlowerDahlia": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-022",
+      "classname": "FlowerDahlia",
+      "title": "Георгин",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "FlowerCvetikSemicvetik": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_8",
+      "task_number": 23,
+      "task_template_id": "TT-016",
+      "classname": "FlowerCvetikSemicvetik",
+      "title": "Цветик-семицветик",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "FlowerFuchsia": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_10",
+      "task_number": 30,
+      "task_template_id": "TT-017",
+      "classname": "FlowerFuchsia",
+      "title": "Фуксия",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "FlowerFive": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_14",
+      "task_number": 42,
+      "task_template_id": "TT-017",
+      "classname": "FlowerFive",
+      "title": "Роза",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "FlowerPeony": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "task_number": 46,
+      "task_template_id": "TT-018",
+      "classname": "FlowerPeony",
+      "title": "Пион",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    }
+  },
+  "used_locations": {
+    "Двор Чинга": {
+      "code": "15",
+      "title": "Двор Чинга",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_1",
+      "task_number": 2,
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "Стеклодувня": {
+      "code": "42",
+      "title": "Стеклодувня",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_2",
+      "task_number": 5,
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "Покои Метелицы": {
+      "code": "83",
+      "title": "Покои Метелицы",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_2",
+      "task_number": 5,
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "Барная комната": {
+      "code": "310",
+      "title": "Барная комната",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "task_number": 7,
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "Озеро девичьих слез": {
+      "code": "21",
+      "title": "Озеро девичьих слез",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "task_number": 9,
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "Пещера": {
+      "code": "37",
+      "title": "Пещера",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "task_number": 9,
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "Оранжерея": {
+      "code": "31",
+      "title": "Оранжерея",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_4",
+      "task_number": 12,
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "Курятник": {
+      "code": "32",
+      "title": "Курятник",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_4",
+      "task_number": 12,
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "Чародейная": {
+      "code": "91",
+      "title": "Чародейная",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_4",
+      "task_number": 12,
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "Горница": {
+      "code": "1",
+      "title": "Горница",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_5",
+      "task_number": 13,
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "Мельница": {
+      "code": "6",
+      "title": "Мельница",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_5",
+      "task_number": 13,
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "Загадочная комната": {
+      "code": "87",
+      "title": "Загадочная комната",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_5",
+      "task_number": 14,
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "Мастерская": {
+      "code": "3",
+      "title": "Мастерская",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_6",
+      "task_number": 17,
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "Обзорная": {
+      "code": "184",
+      "title": "Обзорная",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_6",
+      "task_number": 18,
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "Ледяной сад": {
+      "code": "82",
+      "title": "Ледяной сад",
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_7",
+      "task_number": 21,
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "Конюшня": {
+      "code": "7",
+      "title": "Конюшня",
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_13",
+      "task_number": 38,
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "Кухня": {
+      "code": "86",
+      "title": "Кухня",
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_13",
+      "task_number": 39,
+      "uses": 2,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "Гараж": {
+      "code": "43",
+      "title": "Гараж",
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "task_number": 44,
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "Голубятня": {
+      "code": "94",
+      "title": "Голубятня",
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "task_number": 44,
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "Котельная": {
+      "code": "65",
+      "title": "Котельная",
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "task_number": 45,
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "Сокровищница": {
+      "code": "22",
+      "title": "Сокровищница",
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "task_number": 47,
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    }
+  },
+  "used_generated_assets": {
+    "StoneGnome_2026_Character_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_1",
+      "field": "helper",
+      "title": "Шапокляк",
+      "uses": 7,
+      "first_seen_at": "2026-05-04T09:59:47.987893+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "task_number": 1,
+      "task_template_id": "TT-001"
+    },
+    "StoneGnome_2026_GR_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_1",
+      "task_number": 3,
+      "task_template_id": "TT-016",
+      "title": "Получи Подземный блёст",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "StoneGnome_2026_Character_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_2",
+      "field": "helper",
+      "title": "Мирослав Щербатый",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "StoneGnome_2026_HOG_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_2",
+      "task_number": 4,
+      "task_template_id": "TT-004",
+      "title": "Найди Осколки треснувшей печи",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "StoneGnome_2026_GR_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_2",
+      "task_number": 6,
+      "task_template_id": "TT-017",
+      "title": "Получи Пламёк печи",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "StoneGnome_2026_Character_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "field": "helper",
+      "title": "Гордон Рубиновый",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "StoneGnome_2026_GR_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_3",
+      "task_number": 9,
+      "task_template_id": "TT-015",
+      "title": "Найди Щиток рубинового стража",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "StoneGnome_2026_Character_4": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_4",
+      "field": "helper",
+      "title": "Борька Тихий Ход",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "StoneGnome_2026_R_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_4",
+      "task_number": 10,
+      "task_template_id": "TT-002",
+      "title": "Создай Смазка для шестерёнок",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "StoneGnome_2026_ASK_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_4",
+      "task_number": 11,
+      "task_template_id": "TT-008",
+      "title": "Попроси у друзей Трубочка стеклодува",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "StoneGnome_2026_GR_4": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_4",
+      "task_number": 12,
+      "task_template_id": "TT-014",
+      "title": "Найди Мешочек с песком",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "StoneGnome_2026_Character_5": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_6",
+      "field": "helper",
+      "title": "Дед Домовед",
+      "uses": 3,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "task_number": 16,
+      "task_template_id": "TT-001"
+    },
+    "StoneGnome_2026_GR_5": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_6",
+      "task_number": 18,
+      "task_template_id": "TT-014",
+      "title": "Найди Тёмный кристалл",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "StoneGnome_2026_Give_19": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_7",
+      "task_number": 19,
+      "task_template_id": "TT-033",
+      "title": "Передай Матовая паста",
+      "field": "icon",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "StoneGnome_2026_PER_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_7",
+      "task_number": 20,
+      "task_template_id": "TT-009",
+      "title": "Попроси у друзей Песок рубиновых отвалов",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "StoneGnome_2026_HOG_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_8",
+      "task_number": 22,
+      "task_template_id": "TT-004",
+      "title": "Найди Детали шкатулки Гордона",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.988895+00:00"
+    },
+    "StoneGnome_2026_GR_6": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_8",
+      "task_number": 23,
+      "task_template_id": "TT-016",
+      "title": "Получи Цветик-радуга",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.988895+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "StoneGnome_2026_FA_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_8",
+      "task_number": 24,
+      "task_template_id": "TT-012",
+      "title": "Получи Праздничный гномий танец",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "StoneGnome_2026_R_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_9",
+      "task_number": 25,
+      "task_template_id": "TT-002",
+      "title": "Создай Сумочка для кристаллов",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "StoneGnome_2026_PER_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_9",
+      "task_number": 26,
+      "task_template_id": "TT-009",
+      "title": "Попроси у друзей Плотная ткань",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "StoneGnome_2026_GR_7": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_10",
+      "task_number": 30,
+      "task_template_id": "TT-017",
+      "title": "Получи Звонкая фуксия",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "StoneGnome_2026_HOG_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_11",
+      "task_number": 31,
+      "task_template_id": "TT-004",
+      "title": "Найди Ключики от сундука",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "StoneGnome_2026_FA_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_11",
+      "task_number": 32,
+      "task_template_id": "TT-012",
+      "title": "Получи Праздничный гномий хоровод",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "StoneGnome_2026_GR_8": {
+      "pack_id": "pack_001",
+      "classname_quests": "StoneGnome_2026_Story_11",
+      "task_number": 33,
+      "task_template_id": "TT-013",
+      "title": "Найди Замороженная реликвия",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T09:59:47.989896+00:00",
+      "last_seen_at": "2026-05-04T09:59:47.989896+00:00"
+    },
+    "StoneGnome_2026_Character_6": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_13",
+      "field": "helper",
+      "title": "Шапокляк",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "task_number": 37,
+      "task_template_id": "TT-001"
+    },
+    "StoneGnome_2026_Character_7": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_14",
+      "field": "helper",
+      "title": "Мирослав Щербатый",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "StoneGnome_2026_HOG_4": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_14",
+      "task_number": 40,
+      "task_template_id": "TT-004",
+      "title": "Найди Обломки и стружка в мастерской",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "StoneGnome_2026_GR_9": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_14",
+      "task_number": 42,
+      "task_template_id": "TT-017",
+      "title": "Получи Рубиновая роза",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "StoneGnome_2026_Character_8": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "field": "helper",
+      "title": "Дед Домовед",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "task_number": 43,
+      "task_template_id": "TT-001"
+    },
+    "StoneGnome_2026_GR_10": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "task_number": 45,
+      "task_template_id": "TT-015",
+      "title": "Найди Очищающая кристаллическая крошка",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "StoneGnome_2026_Character_9": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "field": "helper",
+      "title": "Гордон Рубиновый",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "StoneGnome_2026_GR_11": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "task_number": 48,
+      "task_template_id": "TT-015",
+      "title": "Найди Серебряная оправа",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "StoneGnome_2026_Character_10": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_17",
+      "field": "helper",
+      "title": "Борька Тихий Ход",
+      "uses": 1,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "StoneGnome_2026_R_3": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_17",
+      "task_number": 49,
+      "task_template_id": "TT-002",
+      "title": "Создай Кристаллическая смазка для шестерёнок",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "StoneGnome_2026_ASK_2": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_17",
+      "task_number": 50,
+      "task_template_id": "TT-008",
+      "title": "Попроси у друзей Шестерёнка из дымчатого кварца",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    },
+    "StoneGnome_2026_GR_12": {
+      "pack_id": "pack_002",
+      "classname_quests": "StoneGnome_2026_Story_17",
+      "task_number": 51,
+      "task_template_id": "TT-014",
+      "title": "Найди Смывка для рычагов",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-05-04T13:16:05.130219+00:00",
+      "last_seen_at": "2026-05-04T13:16:05.130219+00:00"
+    }
+  }
+}

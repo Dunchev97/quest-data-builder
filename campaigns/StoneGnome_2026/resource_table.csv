@@ -1,0 +1,110 @@
+;HOG;;;;;
+temp_01;string;string;string;string;string;int
+;input;output;classname;view_classname;title;id
+;/debris/Dacha_2025/Dacha_2025_HOG_1.proto.js;/debris/StoneGnome_2026/StoneGnome_2026_HOG_1.proto.js;StoneGnome_2026_HOG_1;StoneGnome_2026_HOG_1;Осколки треснувшей печи;
+;/debris/Dacha_2025/Dacha_2025_HOG_1.proto.js;/debris/StoneGnome_2026/StoneGnome_2026_HOG_2.proto.js;StoneGnome_2026_HOG_2;StoneGnome_2026_HOG_2;Детали шкатулки Гордона;
+;/debris/Dacha_2025/Dacha_2025_HOG_1.proto.js;/debris/StoneGnome_2026/StoneGnome_2026_HOG_3.proto.js;StoneGnome_2026_HOG_3;StoneGnome_2026_HOG_3;Ключики от сундука;
+;/debris/Dacha_2025/Dacha_2025_HOG_1.proto.js;/debris/StoneGnome_2026/StoneGnome_2026_HOG_4.proto.js;StoneGnome_2026_HOG_4;StoneGnome_2026_HOG_4;Обломки и стружка в мастерской;
+
+;GR ассет;;;;;;;
+temp_01;string;string;string;string;string;string;string;int
+;input;output;classname;view_classname;title;description;meta_info;id
+;/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_GR_1.proto.js;StoneGnome_2026_GR_1;StoneGnome_2026_GR_1;Подземный блёст;Собирай цветы Синяя роза в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга.;pack_asset=StoneGnome_2026_GR_1_Package;
+;/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_GR_2.proto.js;StoneGnome_2026_GR_2;StoneGnome_2026_GR_2;Пламёк печи;Собирай цветы Гиппеаструм дома, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением.;pack_asset=StoneGnome_2026_GR_2_Package;
+;/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_GR_3.proto.js;StoneGnome_2026_GR_3;StoneGnome_2026_GR_3;Щиток рубинового стража;Убирай мусор Панцирь улитки дома, чтобы найти. Место поиска: Озеро девичьих слез, Пещера.;pack_asset=StoneGnome_2026_GR_3_Package;
+;/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_GR_4.proto.js;StoneGnome_2026_GR_4;StoneGnome_2026_GR_4;Мешочек с песком;Убирай мусор Мешки от удобрения в гостях, чтобы найти. Место поиска: Оранжерея, Курятник, Чародейная.;pack_asset=StoneGnome_2026_GR_4_Package;
+;/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_GR_5.proto.js;StoneGnome_2026_GR_5;StoneGnome_2026_GR_5;Тёмный кристалл;Убирай мусор Аммонит в гостях, чтобы найти. Место поиска: Обзорная.;pack_asset=StoneGnome_2026_GR_5_Package;
+;/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_GR_6.proto.js;StoneGnome_2026_GR_6;StoneGnome_2026_GR_6;Цветик-радуга;Собирай цветы Цветик-семицветик в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга.;pack_asset=StoneGnome_2026_GR_6_Package;
+;/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_GR_7.proto.js;StoneGnome_2026_GR_7;StoneGnome_2026_GR_7;Звонкая фуксия;Собирай цветы Фуксия дома, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением.;pack_asset=StoneGnome_2026_GR_7_Package;
+;/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_GR_8.proto.js;StoneGnome_2026_GR_8;StoneGnome_2026_GR_8;Замороженная реликвия;Убирай мусор в локации Ледяной сад дома, чтобы найти.;pack_asset=StoneGnome_2026_GR_8_Package;
+;/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_GR_9.proto.js;StoneGnome_2026_GR_9;StoneGnome_2026_GR_9;Рубиновая роза;Собирай цветы Роза дома, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением.;pack_asset=StoneGnome_2026_GR_9_Package;
+;/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_GR_10.proto.js;StoneGnome_2026_GR_10;StoneGnome_2026_GR_10;Очищающая кристаллическая крошка;Убирай мусор Пепел дома, чтобы найти. Место поиска: Котельная.;pack_asset=StoneGnome_2026_GR_10_Package;
+;/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_GR_11.proto.js;StoneGnome_2026_GR_11;StoneGnome_2026_GR_11;Серебряная оправа;Убирай мусор Родированное серебро дома, чтобы найти. Место поиска: Обзорная.;pack_asset=StoneGnome_2026_GR_11_Package;
+;/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_GR_12.proto.js;StoneGnome_2026_GR_12;StoneGnome_2026_GR_12;Смывка для рычагов;Убирай мусор Половник в гостях, чтобы найти. Место поиска: Кухня.;pack_asset=StoneGnome_2026_GR_12_Package;
+
+;;;GR способы получения;;;;;;;
+temp_01;string;string;ignore;array;array;int;string;string;array;int
+;input;output;file_name;actions;location_tags;rand_reward.p;rand_reward.asset;conditions;assets;id
+;/global_reward/Fun10/Fun11_GR_10.proto.js;/global_reward/StoneGnome_2026/StoneGnome_2026_GR_1.proto.js;StoneGnome_2026_GR_1;take_crop_in_guest;;30;StoneGnome_2026_GR_1;active_quest=StoneGnome_2026_Story_1;FlowerBlueRose;
+;/global_reward/Fun10/Fun11_GR_10.proto.js;/global_reward/StoneGnome_2026/StoneGnome_2026_GR_2.proto.js;StoneGnome_2026_GR_2;take_crop_in_guest;;30;StoneGnome_2026_GR_2;active_quest=StoneGnome_2026_Story_2;FlowerMagazine4_Hippeastrum;
+;/global_reward/Fun10/Fun11_GR_7.proto.js;/global_reward/StoneGnome_2026/StoneGnome_2026_GR_3.proto.js;StoneGnome_2026_GR_3;clean_garbage;;60;StoneGnome_2026_GR_3;active_quest=StoneGnome_2026_Story_3;ArmorOfSnail;
+;/global_reward/Fun10/Fun11_GR_10.proto.js;/global_reward/StoneGnome_2026/StoneGnome_2026_GR_4.proto.js;StoneGnome_2026_GR_4;clean_garbage_in_guest;;40;StoneGnome_2026_GR_4;active_quest=StoneGnome_2026_Story_4;BagOfFertilizer;
+;/global_reward/Fun10/Fun11_GR_10.proto.js;/global_reward/StoneGnome_2026/StoneGnome_2026_GR_5.proto.js;StoneGnome_2026_GR_5;clean_garbage_in_guest;;40;StoneGnome_2026_GR_5;active_quest=StoneGnome_2026_Story_6;BigHome_Garbage_Overview_Ammonit;
+;/global_reward/Fun10/Fun11_GR_10.proto.js;/global_reward/StoneGnome_2026/StoneGnome_2026_GR_6.proto.js;StoneGnome_2026_GR_6;take_crop_in_guest;;30;StoneGnome_2026_GR_6;active_quest=StoneGnome_2026_Story_8;FlowerCvetikSemicvetik;
+;/global_reward/Fun10/Fun11_GR_10.proto.js;/global_reward/StoneGnome_2026/StoneGnome_2026_GR_7.proto.js;StoneGnome_2026_GR_7;take_crop_in_guest;;30;StoneGnome_2026_GR_7;active_quest=StoneGnome_2026_Story_10;FlowerFuchsia;
+;/global_reward/Fun10/Fun11_GR_7.proto.js;/global_reward/StoneGnome_2026/StoneGnome_2026_GR_8.proto.js;StoneGnome_2026_GR_8;clean_garbage;;60;StoneGnome_2026_GR_8;active_quest=StoneGnome_2026_Story_11;FrozenFlower;
+;/global_reward/Fun10/Fun11_GR_10.proto.js;/global_reward/StoneGnome_2026/StoneGnome_2026_GR_9.proto.js;StoneGnome_2026_GR_9;take_crop_in_guest;;30;StoneGnome_2026_GR_9;active_quest=StoneGnome_2026_Story_14;FlowerFive;
+;/global_reward/Fun10/Fun11_GR_7.proto.js;/global_reward/StoneGnome_2026/StoneGnome_2026_GR_10.proto.js;StoneGnome_2026_GR_10;clean_garbage;;60;StoneGnome_2026_GR_10;active_quest=StoneGnome_2026_Story_15;Ashes;
+;/global_reward/Fun10/Fun11_GR_7.proto.js;/global_reward/StoneGnome_2026/StoneGnome_2026_GR_11.proto.js;StoneGnome_2026_GR_11;clean_garbage;;60;StoneGnome_2026_GR_11;active_quest=StoneGnome_2026_Story_16;BigHome_Garbage_Overview_Silver;
+;/global_reward/Fun10/Fun11_GR_10.proto.js;/global_reward/StoneGnome_2026/StoneGnome_2026_GR_12.proto.js;StoneGnome_2026_GR_12;clean_garbage_in_guest;;40;StoneGnome_2026_GR_12;active_quest=StoneGnome_2026_Story_17;GarbageSpoon;
+
+;GR ПАКЕТЫ;;;;;;;;;
+temp_01;string;string;string;ignore;string;string;ignore;int;string;int
+;input;output;classname;asset;title;reward;Количество ассетов;price;stuff_icon;id
+;/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_GR_1_Package.proto.js;StoneGnome_2026_GR_1_Package;StoneGnome_2026_GR_1;Подземный блёст;asset=StoneGnome_2026_GR_1:1;1;1;StoneGnome_2026_GR_1;
+;/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_GR_2_Package.proto.js;StoneGnome_2026_GR_2_Package;StoneGnome_2026_GR_2;Пламёк печи;asset=StoneGnome_2026_GR_2:1;1;1;StoneGnome_2026_GR_2;
+;/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_GR_3_Package.proto.js;StoneGnome_2026_GR_3_Package;StoneGnome_2026_GR_3;Щиток рубинового стража;asset=StoneGnome_2026_GR_3:1;1;1;StoneGnome_2026_GR_3;
+;/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_GR_4_Package.proto.js;StoneGnome_2026_GR_4_Package;StoneGnome_2026_GR_4;Мешочек с песком;asset=StoneGnome_2026_GR_4:1;1;1;StoneGnome_2026_GR_4;
+;/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_GR_5_Package.proto.js;StoneGnome_2026_GR_5_Package;StoneGnome_2026_GR_5;Тёмный кристалл;asset=StoneGnome_2026_GR_5:1;1;1;StoneGnome_2026_GR_5;
+;/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_GR_6_Package.proto.js;StoneGnome_2026_GR_6_Package;StoneGnome_2026_GR_6;Цветик-радуга;asset=StoneGnome_2026_GR_6:1;1;1;StoneGnome_2026_GR_6;
+;/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_GR_7_Package.proto.js;StoneGnome_2026_GR_7_Package;StoneGnome_2026_GR_7;Звонкая фуксия;asset=StoneGnome_2026_GR_7:1;1;1;StoneGnome_2026_GR_7;
+;/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_GR_8_Package.proto.js;StoneGnome_2026_GR_8_Package;StoneGnome_2026_GR_8;Замороженная реликвия;asset=StoneGnome_2026_GR_8:1;1;1;StoneGnome_2026_GR_8;
+;/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_GR_9_Package.proto.js;StoneGnome_2026_GR_9_Package;StoneGnome_2026_GR_9;Рубиновая роза;asset=StoneGnome_2026_GR_9:1;1;1;StoneGnome_2026_GR_9;
+;/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_GR_10_Package.proto.js;StoneGnome_2026_GR_10_Package;StoneGnome_2026_GR_10;Очищающая кристаллическая крошка;asset=StoneGnome_2026_GR_10:1;1;1;StoneGnome_2026_GR_10;
+;/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_GR_11_Package.proto.js;StoneGnome_2026_GR_11_Package;StoneGnome_2026_GR_11;Серебряная оправа;asset=StoneGnome_2026_GR_11:1;1;1;StoneGnome_2026_GR_11;
+;/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_GR_12_Package.proto.js;StoneGnome_2026_GR_12_Package;StoneGnome_2026_GR_12;Смывка для рычагов;asset=StoneGnome_2026_GR_12:1;1;1;StoneGnome_2026_GR_12;
+
+;ASK;;;;;;;;
+temp_01;string;string;string;string;string;string;string;string;int
+;input;output;classname;view_classname;title;description;meta_info;conditions;id
+;/quest_item/Fun/Fun10/resource/Fun10_ASK_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_ASK_1.proto.js;StoneGnome_2026_ASK_1;StoneGnome_2026_ASK_1;Трубочка стеклодува;Попроси у друзей или купи.;pack_asset=StoneGnome_2026_ASK_1_Package;;
+;/quest_item/Fun/Fun10/resource/Fun10_ASK_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_ASK_2.proto.js;StoneGnome_2026_ASK_2;StoneGnome_2026_ASK_2;Шестерёнка из дымчатого кварца;Попроси у друзей или купи.;pack_asset=StoneGnome_2026_ASK_2_Package;;
+
+;ASK пост экшен;;;;;;;;;
+temp_01;string;string;string;ignore;string;string;int;int;int;int
+;input;output;identifier;classname;title;poster_reward;clicks_limit;life_time;send_interval;id
+;/post_action/ask_for_Fun10_ASK_10.proto.js;/post_action/ask_for_StoneGnome_2026_ASK_1.proto.js;ask_for_StoneGnome_2026_ASK_1;StoneGnome_2026_ASK_1;Трубочка стеклодува;asset=StoneGnome_2026_ASK_1:1;5;43200;7200;
+;/post_action/ask_for_Fun10_ASK_10.proto.js;/post_action/ask_for_StoneGnome_2026_ASK_2.proto.js;ask_for_StoneGnome_2026_ASK_2;StoneGnome_2026_ASK_2;Шестерёнка из дымчатого кварца;asset=StoneGnome_2026_ASK_2:1;5;43200;7200;
+
+;ASK ПАКЕТЫ;;;;;;;;;
+temp_01;string;string;string;ignore;string;string;ignore;int;string;int
+;input;output;classname;asset;title;reward;Количество ассетов;price;stuff_icon;id
+;/asset_package/Fun/Fun10/resource/Fun10_ASK_1_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_ASK_1_Package.proto.js;StoneGnome_2026_ASK_1_Package;StoneGnome_2026_ASK_1;Трубочка стеклодува;asset=StoneGnome_2026_ASK_1:1;1;2;StoneGnome_2026_ASK_1;
+;/asset_package/Fun/Fun10/resource/Fun10_ASK_1_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_ASK_2_Package.proto.js;StoneGnome_2026_ASK_2_Package;StoneGnome_2026_ASK_2;Шестерёнка из дымчатого кварца;asset=StoneGnome_2026_ASK_2:1;1;2;StoneGnome_2026_ASK_2;
+
+;PER;;;;;;;;
+temp_01;string;string;string;string;string;string;string;string;int
+;input;output;classname;view_classname;title;description;meta_info;conditions;id
+;/quest_item/Fun/Fun10/resource/Fun10_PER_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_PER_1.proto.js;StoneGnome_2026_PER_1;StoneGnome_2026_PER_1;Песок рубиновых отвалов;Отправь личные просьбы друзьям или купи.;pack_asset=StoneGnome_2026_PER_1_Package;;
+;/quest_item/Fun/Fun10/resource/Fun10_PER_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_PER_2.proto.js;StoneGnome_2026_PER_2;StoneGnome_2026_PER_2;Плотная ткань;Отправь личные просьбы друзьям или купи.;pack_asset=StoneGnome_2026_PER_2_Package;;
+
+;PER пост экшен;;;;;;;;;
+temp_01;string;string;string;ignore;string;string;int;int;int;int
+;input;output;identifier;classname;title;poster_reward;clicks_limit;life_time;send_interval;id
+;/post_action/ask_for_Fun10_PER_1.proto.js;/post_action/ask_for_StoneGnome_2026_PER_1.proto.js;ask_for_StoneGnome_2026_PER_1;StoneGnome_2026_PER_1;Песок рубиновых отвалов;asset=StoneGnome_2026_PER_1:1;5;43200;7200;
+;/post_action/ask_for_Fun10_PER_1.proto.js;/post_action/ask_for_StoneGnome_2026_PER_2.proto.js;ask_for_StoneGnome_2026_PER_2;StoneGnome_2026_PER_2;Плотная ткань;asset=StoneGnome_2026_PER_2:1;5;43200;7200;
+
+;PER ПАКЕТЫ;;;;;;;;;
+temp_01;string;string;string;ignore;string;string;ignore;int;string;int
+;input;output;classname;asset;title;reward;Количество ассетов;price;stuff_icon;id
+;/asset_package/Fun/Fun10/resource/Fun10_PER_1_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_PER_1_Package.proto.js;StoneGnome_2026_PER_1_Package;StoneGnome_2026_PER_1;Песок рубиновых отвалов;asset=StoneGnome_2026_PER_1:1;1;2;StoneGnome_2026_PER_1;
+;/asset_package/Fun/Fun10/resource/Fun10_PER_1_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_PER_2_Package.proto.js;StoneGnome_2026_PER_2_Package;StoneGnome_2026_PER_2;Плотная ткань;asset=StoneGnome_2026_PER_2:1;1;2;StoneGnome_2026_PER_2;
+
+;R ассет;;;;;;;;
+temp_01;string;string;string;string;string;string;string;string;int
+;input;output;classname;view_classname;title;description;meta_info;tags.0;id
+;/quest_item/Fun/Fun11/repair/Fun11_R_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_R_1.proto.js;StoneGnome_2026_R_1;StoneGnome_2026_R_1;Смазка для шестерёнок;Для создания используй Станок.;;StoneGnome_2026;
+;/quest_item/Fun/Fun11/repair/Fun11_R_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_R_2.proto.js;StoneGnome_2026_R_2;StoneGnome_2026_R_2;Сумочка для кристаллов;Для создания используй Станок.;;StoneGnome_2026;
+;/quest_item/Fun/Fun11/repair/Fun11_R_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_R_3.proto.js;StoneGnome_2026_R_3;StoneGnome_2026_R_3;Кристаллическая смазка для шестерёнок;Для создания используй Станок.;;StoneGnome_2026;
+
+;FA ассет;;;;;;;;
+temp_01;string;string;string;string;string;string;string;string;int
+;input;output;classname;view_classname;title;description;meta_info;tags.0;id
+;/quest_item/Fun/Fun11/repair/Fun11_R_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_FA_1.proto.js;StoneGnome_2026_FA_1;StoneGnome_2026_FA_1;Праздничный гномий танец;Праздничный гномий танец можно получить за действие на площади у друга.;pack_asset=StoneGnome_2026_FA_1_Package;StoneGnome_2026;
+;/quest_item/Fun/Fun11/repair/Fun11_R_1.proto.js;/quest_item/StoneGnome_2026/StoneGnome_2026_FA_2.proto.js;StoneGnome_2026_FA_2;StoneGnome_2026_FA_2;Праздничный гномий хоровод;Праздничный гномий хоровод можно получить за действие на площади у друга.;pack_asset=StoneGnome_2026_FA_2_Package;StoneGnome_2026;
+
+;FA Пакеты;;;;;;;;;
+temp_01;string;string;string;ignore;string;string;ignore;int;string;int
+;input;output;classname;asset;title;reward;Количество ассетов;price;stuff_icon;id
+;/asset_package/Fun/Fun10/resource/Fun10_FG_1_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_FA_1_Package.proto.js;StoneGnome_2026_FA_1_Package;StoneGnome_2026_FA_1;Праздничный гномий танец;asset=StoneGnome_2026_FA_1:2;2;3;StoneGnome_2026_FA_1;
+;/asset_package/Fun/Fun10/resource/Fun10_FG_1_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_FA_2_Package.proto.js;StoneGnome_2026_FA_2_Package;StoneGnome_2026_FA_2;Праздничный гномий хоровод;asset=StoneGnome_2026_FA_2:2;2;3;StoneGnome_2026_FA_2;

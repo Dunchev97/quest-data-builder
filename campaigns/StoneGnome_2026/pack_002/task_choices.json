@@ -1,0 +1,108 @@
+{
+  "quests": [
+    {
+      "classname_quests": "StoneGnome_2026_Story_13",
+      "tasks": [
+        {
+          "task_number": 37,
+          "dialogue_replica": "Дружок, я тут шарфик поправила — и тут же что-то грохнулось! Следы ведут к старому механизму, а рядом валяется дырявое ведро. Похоже, его сбросил очередной виброзвон!",
+          "person": "Шапокляк"
+        },
+        {
+          "task_number": 38,
+          "selected_candidate_id": "garbage:LeakyBucket",
+          "choice_reason": "Дырявое ведро в Конюшне — ключевая улика! Именно оно упало от вибрации механизма и разлило рубиновый суп."
+        },
+        {
+          "task_number": 39,
+          "selected_candidate_id": "collection_drop:GarbageSpoonCollection1:GarbageSpoon:home",
+          "choice_reason": "Луковый суп из коллекции поварёшки — идеальное завершение кулинарного расследования Шапокляк."
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_14",
+      "tasks": [
+        {
+          "task_number": 40,
+          "item_title": "Обломки и стружка в мастерской",
+          "choice_reason": "HOG: поиск молотка Мирослава среди завалов стеклянных обломков и металлической стружки."
+        },
+        {
+          "task_number": 41,
+          "selected_candidate_id": "garbage:ApricotStone",
+          "choice_reason": "Абрикосовые косточки во дворе — Борька подобрал их вместе с молотком, перепутав с добычей."
+        },
+        {
+          "task_number": 42,
+          "selected_candidate_id": "flower:FlowerFive",
+          "item_title": "Рубиновая роза",
+          "choice_reason": "Яркая роза для украшения мастерской Мирослава после поиска молотка, напоминающая рубиновый блеск."
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_15",
+      "tasks": [
+        {
+          "task_number": 43,
+          "dialogue_replica": "Эх, дружок, фонари гаснут один за другим! Я думал, это призраки старых шахт, а оказалось — никакие не призраки! Но без света мне и чихнуть страшно, не то что механизмы чинить!",
+          "person": "Дед Домовед"
+        },
+        {
+          "task_number": 44,
+          "selected_candidate_id": "garbage:Chips",
+          "choice_reason": "Стружка в мастерской — источник пыли и крошки, которые забивают кристаллы фонарей и гасят свет."
+        },
+        {
+          "task_number": 45,
+          "selected_candidate_id": "gr_garbage:Ashes:home",
+          "item_title": "Очищающая кристаллическая крошка",
+          "choice_reason": "Пепел из котельной — основа для очищающей крошки, которая удаляет нагар и пыль с кристаллов фонарей."
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_16",
+      "tasks": [
+        {
+          "task_number": 46,
+          "selected_candidate_id": "flower:FlowerPeony",
+          "choice_reason": "Пионы для украшения шкатулки Гордона и придания ей уютного вида после переполоха."
+        },
+        {
+          "task_number": 47,
+          "selected_candidate_id": "collection_drop:PickCollection2:Pick:home",
+          "choice_reason": "Янтарь из коллекции кирки — пропавший камень из шкатулки, который Дед Домовед случайно запихнул в карман."
+        },
+        {
+          "task_number": 48,
+          "selected_candidate_id": "gr_garbage:BigHome_Garbage_Overview_Silver:home",
+          "item_title": "Серебряная оправа",
+          "choice_reason": "Родированное серебро для создания оправы перепутанным драгоценностям Гордона."
+        }
+      ]
+    },
+    {
+      "classname_quests": "StoneGnome_2026_Story_17",
+      "tasks": [
+        {
+          "task_number": 49,
+          "item_title": "Кристаллическая смазка для шестерёнок",
+          "choice_reason": "Крафт: Борька собирает компоненты для создания смазки, которая разблокирует главный механизм и вернёт свет в город."
+        },
+        {
+          "task_number": 50,
+          "item_title": "Шестерёнка из дымчатого кварца",
+          "choice_reason": "Шестерёнка из дымчатого кварца — основной компонент кристаллической смазки. Её микрочастицы перемалываются в абразивный порошок, который смешивают с маслом для создания смазки."
+        },
+        {
+          "task_number": 51,
+          "selected_candidate_id": "gr_garbage:GarbageSpoon:guest",
+          "item_title": "Смывка для рычагов",
+          "choice_reason": "Металлический порошок, выделенный из половника, — второй абразивный компонент кристаллической смазки. Смешивается с порошком шестерёнки и маслом, создавая густую смесь для рычагов."
+        }
+      ]
+    }
+  ]
+}

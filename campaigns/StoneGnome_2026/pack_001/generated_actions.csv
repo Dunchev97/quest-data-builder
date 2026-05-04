@@ -1,0 +1,31 @@
+;ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ
+ml;string;string;string;string;int;;;;
+;input;output;classname;title;id;;;;
+;/furniture/Fun/Fun10/Character/Fun10_Character_1_1.proto.js;/furniture/Fun/StoneGnome_2026/Character/StoneGnome_2026_Character_2.proto.js;StoneGnome_2026_Character_2;Мирослав Щербатый;;;;;
+;/furniture/Fun/Fun10/Character/Fun10_Character_1_1.proto.js;/furniture/Fun/StoneGnome_2026/Character/StoneGnome_2026_Character_3.proto.js;StoneGnome_2026_Character_3;Гордон Рубиновый;;;;;
+;/furniture/Fun/Fun10/Character/Fun10_Character_1_1.proto.js;/furniture/Fun/StoneGnome_2026/Character/StoneGnome_2026_Character_4.proto.js;StoneGnome_2026_Character_4;Борька Тихий Ход;;;;;
+
+;ПЕРСОНАЖИ с 1 ЭКШЕНОМ
+ml;string;string;string;string;array;int;;;
+;input;output;classname;title;behaviour.0.actions;id;;;
+;/furniture/Fun/Fun10/Character/Fun10_Character_1_1.proto.js;/furniture/Fun/StoneGnome_2026/Character/StoneGnome_2026_Character_1.proto.js;StoneGnome_2026_Character_1;Шапокляк;StoneGnome_2026_Character_1_Dialog_1;;;;
+;/furniture/Fun/Fun10/Character/Fun10_Character_1_1.proto.js;/furniture/Fun/StoneGnome_2026/Character/StoneGnome_2026_Character_5.proto.js;StoneGnome_2026_Character_5;Дед Домовед;StoneGnome_2026_Character_5_Dialog_2;;;;
+;/furniture/Fun/Fun10/Character/Fun10_Character_1_1.proto.js;/furniture/Fun/StoneGnome_2026/Character/StoneGnome_2026_Give_19.proto.js;StoneGnome_2026_Give_19;Мирослав Щербатый;action_StoneGnome_2026_Give_19_Give_1;;;;
+
+;ЭКШЕНЫ ДИАЛОГИ
+sl;string;string;string;string;string;string;string;string;int
+;input;output;identifier;conditions;stuff_actions.0.window_spec.view_window;stuff_actions.0.window_spec.icon.0.icon_mc;stuff_actions.0.window_spec.text_fields.0.text;stuff_actions.0.window_spec.text_fields.1.text;id
+;/quest_action/Fun/Fun10/Fun10_Character_1_1_Dialog_1.proto.js;/quest_action/Fun/StoneGnome_2026/StoneGnome_2026_Character_1_Dialog_1.proto.js;StoneGnome_2026_Character_1_Dialog_1;active_quest=StoneGnome_2026_Story_1;Character_Dialog_Window;StoneGnome_2026_Character_1;Шапокляк;Домовёнок, ты только посмотри! Я тут пяткой по полу постучала — и люк открылся! Там внизу что-то блестит, переливается, я даже глазам не поверила!;
+;/quest_action/Fun/Fun10/Fun10_Character_1_1_Dialog_1.proto.js;/quest_action/Fun/StoneGnome_2026/StoneGnome_2026_Character_5_Dialog_2.proto.js;StoneGnome_2026_Character_5_Dialog_2;active_quest=StoneGnome_2026_Story_6;Character_Dialog_Window;StoneGnome_2026_Character_5;Дед Домовед;Эх, домовёнок, я тут заблудился, как щенок в тумане! Зашёл в зал с этими вашими зеркальными камнями — и всё, ноги не слушаются, глаза разбегаются.;
+
+;ЭКШЕНЫ search
+sl;string;string;string;string;replace;;int;;
+;input;output;identifier;open_price;find;replace;id;;
+;/quest_action/Fun/Fun10/search_Fun10_HOG_1.proto.js;/quest_action/Fun/StoneGnome_2026/search_StoneGnome_2026_HOG_1.proto.js;search_StoneGnome_2026_HOG_1;money=2;Fun10_HOG_1;StoneGnome_2026_HOG_1;;;
+;/quest_action/Fun/Fun10/search_Fun10_HOG_1.proto.js;/quest_action/Fun/StoneGnome_2026/search_StoneGnome_2026_HOG_2.proto.js;search_StoneGnome_2026_HOG_2;money=2;Fun10_HOG_1;StoneGnome_2026_HOG_2;;;
+;/quest_action/Fun/Fun10/search_Fun10_HOG_1.proto.js;/quest_action/Fun/StoneGnome_2026/search_StoneGnome_2026_HOG_3.proto.js;search_StoneGnome_2026_HOG_3;money=2;Fun10_HOG_1;StoneGnome_2026_HOG_3;;;
+
+;ЭКШЕНЫ Give
+sl;string;string;string;string;string;string;string;int;
+;input;output;identifier;title;icon;conditions;open_price;id;
+;/quest_action/Fun/Fun9/action_Fun9_Story_Character_2_1_Give_1.proto.js;/quest_action/Fun/StoneGnome_2026/action_StoneGnome_2026_Give_19_Give_1.proto.js;action_StoneGnome_2026_Give_19_Give_1;Мирослав Щербатый;StoneGnome_2026_Give_19;active_quest=StoneGnome_2026_Story_7;asset=StoneGnome_2026_Give_19:1;;

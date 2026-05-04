@@ -1,0 +1,38 @@
+;ОБЪЕКТ Generator РЕСУРСОВ;;;;
+temp_01;string;string;string;string;int
+;input;output;classname;title;id
+;/debris/Fun/Fun10/Fun10_Exchanger_Generator_1.proto.js;/debris/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_Generator_1.proto.js;StoneGnome_2026_Exchanger_Generator_1;Граненая шкатулка с рубиновой мозаикой;
+;/debris/Fun/Fun10/Fun10_Exchanger_Generator_2.proto.js;/debris/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_Generator_2.proto.js;StoneGnome_2026_Exchanger_Generator_2;Граненая шкатулка с лазуритовой росписью;
+;/debris/Fun/Fun10/Fun10_Exchanger_Generator_3.proto.js;/debris/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_Generator_3.proto.js;StoneGnome_2026_Exchanger_Generator_3;Граненая шкатулка с янтарной чешуёй;
+;/debris/Fun/Fun10/Fun10_Exchanger_Generator_4.proto.js;/debris/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_Generator_4.proto.js;StoneGnome_2026_Exchanger_Generator_4;Граненая шкатулка с ониксовым узором;
+;/debris/Fun/Fun10/Fun10_Exchanger_Generator_5.proto.js;/debris/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_Generator_5.proto.js;StoneGnome_2026_Exchanger_Generator_5;Граненая шкатулка с серебряной канителью;
+
+;ОБЪЕКТ Exchanger;;;;;;;;;;
+temp_01;string;string;string;string;string;string;string;string;string;string;int
+;input;output;classname;title;extra.hint_add_to_exchange;extra.hint_get_asset;behaviour.title_mark_workbencg;behaviour.ingredient_description;behaviour.description_1;behaviour.description_2;id
+;/furniture/Fun/Fun10/Fun10_Exchanger.proto.js;/furniture/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger.proto.js;StoneGnome_2026_Exchanger;Стол гнома-ювелира;"Нажми на Стол гнома-ювелира в Тронный зал Камелота и выбери вкладку ""Обмен с друзьями"". Выбери ресурс, который хочешь обменять, и нажми ""Сохранить"".";Бери Детали украшения из Граненая шкатулка в Тронный зал Камелота, чтобы найти.;Гномий шедевр;Если тебе нужен {0};Чтобы обменять Детали украшения, собери его из Граненая шкатулка в Тронный зал Камелота.;Чтобы получить Гномий шедевр, нужны все 5 видов ресурса. Один вид можно добыть самостоятельно, остальные обменивай у друзей или покупай.;
+
+;АССЕТ Generator и Exchanger;;;;;;
+temp_01;string;string;string;string;string;string;int
+;input;output;classname;title;description;meta_info;id
+;/quest_item/Fun/Fun10/Fun10_Exchanger_RG_1.proto.js;/quest_item/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_RG_1.proto.js;StoneGnome_2026_Exchanger_RG_1;Кусочек рубиновой мозаики;Можно получить из Граненая шкатулка с рубиновой мозаикой дома.;pack_asset=StoneGnome_2026_Exchanger_RG_1_Package;
+;/quest_item/Fun/Fun10/Fun10_Exchanger_RG_2.proto.js;/quest_item/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_RG_2.proto.js;StoneGnome_2026_Exchanger_RG_2;Лазуритовая роспись;Можно получить из Граненая шкатулка с лазуритовой росписью дома.;pack_asset=StoneGnome_2026_Exchanger_RG_2_Package;
+;/quest_item/Fun/Fun10/Fun10_Exchanger_RG_3.proto.js;/quest_item/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_RG_3.proto.js;StoneGnome_2026_Exchanger_RG_3;Янтарная чешуйка;Можно получить из Граненая шкатулка с янтарной чешуёй дома.;pack_asset=StoneGnome_2026_Exchanger_RG_3_Package;
+;/quest_item/Fun/Fun10/Fun10_Exchanger_RG_4.proto.js;/quest_item/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_RG_4.proto.js;StoneGnome_2026_Exchanger_RG_4;Ониксовый узор;Можно получить из Граненая шкатулка с ониксовым узором дома.;pack_asset=StoneGnome_2026_Exchanger_RG_4_Package;
+;/quest_item/Fun/Fun10/Fun10_Exchanger_RG_5.proto.js;/quest_item/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_RG_5.proto.js;StoneGnome_2026_Exchanger_RG_5;Серебряная канитель;Можно получить из Граненая шкатулка с серебряной канителью дома.;pack_asset=StoneGnome_2026_Exchanger_RG_5_Package;
+;/quest_item/Fun/Fun10/Fun10_Exchanger_R_1.proto.js;/quest_item/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_R_1.proto.js;StoneGnome_2026_Exchanger_R_1;Гномий шедевр;Собери 5 видов деталей украшения, чтобы создать гномий шедевр.;pack_asset=StoneGnome_2026_Exchanger_R_1_Package;
+
+;РЕЦПТ Exchanger;;;;;;
+temp_01;string;string;string;string;string;string;int
+;input;output;identifier;reward;ingredients;conditions;id
+;/recipe/Fun/Fun10/Fun10_Exchanger_R_1_Recipe.proto.js;/recipe/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_R_1_Recipe.proto.js;StoneGnome_2026_Exchanger_R_1_Recipe;asset=StoneGnome_2026_Exchanger_R_1:1;asset=StoneGnome_2026_Exchanger_RG_1:4+asset=StoneGnome_2026_Exchanger_RG_2:4+asset=StoneGnome_2026_Exchanger_RG_3:4+asset=StoneGnome_2026_Exchanger_RG_4:4+asset=StoneGnome_2026_Exchanger_RG_5:4;stuff=StoneGnome_2026_Exchanger;
+
+;ПАКЕТЫ ПРОДАЖИ РЕСУРСОВ Generator и Exchanger;;;;;;;;;
+temp_01;string;string;string;ignore;string;string;int;ignore;string;int
+;input;output;classname;asset;title;reward;price;Количество ассетов;stuff_icon;id
+;/asset_package/Fun/Fun10/Fun10_Exchanger_RG_1_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_RG_1_Package.proto.js;StoneGnome_2026_Exchanger_RG_1_Package;StoneGnome_2026_Exchanger_RG_1;Кусочек рубиновой мозаики;asset=StoneGnome_2026_Exchanger_RG_1:4;3;4;StoneGnome_2026_Exchanger_RG_1;
+;/asset_package/Fun/Fun10/Fun10_Exchanger_RG_2_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_RG_2_Package.proto.js;StoneGnome_2026_Exchanger_RG_2_Package;StoneGnome_2026_Exchanger_RG_2;Лазуритовая роспись;asset=StoneGnome_2026_Exchanger_RG_2:4;3;4;StoneGnome_2026_Exchanger_RG_2;
+;/asset_package/Fun/Fun10/Fun10_Exchanger_RG_3_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_RG_3_Package.proto.js;StoneGnome_2026_Exchanger_RG_3_Package;StoneGnome_2026_Exchanger_RG_3;Янтарная чешуйка;asset=StoneGnome_2026_Exchanger_RG_3:4;3;4;StoneGnome_2026_Exchanger_RG_3;
+;/asset_package/Fun/Fun10/Fun10_Exchanger_RG_4_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_RG_4_Package.proto.js;StoneGnome_2026_Exchanger_RG_4_Package;StoneGnome_2026_Exchanger_RG_4;Ониксовый узор;asset=StoneGnome_2026_Exchanger_RG_4:4;3;4;StoneGnome_2026_Exchanger_RG_4;
+;/asset_package/Fun/Fun10/Fun10_Exchanger_RG_5_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_RG_5_Package.proto.js;StoneGnome_2026_Exchanger_RG_5_Package;StoneGnome_2026_Exchanger_RG_5;Серебряная канитель;asset=StoneGnome_2026_Exchanger_RG_5:4;3;4;StoneGnome_2026_Exchanger_RG_5;
+;/asset_package/Fun/Fun10/Fun10_Exchanger_R_1_Package.proto.js;/asset_package/Fun/StoneGnome_2026/StoneGnome_2026_Exchanger_R_1_Package.proto.js;StoneGnome_2026_Exchanger_R_1_Package;StoneGnome_2026_Exchanger_R_1;Гномий шедевр;asset=StoneGnome_2026_Exchanger_R_1:1;15;1;StoneGnome_2026_Exchanger_R_1;
