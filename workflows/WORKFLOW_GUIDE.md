@@ -380,6 +380,8 @@ python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack
 python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>
 ```
 
+Stage 6 работает инкрементально: если `resource_table.csv` / `resource_table.summary.json` свежее всех `filled_tasks.json`, `context_pack.json` и `interactive_objects.json` campaign, таблица ресурсов не пересобирается. Interactive-object CSV тоже пропускаются, если они свежее `interactive_objects.json`. Для ручной полной пересборки используй отдельные fallback-команды `resource-table` и `interactive-objects --export`.
+
 Stage 6 читает из:
 
 ```text
@@ -434,6 +436,8 @@ Generated-объекты нумеруются в пределах campaign:
 ```
 
 Если `pack_001` уже использовал `MeatballRain_2026_HOG_1`, следующий pack продолжает с `HOG_2`.
+
+Для текущего pack нумерация считается только по предыдущим pack-ам campaign. Более поздние pack-и не должны влиять на validation или context pack раннего pack-а.
 
 ## Pot Description
 

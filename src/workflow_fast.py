@@ -74,6 +74,40 @@ def pack_artifact(campaign_id: str, pack_id: str, filename: str, campaigns_dir: 
     return pack_dir(campaign_id, pack_id, campaigns_dir) / filename
 
 
+def outputs_are_fresh(outputs: list[Path], inputs: list[Path]) -> bool:
+    existing_outputs = [path for path in outputs if path.exists()]
+    existing_inputs = [path for path in inputs if path.exists()]
+    if len(existing_outputs) != len(outputs) or not existing_inputs:
+        return False
+    oldest_output = min(path.stat().st_mtime for path in existing_outputs)
+    newest_input = max(path.stat().st_mtime for path in existing_inputs)
+    return oldest_output >= newest_input
+
+
+def campaign_pack_dirs(campaign_id: str, campaigns_dir: Path) -> list[Path]:
+    campaign_dir = campaigns_dir / campaign_id
+    return sorted(path for path in campaign_dir.glob("pack_*") if path.is_dir())
+
+
+def resource_table_inputs(campaign_id: str, campaigns_dir: Path) -> list[Path]:
+    campaign_dir = campaigns_dir / campaign_id
+    inputs = [campaign_dir / INTERACTIVE_OBJECTS]
+    for current_pack_dir in campaign_pack_dirs(campaign_id, campaigns_dir):
+        inputs.extend(
+            [
+                current_pack_dir / FILLED_TASKS,
+                current_pack_dir / CONTEXT_PACK,
+                current_pack_dir / INTERACTIVE_OBJECTS,
+            ]
+        )
+    return inputs
+
+
+def generated_interactive_outputs(campaign_id: str, campaigns_dir: Path) -> list[Path]:
+    campaign_dir = campaigns_dir / campaign_id
+    return list(campaign_dir.glob("generated_interactive_objects_*.csv"))
+
+
 def resolve_ids(args: argparse.Namespace, require_pack: bool = True) -> tuple[str, str]:
     context = load_context(args.context)
     campaign_id = args.campaign or str(context.get("campaign_id") or "")
@@ -275,16 +309,22 @@ def run_stage6(args: argparse.Namespace) -> int:
             allow_stale=args.allow_stale_validation,
         )
         interactive_summary = None
+        interactive_skipped = False
         if interactive_manifest_path.exists():
             interactive_validation = interactive_objects_builder.validate_manifest_file(interactive_manifest_path)
             if interactive_validation["summary"]["errors"] == 0:
-                interactive_summary = interactive_objects_builder.build_interactive_objects_files(
-                    campaign_id=campaign_id,
-                    pack_id=pack_id,
-                    manifest_path=interactive_manifest_path,
-                    output_dir=args.campaigns_dir / campaign_id,
-                    summary_path=interactive_summary_path,
-                )
+                existing_interactive_csv = generated_interactive_outputs(campaign_id, args.campaigns_dir)
+                interactive_outputs = [interactive_summary_path, *existing_interactive_csv]
+                if existing_interactive_csv and outputs_are_fresh(interactive_outputs, [interactive_manifest_path]):
+                    interactive_skipped = True
+                else:
+                    interactive_summary = interactive_objects_builder.build_interactive_objects_files(
+                        campaign_id=campaign_id,
+                        pack_id=pack_id,
+                        manifest_path=interactive_manifest_path,
+                        output_dir=args.campaigns_dir / campaign_id,
+                        summary_path=interactive_summary_path,
+                    )
             else:
                 print(f"interactive object csv skipped: {interactive_validation['summary']['errors']} validation errors")
         filled_tasks = export_csv.read_json(input_path)
@@ -302,9 +342,16 @@ def run_stage6(args: argparse.Namespace) -> int:
             current_pack_id=pack_id,
         )
         memory = update_memory_from_pack(campaign_id, pack_id, args.campaigns_dir)
-        resource_rows, resource_summary = resource_table_builder.build_resource_table(campaign_id, campaigns_dir=args.campaigns_dir)
-        resource_table_builder.write_csv(resource_table_path, resource_rows)
-        resource_table_builder.write_json(resource_table_summary_path, resource_summary)
+        resource_skipped = outputs_are_fresh(
+            [resource_table_path, resource_table_summary_path],
+            resource_table_inputs(campaign_id, args.campaigns_dir),
+        )
+        if resource_skipped:
+            resource_summary = resource_table_builder.read_json(resource_table_summary_path)
+        else:
+            resource_rows, resource_summary = resource_table_builder.build_resource_table(campaign_id, campaigns_dir=args.campaigns_dir)
+            resource_table_builder.write_csv(resource_table_path, resource_rows)
+            resource_table_builder.write_json(resource_table_summary_path, resource_summary)
     except (OSError, ValueError, FileNotFoundError) as exc:
         print(str(exc))
         return 2
@@ -323,8 +370,11 @@ def run_stage6(args: argparse.Namespace) -> int:
             f"{len(interactive_summary['files_written'])} files "
             f"(summary={interactive_summary_path})"
         )
+    elif interactive_skipped:
+        print(f"interactive object csv skipped: outputs are up to date ({interactive_summary_path})")
     print(f"memory updated: used_garbage={len(memory.get('used_garbage', {}))} used_flowers={len(memory.get('used_flowers', {}))}")
-    print(f"resource table written: {resource_table_path} (blocks={len(resource_summary['blocks'])} warnings={len(resource_summary['warnings'])})")
+    resource_status = "skipped" if resource_skipped else "written"
+    print(f"resource table {resource_status}: {resource_table_path} (blocks={len(resource_summary['blocks'])} warnings={len(resource_summary['warnings'])})")
     return 0
 
 

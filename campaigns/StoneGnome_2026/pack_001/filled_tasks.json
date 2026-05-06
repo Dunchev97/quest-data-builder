@@ -21,7 +21,7 @@
             "icon": "StoneGnome_2026_Character_1",
             "action": "StoneGnome_2026_Character_1_Dialog_1",
             "title": "Поговори с Шапокляк",
-            "hint": "Поговори с Шапокляк. Для этого просто кликни на него. Он находится в Хижина Чинга.",
+            "hint": "Поговори с Шапокляк. Для этого просто кликни на неё. Он находится в Хижина Чинга.",
             "go_to_location": [
               {
                 "classname": "StoneGnome_2026_Character_1"

@@ -122,6 +122,13 @@ def pack_id_from_number(number: int) -> str:
     return f"pack_{number:03d}"
 
 
+def parse_pack_number(pack_id: str) -> int | None:
+    match = re.fullmatch(r"pack_(\d+)", pack_id or "")
+    if match is None:
+        return None
+    return int(match.group(1))
+
+
 def campaign_dir(campaign_id: str, campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR) -> Path:
     return campaigns_dir / validate_campaign_id(campaign_id)
 
@@ -416,8 +423,14 @@ def generated_sequence_offsets(
         return offsets
 
     for classname, data in used_generated_assets.items():
-        if current_pack_id and isinstance(data, dict) and data.get("pack_id") == current_pack_id:
-            continue
+        if current_pack_id and isinstance(data, dict):
+            pack_id = str(data.get("pack_id") or "")
+            current_pack_number = parse_pack_number(current_pack_id)
+            pack_number = parse_pack_number(pack_id)
+            if pack_id == current_pack_id:
+                continue
+            if current_pack_number is not None and pack_number is not None and pack_number >= current_pack_number:
+                continue
         parsed = parse_generated_asset_classname(classname)
         if parsed is None:
             continue

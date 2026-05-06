@@ -1,6 +1,8 @@
 import json
+import os
 import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
@@ -28,6 +30,25 @@ Character: Helper
 
 
 class WorkflowFastTests(unittest.TestCase):
+    def test_outputs_are_fresh_checks_all_outputs_against_inputs(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            input_path = root / "input.json"
+            output_path = root / "output.csv"
+            summary_path = root / "summary.json"
+            input_path.write_text("input", encoding="utf-8")
+            output_path.write_text("output", encoding="utf-8")
+            summary_path.write_text("summary", encoding="utf-8")
+
+            now = time.time()
+            os.utime(input_path, (now - 20, now - 20))
+            os.utime(output_path, (now - 10, now - 10))
+            os.utime(summary_path, (now - 10, now - 10))
+            self.assertTrue(workflow_fast.outputs_are_fresh([output_path, summary_path], [input_path]))
+
+            os.utime(input_path, (now, now))
+            self.assertFalse(workflow_fast.outputs_are_fresh([output_path, summary_path], [input_path]))
+
     def test_stage3_fast_command_writes_pack_artifacts(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             campaigns_dir = Path(temp_dir) / "campaigns"

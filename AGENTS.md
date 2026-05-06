@@ -169,3 +169,8 @@ python -m unittest discover -s tests
 ```
 
 Не коммитить `__pycache__`/`*.pyc`.
+
+## Оптимизация Workflow
+
+- Stage 6 работает инкрементально: не пересобирать `resource_table.csv` и interactive-object CSV, если выходные файлы свежее всех входных pack/campaign файлов.
+- Для generated-нумерации текущего pack учитывать только предыдущие pack-и campaign. Более поздние pack-и не должны создавать ошибки validation для раннего pack.

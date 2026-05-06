@@ -99,6 +99,8 @@ sl;string;string;string;string;string;string;string
 python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>
 ```
 
+Stage 6 работает инкрементально: `resource_table.csv` и interactive-object CSV пропускаются, если они уже свежее входных файлов. Это нормальное ускорение; отдельные команды `resource-table` и `interactive-objects --export` нужны только для ручной принудительной пересборки или отладки.
+
 Скрипт по умолчанию берет `filled_tasks.json` и `quest_group.json` из папки текущего pack и пишет CSV туда же:
 
 ```text
@@ -113,6 +115,6 @@ campaigns/<campaign_id>/resource_table.summary.json
 
 `generated_actions.csv` содержит только actions текущего pack. Для нумерации `Dialog_N` и `Give_N` код просматривает предыдущие pack-и campaign, чтобы не дублировать идентификаторы.
 
-`resource_table.csv` на этапе 6 не запускать отдельным обязательным шагом после CSV: `workflow_fast.py stage6` обязан пересобрать его сам вместе с остальным экспортом и положить файл на уровень campaign.
+`resource_table.csv` на этапе 6 не запускать отдельным обязательным шагом после CSV: `workflow_fast.py stage6` сам решает, нужно ли пересобирать его по времени изменения входных файлов, и кладет файл на уровень campaign.
 
 После `python src/workflow_fast.py stage6` память campaign уже обновлена автоматически. Если использовался низкоуровневый `export_csv.py`, отдельно запусти `python src/update_campaign_memory.py <campaign_id> --pack <pack_id>`.

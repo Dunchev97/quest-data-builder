@@ -178,6 +178,8 @@ python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id
 python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>
 ```
 
+Stage 6 пропускает пересборку `resource_table.csv` и interactive-object CSV, если выходные файлы уже свежее входных pack/campaign файлов. Обычный workflow остается одной командой, а ручные команды `resource-table` и `interactive-objects --export` нужны только для отладки или принудительной пересборки.
+
 Stage 6 читает `filled_tasks.json` и `quest_group.json` из папки pack, пишет CSV и сразу обновляет `campaign_memory.json`:
 
 ```text

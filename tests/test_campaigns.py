@@ -220,6 +220,8 @@ class CampaignTests(unittest.TestCase):
         self.assertEqual(offsets_without_current_pack["Event_2026"]["HOG"], 2)
         self.assertNotIn("GR", offsets_without_current_pack["Event_2026"])
         offsets_without_pack_1 = generated_sequence_offsets_for_json(memory, current_pack_id="pack_001")
+        self.assertNotIn("HOG", offsets_without_pack_1.get("Event_2026", {}))
+        self.assertNotIn("GR", offsets_without_pack_1.get("Event_2026", {}))
         self.assertNotIn("Character", offsets_without_pack_1.get("Event_2026", {}))
 
 
