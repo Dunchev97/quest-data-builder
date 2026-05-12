@@ -61,7 +61,9 @@
         "interactive objects",
         "Chest",
         "HELP",
-        "Exchanger"
+        "Exchanger",
+        "FriendAction",
+        "Story_FriendAction"
       ],
       "entrypoints": [
         "python src/create_pack.py <campaign_id>",
