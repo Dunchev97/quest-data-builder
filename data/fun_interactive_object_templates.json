@@ -2,7 +2,7 @@
   "version": 1,
   "scope": "non_quest_fun_interactive_objects",
   "notes": [
-    "Templates are derived from Fun12_FunCollection_1, FunCollection_2, Fun12_FunCollection_3, Fun12_FunCollection_4, Fun12_FunCollection_5, FunCollection_6, FunCollection_9 and Fun12_Workbench donors.",
+    "Templates are derived from project-local docs/FunCollection/*.xlsx donors. Only the conf sheet is authoritative for FunCollection templates.",
     "FunCollection templates are for potekha mechanics, not quest interactive object selection.",
     "Workbench is kept as a separate template because it is not a FunCollection potekha object."
   ],
@@ -17,7 +17,7 @@
   "templates": [
     {
       "id": "FunCollection_1",
-      "source_file": "C:/Users/user/Downloads/Fun12_FunCollection_1.xlsx",
+      "source_file": "docs/FunCollection/FunCollection_1.xlsx",
       "category": "fun_collection",
       "mechanic": "Home/Guest chest opened by one GR resource",
       "required_theme_fields": [
@@ -132,7 +132,7 @@
     },
     {
       "id": "FunCollection_3",
-      "source_file": "C:/Users/user/Downloads/Fun12_FunCollection_3.xlsx",
+      "source_file": "docs/FunCollection/FunCollection_3.xlsx",
       "category": "fun_collection",
       "mechanic": "Single paid prediction chest with 10 possible CL rewards",
       "required_theme_fields": [
@@ -184,7 +184,7 @@
     },
     {
       "id": "FunCollection_4",
-      "source_file": "C:/Users/user/Downloads/Fun12_FunCollection_4.xlsx",
+      "source_file": "docs/FunCollection/FunCollection_4.xlsx",
       "category": "fun_collection",
       "mechanic": "Neutral object that turns into good or bad state after feeding with one GR resource",
       "required_theme_fields": [
@@ -339,7 +339,7 @@
     },
     {
       "id": "FunCollection_5",
-      "source_file": "C:/Users/user/Downloads/Fun12_FunCollection_5.xlsx",
+      "source_file": "docs/FunCollection/FunCollection_5.xlsx",
       "category": "fun_collection",
       "mechanic": "Friend gives one GR resource into Guest object; loading the Unlock object with unlock resources enables using the Home object window, where friend gifts are spent on a collection resource",
       "required_theme_fields": [
@@ -551,7 +551,7 @@
     },
     {
       "id": "FunCollection_2",
-      "source_file": "C:/Users/user/Downloads/FunCollection_2.xlsx",
+      "source_file": "docs/FunCollection/FunCollection_2.xlsx",
       "base_template": "data/interactive_object_templates.json#help_1",
       "category": "fun_collection",
       "mechanic": "help_1 / Story_HELP object expanded into 10 Home/Guest pairs and 10 group CL resources gated by the player's last ID digit via multiplicity",
@@ -774,7 +774,7 @@
     },
     {
       "id": "FunCollection_6",
-      "source_file": "C:/Users/user/Downloads/FunCollection_6.xlsx",
+      "source_file": "docs/FunCollection/FunCollection_6.xlsx",
       "category": "fun_collection",
       "mechanic": "Players are split into two halves by the last digit of player id. One half gets resource A, the other gets resource B. Players exchange/gift their own resource to friends, craft A+B into a mystery box, then open the mystery box for one random CL collection element.",
       "defaults": {
@@ -1018,7 +1018,7 @@
     },
     {
       "id": "FunCollection_9",
-      "source_file": "C:/Users/user/Downloads/FunCollection_9.xlsx",
+      "source_file": "docs/FunCollection/FunCollection_9.xlsx",
       "category": "fun_collection",
       "mechanic": "Potekha/Skazaniya friend action collection object. A player performs a friend_action at a friend's home with a daily limit and success probability. The acting player receives FA_1, the home owner receives FA_2, then FA_1+FA_2 are crafted into a mystery box that gives one random CL collection element.",
       "defaults": {

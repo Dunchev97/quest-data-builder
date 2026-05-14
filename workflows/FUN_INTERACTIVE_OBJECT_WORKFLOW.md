@@ -21,18 +21,25 @@ Workflow для шаблонов потешных интерактивных о�
 data/fun_interactive_object_templates.json
 ```
 
+Понятное описание шаблонов:
+
+```text
+docs/FunCollection/FUN_COLLECTION_TEMPLATES.md
+```
+
 Доноры, по которым снята структура:
 
 ```text
-C:/Users/user/Downloads/Fun12_FunCollection_1.xlsx
-C:/Users/user/Downloads/FunCollection_2.xlsx
-C:/Users/user/Downloads/Fun12_FunCollection_3.xlsx
-C:/Users/user/Downloads/Fun12_FunCollection_4.xlsx
-C:/Users/user/Downloads/Fun12_FunCollection_5.xlsx
-C:/Users/user/Downloads/FunCollection_6.xlsx
-C:/Users/user/Downloads/FunCollection_9.xlsx
-C:/Users/user/Downloads/Fun12_Workbench.xlsx
+docs/FunCollection/FunCollection_1.xlsx
+docs/FunCollection/FunCollection_2.xlsx
+docs/FunCollection/FunCollection_3.xlsx
+docs/FunCollection/FunCollection_4.xlsx
+docs/FunCollection/FunCollection_5.xlsx
+docs/FunCollection/FunCollection_6.xlsx
+docs/FunCollection/FunCollection_9.xlsx
 ```
+
+Для FunCollection использовать только лист `conf`. Старые вкладки вроде `Способы` и `Значения` не являются источником структуры.
 
 ## Общие Правила
 
@@ -44,6 +51,8 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 - Тексты писать в стиле Домовят: тепло, предметно, без формального "необходимо/требуется".
 - Интерактивные объекты для потех не включать в quest workflow и не записывать в campaign-level `interactive_objects.json`.
 - Workbench не считать потешной FunCollection-механикой: у него отдельный шаблон `workbench_single`.
+- Для кириллицы не использовать PowerShell pipe с inline Python/Node-скриптом, если внутри есть русские строки. Кириллические данные хранить в UTF-8 файле, а генератор запускать ASCII-only и читать этот файл.
+- После генерации CSV/XLSX проверять файл обратно: нет `????`, есть контрольные русские `title`/`description`, `location_tag`, `tech_quest`, нужное количество `CL`.
 
 ## Как Заполнять По Теме
 
@@ -61,7 +70,7 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 
 ### `FunCollection_1`
 
-Донор: `Fun12_FunCollection_1.xlsx`.
+Донор: `docs/FunCollection/FunCollection_1.xlsx`, лист `conf`.
 
 Механика: Home/Guest chest открывается одним GR-ресурсом и выдает одну из 10 CL-наград.
 
@@ -83,7 +92,7 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 
 ### `FunCollection_3`
 
-Донор: `Fun12_FunCollection_3.xlsx`.
+Донор: `docs/FunCollection/FunCollection_3.xlsx`, лист `conf`.
 
 Механика: одиночный платный chest/предсказатель с 10 CL-наградами и `reward_time_interval`.
 
@@ -101,7 +110,7 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 
 ### `FunCollection_4`
 
-Донор: `Fun12_FunCollection_4.xlsx`.
+Донор: `docs/FunCollection/FunCollection_4.xlsx`, лист `conf`.
 
 Механика: нейтральный объект, который после кормления/использования ресурса превращается в хорошее или плохое состояние. Хорошее состояние дает одну из 10 CL-наград, плохое состояние может включать негативные эффекты.
 
@@ -125,7 +134,7 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 
 ### `FunCollection_5`
 
-Донор: `Fun12_FunCollection_5.xlsx`.
+Донор: `docs/FunCollection/FunCollection_5.xlsx`, лист `conf`.
 
 Механика: игрок добывает ресурс анлока, друг добывает ресурс дарения и вкладывает его в Guest-объект; вклад превращается в ресурс подарка/результата. `Unlock` не выдает CL-награды сам: загрузка `Unlock` ресурсами разрешает пользоваться объектом, открыть его окно и дальше тратить подарки от друзей на коллекционный ресурс.
 
@@ -156,7 +165,7 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 
 База: `data/interactive_object_templates.json#help_1`.
 
-Старый источник информации: `C:/Users/user/Downloads/FunCollection_2.xlsx`.
+Донор: `docs/FunCollection/FunCollection_2.xlsx`, лист `conf`.
 
 Механика: актуальный `help_1` / `Story_HELP`-объект, расширенный до 10 Home/Guest пар и 10 групповых `CL`-ресурсов. Игроки делятся по последней цифре ID: группы 1-9 получают `multiplicity=1..9`, группа 10 получает `multiplicity=0`.
 
@@ -187,7 +196,7 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 
 ### `FunCollection_6`
 
-Донор: `C:/Users/user/Downloads/FunCollection_6.xlsx`.
+Донор: `docs/FunCollection/FunCollection_6.xlsx`, лист `conf`.
 
 Механика: игроки делятся на две половины по последней цифре ID. Четные `0,2,4,6,8` получают ресурс A (`GR_1`), нечетные `1,3,5,7,9` получают ресурс B (`GR_2`). Всем нужны оба ресурса: игрок дарит друзьям свой ресурс и рассчитывает получить недостающий в ответ. Recipe тратит `GR_1 + GR_2` и выдает mystery box (`MB`), а mystery box дает один случайный элемент из 10 `CL`-частей коллекции.
 
@@ -220,7 +229,7 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 
 ### `FunCollection_9`
 
-Донор: `C:/Users/user/Downloads/FunCollection_9.xlsx`.
+Донор: `docs/FunCollection/FunCollection_9.xlsx`, лист `conf`.
 
 Механика: potekha/Skazaniya-объект на базе friend action. Игрок ходит к другу и делает действие с дневным лимитом и шансом успеха. За свое успешное действие игрок получает `FA_1`, а хозяин дома получает `FA_2`, когда друзья успешно делают действие у него. Затем `FA_1 + FA_2` крафтятся в `MB`, mystery box выдает один случайный элемент из 10 `CL`-частей коллекции.
 
