@@ -1,0 +1,1274 @@
+{
+  "version": 1,
+  "scope": "non_quest_fun_interactive_objects",
+  "notes": [
+    "Templates are derived from Fun12_FunCollection_1, FunCollection_2, Fun12_FunCollection_3, Fun12_FunCollection_4, Fun12_FunCollection_5, FunCollection_6, FunCollection_9 and Fun12_Workbench donors.",
+    "FunCollection templates are for potekha mechanics, not quest interactive object selection.",
+    "Workbench is kept as a separate template because it is not a FunCollection potekha object."
+  ],
+  "common_placeholders": {
+    "prefix": "Current event prefix, for example Fun13.",
+    "source_prefix": "Donor prefix used in input paths, for example Fun12.",
+    "collection_number": "FunCollection number.",
+    "tech_quest": "Technical weekly quest classname, usually {prefix}_Tech_Weekly_{collection_number}.",
+    "location_tag": "Location tag for global_reward rows.",
+    "collection_rewards": "Exactly 10 CL reward titles in thematic order."
+  },
+  "templates": [
+    {
+      "id": "FunCollection_1",
+      "source_file": "C:/Users/user/Downloads/Fun12_FunCollection_1.xlsx",
+      "category": "fun_collection",
+      "mechanic": "Home/Guest chest opened by one GR resource",
+      "required_theme_fields": [
+        "object_title",
+        "activation_resource_title",
+        "activation_resource_description",
+        "reward_group_title",
+        "collection_rewards",
+        "location_tag",
+        "tech_quest_home",
+        "tech_quest_guest"
+      ],
+      "classname_patterns": {
+        "activation_resource": "{prefix}_FunCollection_{collection_number}_GR_1",
+        "collection_reward": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+        "guest_object": "{prefix}_FunCollection_{collection_number}_Guest",
+        "home_object": "{prefix}_FunCollection_{collection_number}_Home",
+        "activation_package": "{prefix}_FunCollection_{collection_number}_GR_1_Package"
+      },
+      "blocks": [
+        {
+          "title": "Ресурсы FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "description", "meta_info", "id"],
+          "rows": [
+            {
+              "repeat": "activation_resource",
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "title": "{activation_resource_title}",
+              "description": "{activation_resource_description}",
+              "meta_info": "pack_asset={prefix}_FunCollection_{collection_number}_GR_1_Package"
+            },
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+              "title": "{collection_rewards[index].title}",
+              "description": "Можно получить из {object_title} дома или в гостях"
+            }
+          ]
+        },
+        {
+          "title": "Способ получения GR",
+          "types": ["temp_01", "string", "string", "ignore", "array", "array", "int", "string", "string", "int"],
+          "headers": ["", "input", "output", "file_name", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "id"],
+          "rows": [
+            {
+              "input": "/global_reward/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "output": "/global_reward/{prefix}/{prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "file_name": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "actions": "{source_action}",
+              "location_tags": "{location_tag}",
+              "rand_reward.p": "{drop_probability|40}",
+              "rand_reward.asset": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "conditions": "active_quest={tech_quest_guest}"
+            }
+          ]
+        },
+        {
+          "title": "FunCollection_{collection_number}_Guest",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "action_availability_conditions", "open_price", "extra.description_window", "extra.reward_description", "extra.instruction_title", "extra.tile_till_window", "extra.open_btn_window", "extra.open_now_btn_window", "id"],
+          "rows": [
+            {
+              "input": "/chest/Fun/{source_prefix}_FunCollection_{collection_number}_Guest.proto.js",
+              "output": "/chest/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_Guest.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_Guest",
+              "title": "{object_title}",
+              "action_availability_conditions": "stuff={prefix}_FunCollection_{collection_number}_Home",
+              "open_price": "asset={prefix}_FunCollection_{collection_number}_GR_1:{activation_amount|3}",
+              "extra.description_window": "Положи {activation_resource_accusative} в {object_title_accusative}, чтобы получить один из 10-ти предметов: {reward_group_title}.",
+              "extra.reward_description": "Собирай {reward_group_title_accusative}, кликая на {object_title_accusative} дома и в гостях.",
+              "extra.instruction_title": "{instruction_title}",
+              "extra.tile_till_window": "Можно получить через:",
+              "extra.open_btn_window": "Получить",
+              "extra.open_now_btn_window": "Получить сейчас за {price}"
+            }
+          ]
+        },
+        {
+          "title": "FunCollection_{collection_number}_Home",
+          "same_as": "FunCollection_{collection_number}_Guest",
+          "overrides": {
+            "input": "/chest/Fun/{source_prefix}_FunCollection_{collection_number}_Home.proto.js",
+            "output": "/chest/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_Home.proto.js",
+            "classname": "{prefix}_FunCollection_{collection_number}_Home",
+            "action_availability_conditions": "active_quest={tech_quest_home}"
+          }
+        },
+        {
+          "title": "Пакеты продажи ресурсов FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "ignore", "string", "string", "int", "ignore", "string", "int"],
+          "headers": ["", "input", "output", "classname", "asset", "title", "reward", "price", "Количество ассетов", "stuff_icon", "id"],
+          "rows": [
+            {
+              "input": "/asset_package/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_1_Package.proto.js",
+              "output": "/asset_package/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_GR_1_Package.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_GR_1_Package",
+              "asset": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "title": "{activation_resource_title}",
+              "reward": "asset={prefix}_FunCollection_{collection_number}_GR_1:{package_amount|3}",
+              "price": "{package_price|4}",
+              "Количество ассетов": "{package_amount|3}",
+              "stuff_icon": "{prefix}_FunCollection_{collection_number}_GR_1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "FunCollection_3",
+      "source_file": "C:/Users/user/Downloads/Fun12_FunCollection_3.xlsx",
+      "category": "fun_collection",
+      "mechanic": "Single paid prediction chest with 10 possible CL rewards",
+      "required_theme_fields": [
+        "object_title",
+        "reward_group_title",
+        "collection_rewards",
+        "window_description"
+      ],
+      "classname_patterns": {
+        "object": "{prefix}_FunCollection_{collection_number}",
+        "collection_reward": "{prefix}_FunCollection_{collection_number}_CL_{index}"
+      },
+      "blocks": [
+        {
+          "title": "Ресурсы FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "description", "id"],
+          "rows": [
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+              "title": "{collection_rewards[index].title}",
+              "description": "Можно получить у {object_title_genitive}"
+            }
+          ]
+        },
+        {
+          "title": "FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "string", "int", "string", "replace", "", "string", "int", "int"],
+          "headers": ["", "input", "output", "classname", "title", "use_for_money_price", "extra.window_skin", "find", "replace", "extra.text_description", "reward_time_interval", "id"],
+          "rows": [
+            {
+              "input": "/chest/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}.proto.js",
+              "output": "/chest/Fun/{source_prefix}/{prefix}_FunCollection_{collection_number}.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}",
+              "title": "{object_title}",
+              "use_for_money_price": "{use_for_money_price|5}",
+              "extra.window_skin": "{prefix}_FunCollection_{collection_number}_Window",
+              "find": "{source_prefix}",
+              "replace": "{prefix}",
+              "extra.text_description": "{window_description}",
+              "reward_time_interval": "{reward_time_interval|300}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "FunCollection_4",
+      "source_file": "C:/Users/user/Downloads/Fun12_FunCollection_4.xlsx",
+      "category": "fun_collection",
+      "mechanic": "Neutral object that turns into good or bad state after feeding with one GR resource",
+      "required_theme_fields": [
+        "neutral_title",
+        "good_state_title",
+        "bad_state_title",
+        "feeding_resource_title",
+        "feeding_resource_description",
+        "reward_owner_name",
+        "collection_rewards",
+        "location_tag",
+        "tech_quest",
+        "negative_effect_titles"
+      ],
+      "classname_patterns": {
+        "neutral": "{prefix}_FunCollection_{collection_number}",
+        "good_state": "{prefix}_FunCollection_{collection_number}_Real",
+        "bad_state": "{prefix}_FunCollection_{collection_number}_Fake",
+        "feeding_resource": "{prefix}_FunCollection_{collection_number}_GR_1",
+        "collection_reward": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+        "negative_effect": "{prefix}_Mockery_{effect_suffix}"
+      },
+      "blocks": [
+        {
+          "title": "Нейтральное состояние FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "int", "replace", "", "replace"],
+          "headers": ["", "input", "output", "classname", "title", "meta_info", "id", "find", "replace", "find", "replace"],
+          "rows": [
+            {
+              "input": "/debris/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}.proto.js",
+              "output": "/debris/Fun/{prefix}/{prefix}_FunCollection_{collection_number}.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}",
+              "title": "{neutral_title}",
+              "meta_info": "buy_spoil_title={wait_title};buy_spoil_btn=Ускорить ожидание за {price};can_be_drug_from_inventory=0;disposition=no_gravitation;buy_spoil_icon={prefix}_FunCollection_{collection_number}_Icon",
+              "find": "{source_prefix}",
+              "replace": "{prefix}",
+              "find_2": "{source_location_id}",
+              "replace_2": "{target_location_id}"
+            }
+          ]
+        },
+        {
+          "title": "Хорошее состояние FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "string", "int", "replace", "", "replace"],
+          "headers": ["", "input", "output", "classname", "title", "extra.pop_up_message", "extra.window_skin", "extra.pop_up_message", "id", "find", "replace", "find", "replace"],
+          "rows": [
+            {
+              "input": "/debris/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_Real.proto.js",
+              "output": "/debris/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_Real.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_Real",
+              "title": "{good_state_title}",
+              "extra.pop_up_message": "{good_popup}",
+              "extra.window_skin": "{prefix}_FunCollection_{collection_number}_Real_Window",
+              "extra.pop_up_message_2": "{good_window_text}",
+              "find": "{source_prefix}",
+              "replace": "{prefix}",
+              "find_2": "{source_location_id}",
+              "replace_2": "{target_location_id}"
+            }
+          ]
+        },
+        {
+          "title": "Плохое состояние FunCollection_{collection_number}",
+          "same_as": "Хорошее состояние FunCollection_{collection_number}",
+          "overrides": {
+            "input": "/debris/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_Fake.proto.js",
+            "output": "/debris/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_Fake.proto.js",
+            "classname": "{prefix}_FunCollection_{collection_number}_Fake",
+            "title": "{bad_state_title}",
+            "extra.pop_up_message": "{bad_popup}",
+            "extra.window_skin": "{prefix}_FunCollection_{collection_number}_Fake_Window",
+            "extra.pop_up_message_2": "{bad_window_text}"
+          }
+        },
+        {
+          "title": "Ресурсы FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "int", "string", "string"],
+          "headers": ["", "input", "output", "classname", "title", "description", "id", "meta_info", "view_classname"],
+          "rows": [
+            {
+              "repeat": "feeding_resource",
+              "input": "/workbench_item/Fun11/{source_prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "output": "/workbench_item/Fun11/{prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "title": "{feeding_resource_title}",
+              "description": "{feeding_resource_description}",
+              "meta_info": "pack_asset={prefix}_FunCollection_{collection_number}_GR_1_Package",
+              "view_classname": "{prefix}_FunCollection_{collection_number}_GR_1"
+            },
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+              "title": "{collection_rewards[index].title}",
+              "description": "Можно получить у {reward_owner_name}, если использовать {feeding_resource_instrumental}"
+            }
+          ]
+        },
+        {
+          "title": "Пакеты ресурсов FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "int", "string", "int", "ignore"],
+          "headers": ["", "input", "output", "classname", "title", "reward", "price", "stuff_icon", "id", "Количество ассетов"],
+          "rows": [
+            {
+              "input": "/asset_package/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_1_Package.proto.js",
+              "output": "/asset_package/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_GR_1_Package.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_GR_1_Package",
+              "title": "{feeding_resource_title}",
+              "reward": "asset={prefix}_FunCollection_{collection_number}_GR_1:{package_amount|2}",
+              "price": "{package_price|3}",
+              "stuff_icon": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "Количество ассетов": "{package_amount|2}"
+            }
+          ]
+        },
+        {
+          "title": "Способы получения ресурсов FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "array", "array", "int", "string", "string", "int", "ignore"],
+          "headers": ["", "input", "output", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "id", "file_name"],
+          "rows": [
+            {
+              "input": "/global_reward/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "output": "/global_reward/{prefix}/{prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "actions": "{source_action|clean_garbage}",
+              "location_tags": "{location_tag}",
+              "rand_reward.p": "{drop_probability|40}",
+              "rand_reward.asset": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "conditions": "active_quest={tech_quest}",
+              "file_name": "{prefix}_FunCollection_{collection_number}_GR_1"
+            }
+          ]
+        },
+        {
+          "title": "Негативные эффекты FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "int", "replace", "", "replace"],
+          "headers": ["", "input", "output", "classname", "title", "description", "id", "find", "replace", "find", "replace"],
+          "rows": [
+            {
+              "repeat": "negative_effect_titles",
+              "input": "/furniture/Fun/{source_prefix}/{source_prefix}_Mockery_{effect_suffix}.proto.js",
+              "output": "/furniture/Fun/{prefix}/{prefix}_Mockery_{effect_suffix}.proto.js",
+              "classname": "{prefix}_Mockery_{effect_suffix}",
+              "title": "{negative_effect_titles[effect_suffix]}",
+              "description": "{negative_effect_description|}",
+              "find": "{source_prefix}",
+              "replace": "{prefix}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "FunCollection_5",
+      "source_file": "C:/Users/user/Downloads/Fun12_FunCollection_5.xlsx",
+      "category": "fun_collection",
+      "mechanic": "Friend gives one GR resource into Guest object; loading the Unlock object with unlock resources enables using the Home object window, where friend gifts are spent on a collection resource",
+      "required_theme_fields": [
+        "object_title",
+        "unlock_resource_title",
+        "gift_resource_title",
+        "contribution_result_title",
+        "collection_rewards",
+        "unlock_source_action",
+        "gift_source_action",
+        "unlock_location_tag",
+        "gift_location_tag",
+        "tech_quest"
+      ],
+      "classname_patterns": {
+        "collection_reward": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+        "contribution_result": "{prefix}_FunCollection_{collection_number}_GR_2_2",
+        "unlock_resource": "{prefix}_FunCollection_{collection_number}_GR_1",
+        "gift_resource": "{prefix}_FunCollection_{collection_number}_GR_2_1",
+        "guest_object": "{prefix}_FunCollection_{collection_number}_Guest",
+        "unlock_object": "{prefix}_FunCollection_{collection_number}_Unlock",
+        "home_object": "{prefix}_FunCollection_{collection_number}_Home",
+        "post_action": "help_{prefix}_FunCollection_{collection_number}"
+      },
+      "blocks": [
+        {
+          "title": "Ресурсы FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "string", "ignore", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "description", "meta_info", "id"],
+          "rows": [
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+              "title": "{collection_rewards[index].title}",
+              "description": "Можно получить из {object_title_genitive}"
+            },
+            {
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_2_2.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_GR_2_2.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_GR_2_2",
+              "title": "{contribution_result_title}",
+              "description": "Друг должен вложить {gift_resource_accusative} в твою {object_title_accusative}",
+              "meta_info": "pack_asset={prefix}_FunCollection_{collection_number}_GR_2_2_Package"
+            },
+            {
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "title": "{unlock_resource_title}",
+              "description": "{unlock_resource_description}",
+              "meta_info": "pack_asset={prefix}_FunCollection_{collection_number}_GR_1_Package"
+            }
+          ]
+        },
+        {
+          "title": "Ресурс дарения FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "string", "ignore", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "description", "transformation_to_other_asset_while_gifting", "meta_info", "id"],
+          "rows": [
+            {
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_2_1.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_GR_2_1.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_GR_2_1",
+              "title": "{gift_resource_title}",
+              "description": "{gift_resource_description}",
+              "transformation_to_other_asset_while_gifting": "{prefix}_FunCollection_{collection_number}_GR_2_2",
+              "meta_info": "pack_asset={prefix}_FunCollection_{collection_number}_GR_2_1_Package"
+            }
+          ]
+        },
+        {
+          "title": "Способ получения ресурса анлока FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "ignore", "ignore", "array", "ignore", "int", "string", "string", "array", "", "", "", "", "", "int"],
+          "headers": ["", "input", "output", "file_name", "title", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "assets", "", "", "", "", "", "id"],
+          "rows": [
+            {
+              "input": "/global_reward/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "output": "/global_reward/{prefix}/{prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "file_name": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "title": "{unlock_resource_title}",
+              "actions": "{unlock_source_action}",
+              "location_tags": "{unlock_location_tag}",
+              "rand_reward.p": "{unlock_drop_probability|40}",
+              "rand_reward.asset": "{prefix}_FunCollection_GR_1",
+              "conditions": "active_quest={tech_quest}",
+              "assets": "{unlock_source_assets}"
+            }
+          ]
+        },
+        {
+          "title": "Способ получения ресурса дарения FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "ignore", "ignore", "array", "array", "int", "string", "string", "int"],
+          "headers": ["", "input", "output", "file_name", "title", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "id"],
+          "rows": [
+            {
+              "input": "/global_reward/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_2_1.proto.js",
+              "output": "/global_reward/{prefix}/{prefix}_FunCollection_{collection_number}_GR_2_1.proto.js",
+              "file_name": "{prefix}_FunCollection_{collection_number}_GR_2_1",
+              "title": "{gift_resource_title}",
+              "actions": "{gift_source_action}",
+              "location_tags": "{gift_location_tag}",
+              "rand_reward.p": "{gift_drop_probability|}",
+              "rand_reward.asset": "{prefix}_FunCollection_{collection_number}_GR_2_1",
+              "conditions": "active_quest={tech_quest}"
+            }
+          ]
+        },
+        {
+          "title": "Пакеты продажи ресурсов FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "ignore", "string", "string", "int", "ignore", "string", "int"],
+          "headers": ["", "input", "output", "classname", "asset", "title", "reward", "price", "Количество ассетов", "stuff_icon", "id"],
+          "rows": [
+            {
+              "repeat": "contribution_result_and_unlock",
+              "input": "/asset_package/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_{resource_suffix}_Package.proto.js",
+              "output": "/asset_package/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_{resource_suffix}_Package.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_{resource_suffix}_Package",
+              "asset": "{prefix}_FunCollection_{collection_number}_{resource_suffix}",
+              "title": "{resource_title}",
+              "reward": "asset={prefix}_FunCollection_{collection_number}_{resource_suffix}:{package_amount}",
+              "price": "{package_price}",
+              "Количество ассетов": "{package_amount}",
+              "stuff_icon": "{prefix}_FunCollection_{collection_number}_{resource_suffix}"
+            }
+          ]
+        },
+        {
+          "title": "Пост экшен FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "ignore", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "file_name", "identifier", "title", "text", "id"],
+          "rows": [
+            {
+              "input": "/post_action/help_{source_prefix}_FunCollection_{collection_number}.proto.js",
+              "output": "/post_action/help_{prefix}_FunCollection_{collection_number}.proto.js",
+              "file_name": "help_{prefix}_FunCollection_{collection_number}",
+              "identifier": "help_{prefix}_FunCollection_{collection_number}",
+              "title": "Помоги мне получить {contribution_result_accusative}",
+              "text": "{post_action_text}"
+            }
+          ]
+        },
+        {
+          "title": "FunCollection_{collection_number}_Guest",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "int", "string", "array", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "stuff_icon", "price", "extra.window_spec.view_window", "extra.window_spec.guest_resource", "extra.window_spec.description", "extra.window_spec.description_help", "extra.window_spec.description_time", "behaviour.0.lock.availability_conditions", "behaviour.0.lock.text", "id"],
+          "rows": [
+            {
+              "input": "/furniture/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_Guest.proto.js",
+              "output": "/furniture/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_Guest.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_Guest",
+              "title": "{object_title}",
+              "stuff_icon": "{prefix}_FunCollection_{collection_number}_Home",
+              "price": "{guest_price|3}",
+              "extra.window_spec.view_window": "{prefix}_FunCollection_{collection_number}_Guest_Window",
+              "extra.window_spec.guest_resource": "{prefix}_FunCollection_{collection_number}_GR_2_1",
+              "extra.window_spec.description": "Помогая, ты расходуешь 1 {gift_resource_accusative}",
+              "extra.window_spec.description_help": "{guest_help_text}",
+              "extra.window_spec.description_time": "Можно помочь через:",
+              "behaviour.0.lock.availability_conditions": "stuff={source_prefix}_FunCollection_{collection_number}_Home:1+quest_active_or_accomplished={source_prefix}_Tech_Weekly_{collection_number}",
+              "behaviour.0.lock.text": "{guest_locked_text|Ранехонько!}"
+            }
+          ]
+        },
+        {
+          "title": "FunCollection_{collection_number}_Unlock",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "array", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "open_price", "extra.action_availability_conditions", "extra.time_till_open_description", "extra.get_description", "extra.open_btn", "extra.window_spec.description", "id"],
+          "rows": [
+            {
+              "input": "/chest/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_Unlock.proto.js",
+              "output": "/chest/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_Unlock.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_Unlock",
+              "title": "{object_title}",
+              "open_price": "asset={prefix}_FunCollection_GR_1:{unlock_price_amount|15}",
+              "extra.action_availability_conditions": "active_quest={tech_quest}",
+              "extra.time_till_open_description": "Можно сделать подношение через:",
+              "extra.get_description": "Для подношения нужно:",
+              "extra.open_btn": "{unlock_button|Сделать подношение}",
+              "extra.window_spec.description": "{unlock_window_description}",
+              "note": "Unlock is not the reward source. Loading this object with unlock resources enables opening/using the collection object window; collection progress then spends friend gift/result resources."
+            }
+          ]
+        },
+        {
+          "title": "FunCollection_{collection_number}_Home",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "array", "string", "string", "string", "string", "string", "int", "replace"],
+          "headers": ["", "input", "output", "classname", "title", "open_price", "behaviour.2.chest_classname", "extra.post_notifications", "extra.window_spec.view_window", "extra.window_spec.description", "extra.action_availability_conditions", "extra.action_availability_title", "id", "find", "replace"],
+          "rows": [
+            {
+              "input": "/chest/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_Home.proto.js",
+              "output": "/chest/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_Home.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_Home",
+              "title": "{object_title}",
+              "open_price": "asset={prefix}_FunCollection_{collection_number}_GR_2_2:{home_open_amount|5}",
+              "behaviour.2.chest_classname": "{prefix}_FunCollection_{collection_number}_Unlock",
+              "extra.post_notifications": "help_{prefix}_FunCollection_{collection_number}",
+              "extra.window_spec.view_window": "{prefix}_FunCollection_{collection_number}_Home_Window",
+              "extra.window_spec.description": "{home_window_description}",
+              "extra.action_availability_conditions": "chest_ready!={prefix}_FunCollection_{collection_number}_Unlock+active_quest={tech_quest}",
+              "extra.action_availability_title": "{home_not_ready_title|Еще не время!}",
+              "find": "{source_prefix}",
+              "replace": "{prefix}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "FunCollection_2",
+      "source_file": "C:/Users/user/Downloads/FunCollection_2.xlsx",
+      "base_template": "data/interactive_object_templates.json#help_1",
+      "category": "fun_collection",
+      "mechanic": "help_1 / Story_HELP object expanded into 10 Home/Guest pairs and 10 group CL resources gated by the player's last ID digit via multiplicity",
+      "defaults": {
+        "source_prefix": "Fun11",
+        "prefix_example": "Fun13",
+        "collection_number": "2",
+        "home_open_amount": 10,
+        "daily_help_limit": 5,
+        "path_package_amount": 3,
+        "path_package_price": 1,
+        "result_package_amount": 15,
+        "result_package_price": 1,
+        "collection_package_amount": 1,
+        "collection_package_price": 5,
+        "collection_drop_probability": 30,
+        "multiplicity_by_index": {
+          "1": 1,
+          "2": 2,
+          "3": 3,
+          "4": 4,
+          "5": 5,
+          "6": 6,
+          "7": 7,
+          "8": 8,
+          "9": 9,
+          "10": 0
+        }
+      },
+      "required_theme_fields": [
+        "object_title",
+        "path_resource_title",
+        "result_resource_title",
+        "collection_rewards",
+        "location_tag",
+        "tech_quest",
+        "mark_1",
+        "mark_2",
+        "help_comment",
+        "activation_comment",
+        "active_state_comment",
+        "guest_conditions_title"
+      ],
+      "classname_patterns": {
+        "home_object": "{prefix}_FunCollection_{collection_number}_Home_{index}",
+        "guest_object": "{prefix}_FunCollection_{collection_number}_Guest_{index}",
+        "guest_stuff_icon": "{prefix}_FunCollection_{collection_number}_Guest_{index}_StuffIcon",
+        "path_resource": "{prefix}_FunCollection_{collection_number}_HELP_OpenerPath",
+        "result_resource": "{prefix}_FunCollection_{collection_number}_HELP_Opener",
+        "collection_reward": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+        "recipe": "{prefix}_FunCollection_{collection_number}_HELP_Opener_Recipe"
+      },
+      "rules": [
+        "Use the field shape from help_1: Home is a chest block, Guest is a furniture block with behaviour.1.chest and rand_reward fields.",
+        "Input paths use Fun11 donor files; output paths use the target prefix, for example Fun13.",
+        "Create 10 Home rows and 10 Guest rows. Group index 1..9 maps to multiplicity 1..9; group index 10 maps to multiplicity 0.",
+        "Each Home row spends its own collection reward: open_price=asset={prefix}_FunCollection_{collection_number}_CL_{index}:{home_open_amount}.",
+        "Create 10 CL assets, 10 CL packages and 10 global_reward rows with active_quest={tech_quest}+multiplicity={multiplicity}.",
+        "Do not use this template as campaign quest interactive_objects.json; it is a FunCollection potekha template derived from help_1."
+      ],
+      "blocks": [
+        {
+          "title": "FunCollection_{collection_number}_Home x10",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "open_price", "extra.window_spec.view_window", "extra.window_spec.main_asset", "extra.window_spec.mark_1", "extra.window_spec.mark_2", "extra.window_spec.comment_1", "extra.window_spec.comment_2", "extra.window_spec.comment_3", "extra.window_spec.comment_4", "extra.window_spec.comment_4", "id"],
+          "rows": [
+            {
+              "repeat": "groups[1..10]",
+              "input": "/chest/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_Home_{index}.proto.js",
+              "output": "/chest/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_Home_{index}.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_Home_{index}",
+              "title": "{object_title}",
+              "open_price": "asset={prefix}_FunCollection_{collection_number}_CL_{index}:{home_open_amount|10}",
+              "extra.window_spec.view_window": "{prefix}_FunCollection_{collection_number}_Window",
+              "extra.window_spec.main_asset": "{prefix}_FunCollection_{collection_number}_HELP_Opener",
+              "extra.window_spec.mark_1": "{mark_1}",
+              "extra.window_spec.mark_2": "{mark_2}",
+              "extra.window_spec.comment_1": "{help_comment}",
+              "extra.window_spec.comment_2": "{activation_comment}",
+              "extra.window_spec.comment_3": "{active_state_comment}",
+              "extra.window_spec.comment_4": "{timer_comment|Закончится через:}",
+              "extra.window_spec.comment_4_2": "{activate_button_title|Активировать}"
+            }
+          ]
+        },
+        {
+          "title": "FunCollection_{collection_number}_Guest x10",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int", "int"],
+          "headers": ["", "input", "output", "classname", "title", "stuff_icon", "behaviour.1.chest", "behaviour.1.conditions_title", "rand_reward.asset", "rand_reward_in_guest.asset", "daily_help_limit", "id"],
+          "rows": [
+            {
+              "repeat": "groups[1..10]",
+              "input": "/furniture/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_Guest_{index}.proto.js",
+              "output": "/furniture/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_Guest_{index}.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_Guest_{index}",
+              "title": "{object_title}",
+              "stuff_icon": "{prefix}_FunCollection_{collection_number}_Guest_{index}_StuffIcon",
+              "behaviour.1.chest": "{prefix}_FunCollection_{collection_number}_Home_{index}",
+              "behaviour.1.conditions_title": "{guest_conditions_title}",
+              "rand_reward.asset": "{prefix}_FunCollection_{collection_number}_HELP_OpenerPath",
+              "rand_reward_in_guest.asset": "{prefix}_FunCollection_{collection_number}_HELP_Opener",
+              "daily_help_limit": "{daily_help_limit|5}"
+            }
+          ]
+        },
+        {
+          "title": "HELP resources",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "meta_info", "id"],
+          "rows": [
+            {
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_HELP_OpenerPath.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_HELP_OpenerPath.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_HELP_OpenerPath",
+              "title": "{path_resource_title}",
+              "meta_info": "pack_asset={prefix}_FunCollection_{collection_number}_HELP_OpenerPath_Package"
+            },
+            {
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_HELP_Opener.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_HELP_Opener.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_HELP_Opener",
+              "title": "{result_resource_title}",
+              "meta_info": "pack_asset={prefix}_FunCollection_{collection_number}_HELP_Opener_Package"
+            }
+          ]
+        },
+        {
+          "title": "Collection reward assets x10",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "id"],
+          "rows": [
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+              "view_classname": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+              "title": "{collection_rewards[index].title}",
+              "description": "{collection_rewards[index].description}",
+              "meta_info": "pack_asset={prefix}_FunCollection_{collection_number}_CL_{index}_Package"
+            }
+          ]
+        },
+        {
+          "title": "Collection reward global_rewards x10",
+          "types": ["temp_01", "string", "string", "ignore", "array", "array", "int", "string", "string", "array", "int"],
+          "headers": ["", "input", "output", "file_name", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "assets", "id"],
+          "rows": [
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/global_reward/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "output": "/global_reward/{prefix}/{prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "file_name": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+              "actions": "{source_action|clean_garbage}",
+              "location_tags": "{location_tag}",
+              "rand_reward.p": "{collection_drop_probability|30}",
+              "rand_reward.asset": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+              "conditions": "active_quest={tech_quest}+multiplicity={multiplicity_by_index[index]}",
+              "assets": "{source_assets|}"
+            }
+          ]
+        },
+        {
+          "title": "Packages",
+          "types": ["temp_01", "string", "string", "string", "ignore", "string", "string", "int", "ignore", "string", "int"],
+          "headers": ["", "input", "output", "classname", "asset", "title", "reward", "price", "Количество ассетов", "stuff_icon", "id"],
+          "rows": [
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/asset_package/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_CL_{index}_Package.proto.js",
+              "output": "/asset_package/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_CL_{index}_Package.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_CL_{index}_Package",
+              "asset": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+              "title": "{collection_rewards[index].title}",
+              "reward": "asset={prefix}_FunCollection_{collection_number}_CL_{index}:{collection_package_amount|1}",
+              "price": "{collection_package_price|5}",
+              "Количество ассетов": "{collection_package_amount|1}",
+              "stuff_icon": "{prefix}_FunCollection_{collection_number}_CL_{index}"
+            },
+            {
+              "input": "/asset_package/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_HELP_OpenerPath_Package.proto.js",
+              "output": "/asset_package/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_HELP_OpenerPath_Package.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_HELP_OpenerPath_Package",
+              "asset": "{prefix}_FunCollection_{collection_number}_HELP_OpenerPath",
+              "title": "{path_resource_title}",
+              "reward": "asset={prefix}_FunCollection_{collection_number}_HELP_OpenerPath:{path_package_amount|3}",
+              "price": "{path_package_price|1}",
+              "Количество ассетов": "{path_package_amount|3}",
+              "stuff_icon": "{prefix}_FunCollection_{collection_number}_HELP_OpenerPath"
+            },
+            {
+              "input": "/asset_package/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_HELP_Opener_Package.proto.js",
+              "output": "/asset_package/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_HELP_Opener_Package.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_HELP_Opener_Package",
+              "asset": "{prefix}_FunCollection_{collection_number}_HELP_Opener",
+              "title": "{result_resource_title}",
+              "reward": "asset={prefix}_FunCollection_{collection_number}_HELP_Opener:{result_package_amount|15}",
+              "price": "{result_package_price|1}",
+              "Количество ассетов": "{result_package_amount|15}",
+              "stuff_icon": "{prefix}_FunCollection_{collection_number}_HELP_Opener"
+            }
+          ]
+        },
+        {
+          "title": "HELP_Opener recipe",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "identifier", "reward", "tags.2", "ingredients", "id"],
+          "rows": [
+            {
+              "input": "/recipe/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_HELP_Opener_Recipe.proto.js",
+              "output": "/recipe/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_HELP_Opener_Recipe.proto.js",
+              "identifier": "{prefix}_FunCollection_{collection_number}_HELP_Opener_Recipe",
+              "reward": "asset={prefix}_FunCollection_{collection_number}_HELP_Opener:1",
+              "tags.2": "{prefix}",
+              "ingredients": "asset={prefix}_FunCollection_{collection_number}_HELP_OpenerPath:{recipe_path_amount|5}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "FunCollection_6",
+      "source_file": "C:/Users/user/Downloads/FunCollection_6.xlsx",
+      "category": "fun_collection",
+      "mechanic": "Players are split into two halves by the last digit of player id. One half gets resource A, the other gets resource B. Players exchange/gift their own resource to friends, craft A+B into a mystery box, then open the mystery box for one random CL collection element.",
+      "defaults": {
+        "source_prefix": "Fun11",
+        "prefix_example": "Fun13",
+        "collection_number": "6",
+        "even_multiplicity": "0,2,4,6,8",
+        "odd_multiplicity": "1,3,5,7,9",
+        "home_price": 3,
+        "guest_price": 3,
+        "drop_probability": 30,
+        "package_amount": 2,
+        "package_price": 5,
+        "mystery_box_count": 1,
+        "recipe_amount_a": 1,
+        "recipe_amount_b": 1
+      },
+      "required_theme_fields": [
+        "object_title_a",
+        "object_title_b",
+        "resource_a_title",
+        "resource_b_title",
+        "mystery_box_title",
+        "mystery_box_description",
+        "collection_rewards",
+        "location_tag",
+        "tech_quest"
+      ],
+      "classname_patterns": {
+        "home_a": "{prefix}_FunCollection_{collection_number}_1_Home",
+        "home_b": "{prefix}_FunCollection_{collection_number}_2_Home",
+        "guest_a": "{prefix}_FunCollection_{collection_number}_1_Guest",
+        "guest_b": "{prefix}_FunCollection_{collection_number}_2_Guest",
+        "resource_a": "{prefix}_FunCollection_{collection_number}_GR_1",
+        "resource_b": "{prefix}_FunCollection_{collection_number}_GR_2",
+        "mystery_box": "{prefix}_FunCollection_{collection_number}_MB",
+        "recipe": "{prefix}_FunCollection_{collection_number}_Recipe",
+        "collection_reward": "{prefix}_FunCollection_{collection_number}_CL_{index}"
+      },
+      "rules": [
+        "Use input donor paths from Fun11 or the closest older donor path when Fun11 donor does not exist; output paths always use the target prefix.",
+        "Group A/even gets resource A via conditions active_quest={tech_quest}+multiplicity=0,2,4,6,8.",
+        "Group B/odd gets resource B via conditions active_quest={tech_quest}+multiplicity=1,3,5,7,9.",
+        "Guest object A should request/gift resource B if Home A needs the other half's resource; Guest object B should request/gift resource A.",
+        "Recipe creates the mystery box from resource A + resource B.",
+        "The mystery box must contain 10 random CL collection rewards; exact one_of/chance internals are configured in the mystery_box donor/proto and represented by the 10 CL rows in this template."
+      ],
+      "blocks": [
+        {
+          "title": "FunCollection_{collection_number}_Guest halves",
+          "types": ["temp_01", "string", "string", "ignore", "string", "string", "int", "string", "array", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "file_name", "title", "stuff_icon", "price", "extra.window_spec.view_window", "extra.window_spec.guest_resource", "extra.window_spec.description", "extra.window_spec.description_help", "extra.window_spec.description_time", "id"],
+          "rows": [
+            {
+              "input": "/furniture/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_1_Guest.proto.js",
+              "output": "/furniture/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_1_Guest.proto.js",
+              "file_name": "{prefix}_FunCollection_{collection_number}_1_Guest",
+              "title": "{object_title_a}",
+              "stuff_icon": "{prefix}_FunCollection_{collection_number}_1_Home",
+              "price": "{guest_price|3}",
+              "extra.window_spec.view_window": "{prefix}_FunCollection_{collection_number}_1_Guest_Window",
+              "extra.window_spec.guest_resource": "{prefix}_FunCollection_{collection_number}_GR_2",
+              "extra.window_spec.description": "{guest_spend_description}",
+              "extra.window_spec.description_help": "{guest_help_text_a}",
+              "extra.window_spec.description_time": "{guest_timer_text|Можно помочь через:}"
+            },
+            {
+              "input": "/furniture/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_2_Guest.proto.js",
+              "output": "/furniture/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_2_Guest.proto.js",
+              "file_name": "{prefix}_FunCollection_{collection_number}_2_Guest",
+              "title": "{object_title_b}",
+              "stuff_icon": "{prefix}_FunCollection_{collection_number}_2_Home",
+              "price": "{guest_price|3}",
+              "extra.window_spec.view_window": "{prefix}_FunCollection_{collection_number}_2_Guest_Window",
+              "extra.window_spec.guest_resource": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "extra.window_spec.description": "{guest_spend_description}",
+              "extra.window_spec.description_help": "{guest_help_text_b}",
+              "extra.window_spec.description_time": "{guest_timer_text|Можно помочь через:}"
+            }
+          ]
+        },
+        {
+          "title": "FunCollection_{collection_number}_Home halves",
+          "types": ["temp_01", "string", "string", "ignore", "string", "string", "int", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "file_name", "title", "hint", "price", "extra.window_spec.view_window", "extra.window_spec.charging_recipe", "extra.window_spec.description_home", "extra.window_spec.description_help", "extra.window_spec.description_time", "id"],
+          "rows": [
+            {
+              "input": "/furniture/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_1_Home.proto.js",
+              "output": "/furniture/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_1_Home.proto.js",
+              "file_name": "{prefix}_FunCollection_{collection_number}_1_Home",
+              "title": "{object_title_a}",
+              "hint": "{home_hint}",
+              "price": "{home_price|3}",
+              "extra.window_spec.view_window": "{prefix}_FunCollection_{collection_number}_1_Home_Window",
+              "extra.window_spec.charging_recipe": "{prefix}_FunCollection_{collection_number}_Recipe",
+              "extra.window_spec.description_home": "{home_description}",
+              "extra.window_spec.description_help": "{home_help_text}",
+              "extra.window_spec.description_time": "{home_timer_text|Можно помочь через:}"
+            },
+            {
+              "input": "/furniture/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_2_Home.proto.js",
+              "output": "/furniture/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_2_Home.proto.js",
+              "file_name": "{prefix}_FunCollection_{collection_number}_2_Home",
+              "title": "{object_title_b}",
+              "hint": "{home_hint}",
+              "price": "{home_price|3}",
+              "extra.window_spec.view_window": "{prefix}_FunCollection_{collection_number}_2_Home_Window",
+              "extra.window_spec.charging_recipe": "{prefix}_FunCollection_{collection_number}_Recipe",
+              "extra.window_spec.description_home": "{home_description}",
+              "extra.window_spec.description_help": "{home_help_text}",
+              "extra.window_spec.description_time": "{home_timer_text|Можно помочь через:}"
+            }
+          ]
+        },
+        {
+          "title": "FunCollection_{collection_number}_Recipe",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "identifier", "reward", "ingredients", "conditions", "id"],
+          "rows": [
+            {
+              "input": "/recipe/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_Recipe.proto.js",
+              "output": "/recipe/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_Recipe.proto.js",
+              "identifier": "{prefix}_FunCollection_{collection_number}_Recipe",
+              "reward": "asset={prefix}_FunCollection_{collection_number}_MB:{mystery_box_count|1}",
+              "ingredients": "asset={prefix}_FunCollection_{collection_number}_GR_1:{recipe_amount_a|1}+asset={prefix}_FunCollection_{collection_number}_GR_2:{recipe_amount_b|1}",
+              "conditions": "active_quest={tech_quest}"
+            }
+          ]
+        },
+        {
+          "title": "FunCollection_{collection_number} resources",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "meta_info", "id"],
+          "rows": [
+            {
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "title": "{resource_a_title}",
+              "meta_info": "pack_asset={prefix}_FunCollection_{collection_number}_GR_1_Package"
+            },
+            {
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_2.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_GR_2.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_GR_2",
+              "title": "{resource_b_title}",
+              "meta_info": "pack_asset={prefix}_FunCollection_{collection_number}_GR_2_Package"
+            }
+          ]
+        },
+        {
+          "title": "Collection reward assets FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "view_classname", "title", "description", "id"],
+          "rows": [
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_CL_{index}.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+              "view_classname": "{prefix}_FunCollection_{collection_number}_CL_{index}",
+              "title": "{collection_rewards[index].title}",
+              "description": "{collection_rewards[index].description}"
+            }
+          ]
+        },
+        {
+          "title": "Resource global_rewards FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "ignore", "array", "array", "int", "string", "string", "array", "int"],
+          "headers": ["", "input", "output", "file_name", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "assets", "id"],
+          "rows": [
+            {
+              "input": "/global_reward/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "output": "/global_reward/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_GR_1.proto.js",
+              "file_name": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "actions": "{source_action|clean_garbage}",
+              "location_tags": "{location_tag}",
+              "rand_reward.p": "{drop_probability|30}",
+              "rand_reward.asset": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "conditions": "active_quest={tech_quest}+multiplicity={even_multiplicity|0,2,4,6,8}",
+              "assets": "{source_assets|}"
+            },
+            {
+              "input": "/global_reward/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_2.proto.js",
+              "output": "/global_reward/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_GR_2.proto.js",
+              "file_name": "{prefix}_FunCollection_{collection_number}_GR_2",
+              "actions": "{source_action|clean_garbage}",
+              "location_tags": "{location_tag}",
+              "rand_reward.p": "{drop_probability|30}",
+              "rand_reward.asset": "{prefix}_FunCollection_{collection_number}_GR_2",
+              "conditions": "active_quest={tech_quest}+multiplicity={odd_multiplicity|1,3,5,7,9}",
+              "assets": "{source_assets|}"
+            }
+          ]
+        },
+        {
+          "title": "Packages FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "ignore", "string", "string", "int", "string", "int"],
+          "headers": ["", "input", "output", "classname", "asset", "title", "reward", "price", "stuff_icon", "id"],
+          "rows": [
+            {
+              "input": "/asset_package/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_1_Package.proto.js",
+              "output": "/asset_package/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_GR_1_Package.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_GR_1_Package",
+              "asset": "{prefix}_FunCollection_{collection_number}_GR_1",
+              "title": "{resource_a_title}",
+              "reward": "asset={prefix}_FunCollection_{collection_number}_GR_1:{package_amount|2}",
+              "price": "{package_price|5}",
+              "stuff_icon": "{prefix}_FunCollection_{collection_number}_GR_1"
+            },
+            {
+              "input": "/asset_package/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_GR_2_Package.proto.js",
+              "output": "/asset_package/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_GR_2_Package.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_GR_2_Package",
+              "asset": "{prefix}_FunCollection_{collection_number}_GR_2",
+              "title": "{resource_b_title}",
+              "reward": "asset={prefix}_FunCollection_{collection_number}_GR_2:{package_amount|2}",
+              "price": "{package_price|5}",
+              "stuff_icon": "{prefix}_FunCollection_{collection_number}_GR_2"
+            }
+          ]
+        },
+        {
+          "title": "MB FunCollection_{collection_number}",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "replace", "", "int"],
+          "headers": ["", "input", "output", "classname", "title", "description", "view_classname", "find", "replace", "id"],
+          "rows": [
+            {
+              "input": "/mystery_box/Fun/{source_prefix}/{source_prefix}_FunCollection_{collection_number}_MB.proto.js",
+              "output": "/mystery_box/Fun/{prefix}/{prefix}_FunCollection_{collection_number}_MB.proto.js",
+              "classname": "{prefix}_FunCollection_{collection_number}_MB",
+              "title": "{mystery_box_title}",
+              "description": "{mystery_box_description}",
+              "view_classname": "{prefix}_FunCollection_{collection_number}_MB",
+              "find": "{source_prefix}",
+              "replace": "{prefix}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "FunCollection_9",
+      "source_file": "C:/Users/user/Downloads/FunCollection_9.xlsx",
+      "category": "fun_collection",
+      "mechanic": "Potekha/Skazaniya friend action collection object. A player performs a friend_action at a friend's home with a daily limit and success probability. The acting player receives FA_1, the home owner receives FA_2, then FA_1+FA_2 are crafted into a mystery box that gives one random CL collection element.",
+      "defaults": {
+        "source_prefix": "Fun12",
+        "prefix_example": "Fun13",
+        "collection_number": "9",
+        "day_limit": 1,
+        "probability": 65,
+        "reward_for_action_amount": 1,
+        "reward_on_receive_amount": 1,
+        "package_amount": 3,
+        "package_price": 2,
+        "recipe_amount_a": 1,
+        "recipe_amount_b": 1,
+        "mystery_box_count": 1,
+        "craft_station_price": 3
+      },
+      "required_theme_fields": [
+        "available_title",
+        "action_title",
+        "reward_for_action_title",
+        "reward_for_action_description",
+        "reward_on_receive_title",
+        "reward_on_receive_description",
+        "wall_block_title_success",
+        "wall_block_title_not_success",
+        "craft_station_title",
+        "craft_station_hint",
+        "craft_station_description",
+        "mystery_box_title",
+        "mystery_box_description",
+        "collection_rewards",
+        "action_start_time",
+        "action_end_time",
+        "tech_quest"
+      ],
+      "classname_patterns": {
+        "availability_object": "{prefix}_FunCollection_9_Available",
+        "friend_action": "{prefix}_FunCollection_9",
+        "reward_for_action": "{prefix}_FunCollection_9_FA_1",
+        "reward_on_receive": "{prefix}_FunCollection_9_FA_2",
+        "reward_for_action_package": "{prefix}_FunCollection_9_FA_1_Package",
+        "reward_on_receive_package": "{prefix}_FunCollection_9_FA_2_Package",
+        "recipe": "{prefix}_FunCollection_9_MB_1_Recipe",
+        "mystery_box": "{prefix}_FunCollection_9_MB",
+        "craft_station": "{prefix}_FunCollection_9_Home",
+        "collection_reward": "{prefix}_FunCollection_9_CL_{index}"
+      },
+      "rules": [
+        "Use this template when the user explicitly gives exact object id FunCollection_9.",
+        "This is a Potekha/Skazaniya FunCollection object, not a quest interactive object from data/interactive_object_templates.json.",
+        "The friend_action output classname is {prefix}_FunCollection_9; the availability flag is {prefix}_FunCollection_9_Available.",
+        "viewer_conditions and friend_conditions default to stuff={prefix}_FunCollection_9_Available+time<{action_end_time}.",
+        "bot_conditions default to time>{action_start_time}+time<{action_end_time}.",
+        "reward_for_action gives {prefix}_FunCollection_9_FA_1 to the acting player; reward_on_receive gives {prefix}_FunCollection_9_FA_2 to the home owner.",
+        "The recipe combines FA_1 and FA_2 into the mystery box; keep recipe reward and mystery_box classname consistent with the current proto requirements and do not leave mixed Fun12/Fun13 prefixes from the donor.",
+        "The craft station Home object points to the recipe in extra.window_spec.charging_recipe.",
+        "The mystery box contains 10 random CL rewards; represent them with collection_rewards[1..10].",
+        "All output/classname/file_name/identifier/reward/ingredients/pack_asset/view_classname values use the target prefix."
+      ],
+      "blocks": [
+        {
+          "title": "Availability object FunCollection_9",
+          "types": ["temp_01", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "id"],
+          "rows": [
+            {
+              "input": "/furniture/Fun/{source_prefix}/{source_prefix}_Story_FriendAction_1_Available.proto.js",
+              "output": "/furniture/Fun/{prefix}/{prefix}_FunCollection_9_Available.proto.js",
+              "classname": "{prefix}_FunCollection_9_Available",
+              "title": "{available_title}"
+            }
+          ]
+        },
+        {
+          "title": "Friend action FunCollection_9",
+          "types": ["temp_01", "string", "string", "string", "string", "int", "int", "string", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "day_limit", "probability", "reward_for_action", "reward_on_receive", "viewer_conditions", "friend_conditions", "bot_conditions", "extra.wall_block_title_success", "extra.wall_block_title_not_success", "id"],
+          "rows": [
+            {
+              "input": "/friend_action/{source_prefix}_Story_FriendAction_1.proto.js",
+              "output": "/friend_action/{prefix}_FunCollection_9.proto.js",
+              "classname": "{prefix}_FunCollection_9",
+              "title": "{action_title}",
+              "day_limit": "{day_limit|1}",
+              "probability": "{probability|65}",
+              "reward_for_action": "asset={prefix}_FunCollection_9_FA_1:{reward_for_action_amount|1}",
+              "reward_on_receive": "asset={prefix}_FunCollection_9_FA_2:{reward_on_receive_amount|1}",
+              "viewer_conditions": "stuff={prefix}_FunCollection_9_Available+time<{action_end_time}",
+              "friend_conditions": "stuff={prefix}_FunCollection_9_Available+time<{action_end_time}",
+              "bot_conditions": "time>{action_start_time}+time<{action_end_time}",
+              "extra.wall_block_title_success": "{wall_block_title_success}",
+              "extra.wall_block_title_not_success": "{wall_block_title_not_success}"
+            }
+          ]
+        },
+        {
+          "title": "Resources FunCollection_9",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "description", "meta_info", "id"],
+          "rows": [
+            {
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_Story_FA_1.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_9_FA_1.proto.js",
+              "classname": "{prefix}_FunCollection_9_FA_1",
+              "title": "{reward_for_action_title}",
+              "description": "{reward_for_action_description}",
+              "meta_info": "pack_asset={prefix}_FunCollection_9_FA_1_Package"
+            },
+            {
+              "input": "/quest_item/Fun/{source_prefix}/{source_prefix}_Story_FA_2.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_9_FA_2.proto.js",
+              "classname": "{prefix}_FunCollection_9_FA_2",
+              "title": "{reward_on_receive_title}",
+              "description": "{reward_on_receive_description}",
+              "meta_info": "pack_asset={prefix}_FunCollection_9_FA_2_Package"
+            }
+          ]
+        },
+        {
+          "title": "Packages FunCollection_9",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "int", "ignore", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "reward", "price", "Количество ассетов", "stuff_icon", "id"],
+          "rows": [
+            {
+              "input": "/asset_package/Fun/{source_prefix}/{source_prefix}_Story_FA_1.proto.js",
+              "output": "/asset_package/Fun/{prefix}/{prefix}_FunCollection_9_FA_1.proto.js",
+              "classname": "{prefix}_FunCollection_9_FA_1_Package",
+              "title": "{reward_for_action_title}",
+              "reward": "asset={prefix}_FunCollection_9_FA_1:{package_amount|3}",
+              "price": "{package_price|2}",
+              "Количество ассетов": "{package_amount|3}",
+              "stuff_icon": "{prefix}_FunCollection_9_FA_1"
+            },
+            {
+              "input": "/asset_package/Fun/{source_prefix}/{source_prefix}_Story_FA_2.proto.js",
+              "output": "/asset_package/Fun/{prefix}/{prefix}_FunCollection_9_FA_2.proto.js",
+              "classname": "{prefix}_FunCollection_9_FA_2_Package",
+              "title": "{reward_on_receive_title}",
+              "reward": "asset={prefix}_FunCollection_9_FA_2:{package_amount|3}",
+              "price": "{package_price|2}",
+              "Количество ассетов": "{package_amount|3}",
+              "stuff_icon": "{prefix}_FunCollection_9_FA_2"
+            }
+          ]
+        },
+        {
+          "title": "Recipe FunCollection_9",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "replace", "", "int"],
+          "headers": ["", "input", "output", "identifier", "reward", "ingredients", "conditions", "find", "replace", "id"],
+          "rows": [
+            {
+              "input": "/recipe/BD24/BD24_Swap_R_1_Recipe.proto.js",
+              "output": "/recipe/Fun/{prefix}/{prefix}_FunCollection_9_MB_1_Recipe.proto.js",
+              "identifier": "{prefix}_FunCollection_9_MB_1_Recipe",
+              "reward": "asset={prefix}_FunCollection_9_MB:{mystery_box_count|1}",
+              "ingredients": "asset={prefix}_FunCollection_9_FA_1:{recipe_amount_a|1}+asset={prefix}_FunCollection_9_FA_2:{recipe_amount_b|1}",
+              "conditions": "active_quest={tech_quest}",
+              "find": "BD24",
+              "replace": "{prefix}"
+            }
+          ]
+        },
+        {
+          "title": "Mystery box FunCollection_9",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "replace", "", "int"],
+          "headers": ["", "input", "output", "classname", "title", "description", "view_classname", "find", "replace", "id"],
+          "rows": [
+            {
+              "input": "/mystery_box/Fun/{source_prefix}/{source_prefix}_R_MB_1.proto.js",
+              "output": "/mystery_box/Fun/{prefix}/{prefix}_FunCollection_9_MB.proto.js",
+              "classname": "{prefix}_FunCollection_9_MB",
+              "title": "{mystery_box_title}",
+              "description": "{mystery_box_description}",
+              "view_classname": "{prefix}_FunCollection_9_MB",
+              "find": "{source_prefix}",
+              "replace": "{prefix}"
+            }
+          ]
+        },
+        {
+          "title": "Craft station FunCollection_9",
+          "types": ["temp_01", "string", "string", "ignore", "string", "string", "int", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "file_name", "title", "hint", "price", "extra.window_spec.view_window", "extra.window_spec.charging_recipe", "extra.window_spec.description_home", "extra.window_spec.description_help", "extra.window_spec.description_time", "id"],
+          "rows": [
+            {
+              "input": "/furniture/BD24/BD24_Swap_1_Home.proto.js",
+              "output": "/furniture/Fun/{prefix}/{prefix}_FunCollection_9_1_Home.proto.js",
+              "file_name": "{prefix}_FunCollection_9_Home",
+              "title": "{craft_station_title}",
+              "hint": "{craft_station_hint}",
+              "price": "{craft_station_price|3}",
+              "extra.window_spec.view_window": "{prefix}_FunCollection_9_1_Home_Window",
+              "extra.window_spec.charging_recipe": "{prefix}_FunCollection_9_MB_1_Recipe",
+              "extra.window_spec.description_home": "{craft_station_description}",
+              "extra.window_spec.description_help": "{craft_station_help_text}",
+              "extra.window_spec.description_time": "{craft_station_timer_text|Можно помочь через:}"
+            }
+          ]
+        },
+        {
+          "title": "Collection reward assets FunCollection_9",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "view_classname", "title", "description", "id"],
+          "rows": [
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/quest_item/Fun/Fun11/Fun11_FunCollection_2_CL_{index}.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_9_CL_{index}.proto.js",
+              "classname": "{prefix}_FunCollection_9_CL_{index}",
+              "view_classname": "{prefix}_FunCollection_9_CL_{index}",
+              "title": "{collection_rewards[index].title}",
+              "description": "{collection_rewards[index].description}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "workbench_single",
+      "source_file": "C:/Users/user/Downloads/Fun12_Workbench.xlsx",
+      "category": "workbench",
+      "mechanic": "Single crafting workbench",
+      "required_theme_fields": [
+        "workbench_title",
+        "description",
+        "hint"
+      ],
+      "classname_patterns": {
+        "workbench": "{prefix}_Workbench_{workbench_number|1}"
+      },
+      "blocks": [
+        {
+          "title": "Workbench",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "replace", "", "int"],
+          "headers": ["", "input", "output", "classname", "title", "description", "hint", "find", "replace", "id"],
+          "rows": [
+            {
+              "input": "/workbench/Fun/{source_prefix}/{source_prefix}_Workbench_{workbench_number|1}.proto.js",
+              "output": "/workbench/Fun/{prefix}/{prefix}_Workbench_{workbench_number|1}.proto.js",
+              "classname": "{prefix}_Workbench_{workbench_number|1}",
+              "title": "{workbench_title}",
+              "description": "{description}",
+              "hint": "{hint}",
+              "find": "{source_prefix}",
+              "replace": "{prefix}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -319,6 +319,15 @@ def result_resource_classname(campaign_id: str, selection: dict[str, Any], templ
     return f"{campaign_id}_{result_resource_suffix(selection, template)}"
 
 
+def result_resource_title(selection: dict[str, Any], template: dict[str, Any]) -> str:
+    title_field = clean_text(template.get("result_title_field"))
+    return first_non_empty(
+        selection.get("result_resource_title"),
+        selection.get(title_field) if title_field else "",
+        template.get("display_name_ru"),
+    )
+
+
 def recipe_ingredients_from_manifest(
     campaign_id: str,
     manifest: dict[str, Any],
@@ -332,7 +341,7 @@ def recipe_ingredients_from_manifest(
         template = templates.get(selection.get("template_id"))
         if template is None:
             continue
-        title = first_non_empty(selection.get("result_resource_title"), template.get("display_name_ru"))
+        title = result_resource_title(selection, template)
         ingredients.append(
             InteractiveIngredient(
                 template_id=str(selection["template_id"]),
@@ -755,6 +764,154 @@ def help_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     return rows
 
 
+def friend_action_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
+    mechanic_prefix = clean_text(selection.get("mechanic_prefix")) or "Story_FriendAction_1"
+    action = f"{campaign_id}_{mechanic_prefix}"
+    available = f"{action}_Available"
+    resource_prefix = clean_text(selection.get("resource_prefix")) or "Story_FA"
+    reward_for_action = f"{campaign_id}_{resource_prefix}_1"
+    reward_on_receive = f"{campaign_id}_{resource_prefix}_2"
+
+    available_title = clean_text(selection.get("available_title"))
+    action_title = clean_text(selection.get("action_title"))
+    reward_for_action_title = clean_text(selection.get("reward_for_action_title"))
+    reward_on_receive_title = clean_text(selection.get("reward_on_receive_title"))
+    action_start_time = clean_text(selection.get("action_start_time"))
+    action_end_time = clean_text(selection.get("action_end_time"))
+    viewer_conditions = first_non_empty(
+        selection.get("viewer_conditions"),
+        f"stuff={available}+time<{action_end_time}",
+    )
+    friend_conditions = first_non_empty(
+        selection.get("friend_conditions"),
+        f"stuff={available}+time<{action_end_time}",
+    )
+    bot_conditions = first_non_empty(
+        selection.get("bot_conditions"),
+        f"time>{action_start_time}+time<{action_end_time}",
+    )
+
+    rows: list[list[Any]] = []
+    block(
+        rows,
+        ["", "ОБЪЕКТ доступности Story_FriendAction_1_Available"],
+        ["temp_01", "string", "string", "string", "string", "int"],
+        ["", "input", "output", "classname", "title", "id"],
+        [
+            [
+                "",
+                "/furniture/Fun/Fun12/Fun12_Story_FriendAction_1_Available.proto.js",
+                output_path("furniture", "Fun", campaign_id, f"{available}.proto.js"),
+                available,
+                available_title,
+                "",
+            ]
+        ],
+    )
+    block(
+        rows,
+        ["", "ОБЪЕКТ Story_FriendAction_1"],
+        ["temp_01", "string", "string", "string", "string", "int", "int", "string", "string", "string", "string", "string", "string", "string", "int"],
+        [
+            "",
+            "input",
+            "output",
+            "classname",
+            "title",
+            "day_limit",
+            "probability",
+            "reward_for_action",
+            "reward_on_receive",
+            "viewer_conditions",
+            "friend_conditions",
+            "bot_conditions",
+            "extra.wall_block_title_success",
+            "extra.wall_block_title_not_success",
+            "id",
+        ],
+        [
+            [
+                "",
+                "/friend_action/Fun12_Story_FriendAction_1.proto.js",
+                output_path("friend_action", f"{action}.proto.js"),
+                action,
+                action_title,
+                clean_text(selection.get("day_limit")) or "1",
+                clean_text(selection.get("probability")) or "65",
+                f"asset={reward_for_action}:{clean_text(selection.get('reward_for_action_amount')) or '1'}",
+                f"asset={reward_on_receive}:{clean_text(selection.get('reward_on_receive_amount')) or '1'}",
+                viewer_conditions,
+                friend_conditions,
+                bot_conditions,
+                clean_text(selection.get("wall_block_title_success")),
+                clean_text(selection.get("wall_block_title_not_success")),
+                "",
+            ]
+        ],
+    )
+    block(
+        rows,
+        ["", "АССЕТЫ ресурсов Story_FriendAction_1"],
+        ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+        ["", "input", "output", "classname", "title", "description", "meta_info", "id"],
+        [
+            [
+                "",
+                "/quest_item/Fun/Fun12/Fun12_Story_FA_1.proto.js",
+                output_path("quest_item", "Fun", campaign_id, f"{reward_for_action}.proto.js"),
+                reward_for_action,
+                reward_for_action_title,
+                ensure_period(clean_text(selection.get("reward_for_action_description"))),
+                f"pack_asset={reward_for_action}_Package",
+                "",
+            ],
+            [
+                "",
+                "/quest_item/Fun/Fun12/Fun12_Story_FA_2.proto.js",
+                output_path("quest_item", "Fun", campaign_id, f"{reward_on_receive}.proto.js"),
+                reward_on_receive,
+                reward_on_receive_title,
+                ensure_period(clean_text(selection.get("reward_on_receive_description"))),
+                f"pack_asset={reward_on_receive}_Package",
+                "",
+            ],
+        ],
+    )
+    block(
+        rows,
+        ["", "ПАКЕТЫ продажи ресурсов Story_FriendAction_1"],
+        ["temp_01", "string", "string", "string", "string", "string", "int", "ignore", "string", "int"],
+        ["", "input", "output", "classname", "title", "reward", "price", "Количество ассетов", "stuff_icon", "id"],
+        [
+            [
+                "",
+                "/asset_package/Fun/Fun12/Fun12_Story_FA_1.proto.js",
+                output_path("asset_package", "Fun", campaign_id, f"{reward_for_action}_Package.proto.js"),
+                f"{reward_for_action}_Package",
+                reward_for_action_title,
+                f"asset={reward_for_action}:{clean_text(selection.get('package_amount')) or '3'}",
+                clean_text(selection.get("package_price")) or "2",
+                clean_text(selection.get("package_amount")) or "3",
+                reward_for_action,
+                "",
+            ],
+            [
+                "",
+                "/asset_package/Fun/Fun12/Fun12_Story_FA_2.proto.js",
+                output_path("asset_package", "Fun", campaign_id, f"{reward_on_receive}_Package.proto.js"),
+                f"{reward_on_receive}_Package",
+                reward_on_receive_title,
+                f"asset={reward_on_receive}:{clean_text(selection.get('package_amount')) or '3'}",
+                clean_text(selection.get("package_price")) or "2",
+                clean_text(selection.get("package_amount")) or "3",
+                reward_on_receive,
+                "",
+            ],
+        ],
+    )
+    return rows
+
+
 def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     mechanic_prefix = clean_text(selection.get("mechanic_prefix")) or "Exchanger"
     exchanger = f"{campaign_id}_{mechanic_prefix}"
@@ -938,6 +1095,7 @@ def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any
 BUILDERS = {
     "chest_1": chest_rows,
     "help_1": help_rows,
+    "friend_action_1": friend_action_rows,
     "exchanger": exchanger_rows,
 }
 
@@ -968,7 +1126,7 @@ def render_preview(campaign_id: str, pack_id: str, validation: dict[str, Any], t
     for selection in validation["objects"]:
         template = templates.get(selection.get("template_id")) or {}
         result = result_resource_classname(campaign_id, selection, template) if template else ""
-        title = first_non_empty(selection.get("result_resource_title"), template.get("display_name_ru"))
+        title = result_resource_title(selection, template) if template else ""
         lines.append(f"- `{selection.get('template_id')}` -> `{result}`: {title}")
 
     if validation["errors"]:

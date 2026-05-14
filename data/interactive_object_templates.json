@@ -87,6 +87,39 @@
         "help_comment": "Когда друзья взаимодействуют с твоим активированным объектом, тебе приходит ресурс помощи. Принимай помощь и создавай итоговый ресурс.",
         "guest_conditions_title": "Друг не активировал объект! Приходи позже."
       }
+    },
+    {
+      "id": "friend_action_1",
+      "display_name_ru": "Story_FriendAction_1: действие у друзей с шансом",
+      "mechanic_prefix": "Story_FriendAction_1",
+      "counts_as": 1,
+      "paired": false,
+      "result_resource_suffix": "Story_FA_2",
+      "result_title_field": "reward_on_receive_title",
+      "required_fields": [
+        "available_title",
+        "action_title",
+        "reward_for_action_title",
+        "reward_on_receive_title",
+        "action_start_time",
+        "action_end_time"
+      ],
+      "defaults": {
+        "available_title": "Флаг доступности дружеского действия",
+        "action_title": "Дружеский жест",
+        "day_limit": 1,
+        "probability": 65,
+        "reward_for_action_title": "Знак дружеского жеста",
+        "reward_for_action_description": "Ходи в гости к друзьям и используй дружеское действие, чтобы получить ресурс.",
+        "reward_on_receive_title": "Ответный знак дружбы",
+        "reward_on_receive_description": "Друзья помогут с ресурсом, когда используют дружеское действие у тебя в гостях.",
+        "reward_for_action_amount": 1,
+        "reward_on_receive_amount": 1,
+        "package_amount": 3,
+        "package_price": 2,
+        "wall_block_title_success": "Дружеское действие удалось.",
+        "wall_block_title_not_success": "Дружеское действие почти удалось, но результат ускользнул."
+      }
     }
   ]
 }
