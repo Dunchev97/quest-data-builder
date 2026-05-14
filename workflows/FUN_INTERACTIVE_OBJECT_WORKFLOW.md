@@ -59,7 +59,7 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 
 ## Шаблоны
 
-### `fun_collection_chest_home_guest`
+### `FunCollection_1`
 
 Донор: `Fun12_FunCollection_1.xlsx`.
 
@@ -81,7 +81,7 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 - `FunCollection_<n>_Home`.
 - `Пакеты продажи ресурсов FunCollection_<n>`.
 
-### `fun_collection_prediction_chest`
+### `FunCollection_3`
 
 Донор: `Fun12_FunCollection_3.xlsx`.
 
@@ -99,7 +99,7 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 - `Ресурсы FunCollection_<n>`: 10 CL.
 - `FunCollection_<n>`: один chest-объект.
 
-### `fun_collection_state_feeder`
+### `FunCollection_4`
 
 Донор: `Fun12_FunCollection_4.xlsx`.
 
@@ -123,7 +123,7 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 - `Способы получения ресурсов FunCollection_<n>`.
 - `Негативные эффекты FunCollection_<n>`.
 
-### `fun_collection_friend_contribution`
+### `FunCollection_5`
 
 Донор: `Fun12_FunCollection_5.xlsx`.
 
@@ -152,7 +152,7 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 
 Важно: donor row для `FunCollection_5_Guest.behaviour.0.lock.availability_conditions` содержит `source_prefix` в условии. Перед выдачей dev-ready CSV нужно уточнить или проверить, должен ли этот condition тоже перейти на текущий `prefix`.
 
-### `fun_collection_story_help_groups`
+### `FunCollection_2`
 
 База: `data/interactive_object_templates.json#help_1`.
 
@@ -185,7 +185,7 @@ C:/Users/user/Downloads/Fun12_Workbench.xlsx
 - Для `CL_10` использовать `multiplicity=0`, потому что это последняя цифра ID `0`.
 - Не добавлять этот объект в `campaigns/<campaign_id>/interactive_objects.json`: это potekha/FunCollection-механика, а не quest craft interactive object.
 
-### `fun_collection_mystery_swap_halves`
+### `FunCollection_6`
 
 Донор: `C:/Users/user/Downloads/FunCollection_6.xlsx`.
 

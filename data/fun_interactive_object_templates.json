@@ -16,7 +16,7 @@
   },
   "templates": [
     {
-      "id": "fun_collection_chest_home_guest",
+      "id": "FunCollection_1",
       "source_file": "C:/Users/user/Downloads/Fun12_FunCollection_1.xlsx",
       "category": "fun_collection",
       "mechanic": "Home/Guest chest opened by one GR resource",
@@ -131,7 +131,7 @@
       ]
     },
     {
-      "id": "fun_collection_prediction_chest",
+      "id": "FunCollection_3",
       "source_file": "C:/Users/user/Downloads/Fun12_FunCollection_3.xlsx",
       "category": "fun_collection",
       "mechanic": "Single paid prediction chest with 10 possible CL rewards",
@@ -183,7 +183,7 @@
       ]
     },
     {
-      "id": "fun_collection_state_feeder",
+      "id": "FunCollection_4",
       "source_file": "C:/Users/user/Downloads/Fun12_FunCollection_4.xlsx",
       "category": "fun_collection",
       "mechanic": "Neutral object that turns into good or bad state after feeding with one GR resource",
@@ -338,7 +338,7 @@
       ]
     },
     {
-      "id": "fun_collection_friend_contribution",
+      "id": "FunCollection_5",
       "source_file": "C:/Users/user/Downloads/Fun12_FunCollection_5.xlsx",
       "category": "fun_collection",
       "mechanic": "Friend gives one GR resource into Guest object; loading the Unlock object with unlock resources enables using the Home object window, where friend gifts are spent on a collection resource",
@@ -550,7 +550,7 @@
       ]
     },
     {
-      "id": "fun_collection_story_help_groups",
+      "id": "FunCollection_2",
       "source_file": "C:/Users/user/Downloads/FunCollection_2.xlsx",
       "base_template": "data/interactive_object_templates.json#help_1",
       "category": "fun_collection",
@@ -773,7 +773,7 @@
       ]
     },
     {
-      "id": "fun_collection_mystery_swap_halves",
+      "id": "FunCollection_6",
       "source_file": "C:/Users/user/Downloads/FunCollection_6.xlsx",
       "category": "fun_collection",
       "mechanic": "Players are split into two halves by the last digit of player id. One half gets resource A, the other gets resource B. Players exchange/gift their own resource to friends, craft A+B into a mystery box, then open the mystery box for one random CL collection element.",
