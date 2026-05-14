@@ -18,6 +18,7 @@
 - `workflows/POT_DESCRIPTION_WORKFLOW.md` - workflow описания горшков по картинке.
 - `workflows/RESOURCE_TABLE_WORKFLOW.md` - workflow CSV-таблицы ресурсов для дева.
 - `workflows/FUN_INTERACTIVE_OBJECT_WORKFLOW.md` - workflow potekha/FunCollection интерактивных объектов и отдельного Workbench.
+- `docs/FunCollection/FUN_COLLECTION_TEMPLATES.md` - понятные шаблоны FunCollection по exact ID; структура снимается только с листа `conf` в `docs/FunCollection/*.xlsx`.
 - `data/fun_interactive_object_templates.json` - машинные шаблоны для генерации FunCollection/Workbench объектов по теме.
 - `workflows/workflow_modes.json` - ключевики и режимы для `workflow_context.py`.
 - `docs/domovata_style_guide.md` - базовый стиль текстов Домовят.
@@ -31,6 +32,14 @@
 - Для рутинных этапов предпочитать короткий wrapper `python src/workflow_fast.py ...`, а не длинные команды с ручным перечислением всех путей.
 - В content workflow не запускать полный `python -m unittest discover -s tests` после каждого квестового этапа; использовать stage validator конкретного этапа. Полный набор тестов запускать после изменений кода, шаблонов или workflow-инструкций.
 - `git status` проверять в начале/конце работы или перед коммитом, а не после каждой промежуточной команды.
+
+## Кириллица И Кодировки
+
+- Не передавать Python/Node/другим внешним процессам скрипты или данные с кириллицей через PowerShell pipe вида `@'...'@ | python -`: в этой среде PowerShell может заменить русские буквы на `?`, и файл будет реально испорчен.
+- Если нужно сгенерировать CSV/XLSX/JSON с кириллицей, сначала сохранить кириллические данные в UTF-8 файл через `apply_patch` или PowerShell `Set-Content -Encoding UTF8`, затем запускать ASCII-only скрипт, который читает этот UTF-8 файл.
+- Для Excel-friendly CSV писать `cp1251` только из уже проверенных Unicode-строк; не использовать `errors="replace"` и не маскировать ошибки кодировки.
+- После генерации CSV/XLSX с кириллицей обязательно прочитать файл обратно и проверить, что в `title`, `description`, русских заголовках и текстовых окнах нет `????`, а контрольные русские строки из анкеты присутствуют.
+- Если консоль показывает кракозябры, не считать это доказательством порчи файла: проверять чтением файла с правильной кодировкой и точечными assertions.
 
 ## Active Context
 
@@ -115,7 +124,10 @@ workspace/active_context.json
 Если пользователь просит собрать potekha/FunCollection интерактивные объекты, новые `FunCollection_*`, объект для потех или XLSX/CSV по FunCollection-механике:
 
 - читать `workflows/FUN_INTERACTIVE_OBJECT_WORKFLOW.md`;
+- читать `docs/FunCollection/FUN_COLLECTION_TEMPLATES.md` перед генерацией FunCollection по теме;
 - использовать машинные шаблоны из `data/fun_interactive_object_templates.json`;
+- доноры брать из `docs/FunCollection/*.xlsx`; для структуры использовать только лист `conf`, не `Downloads` и не старые вспомогательные вкладки;
+- при генерации CSV/XLSX с русскими текстами соблюдать правила раздела `Кириллица И Кодировки` и делать smoke-check на отсутствие `????`;
 - не смешивать эти объекты с quest interactive objects из `campaigns/<campaign_id>/interactive_objects.json`;
 - `Workbench` считать отдельным шаблоном, а не FunCollection-потехой;
 - если пользователь дает точный ID объекта (`FunCollection_9` и т.п.), использовать template с этим exact `id`, а не подбирать похожую механику;
