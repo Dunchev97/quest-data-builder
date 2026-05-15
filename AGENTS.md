@@ -19,6 +19,7 @@
 - `workflows/RESOURCE_TABLE_WORKFLOW.md` - workflow CSV-таблицы ресурсов для дева.
 - `workflows/FUN_INTERACTIVE_OBJECT_WORKFLOW.md` - workflow potekha/FunCollection интерактивных объектов и отдельного Workbench.
 - `docs/FunCollection/FUN_COLLECTION_TEMPLATES.md` - понятные шаблоны FunCollection по exact ID; структура снимается только с листа `conf` в `docs/FunCollection/*.xlsx`.
+- `docs/QUEST_INTERACTIVE_OBJECT_TEMPLATES.md` - понятные шаблоны quest interactive objects, включая `mixer_1` / `Story_Mixer`; структура `Story_Mixer` снята с `raw/examples/Story_Mixer.xlsx`.
 - `data/fun_interactive_object_templates.json` - машинные шаблоны для генерации FunCollection/Workbench объектов по теме.
 - `workflows/workflow_modes.json` - ключевики и режимы для `workflow_context.py`.
 - `docs/domovata_style_guide.md` - базовый стиль текстов Домовят.
@@ -79,7 +80,8 @@ workspace/active_context.json
 - Перед Stage 1 новой campaign спросить пользователя, какие минимум 2 интерактивных объекта выбрать на всю campaign; `Chest_*_Home/Guest` и `HELP_*_Home/Guest` считаются одним объектом.
 - В той же анкете спросить сущность выбранных объектов и ресурсов; если пользователь оставляет выбор за ИИ, заполнять тематически по сути campaign.
 - Выбранные интерактивные объекты фиксировать в `campaigns/<campaign_id>/interactive_objects.json`.
-- Если пользователь выбирает несколько объектов одной механики, нумеровать их последовательно (`Chest_1`, `Chest_2`, `HELP_1`, `HELP_2`, `Exchanger_1`, `Exchanger_2`, `Story_FriendAction_1`, `Story_FriendAction_2`). В остальных случаях ресурсы выбранных объектов не менять на протяжении campaign.
+- Если пользователь выбирает несколько объектов одной механики, нумеровать их последовательно (`Chest_1`, `Chest_2`, `HELP_1`, `HELP_2`, `Exchanger_1`, `Exchanger_2`, `Story_FriendAction_1`, `Story_FriendAction_2`, `Mixer_1`, `Mixer_2`). В остальных случаях ресурсы выбранных объектов не менять на протяжении campaign.
+- Для quest mixer использовать template `mixer_1` / `Story_Mixer`: читать `docs/QUEST_INTERACTIVE_OBJECT_TEMPLATES.md`; квестовая версия тратит `GR_1+GR_2+ASK_1` и сразу выдает готовый `{campaign_id}_Mixer_N_R_1`, без `MB` и без `CL`.
 - После каждого творческого этапа показывать результат пользователю и ждать явный approval.
 - После Stage 3 в сводке по каждому квесту показывать не только `Task template ID`, но и `task_template_names` / русские названия шаблонов, например: `TT-001 Диалог / TT-008 Получить ASK / TT-004 HOG на локации`.
 - Stage 3.1 - технический подготовительный шаг без отдельного approval; запускать после утвержденного stage 3 перед stage 4.
@@ -136,6 +138,7 @@ workspace/active_context.json
 - для `FunCollection_5` помнить: `Unlock` не выдает CL-награды сам; загрузка `Unlock` ресурсами разрешает пользоваться объектом/окном, а подарки друзей потом тратятся на коллекционный ресурс.
 - для `FunCollection_2` / `Story_HELP`-подобной механики использовать template `FunCollection_2`: база `data/interactive_object_templates.json#help_1`, 10 Home/Guest пар, 10 `CL`-ресурсов и `multiplicity` по последней цифре ID.
 - для `FunCollection_6` / чет-нечет mystery box механики использовать template `FunCollection_6`: две половины игроков по последней цифре ID, два взаимных `GR`-ресурса, обмен/подарки друзьям, recipe `GR_1+GR_2 -> MB` и 10 случайных `CL`-элементов коллекции.
+- для exact ID `FunCollection_7` использовать template `FunCollection_7`: потешный миксер, два `GR`-ингредиента + `ASK_1`, right_action выдает `MB_1`, а `MB_1` дает 1 из 10 случайных `CL`; не оставлять donor-ошибки `FunCollection_6_MB_1`, `FunCollection_7_2` без `_GR_` и `Fun12` в CL outputs.
 - для exact ID `FunCollection_9` использовать template `FunCollection_9`: friend_action у друзей, `FA_1` игроку за действие, `FA_2` хозяину дома при получении действия, recipe `FA_1+FA_2 -> MB`, станок крафта и 10 случайных `CL`-элементов коллекции.
 
 ## Где Хранить Артефакты
@@ -170,7 +173,7 @@ campaigns/<campaign_id>/resource_table.summary.json
 - `TT-010` / `Получить CL (награда за коллекцию)` не использовать: у workflow нет достоверного списка наград за коллекции.
 - Загадки можно писать в несколько строк, используя буквальный `\n` внутри `hint`, если переносы помогают стихотворной форме или читаемости загадки.
 - В русских `title` и `hint` использовать нужные падежи, а не сырые названия из индекса: `с Журналисткой Гердой`, `Барабанные палочки`, `в Бочку`, `получить Хрустящую реликвию`.
-- **Интерактивные объекты (Chest, HELP, Exchanger, Story_FriendAction) не упоминаются в текстах квестов как сюжетные элементы.** Они участвуют в крафтовых заданиях автоматически через свои result resources и не должны быть "сердцевиной" квеста. Не делать квесты про "открыть сундук", "зажечь фонарь", "наполнить обменник" или "нажать friend action" — эти механики уже встроены в игру. Тексты квестов должны описывать бытовой/сюжетный конфликт, а не интерактивные объекты.
+- **Интерактивные объекты (Chest, HELP, Exchanger, Story_FriendAction, Mixer) не упоминаются в текстах квестов как сюжетные элементы.** Они участвуют в крафтовых заданиях автоматически через свои result resources и не должны быть "сердцевиной" квеста. Не делать квесты про "открыть сундук", "зажечь фонарь", "наполнить обменник", "нажать friend action" или "смешать в миксере" — эти механики уже встроены в игру. Тексты квестов должны описывать бытовой/сюжетный конфликт, а не интерактивные объекты.
 
 ## Стиль текста Домовят
 

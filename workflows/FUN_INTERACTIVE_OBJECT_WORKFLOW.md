@@ -36,6 +36,7 @@ docs/FunCollection/FunCollection_3.xlsx
 docs/FunCollection/FunCollection_4.xlsx
 docs/FunCollection/FunCollection_5.xlsx
 docs/FunCollection/FunCollection_6.xlsx
+docs/FunCollection/FunCollection_7.xlsx
 docs/FunCollection/FunCollection_9.xlsx
 ```
 
@@ -226,6 +227,43 @@ docs/FunCollection/FunCollection_9.xlsx
 - Не копировать старые битые package reward из `FunCollection_6.xlsx`, где пакеты указывают на `Fun13_FunCollection_2_CL_*`: пакеты должны выдавать свои `GR_1` и `GR_2`.
 - В descriptions явно держать цель: получить два взаимных ресурса, собрать `MB`, открыть его ради одного из 10 элементов коллекции.
 - Не добавлять этот объект в `campaigns/<campaign_id>/interactive_objects.json`: это potekha/FunCollection-механика, а не quest craft interactive object.
+
+### `FunCollection_7`
+
+Донор: `docs/FunCollection/FunCollection_7.xlsx`, лист `conf`.
+
+Механика: potekha/Skazaniya-версия `Story_Mixer`. Игрок добывает два `GR`-ингредиента, просит или покупает `ASK_1`, нажимает правильное действие миксера и получает `MB_1`. Внутри `MB_1` лежит один случайный `CL` из 10 коллекционных элементов.
+
+Ключевые поля:
+
+- `object_title`: миксер/автомат/станок.
+- `ingredient_a_title`, `ingredient_a_description`: `GR_1`.
+- `ingredient_b_title`, `ingredient_b_description`: `GR_2`.
+- `ask_resource_title`, `ask_resource_description`: `ASK_1`.
+- `mystery_box_title`, `mystery_box_description`: `MB_1`.
+- `collection_rewards`: 10 `CL`-наград.
+- `tech_quest`, `source_action_a`, `source_action_b`, `location_tag_a`, `location_tag_b`, `assets_a`, `assets_b`.
+
+Блоки:
+
+- `Объект FunCollection_7`.
+- `FunCollection_7 resources GR`: два ингредиента.
+- `FunCollection_7 global_rewards`: выпадение двух ингредиентов.
+- `FunCollection_7 resources ASK`.
+- `Post action ASK FunCollection_7`.
+- `Пакеты продажи FunCollection_7`.
+- `right_action FunCollection_7`: `GR_1 + GR_2 + ASK_1 -> MB_1`.
+- `wrong_action FunCollection_7`.
+- `action_Hint2 FunCollection_7`, `action_Hint3 FunCollection_7`.
+- `Лутбокс FunCollection_7`.
+- `Collection reward assets FunCollection_7`: 10 `CL`.
+
+Правила:
+
+- Использовать exact ID `FunCollection_7`, если пользователь его назвал; не заменять на `FunCollection_6`.
+- Это не quest object: не добавлять его в `campaigns/<campaign_id>/interactive_objects.json`.
+- Не создавать готовый `R_1`: правый action выдает `{prefix}_FunCollection_7_MB_1`.
+- Исправлять donor-копипаст: `FunCollection_7_2` в `open_price` должен стать `{prefix}_FunCollection_7_GR_2`; stale `FunCollection_6_MB_1` должен стать `{prefix}_FunCollection_7_MB_1`; `CL` outputs не должны оставаться в `Fun12`.
 
 ### `FunCollection_9`
 

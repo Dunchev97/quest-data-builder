@@ -1017,6 +1017,314 @@
       ]
     },
     {
+      "id": "FunCollection_7",
+      "source_file": "docs/FunCollection/FunCollection_7.xlsx",
+      "category": "fun_collection",
+      "mechanic": "Potekha/Skazaniya mixer object. The player collects two GR ingredients and one ASK ingredient, uses right_action on the mixer, receives a mystery box, and opens it for one random CL collection element out of 10.",
+      "defaults": {
+        "source_prefix": "Fun12",
+        "prefix_example": "Fun13",
+        "collection_number": "7",
+        "object_limit": 8,
+        "drop_probability_a": 30,
+        "drop_probability_b": 40,
+        "open_amount_a": 5,
+        "open_amount_b": 7,
+        "open_amount_ask": 3,
+        "wrong_amount_a": 1,
+        "wrong_amount_b": 1,
+        "wrong_amount_ask": 1,
+        "ask_clicks_limit": 5,
+        "ask_life_time": 43200,
+        "ask_send_interval": 7200,
+        "ask_package_amount": 1,
+        "ask_package_price": 3,
+        "ingredient_package_amount": 2,
+        "ingredient_package_price": 5,
+        "hint2_open_price": "money_crown=20",
+        "hint3_open_price": "money_crown=30"
+      },
+      "required_theme_fields": [
+        "object_title",
+        "ingredient_a_title",
+        "ingredient_a_description",
+        "ingredient_b_title",
+        "ingredient_b_description",
+        "ask_resource_title",
+        "ask_resource_description",
+        "mystery_box_title",
+        "mystery_box_description",
+        "collection_rewards",
+        "tech_quest"
+      ],
+      "classname_patterns": {
+        "object": "{prefix}_FunCollection_7",
+        "ingredient_a": "{prefix}_FunCollection_7_GR_1",
+        "ingredient_b": "{prefix}_FunCollection_7_GR_2",
+        "ask_resource": "{prefix}_FunCollection_7_ASK_1",
+        "mystery_box": "{prefix}_FunCollection_7_MB_1",
+        "collection_reward": "{prefix}_FunCollection_7_CL_{index}"
+      },
+      "rules": [
+        "Use this template when the user explicitly gives exact object id FunCollection_7.",
+        "This is the Potekha/Skazaniya variant of Story_Mixer: right_action gives MB_1, not a ready R_1 resource.",
+        "Do not add a ready R_1 quest result resource to FunCollection_7; collection progress goes through the mystery box and 10 CL rewards.",
+        "Keep Story_Mixer action structure: object, two GR resources, one ASK resource with post_action, packages, right/wrong actions, Hint2 and Hint3.",
+        "right_action.open_price must use GR_1, GR_2 and ASK_1. Fix the donor typo {prefix}_FunCollection_7_2 to {prefix}_FunCollection_7_GR_2.",
+        "right_action result replacement and the mystery_box classname must be {prefix}_FunCollection_7_MB_1. Do not leave stale FunCollection_6_MB_1 from the donor.",
+        "Collection reward outputs/classnames/view_classnames must use the target prefix and FunCollection_7, not stale Fun12 rows from the donor.",
+        "The mystery box contains 10 random CL rewards; represent them with collection_rewards[1..10].",
+        "All output/classname/file_name/identifier/reward/open_price/pack_asset/view_classname values use the target prefix."
+      ],
+      "blocks": [
+        {
+          "title": "Object FunCollection_7",
+          "types": ["temp_01", "string", "string", "string", "string", "replace", "", "int", "int"],
+          "headers": ["", "input", "output", "classname", "title", "find", "replace", "limit", "id"],
+          "rows": [
+            {
+              "input": "/furniture/NY24/NY24_Mixer_1.proto.js",
+              "output": "/furniture/Fun/{prefix}/{prefix}_FunCollection_7.proto.js",
+              "classname": "{prefix}_FunCollection_7",
+              "title": "{object_title}",
+              "find": "NY24_Mixer_1",
+              "replace": "{prefix}_FunCollection_7",
+              "limit": "{object_limit|8}"
+            }
+          ]
+        },
+        {
+          "title": "FunCollection_7 resources GR",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "replace", "", "int"],
+          "headers": ["", "input", "output", "classname", "title", "description", "meta_info", "find", "replace", "id"],
+          "rows": [
+            {
+              "input": "/quest_item/Fun12/Fun12_GR_10.proto.js",
+              "output": "/quest_item/{prefix}/{prefix}_FunCollection_7_GR_1.proto.js",
+              "classname": "{prefix}_FunCollection_7_GR_1",
+              "title": "{ingredient_a_title}",
+              "description": "{ingredient_a_description}",
+              "meta_info": "pack_asset={prefix}_FunCollection_7_GR_1_Package",
+              "find": "NY24",
+              "replace": "{prefix}"
+            },
+            {
+              "input": "/quest_item/Fun12/Fun12_GR_10.proto.js",
+              "output": "/quest_item/{prefix}/{prefix}_FunCollection_7_GR_2.proto.js",
+              "classname": "{prefix}_FunCollection_7_GR_2",
+              "title": "{ingredient_b_title}",
+              "description": "{ingredient_b_description}",
+              "meta_info": "pack_asset={prefix}_FunCollection_7_GR_2_Package",
+              "find": "NY24",
+              "replace": "{prefix}"
+            }
+          ]
+        },
+        {
+          "title": "FunCollection_7 global_rewards",
+          "types": ["temp_01", "string", "string", "ignore", "array", "array", "int", "string", "string", "array", "array", "replace", "", "int"],
+          "headers": ["", "input", "output", "file_name", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "assets", "assets.2", "find", "replace", "id"],
+          "rows": [
+            {
+              "input": "/global_reward/Fun11/Fun11_FunCollection_2_CL_1.proto.js",
+              "output": "/global_reward/{prefix}/{prefix}_FunCollection_7_GR_1.proto.js",
+              "file_name": "{prefix}_FunCollection_7_GR_1",
+              "actions": "{source_action_a|clean_garbage}",
+              "location_tags": "{location_tag_a}",
+              "rand_reward.p": "{drop_probability_a|30}",
+              "rand_reward.asset": "{prefix}_FunCollection_7_GR_1",
+              "conditions": "active_quest={tech_quest}",
+              "assets": "{assets_a|}",
+              "assets.2": "{assets_a_2|}",
+              "find": "Fun11",
+              "replace": "{prefix}"
+            },
+            {
+              "input": "/global_reward/Fun11/Fun11_FunCollection_2_CL_1.proto.js",
+              "output": "/global_reward/{prefix}/{prefix}_FunCollection_7_GR_2.proto.js",
+              "file_name": "{prefix}_FunCollection_7_GR_2",
+              "actions": "{source_action_b|take_crop_in_guest}",
+              "location_tags": "{location_tag_b|}",
+              "rand_reward.p": "{drop_probability_b|40}",
+              "rand_reward.asset": "{prefix}_FunCollection_7_GR_2",
+              "conditions": "active_quest={tech_quest}",
+              "assets": "{assets_b|}",
+              "assets.2": "{assets_b_2|}",
+              "find": "Fun11",
+              "replace": "{prefix}"
+            }
+          ]
+        },
+        {
+          "title": "FunCollection_7 resources ASK",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "id"],
+          "rows": [
+            {
+              "input": "/quest_item/Fun12/Fun12_ASK_1.proto.js",
+              "output": "/quest_item/{prefix}/{prefix}_FunCollection_7_ASK_1.proto.js",
+              "classname": "{prefix}_FunCollection_7_ASK_1",
+              "view_classname": "{prefix}_FunCollection_7_ASK_1",
+              "title": "{ask_resource_title}",
+              "description": "{ask_resource_description}",
+              "meta_info": "pack_asset={prefix}_FunCollection_7_ASK_1"
+            }
+          ]
+        },
+        {
+          "title": "Post action ASK FunCollection_7",
+          "types": ["temp_01", "string", "string", "string", "ignore", "string", "string", "int", "int", "int", "int"],
+          "headers": ["", "input", "output", "identifier", "classname", "title", "poster_reward", "clicks_limit", "life_time", "send_interval", "id"],
+          "rows": [
+            {
+              "input": "/post_action/ask_for_Fun10_ASK_10.proto.js",
+              "output": "/post_action/{prefix}_FunCollection_7_ASK_1.proto.js",
+              "identifier": "{prefix}_FunCollection_7_ASK_1",
+              "classname": "{prefix}_FunCollection_7_ASK_1",
+              "title": "{ask_resource_title}",
+              "poster_reward": "asset={prefix}_FunCollection_7_ASK_1:1",
+              "clicks_limit": "{ask_clicks_limit|5}",
+              "life_time": "{ask_life_time|43200}",
+              "send_interval": "{ask_send_interval|7200}"
+            }
+          ]
+        },
+        {
+          "title": "Packages FunCollection_7",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "int", "int"],
+          "headers": ["", "input", "output", "classname", "title", "stuff_icon", "reward", "price", "id"],
+          "rows": [
+            {
+              "input": "/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js",
+              "output": "/asset_package/HeavenlyExotic/{prefix}_FunCollection_7_ASK_1_Package.proto.js",
+              "classname": "{prefix}_FunCollection_7_ASK_1_Package",
+              "title": "{ask_resource_title}",
+              "stuff_icon": "{prefix}_FunCollection_7_ASK_1",
+              "reward": "asset={prefix}_FunCollection_7_ASK_1:{ask_package_amount|1}",
+              "price": "{ask_package_price|3}"
+            },
+            {
+              "input": "/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js",
+              "output": "/asset_package/HeavenlyExotic/{prefix}_FunCollection_7_GR_1_Package.proto.js",
+              "classname": "{prefix}_FunCollection_7_GR_1_Package",
+              "title": "{ingredient_a_title}",
+              "stuff_icon": "{prefix}_FunCollection_7_GR_1",
+              "reward": "asset={prefix}_FunCollection_7_GR_1:{ingredient_package_amount|2}",
+              "price": "{ingredient_package_price|5}"
+            },
+            {
+              "input": "/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js",
+              "output": "/asset_package/HeavenlyExotic/{prefix}_FunCollection_7_GR_2_Package.proto.js",
+              "classname": "{prefix}_FunCollection_7_GR_2_Package",
+              "title": "{ingredient_b_title}",
+              "stuff_icon": "{prefix}_FunCollection_7_GR_2",
+              "reward": "asset={prefix}_FunCollection_7_GR_2:{ingredient_package_amount|2}",
+              "price": "{ingredient_package_price|5}"
+            }
+          ]
+        },
+        {
+          "title": "right_action FunCollection_7",
+          "types": ["sl", "string", "string", "string", "string", "replace", "", "replace", "", "string", "int"],
+          "headers": ["", "input", "output", "identifier", "conditions", "find", "replace", "find", "replace", "open_price", "id"],
+          "rows": [
+            {
+              "input": "/quest_action/NY24/action_NY24_Mixer_1_Right.proto.js",
+              "output": "/quest_action/Fun/{prefix}/action_{prefix}_FunCollection_7_Right.proto.js",
+              "identifier": "action_{prefix}_FunCollection_7_Right",
+              "conditions": "stuff={prefix}_FunCollection_7",
+              "find": "NY24_Mixer_1",
+              "replace": "{prefix}_FunCollection_7",
+              "find_2": "NY24_Mixer_R_1",
+              "replace_2": "{prefix}_FunCollection_7_MB_1",
+              "open_price": "asset={prefix}_FunCollection_7_GR_1:{open_amount_a|5}+asset={prefix}_FunCollection_7_GR_2:{open_amount_b|7}+asset={prefix}_FunCollection_7_ASK_1:{open_amount_ask|3}"
+            }
+          ]
+        },
+        {
+          "title": "wrong_action FunCollection_7",
+          "types": ["sl", "string", "string", "string", "string", "replace", "", "string", "int"],
+          "headers": ["", "input", "output", "identifier", "conditions", "find", "replace", "open_price", "id"],
+          "rows": [
+            {
+              "input": "/quest_action/NY24/action_NY24_Mixer_1_Wrong.proto.js",
+              "output": "/quest_action/Fun/{prefix}/action_{prefix}_FunCollection_7_Wrong.proto.js",
+              "identifier": "action_{prefix}_FunCollection_7_Wrong",
+              "conditions": "stuff={prefix}_FunCollection_7",
+              "find": "NY24_Mixer_1",
+              "replace": "{prefix}_FunCollection_7",
+              "open_price": "asset={prefix}_FunCollection_7_GR_1:{wrong_amount_a|1}+asset={prefix}_FunCollection_7_GR_2:{wrong_amount_b|1}+asset={prefix}_FunCollection_7_ASK_1:{wrong_amount_ask|1}"
+            }
+          ]
+        },
+        {
+          "title": "action_Hint2 FunCollection_7",
+          "types": ["sl", "string", "string", "string", "string", "replace", "", "string", "int"],
+          "headers": ["", "input", "output", "identifier", "open_price", "find", "replace", "conditions", "id"],
+          "rows": [
+            {
+              "input": "/quest_action/NY24/action_NY24_Mixer_1_Hint2.proto.js",
+              "output": "/quest_action/Fun/{prefix}/action_{prefix}_FunCollection_7_Hint2.proto.js",
+              "identifier": "action_{prefix}_FunCollection_7_Hint2",
+              "open_price": "{hint2_open_price|money_crown=20}",
+              "find": "NY24_Mixer_1",
+              "replace": "{prefix}_FunCollection_7",
+              "conditions": ""
+            }
+          ]
+        },
+        {
+          "title": "action_Hint3 FunCollection_7",
+          "types": ["sl", "string", "string", "string", "string", "replace", "", "string", "int"],
+          "headers": ["", "input", "output", "identifier", "open_price", "find", "replace", "conditions", "id"],
+          "rows": [
+            {
+              "input": "/quest_action/NY24/action_NY24_Mixer_1_Hint3.proto.js",
+              "output": "/quest_action/Fun/{prefix}/action_{prefix}_FunCollection_7_Hint3.proto.js",
+              "identifier": "action_{prefix}_FunCollection_7_Hint3",
+              "open_price": "{hint3_open_price|money_crown=30}",
+              "find": "NY24_Mixer_1",
+              "replace": "{prefix}_FunCollection_7",
+              "conditions": ""
+            }
+          ]
+        },
+        {
+          "title": "Mystery box FunCollection_7",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "replace", "", "int"],
+          "headers": ["", "input", "output", "classname", "title", "description", "view_classname", "find", "replace", "id"],
+          "rows": [
+            {
+              "input": "/mystery_box/Fun/Fun11/Fun11_FunCollection_6_MB.proto.js",
+              "output": "/mystery_box/Fun/{prefix}/{prefix}_FunCollection_7_MB_1.proto.js",
+              "classname": "{prefix}_FunCollection_7_MB_1",
+              "title": "{mystery_box_title}",
+              "description": "{mystery_box_description}",
+              "view_classname": "{prefix}_FunCollection_7_MB_1",
+              "find": "Fun11_FunCollection_6",
+              "replace": "{prefix}_FunCollection_7"
+            }
+          ]
+        },
+        {
+          "title": "Collection reward assets FunCollection_7",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "view_classname", "title", "description", "id"],
+          "rows": [
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/quest_item/Fun/Fun11/Fun11_FunCollection_2_CL_{index}.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_7_CL_{index}.proto.js",
+              "classname": "{prefix}_FunCollection_7_CL_{index}",
+              "view_classname": "{prefix}_FunCollection_7_CL_{index}",
+              "title": "{collection_rewards[index].title}",
+              "description": "{collection_rewards[index].description}"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "FunCollection_9",
       "source_file": "docs/FunCollection/FunCollection_9.xlsx",
       "category": "fun_collection",

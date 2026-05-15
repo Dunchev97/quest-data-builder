@@ -74,6 +74,28 @@ def friend_action_manifest() -> dict[str, object]:
     }
 
 
+def mixer_manifest() -> dict[str, object]:
+    return {
+        "version": 1,
+        "selected_objects": [
+            {
+                "template_id": "chest_1",
+                "object_title": "Simple chest",
+                "activation_resource_title": "Simple key",
+                "result_resource_title": "Simple relic",
+            },
+            {
+                "template_id": "mixer_1",
+                "object_title": "Test mixer",
+                "ingredient_a_title": "First ingredient",
+                "ingredient_b_title": "Second ingredient",
+                "ask_resource_title": "Friend spice",
+                "result_resource_title": "Ready resource",
+            },
+        ],
+    }
+
+
 class InteractiveObjectsTests(unittest.TestCase):
     def test_validates_minimum_selected_objects(self) -> None:
         validation = validate_manifest({"version": 1, "selected_objects": [{"template_id": "chest_1"}]})
@@ -100,6 +122,13 @@ class InteractiveObjectsTests(unittest.TestCase):
         self.assertEqual(validation["summary"]["errors"], 0)
         self.assertEqual([item.classname for item in ingredients], ["Event_2026_Chest_1_R_1", "Event_2026_Story_FA_2"])
         self.assertEqual(ingredients[1].title, "Цветы странствий")
+
+    def test_mixer_uses_ready_resource_as_recipe_resource(self) -> None:
+        ingredients, validation = recipe_ingredients_from_manifest("Event_2026", mixer_manifest())
+
+        self.assertEqual(validation["summary"]["errors"], 0)
+        self.assertEqual([item.classname for item in ingredients], ["Event_2026_Chest_1_R_1", "Event_2026_Mixer_1_R_1"])
+        self.assertEqual(ingredients[1].title, "Ready resource")
 
     def test_exports_interactive_csv_files_without_fun12_outputs(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -146,6 +175,31 @@ class InteractiveObjectsTests(unittest.TestCase):
             self.assertIn("asset=Event_2026_Story_FA_1:1", content)
             self.assertIn("asset=Event_2026_Story_FA_2:1", content)
             self.assertIn("stuff=Event_2026_Story_FriendAction_1_Available+time<2026-04-15 15:00", content)
+
+    def test_exports_mixer_csv(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            manifest_path = root / "interactive_objects.json"
+            manifest_path.write_text(json.dumps(mixer_manifest(), ensure_ascii=False), encoding="utf-8")
+
+            summary = build_interactive_objects_files(
+                campaign_id="Event_2026",
+                pack_id="pack_001",
+                manifest_path=manifest_path,
+                output_dir=root,
+            )
+
+            self.assertEqual(len(summary["files_written"]), 2)
+            csv_path = root / "generated_interactive_objects_mixer_1.csv"
+            self.assertTrue(csv_path.exists())
+            content = csv_path.read_text(encoding="cp1251")
+            self.assertIn("Event_2026_Mixer_1", content)
+            self.assertIn("Event_2026_Mixer_1_R_1", content)
+            self.assertIn(
+                "asset=Event_2026_Mixer_1_GR_1:5+asset=Event_2026_Mixer_1_GR_2:7+asset=Event_2026_Mixer_1_ASK_1:3",
+                content,
+            )
+            self.assertNotIn("FunCollection_6_MB", content)
 
 
 if __name__ == "__main__":
