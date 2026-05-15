@@ -1092,11 +1092,285 @@ def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any
     return rows
 
 
+def mixer_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
+    mechanic_prefix = clean_text(selection.get("mechanic_prefix")) or "Mixer_1"
+    mixer = template_object_prefix(campaign_id, mechanic_prefix)
+    gr_1 = f"{mixer}_GR_1"
+    gr_2 = f"{mixer}_GR_2"
+    ask = f"{mixer}_ASK_1"
+    result = f"{mixer}_R_1"
+    object_title = clean_text(selection.get("object_title"))
+    ingredient_a_title = clean_text(selection.get("ingredient_a_title"))
+    ingredient_b_title = clean_text(selection.get("ingredient_b_title"))
+    ask_title = clean_text(selection.get("ask_resource_title"))
+    result_title = clean_text(selection.get("result_resource_title"))
+    tech_quest = clean_text(selection.get("tech_quest")) or f"{campaign_id}_Tech_Weekly_2"
+    active_condition = f"active_quest={tech_quest}" if tech_quest else ""
+    right_open_price = (
+        f"asset={gr_1}:{clean_text(selection.get('open_amount_a')) or '5'}"
+        f"+asset={gr_2}:{clean_text(selection.get('open_amount_b')) or '7'}"
+        f"+asset={ask}:{clean_text(selection.get('open_amount_ask')) or '3'}"
+    )
+    wrong_open_price = (
+        f"asset={gr_1}:{clean_text(selection.get('wrong_amount_a')) or '1'}"
+        f"+asset={gr_2}:{clean_text(selection.get('wrong_amount_b')) or '1'}"
+        f"+asset={ask}:{clean_text(selection.get('wrong_amount_ask')) or '1'}"
+    )
+
+    rows: list[list[Any]] = []
+    block(
+        rows,
+        ["", "Mixer object"],
+        ["temp_01", "string", "string", "string", "string", "replace", "", "int", "int"],
+        ["", "input", "output", "classname", "title", "find", "replace", "limit", "id"],
+        [
+            [
+                "",
+                "/furniture/NY24/NY24_Mixer_1.proto.js",
+                output_path("furniture", "Fun", campaign_id, f"{mixer}.proto.js"),
+                mixer,
+                object_title,
+                "NY24_Mixer_1",
+                mixer,
+                clean_text(selection.get("object_limit")) or "8",
+                "",
+            ]
+        ],
+    )
+    block(
+        rows,
+        ["", "Mixer resources GR"],
+        ["temp_01", "string", "string", "string", "string", "string", "string", "replace", "", "int"],
+        ["", "input", "output", "classname", "title", "description", "meta_info", "find", "replace", "id"],
+        [
+            [
+                "",
+                "/quest_item/Fun12/Fun12_GR_10.proto.js",
+                output_path("quest_item", campaign_id, f"{gr_1}.proto.js"),
+                gr_1,
+                ingredient_a_title,
+                ensure_period(clean_text(selection.get("ingredient_a_description"))),
+                f"pack_asset={gr_1}_Package",
+                "NY24",
+                campaign_id,
+                "",
+            ],
+            [
+                "",
+                "/quest_item/Fun12/Fun12_GR_10.proto.js",
+                output_path("quest_item", campaign_id, f"{gr_2}.proto.js"),
+                gr_2,
+                ingredient_b_title,
+                ensure_period(clean_text(selection.get("ingredient_b_description"))),
+                f"pack_asset={gr_2}_Package",
+                "NY24",
+                campaign_id,
+                "",
+            ],
+            [
+                "",
+                "/quest_item/Fun12/NY24_Mixer_R_1.proto.js",
+                output_path("quest_item", campaign_id, f"{result}.proto.js"),
+                result,
+                result_title,
+                ensure_period(clean_text(selection.get("result_resource_description"))),
+                f"pack_asset={result}",
+                "NY24",
+                campaign_id,
+                "",
+            ],
+        ],
+    )
+    block(
+        rows,
+        ["", "Mixer global rewards"],
+        ["temp_01", "string", "string", "ignore", "array", "array", "int", "string", "string", "array", "array", "replace", "", "int"],
+        ["", "input", "output", "file_name", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "assets", "assets.2", "find", "replace", "id"],
+        [
+            [
+                "",
+                "/global_reward/Fun11/Fun11_FunCollection_2_CL_1.proto.js",
+                output_path("global_reward", campaign_id, f"{gr_1}.proto.js"),
+                gr_1,
+                clean_text(selection.get("source_action_a")) or "clean_garbage",
+                clean_text(selection.get("location_tag_a")),
+                clean_text(selection.get("drop_probability_a")) or "30",
+                gr_1,
+                active_condition,
+                clean_text(selection.get("assets_a")),
+                clean_text(selection.get("assets_a_2")),
+                "Fun11",
+                campaign_id,
+                "",
+            ],
+            [
+                "",
+                "/global_reward/Fun11/Fun11_FunCollection_2_CL_1.proto.js",
+                output_path("global_reward", campaign_id, f"{gr_2}.proto.js"),
+                gr_2,
+                clean_text(selection.get("source_action_b")) or "take_crop_in_guest",
+                clean_text(selection.get("location_tag_b")),
+                clean_text(selection.get("drop_probability_b")) or "40",
+                gr_2,
+                active_condition,
+                clean_text(selection.get("assets_b")),
+                clean_text(selection.get("assets_b_2")),
+                "Fun11",
+                campaign_id,
+                "",
+            ],
+        ],
+    )
+    block(
+        rows,
+        ["", "Mixer resources ASK"],
+        ["temp_01", "string", "string", "string", "string", "string", "string", "string", "int"],
+        ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "id"],
+        [
+            [
+                "",
+                "/quest_item/Fun12/Fun12_ASK_1.proto.js",
+                output_path("quest_item", campaign_id, f"{ask}.proto.js"),
+                ask,
+                ask,
+                ask_title,
+                ensure_period(clean_text(selection.get("ask_resource_description"))),
+                f"pack_asset={ask}",
+                "",
+            ]
+        ],
+    )
+    block(
+        rows,
+        ["", "Post action ASK Mixer"],
+        ["temp_01", "string", "string", "string", "ignore", "string", "string", "int", "int", "int", "int"],
+        ["", "input", "output", "identifier", "classname", "title", "poster_reward", "clicks_limit", "life_time", "send_interval", "id"],
+        [
+            [
+                "",
+                "/post_action/ask_for_Fun10_ASK_10.proto.js",
+                output_path("post_action", f"{ask}.proto.js"),
+                ask,
+                ask,
+                ask_title,
+                f"asset={ask}:1",
+                clean_text(selection.get("ask_clicks_limit")) or "5",
+                clean_text(selection.get("ask_life_time")) or "43200",
+                clean_text(selection.get("ask_send_interval")) or "7200",
+                "",
+            ]
+        ],
+    )
+    block(
+        rows,
+        ["", "Mixer packages"],
+        ["temp_01", "string", "string", "string", "string", "string", "string", "int", "int"],
+        ["", "input", "output", "classname", "title", "stuff_icon", "reward", "price", "id"],
+        [
+            [
+                "",
+                "/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js",
+                output_path("asset_package", "HeavenlyExotic", f"{ask}_Package.proto.js"),
+                f"{ask}_Package",
+                ask_title,
+                ask,
+                f"asset={ask}:{clean_text(selection.get('ask_package_amount')) or '1'}",
+                clean_text(selection.get("ask_package_price")) or "3",
+                "",
+            ],
+            [
+                "",
+                "/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js",
+                output_path("asset_package", "HeavenlyExotic", f"{gr_1}_Package.proto.js"),
+                f"{gr_1}_Package",
+                ingredient_a_title,
+                gr_1,
+                f"asset={gr_1}:{clean_text(selection.get('ingredient_package_amount')) or '2'}",
+                clean_text(selection.get("ingredient_package_price")) or "5",
+                "",
+            ],
+            [
+                "",
+                "/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js",
+                output_path("asset_package", "HeavenlyExotic", f"{gr_2}_Package.proto.js"),
+                f"{gr_2}_Package",
+                ingredient_b_title,
+                gr_2,
+                f"asset={gr_2}:{clean_text(selection.get('ingredient_package_amount')) or '2'}",
+                clean_text(selection.get("ingredient_package_price")) or "5",
+                "",
+            ],
+        ],
+    )
+    block(
+        rows,
+        ["", "right_action Mixer"],
+        ["sl", "string", "string", "string", "string", "replace", "", "replace", "", "string", "int"],
+        ["", "input", "output", "identifier", "conditions", "find", "replace", "find", "replace", "open_price", "id"],
+        [
+            [
+                "",
+                "/quest_action/NY24/action_NY24_Mixer_1_Right.proto.js",
+                output_path("quest_action", "Fun", campaign_id, f"action_{mixer}_Right.proto.js"),
+                f"action_{mixer}_Right",
+                f"stuff={mixer}",
+                "NY24_Mixer_1",
+                mixer,
+                "NY24_Mixer_R_1",
+                result,
+                right_open_price,
+                "",
+            ]
+        ],
+    )
+    block(
+        rows,
+        ["", "wrong_action Mixer"],
+        ["sl", "string", "string", "string", "string", "replace", "", "string", "int"],
+        ["", "input", "output", "identifier", "conditions", "find", "replace", "open_price", "id"],
+        [
+            [
+                "",
+                "/quest_action/NY24/action_NY24_Mixer_1_Wrong.proto.js",
+                output_path("quest_action", "Fun", campaign_id, f"action_{mixer}_Wrong.proto.js"),
+                f"action_{mixer}_Wrong",
+                f"stuff={mixer}",
+                "NY24_Mixer_1",
+                mixer,
+                wrong_open_price,
+                "",
+            ]
+        ],
+    )
+    for suffix, default_price in (("Hint2", "money_crown=20"), ("Hint3", "money_crown=30")):
+        block(
+            rows,
+            ["", f"action_{suffix} Mixer"],
+            ["sl", "string", "string", "string", "string", "replace", "", "string", "int"],
+            ["", "input", "output", "identifier", "open_price", "find", "replace", "conditions", "id"],
+            [
+                [
+                    "",
+                    f"/quest_action/NY24/action_NY24_Mixer_1_{suffix}.proto.js",
+                    output_path("quest_action", "Fun", campaign_id, f"action_{mixer}_{suffix}.proto.js"),
+                    f"action_{mixer}_{suffix}",
+                    clean_text(selection.get(f"{suffix.lower()}_open_price")) or default_price,
+                    "NY24_Mixer_1",
+                    mixer,
+                    "",
+                    "",
+                ]
+            ],
+        )
+    return rows
+
+
 BUILDERS = {
     "chest_1": chest_rows,
     "help_1": help_rows,
     "friend_action_1": friend_action_rows,
     "exchanger": exchanger_rows,
+    "mixer_1": mixer_rows,
 }
 
 

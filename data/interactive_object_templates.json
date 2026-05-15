@@ -120,6 +120,52 @@
         "wall_block_title_success": "Дружеское действие удалось.",
         "wall_block_title_not_success": "Дружеское действие почти удалось, но результат ускользнул."
       }
+    },
+    {
+      "id": "mixer_1",
+      "display_name_ru": "Story_Mixer: миксер ингредиентов для квестов",
+      "mechanic_prefix": "Mixer_1",
+      "counts_as": 1,
+      "paired": false,
+      "result_resource_suffix": "Mixer_1_R_1",
+      "required_fields": [
+        "object_title",
+        "ingredient_a_title",
+        "ingredient_b_title",
+        "ask_resource_title",
+        "result_resource_title"
+      ],
+      "defaults": {
+        "object_title": "Миксер",
+        "ingredient_a_title": "Первый ингредиент",
+        "ingredient_b_title": "Второй ингредиент",
+        "ask_resource_title": "Секретная добавка",
+        "result_resource_title": "Готовый ресурс",
+        "ingredient_a_description": "Ищи ресурс в действиях события.",
+        "ingredient_b_description": "Ищи ресурс в действиях события.",
+        "ask_resource_description": "Попроси у друзей или купи.",
+        "result_resource_description": "Правильно смешай ингредиенты в миксере, чтобы получить готовый ресурс.",
+        "source_action_a": "clean_garbage",
+        "source_action_b": "take_crop_in_guest",
+        "drop_probability_a": 30,
+        "drop_probability_b": 40,
+        "open_amount_a": 5,
+        "open_amount_b": 7,
+        "open_amount_ask": 3,
+        "wrong_amount_a": 1,
+        "wrong_amount_b": 1,
+        "wrong_amount_ask": 1,
+        "object_limit": 8,
+        "ask_clicks_limit": 5,
+        "ask_life_time": 43200,
+        "ask_send_interval": 7200,
+        "ask_package_amount": 1,
+        "ask_package_price": 3,
+        "ingredient_package_amount": 2,
+        "ingredient_package_price": 5,
+        "hint2_open_price": "money_crown=20",
+        "hint3_open_price": "money_crown=30"
+      }
     }
   ]
 }

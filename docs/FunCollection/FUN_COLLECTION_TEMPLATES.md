@@ -183,6 +183,44 @@ Codex обязан:
 
 **Правило multiplicity:** `GR_1` для `0,2,4,6,8`, `GR_2` для `1,3,5,7,9`, если пользователь не сказал иначе.
 
+## `FunCollection_7`
+
+**Механика:** потешный/сказочный миксер. Игрок добывает два `GR`-ингредиента, получает `ASK_1` через просьбу друзьям или покупку, затем использует миксер. Правильное действие не выдает готовый квестовый `R_1`, а выдает `MB_1`; при открытии `MB_1` выпадает один случайный `CL` из 10 частей коллекции.
+
+**Нужно заполнить по теме:**
+
+- `object_title`: сам миксер/автомат/станок.
+- `ingredient_a_title`, `ingredient_a_description`: первый ингредиент `GR_1`.
+- `ingredient_b_title`, `ingredient_b_description`: второй ингредиент `GR_2`.
+- `ask_resource_title`, `ask_resource_description`: ресурс `ASK_1`, который просят у друзей.
+- `mystery_box_title`, `mystery_box_description`: коробка/напиток/сверток, который выдает миксер.
+- `collection_rewards[1..10].title` и descriptions: 10 коллекционных элементов из `MB_1`.
+- `tech_quest`.
+- `location_tag_a`, `source_action_a`, `drop_probability_a`, `assets_a`, `assets_a_2`: способ выпадения `GR_1`.
+- `location_tag_b`, `source_action_b`, `drop_probability_b`, `assets_b`, `assets_b_2`: способ выпадения `GR_2`.
+
+**CSV-блоки листа `conf`:**
+
+- `Объект FunCollection_7`: один furniture-миксер.
+- `FunCollection_7 resources GR`: `GR_1`, `GR_2`.
+- `FunCollection_7 global_rewards`: способы выпадения `GR_1` и `GR_2`.
+- `FunCollection_7 resources ASK`: один `ASK_1`.
+- `Post action ASK FunCollection_7`: просьба `ASK_1` у друзей.
+- `Пакеты продажи FunCollection_7`: пакеты `ASK_1`, `GR_1`, `GR_2`.
+- `right_action FunCollection_7`: правильное смешивание, результат `MB_1`.
+- `wrong_action FunCollection_7`: неправильное смешивание.
+- `action_Hint2 FunCollection_7`, `action_Hint3 FunCollection_7`: подсказки.
+- `Лутбокс FunCollection_7`: `MB_1`.
+- `Collection reward assets FunCollection_7`: 10 `CL`.
+
+**Важные donor-fix правила:**
+
+- `right_action.open_price` должен тратить `{prefix}_FunCollection_7_GR_1`, `{prefix}_FunCollection_7_GR_2`, `{prefix}_FunCollection_7_ASK_1`; не оставлять donor-ошибку `{prefix}_FunCollection_7_2`.
+- `right_action` должен заменять `NY24_Mixer_R_1` на `{prefix}_FunCollection_7_MB_1`.
+- В блоке mystery box `classname`, `output`, `view_classname` должны быть `{prefix}_FunCollection_7_MB_1`, не stale `FunCollection_6_MB_1`.
+- Все `CL`-строки должны использовать target `prefix` и `FunCollection_7`, не donor `Fun12`.
+- В этой версии нет готового `R_1`: цель игрока - получать `MB_1` и собирать 10 `CL`.
+
 ## `FunCollection_9`
 
 **Механика:** FunCollection-версия friend action. Игрок делает действие у друга и получает `FA_1`; хозяин дома получает `FA_2`, когда друзья успешно делают действие у него. Recipe `FA_1 + FA_2 -> MB`, `MB` дает случайный `CL`.
@@ -217,7 +255,7 @@ Codex обязан:
 - В итоговом файле нет `Downloads`.
 - В `output`, `classname`, `file_name`, `identifier`, `reward`, `ingredients`, `conditions`, `view_classname`, `stuff_icon`, `pack_asset` нет старого префикса, кроме намеренных donor `input`.
 - Количество строк блоков совпадает с donor `conf`.
-- Для `FunCollection_1`, `3`, `4`, `5`, `6`, `9` есть ровно 10 `CL`.
+- Для `FunCollection_1`, `3`, `4`, `5`, `6`, `7`, `9` есть ровно 10 `CL`.
 - Для `FunCollection_2` есть 10 Home, 10 Guest, 10 `CL`, 10 global_reward и `CL_10` использует `multiplicity=0`.
 - Пакеты выдают свои ресурсы, а не случайные старые `CL` из другого FunCollection.
 - Все тексты тематически связаны с объектом, ресурсами и коллекцией.
