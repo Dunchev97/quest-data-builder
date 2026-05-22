@@ -63,7 +63,8 @@
         "HELP",
         "Exchanger",
         "FriendAction",
-        "Story_FriendAction"
+        "Story_FriendAction",
+        "Story_RandomRecipe"
       ],
       "entrypoints": [
         "python src/create_pack.py <campaign_id>",

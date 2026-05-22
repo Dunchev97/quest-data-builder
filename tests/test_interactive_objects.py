@@ -96,6 +96,35 @@ def mixer_manifest() -> dict[str, object]:
     }
 
 
+def random_recipe_manifest() -> dict[str, object]:
+    return {
+        "version": 1,
+        "selected_objects": [
+            {
+                "template_id": "chest_1",
+                "object_title": "Simple chest",
+                "activation_resource_title": "Simple key",
+                "result_resource_title": "Simple relic",
+            },
+            {
+                "template_id": "story_random_recipe",
+                "object_title": "Огуречное хранилище",
+                "craft_resource_titles": [
+                    "Хрустящий огурчик",
+                    "Пустая банка",
+                    "Укроп",
+                    "Горчица",
+                    "Чеснок",
+                    "Лавровый лист",
+                    "Соль",
+                    "Душистый горошек",
+                ],
+                "result_resource_title": "Домовячьи огурчики (3 шт.)",
+            },
+        ],
+    }
+
+
 class InteractiveObjectsTests(unittest.TestCase):
     def test_validates_minimum_selected_objects(self) -> None:
         validation = validate_manifest({"version": 1, "selected_objects": [{"template_id": "chest_1"}]})
@@ -129,6 +158,16 @@ class InteractiveObjectsTests(unittest.TestCase):
         self.assertEqual(validation["summary"]["errors"], 0)
         self.assertEqual([item.classname for item in ingredients], ["Event_2026_Chest_1_R_1", "Event_2026_Mixer_1_R_1"])
         self.assertEqual(ingredients[1].title, "Ready resource")
+
+    def test_random_recipe_uses_ready_resource_as_recipe_resource(self) -> None:
+        ingredients, validation = recipe_ingredients_from_manifest("Fun13", random_recipe_manifest())
+
+        self.assertEqual(validation["summary"]["errors"], 0)
+        self.assertEqual(
+            [item.classname for item in ingredients],
+            ["Fun13_Chest_1_R_1", "Fun13_Story_RandomRecipe_1_R_1"],
+        )
+        self.assertEqual(ingredients[1].title, "Домовячьи огурчики (3 шт.)")
 
     def test_exports_interactive_csv_files_without_fun12_outputs(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -200,6 +239,30 @@ class InteractiveObjectsTests(unittest.TestCase):
                 content,
             )
             self.assertNotIn("FunCollection_6_MB", content)
+
+    def test_exports_random_recipe_csv(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            manifest_path = root / "interactive_objects.json"
+            manifest_path.write_text(json.dumps(random_recipe_manifest(), ensure_ascii=False), encoding="utf-8")
+
+            summary = build_interactive_objects_files(
+                campaign_id="Fun13",
+                pack_id="pack_001",
+                manifest_path=manifest_path,
+                output_dir=root,
+            )
+
+            self.assertEqual(len(summary["files_written"]), 2)
+            csv_path = root / "generated_interactive_objects_story_randomrecipe_1.csv"
+            self.assertTrue(csv_path.exists())
+            content = csv_path.read_text(encoding="cp1251")
+            self.assertIn("Fun13_Story_RandomRecipe_1", content)
+            self.assertIn("Fun13_Story_RandomRecipe_1_R_1", content)
+            self.assertIn("asset=Fun13_Story_RandomRecipe_1_ASK_1:1", content)
+            self.assertIn("asset=Fun13_Story_RandomRecipe_1_GR_2:1", content)
+            self.assertIn("Домовячьи огурчики (3 шт.)", content)
+            self.assertNotIn("NY23_Parallel_Box", content)
 
 
 if __name__ == "__main__":

@@ -221,6 +221,42 @@ Codex обязан:
 - Все `CL`-строки должны использовать target `prefix` и `FunCollection_7`, не donor `Fun12`.
 - В этой версии нет готового `R_1`: цель игрока - получать `MB_1` и собирать 10 `CL`.
 
+## `FunCollection_8`
+
+**Механика:** реставрационный workbench. Игрок подготавливает объект через `Unlock`, тратя `GR_1`, затем собирает по две половинки для каждого из 10 коллекционных предметов. Первая половинка падает в первой группе локаций, вторая - во второй группе локаций. В workbench есть 10 рецептов: `CL_i_1 + CL_i_2 -> CL_i`.
+
+**Нужно заполнить по теме:**
+
+- `object_title`: сам стенд/верстак/мастерская реставрации.
+- `object_hint`, `object_description`: краткое объяснение, что на объекте соединяют половинки предметов.
+- `window_title`, `window_description`, `window_recipe_available`: тексты окна workbench.
+- `unlock_resource_title`, `unlock_resource_description`: `GR_1`, ресурс подготовки/разблокировки.
+- `unlock_window_description`: текст окна `Unlock`; важно, что `Unlock` только открывает доступ к workbench, а не выдает `CL`.
+- `collection_rewards[1..10].title`: 10 восстановленных предметов коллекции.
+- `collection_rewards[1..10].description`: где получить готовый предмет после восстановления.
+- `part_1_location_title`, `part_2_location_title`: человекочитаемые названия двух групп поиска для описаний половинок.
+- `location_tag_part_1`, `location_tag_part_2`: теги локаций для выпадения двух типов половинок.
+- `part_1_source_action`, `part_2_source_action`: обычно `clean_garbage_in_guest`.
+- `unlock_source_action`, `unlock_location_tag`: обычно `clean_garbage` и первая локация/группа.
+- `tech_quest`.
+
+**CSV-блоки листа `conf`:**
+
+- `Объект FunCollection_8`: один workbench-объект с заменами `Fun11_Restoration_R_ -> {prefix}_FunCollection_8_R_`, `Fun11_Restoration_Workbench -> {prefix}_FunCollection_8`, `Temp_Restoration_Workbench_Unlock -> {prefix}_FunCollection_8_Unlock`.
+- `Объект FunCollection_8_Unlock`: gate-объект, `open_price=asset={prefix}_FunCollection_8_GR_1:30`, `active_quest=<tech_quest>`.
+- `Ресурсы FunCollection_8`: 10 готовых `CL`, 20 половинок `CL_i_1`/`CL_i_2`, 1 ресурс подготовки `GR_1`.
+- `Способ получения Ресурсы FunCollection_8`: global_reward для 10 первых половинок, 10 вторых половинок и `GR_1`.
+- `Пакеты FunCollection_8`: пакет продажи для `GR_1`.
+- `Рецепты FunCollection_8`: 10 рецептов восстановления `CL_i_1 + CL_i_2 -> CL_i`.
+
+**Правила multiplicity:**
+
+- Первые половинки `CL_1_1..CL_10_1`: `multiplicity=1,2,3,4,5,6,7,8,9,0`.
+- Вторые половинки `CL_1_2..CL_10_2`: `multiplicity=0,9,8,7,6,5,4,3,2,1`.
+- `GR_1` в donor использует `multiplicity=1`; менять только если dev явно попросил другое условие.
+
+**Важно:** `FunCollection_8` похож на workbench, но это exact FunCollection-шаблон, а не отдельный `workbench_single`. Не заменять его на `FunCollection_7`, `FunCollection_9` или `workbench_single`.
+
 ## `FunCollection_9`
 
 **Механика:** FunCollection-версия friend action. Игрок делает действие у друга и получает `FA_1`; хозяин дома получает `FA_2`, когда друзья успешно делают действие у него. Recipe `FA_1 + FA_2 -> MB`, `MB` дает случайный `CL`.
@@ -255,7 +291,8 @@ Codex обязан:
 - В итоговом файле нет `Downloads`.
 - В `output`, `classname`, `file_name`, `identifier`, `reward`, `ingredients`, `conditions`, `view_classname`, `stuff_icon`, `pack_asset` нет старого префикса, кроме намеренных donor `input`.
 - Количество строк блоков совпадает с donor `conf`.
-- Для `FunCollection_1`, `3`, `4`, `5`, `6`, `7`, `9` есть ровно 10 `CL`.
+- Для `FunCollection_1`, `3`, `4`, `5`, `6`, `7`, `8`, `9` есть ровно 10 готовых `CL`.
+- Для `FunCollection_8` дополнительно есть 20 частей коллекции `CL_i_1`/`CL_i_2` и 10 рецептов восстановления.
 - Для `FunCollection_2` есть 10 Home, 10 Guest, 10 `CL`, 10 global_reward и `CL_10` использует `multiplicity=0`.
 - Пакеты выдают свои ресурсы, а не случайные старые `CL` из другого FunCollection.
 - Все тексты тематически связаны с объектом, ресурсами и коллекцией.

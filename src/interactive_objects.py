@@ -1092,6 +1092,292 @@ def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any
     return rows
 
 
+RANDOM_RECIPE_DEFAULT_SUFFIXES = ["ASK_1", "PER_1", "GR_1", "GR_2", "GR_3", "GR_4", "ASK_2", "PER_2"]
+
+
+def list_item(values: list[Any], index: int, default: Any = "") -> Any:
+    if index < len(values):
+        return values[index]
+    return default
+
+
+def normalize_resource_suffix(value: str) -> str:
+    match = re.fullmatch(r"(ASK|PER|GR)(\d+)", value)
+    if match:
+        return f"{match.group(1)}_{match.group(2)}"
+    return value
+
+
+def resource_kind_from_suffix(value: str) -> str:
+    return normalize_resource_suffix(value).split("_", 1)[0]
+
+
+def random_recipe_resource_description(kind: str) -> str:
+    if kind == "ASK":
+        return "Попроси у друзей или купи."
+    if kind == "PER":
+        return "Отправь личные просьбы друзьям или купи."
+    return "Ищи ресурс в действиях события."
+
+
+def random_recipe_asset_input(kind: str) -> str:
+    if kind == "ASK":
+        return "/quest_item/Fun/Fun10/resource/Fun10_ASK_1.proto.js"
+    if kind == "PER":
+        return "/quest_item/Fun/Fun10/resource/Fun10_PER_1.proto.js"
+    return "/quest_item/Fun/Fun11/resource/Fun11_GR_1.proto.js"
+
+
+def random_recipe_package_input(kind: str) -> str:
+    if kind == "ASK":
+        return "/asset_package/Fun/Fun10/resource/Fun10_ASK_1_Package.proto.js"
+    if kind == "PER":
+        return "/asset_package/Fun/Fun10/resource/Fun10_PER_1_Package.proto.js"
+    return "/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js"
+
+
+def random_recipe_post_action_input(kind: str) -> str:
+    if kind == "PER":
+        return "/post_action/ask_for_Fun10_PER_1.proto.js"
+    return "/post_action/ask_for_Fun10_ASK_10.proto.js"
+
+
+def random_recipe_resource_specs(campaign_id: str, recipe: str, selection: dict[str, Any]) -> list[dict[str, Any]]:
+    suffixes = [normalize_resource_suffix(clean_text(value)) for value in as_list(selection.get("craft_resource_suffixes"))]
+    suffixes = [value for value in suffixes if value] or list(RANDOM_RECIPE_DEFAULT_SUFFIXES)
+    classnames = [clean_text(value) for value in as_list(selection.get("craft_resource_classnames"))]
+    titles = [clean_text(value) for value in as_list(selection.get("craft_resource_titles"))]
+    descriptions = [clean_text(value) for value in as_list(selection.get("craft_resource_descriptions"))]
+    amounts = as_list(selection.get("price_amounts"))
+    weights = as_list(selection.get("price_weights"))
+
+    specs: list[dict[str, Any]] = []
+    for index, suffix in enumerate(suffixes):
+        classname = clean_text(list_item(classnames, index))
+        if not classname:
+            classname = suffix if suffix.startswith(f"{campaign_id}_") else f"{recipe}_{suffix}"
+        kind = resource_kind_from_suffix(suffix)
+        title = clean_text(list_item(titles, index, suffix))
+        description = ensure_period(first_non_empty(list_item(descriptions, index), random_recipe_resource_description(kind)))
+        specs.append(
+            {
+                "suffix": suffix,
+                "kind": kind,
+                "classname": classname,
+                "title": title,
+                "description": description,
+                "price_amount": clean_text(list_item(amounts, index, 1)) or "1",
+                "price_weight": clean_text(list_item(weights, index, 60)) or "60",
+            }
+        )
+    return specs
+
+
+def random_recipe_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
+    mechanic_prefix = clean_text(selection.get("mechanic_prefix")) or "Story_RandomRecipe_1"
+    recipe = template_object_prefix(campaign_id, mechanic_prefix)
+    result = f"{recipe}_R_1"
+    object_title = clean_text(selection.get("object_title"))
+    result_title = clean_text(selection.get("result_resource_title"))
+    result_description = ensure_period(first_non_empty(selection.get("result_resource_description"), f"Можно получить из {object_title}"))
+    object_number = clean_text(selection.get("object_number")) or "1"
+    wnd_description = first_non_empty(
+        selection.get("wnd_description"),
+        f"Принеси подходящие припасы и открой {accusative(object_title)}, чтобы получить {accusative(result_title)}.",
+    )
+    wnd_classname = first_non_empty(selection.get("wnd_classname"), f"Open{campaign_id}StoryRandomRecipeWindow{object_number}")
+    icon = first_non_empty(selection.get("icon"), f"{wnd_classname}Icon")
+    rule_window = first_non_empty(selection.get("rule_window"), f"RecipeRule_{recipe}_Window")
+    tech_quest = clean_text(selection.get("tech_quest"))
+    active_condition = f"active_quest={tech_quest}" if tech_quest else ""
+    resources = random_recipe_resource_specs(campaign_id, recipe, selection)
+
+    object_types = [
+        "temp_01",
+        "string",
+        "string",
+        "string",
+        "string",
+        "string",
+        "string",
+        "string",
+        "string",
+        "int",
+        "string",
+        "string",
+        "string",
+        "string",
+        "string",
+        "int",
+    ]
+    object_headers = [
+        "",
+        "input",
+        "output",
+        "classname",
+        "title",
+        "behaviour.1.message",
+        "extra.wnd_description",
+        "extra.wnd_classname",
+        "extra.icon",
+        "extra.price_elements_amount",
+        "extra.result_rewards.0.asset",
+        "extra.result_rewards.0.conditions",
+        "extra.rule_spec.title",
+        "extra.rule_spec.description",
+        "extra.rule_spec.window",
+        "id",
+    ]
+    object_row = [
+        "",
+        "/chest/NY23/NY23_Chest_LadyDogState1.proto.js",
+        output_path("chest", "Fun", campaign_id, f"{recipe}.proto.js"),
+        recipe,
+        object_title,
+        object_title,
+        wnd_description,
+        wnd_classname,
+        icon,
+        clean_text(selection.get("price_elements_amount")) or "4",
+        result,
+        "",
+        first_non_empty(selection.get("rule_title"), result_title),
+        first_non_empty(selection.get("rule_description"), "Каждый раз объект просит новый набор ресурсов, а награда всегда одна."),
+        rule_window,
+        "",
+    ]
+    for index, spec in enumerate(resources):
+        object_types.extend(["int", "string"])
+        object_headers.extend([f"price_elements.{index}.p", f"price_elements.{index}.price"])
+        object_row.extend([spec["price_weight"], f"asset={spec['classname']}:{spec['price_amount']}"])
+
+    rows: list[list[Any]] = []
+    block(
+        rows,
+        ["", "Story_RandomRecipe object"],
+        object_types,
+        object_headers,
+        [object_row],
+    )
+    block(
+        rows,
+        ["", "Story_RandomRecipe resources"],
+        ["temp_01", "string", "string", "string", "string", "string", "string", "string", "int"],
+        ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "id"],
+        [
+            [
+                "",
+                random_recipe_asset_input(str(spec["kind"])),
+                output_path("quest_item", campaign_id, f"{spec['classname']}.proto.js"),
+                spec["classname"],
+                spec["classname"],
+                spec["title"],
+                spec["description"],
+                f"pack_asset={spec['classname']}_Package",
+                "",
+            ]
+            for spec in resources
+        ]
+        + [
+            [
+                "",
+                "/quest_item/Fun/Fun11/repair/Fun11_R_1.proto.js",
+                output_path("quest_item", campaign_id, f"{result}.proto.js"),
+                result,
+                result,
+                result_title,
+                result_description,
+                "",
+                "",
+            ]
+        ],
+    )
+
+    gr_rows = []
+    for spec in resources:
+        if spec["kind"] != "GR":
+            continue
+        gr_rows.append(
+            [
+                "",
+                "/global_reward/Fun10/Fun11_GR_10.proto.js",
+                output_path("global_reward", campaign_id, f"{spec['classname']}.proto.js"),
+                spec["classname"],
+                clean_text(selection.get(f"source_action_{spec['suffix'].lower()}")) or clean_text(selection.get("source_action")) or "clean_garbage",
+                clean_text(selection.get(f"location_tag_{spec['suffix'].lower()}")) or clean_text(selection.get("location_tag")),
+                clean_text(selection.get(f"drop_probability_{spec['suffix'].lower()}")) or clean_text(selection.get("drop_probability")) or "30",
+                spec["classname"],
+                active_condition,
+                clean_text(selection.get(f"assets_{spec['suffix'].lower()}")) or clean_text(selection.get("assets")),
+                "",
+            ]
+        )
+    block(
+        rows,
+        ["", "Story_RandomRecipe GR global rewards"],
+        ["temp_01", "string", "string", "ignore", "array", "array", "int", "string", "string", "array", "int"],
+        ["", "input", "output", "file_name", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "assets", "id"],
+        gr_rows,
+    )
+
+    request_rows = []
+    for spec in resources:
+        if spec["kind"] not in {"ASK", "PER"}:
+            continue
+        kind_lower = str(spec["kind"]).lower()
+        request_rows.append(
+            [
+                "",
+                random_recipe_post_action_input(str(spec["kind"])),
+                output_path("post_action", f"ask_for_{spec['classname']}.proto.js"),
+                f"ask_for_{spec['classname']}",
+                spec["classname"],
+                spec["title"],
+                f"asset={spec['classname']}:1",
+                clean_text(selection.get(f"{kind_lower}_clicks_limit")) or "5",
+                clean_text(selection.get(f"{kind_lower}_life_time")) or "43200",
+                clean_text(selection.get(f"{kind_lower}_send_interval")) or "7200",
+                "",
+            ]
+        )
+    block(
+        rows,
+        ["", "Story_RandomRecipe ASK/PER post actions"],
+        ["temp_01", "string", "string", "string", "ignore", "string", "string", "int", "int", "int", "int"],
+        ["", "input", "output", "identifier", "classname", "title", "poster_reward", "clicks_limit", "life_time", "send_interval", "id"],
+        request_rows,
+    )
+
+    package_rows = []
+    for spec in resources:
+        kind_lower = str(spec["kind"]).lower()
+        amount = clean_text(selection.get(f"{kind_lower}_package_amount")) or ("2" if spec["kind"] == "GR" else "1")
+        price = clean_text(selection.get(f"{kind_lower}_package_price")) or ("5" if spec["kind"] == "GR" else "2")
+        package_rows.append(
+            [
+                "",
+                random_recipe_package_input(str(spec["kind"])),
+                output_path("asset_package", "Fun", campaign_id, f"{spec['classname']}_Package.proto.js"),
+                f"{spec['classname']}_Package",
+                spec["classname"],
+                spec["title"],
+                f"asset={spec['classname']}:{amount}",
+                amount,
+                price,
+                spec["classname"],
+                "",
+            ]
+        )
+    block(
+        rows,
+        ["", "Story_RandomRecipe packages"],
+        ["temp_01", "string", "string", "string", "ignore", "string", "string", "ignore", "int", "string", "int"],
+        ["", "input", "output", "classname", "asset", "title", "reward", "Количество ассетов", "price", "stuff_icon", "id"],
+        package_rows,
+    )
+    return rows
+
+
 def mixer_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     mechanic_prefix = clean_text(selection.get("mechanic_prefix")) or "Mixer_1"
     mixer = template_object_prefix(campaign_id, mechanic_prefix)
@@ -1370,6 +1656,7 @@ BUILDERS = {
     "help_1": help_rows,
     "friend_action_1": friend_action_rows,
     "exchanger": exchanger_rows,
+    "story_random_recipe": random_recipe_rows,
     "mixer_1": mixer_rows,
 }
 

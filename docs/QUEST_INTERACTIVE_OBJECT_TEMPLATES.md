@@ -4,6 +4,54 @@
 
 Не смешивать их с `docs/FunCollection/*.xlsx`: FunCollection-шаблоны нужны для Потех/Сказаний и не пишутся в campaign-level `interactive_objects.json`.
 
+## `story_random_recipe` / `Story_RandomRecipe`
+
+Донор структуры: `NY23_Chest_LadyDogState1.proto.js`.
+
+Механика: объект `chest` с `generate_price`. При каждом открытии он выбирает несколько элементов из `price_elements`, тратит выбранные ресурсы и всегда выдает один итоговый ресурс `{campaign_id}_Story_RandomRecipe_N_R_1`. В отличие от коллекционных версий, здесь нет `CL`, `MB`, прогресс-счетчика и финальной смены награды.
+
+### Что Заполнить По Теме
+
+- `object_title`: сам объект, например `Огуречное хранилище`.
+- `craft_resource_titles`: 8 ресурсов цены в порядке `ASK_1`, `PER_1`, `GR_1`, `GR_2`, `GR_3`, `GR_4`, `ASK_2`, `PER_2`.
+- `result_resource_title`: итоговый ресурс `R_1`.
+- `result_resource_description`: короткое описание итогового ресурса.
+- `wnd_description`: текст окна объекта.
+- `rule_title`, `rule_description`, `rule_window`: справка/правила окна.
+- `price_amounts`: сколько каждого ресурса просит price element.
+- `price_weights`: веса выбора price elements; это не проценты, а относительные веса.
+- `price_elements_amount`: сколько элементов цены показывать за одно открытие.
+- `tech_quest`, `source_action`, `location_tag`, `drop_probability`, `assets`: если `GR`-ресурсы должны выпадать через global_reward.
+
+### Classname-Паттерны
+
+- Объект: `{campaign_id}_Story_RandomRecipe_1`.
+- Ресурсы цены: `{campaign_id}_Story_RandomRecipe_1_ASK_1`, `{campaign_id}_Story_RandomRecipe_1_PER_1`, `{campaign_id}_Story_RandomRecipe_1_GR_1` ... `{campaign_id}_Story_RandomRecipe_1_PER_2`.
+- Итоговый ресурс: `{campaign_id}_Story_RandomRecipe_1_R_1`.
+
+Если в campaign выбрано несколько таких объектов, они нумеруются как `Story_RandomRecipe_1`, `Story_RandomRecipe_2`, а итоговые ресурсы становятся `{campaign_id}_Story_RandomRecipe_1_R_1`, `{campaign_id}_Story_RandomRecipe_2_R_1`.
+
+### Пример Fun13
+
+- Объект: `Fun13_Story_RandomRecipe_1` - `Огуречное хранилище`.
+- Ресурсы цены: `Fun13_Story_RandomRecipe_1_ASK_1` - `Хрустящий огурчик`, `Fun13_Story_RandomRecipe_1_PER_1` - `Пустая банка`, `Fun13_Story_RandomRecipe_1_GR_1` - `Укроп`, `Fun13_Story_RandomRecipe_1_GR_2` - `Горчица`, `Fun13_Story_RandomRecipe_1_GR_3` - `Чеснок`, `Fun13_Story_RandomRecipe_1_GR_4` - `Лавровый лист`, `Fun13_Story_RandomRecipe_1_ASK_2` - `Соль`, `Fun13_Story_RandomRecipe_1_PER_2` - `Душистый горошек`.
+- Итоговый ресурс: `Fun13_Story_RandomRecipe_1_R_1` - `Домовячьи огурчики (3 шт.)`.
+
+### Блоки CSV
+
+- `Story_RandomRecipe object`: один `chest`-объект с `generate_price`, `price_elements` и единственным `extra.result_rewards.0.asset`.
+- `Story_RandomRecipe resources`: 8 ресурсов цены и итоговый `R_1`.
+- `Story_RandomRecipe GR global rewards`: способы выпадения `GR_1..GR_4`, если они нужны.
+- `Story_RandomRecipe ASK/PER post actions`: просьбы для `ASK` и `PER`.
+- `Story_RandomRecipe packages`: пакеты продажи ресурсов цены.
+
+### Важные Проверки
+
+- В `extra.result_rewards` должен остаться только один asset: итоговый `{campaign_id}_Story_RandomRecipe_N_R_1`, без условий.
+- Не оставлять `NY23_Parallel_Box_*`, `NY23_Parallel_Box_Counter`, `progress_resource`, `progress_total` и `after_open_actions` из донора: награда теперь ресурс, а не появляющийся на карте объект.
+- Суффиксы ресурсов писать с подчеркиванием: `GR_2`, `GR_3`, `GR_4`, а не `GR2`, `GR3`, `GR4`.
+- `price_elements_amount` не должен превышать количество ресурсов в `price_elements`.
+
 ## `mixer_1` / `Story_Mixer`
 
 Донор структуры: `raw/examples/Story_Mixer.xlsx`, лист `Лист1`.

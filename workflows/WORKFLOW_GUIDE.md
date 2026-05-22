@@ -200,6 +200,7 @@ python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack
 - `chest_1` - парный `Chest_1_Home` + `Chest_1_Guest`; пара считается одним интерактивным объектом.
 - `help_1` - парный `HELP_1_Home` + `HELP_1_Guest`; пара считается одним интерактивным объектом.
 - `friend_action_1` - `Story_FriendAction_1`: действие у друзей с шансом, дневным лимитом, флагом доступности и двумя `FA`-ресурсами (`reward_for_action`, `reward_on_receive`).
+- `story_random_recipe` - `Story_RandomRecipe`: chest-объект с `generate_price`, случайным набором ресурсов цены и одним итоговым `R_1` без `CL`/`MB`.
 - `mixer_1` - `Story_Mixer`: миксер для квестов, тратит два `GR`-ингредиента и один `ASK_1`, правильное действие сразу выдает готовый `R_1` без mystery box и без `CL`.
 
 Выбор фиксировать в:
@@ -218,7 +219,7 @@ python src/workflow_fast.py interactive-objects --campaign <campaign_id> --selec
 
 Если пользователь выбирает несколько объектов одной механики, они нумеруются последовательно: `Chest_1`, `Chest_2`, `HELP_1`, `HELP_2`, `Exchanger_1`, `Exchanger_2`, `Story_FriendAction_1`, `Story_FriendAction_2`, `Mixer_1`, `Mixer_2`. Если механика выбрана один раз, используется обычное имя из шаблона. Ресурсы выбранных объектов не меняются от pack к pack внутри campaign.
 
-Result resources выбранных объектов используются как 3-й и 4-й ингредиенты craft recipe в таблице ресурсов. Для `Chest`, `HELP`, `Exchanger` и `mixer_1` это ресурсы с суффиксом `_R_`; для `friend_action_1` по умолчанию это `Story_FA_2` (`reward_on_receive`). При 3+ объектах ингредиенты идут по кругу: 1-й craft берет объекты 1+2, 2-й craft берет 3+4, если 4-го нет - 3+1, дальше продолжается тот же круг.
+Result resources выбранных объектов используются как 3-й и 4-й ингредиенты craft recipe в таблице ресурсов. Для `Chest`, `HELP`, `Exchanger`, `story_random_recipe` и `mixer_1` это ресурсы с суффиксом `_R_`; для `friend_action_1` по умолчанию это `Story_FA_2` (`reward_on_receive`). При 3+ объектах ингредиенты идут по кругу: 1-й craft берет объекты 1+2, 2-й craft берет 3+4, если 4-го нет - 3+1, дальше продолжается тот же круг.
 
 ### Stage 1 - Сюжетная Структура
 

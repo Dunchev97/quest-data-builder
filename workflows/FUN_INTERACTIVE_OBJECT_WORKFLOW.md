@@ -37,6 +37,7 @@ docs/FunCollection/FunCollection_4.xlsx
 docs/FunCollection/FunCollection_5.xlsx
 docs/FunCollection/FunCollection_6.xlsx
 docs/FunCollection/FunCollection_7.xlsx
+docs/FunCollection/FunCollection_8.xlsx
 docs/FunCollection/FunCollection_9.xlsx
 ```
 
@@ -265,6 +266,40 @@ docs/FunCollection/FunCollection_9.xlsx
 - Не создавать готовый `R_1`: правый action выдает `{prefix}_FunCollection_7_MB_1`.
 - Исправлять donor-копипаст: `FunCollection_7_2` в `open_price` должен стать `{prefix}_FunCollection_7_GR_2`; stale `FunCollection_6_MB_1` должен стать `{prefix}_FunCollection_7_MB_1`; `CL` outputs не должны оставаться в `Fun12`.
 
+### `FunCollection_8`
+
+Донор: `docs/FunCollection/FunCollection_8.xlsx`, лист `conf`.
+
+Механика: реставрационный workbench. Игрок тратит `GR_1` в `Unlock`, чтобы подготовить объект, затем добывает две половинки каждого коллекционного предмета и восстанавливает готовый `CL` через recipe `CL_i_1 + CL_i_2 -> CL_i`.
+
+Ключевые поля:
+
+- `object_title`, `object_hint`, `object_description`: сам стенд/верстак и его назначение.
+- `window_title`, `window_description`, `window_recipe_available`: тексты окна workbench.
+- `unlock_resource_title`, `unlock_resource_description`: `GR_1`, ресурс подготовки.
+- `unlock_window_description`: текст окна `Unlock`; `Unlock` только открывает доступ, не выдает коллекционные награды.
+- `collection_rewards`: 10 готовых `CL`-предметов.
+- `part_1_location_title`, `part_2_location_title`: названия двух зон поиска для описаний половинок.
+- `location_tag_part_1`, `location_tag_part_2`, `part_1_source_action`, `part_2_source_action`.
+- `unlock_source_action`, `unlock_location_tag`, `tech_quest`.
+
+Блоки:
+
+- `Объект FunCollection_8`: один workbench/restoration object.
+- `Объект FunCollection_8_Unlock`: gate, который тратит `{prefix}_FunCollection_8_GR_1`.
+- `Ресурсы FunCollection_8`: 10 готовых `CL`, 20 половинок `CL_i_1`/`CL_i_2`, 1 `GR_1`.
+- `Способ получения Ресурсы FunCollection_8`: global_reward для половинок и `GR_1`.
+- `Пакеты FunCollection_8`: пакет для `GR_1`.
+- `Рецепты FunCollection_8`: 10 рецептов восстановления.
+
+Правила:
+
+- Использовать exact ID `FunCollection_8`, если пользователь его назвал; не заменять на `workbench_single`.
+- Это potekha/FunCollection template, а не quest object: не добавлять его в `campaigns/<campaign_id>/interactive_objects.json`.
+- Первые половинки используют multiplicity `1,2,3,4,5,6,7,8,9,0`; вторые половинки - `0,9,8,7,6,5,4,3,2,1`.
+- `GR_1` в donor использует `multiplicity=1`; менять только при явном требовании.
+- Исправлять donor-неточность `pack_asset` у `GR_1`: пакет должен быть `{prefix}_FunCollection_8_GR_1_Package`, а не случайный `CL_10_Package`.
+
 ### `FunCollection_9`
 
 Донор: `docs/FunCollection/FunCollection_9.xlsx`, лист `conf`.
@@ -323,6 +358,7 @@ docs/FunCollection/FunCollection_9.xlsx
 - Все `output` и generated classnames с текущим `prefix`.
 - В `input` остался donor prefix.
 - Все 10 CL-наград заполнены и тематически связаны.
+- Для `FunCollection_8` дополнительно есть 20 половинок `CL_i_1`/`CL_i_2` и 10 recipes.
 - GR/подарочные ресурсы имеют понятный способ получения.
 - `pack_asset=<classname>_Package` совпадает с package classname.
 - `find/replace` строки оставлены там, где они были у донора.

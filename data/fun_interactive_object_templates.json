@@ -1325,6 +1325,228 @@
       ]
     },
     {
+      "id": "FunCollection_8",
+      "source_file": "docs/FunCollection/FunCollection_8.xlsx",
+      "category": "fun_collection",
+      "mechanic": "Restoration workbench. The player unlocks the stand with GR_1, finds two halves for each of 10 CL collection items in two location groups, then crafts each pair of halves into the restored CL item.",
+      "defaults": {
+        "source_prefix": "Fun11",
+        "prefix_example": "Fun13",
+        "collection_number": "8",
+        "unlock_amount": 30,
+        "part_drop_probability": 30,
+        "unlock_drop_probability": 30,
+        "package_amount": 1,
+        "package_price": 5,
+        "recipe_part_1_amount": 1,
+        "recipe_part_2_amount": 1,
+        "recipe_reward_amount": 1,
+        "part_1_multiplicity": [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
+        "part_2_multiplicity": [0, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+        "unlock_multiplicity": 1,
+        "part_1_suffix": "часть 1",
+        "part_2_suffix": "часть 2"
+      },
+      "required_theme_fields": [
+        "object_title",
+        "object_hint",
+        "object_description",
+        "window_title",
+        "window_description",
+        "unlock_resource_title",
+        "unlock_resource_description",
+        "unlock_window_description",
+        "collection_rewards",
+        "part_1_location_title",
+        "part_2_location_title",
+        "location_tag_part_1",
+        "location_tag_part_2",
+        "tech_quest"
+      ],
+      "classname_patterns": {
+        "object": "{prefix}_FunCollection_8",
+        "unlock_object": "{prefix}_FunCollection_8_Unlock",
+        "unlock_resource": "{prefix}_FunCollection_8_GR_1",
+        "unlock_resource_package": "{prefix}_FunCollection_8_GR_1_Package",
+        "collection_reward": "{prefix}_FunCollection_8_CL_{index}",
+        "collection_part_1": "{prefix}_FunCollection_8_CL_{index}_1",
+        "collection_part_2": "{prefix}_FunCollection_8_CL_{index}_2",
+        "recipe": "{prefix}_FunCollection_8_CL_{index}_Recipe"
+      },
+      "rules": [
+        "Use exact template id FunCollection_8 for this restoration-workbench mechanic.",
+        "Use only docs/FunCollection/FunCollection_8.xlsx sheet conf as the donor structure.",
+        "The object is a workbench/restoration stand, but it remains a FunCollection potekha template, not the separate workbench_single template.",
+        "Unlock spends {prefix}_FunCollection_8_GR_1 and opens access to the restoration workbench; it does not award CL by itself.",
+        "There are 10 restored CL collection rewards and 20 part resources: CL_1_1..CL_10_1 and CL_1_2..CL_10_2.",
+        "Part 1 resources use location_tag_part_1 and part_1_multiplicity 1,2,3,4,5,6,7,8,9,0.",
+        "Part 2 resources use location_tag_part_2 and part_2_multiplicity 0,9,8,7,6,5,4,3,2,1.",
+        "Each recipe spends matching part 1 plus part 2 and gives the restored CL item with the same index.",
+        "All output/classname/file_name/identifier/reward/ingredients/conditions/view_classname/pack_asset values use the target prefix.",
+        "Input paths remain donor paths from Temp, Fun11, and BD24 as shown in the donor conf sheet."
+      ],
+      "blocks": [
+        {
+          "title": "Объект FunCollection_8",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "string", "string", "string", "replace", "", "replace", "", "replace", "", "int"],
+          "headers": ["", "input", "output", "classname", "title", "hint", "description", "extra.window_title", "extra.window_description", "extra.window_recipe_availble", "find", "replace", "find", "replace", "find", "replace", "id"],
+          "rows": [
+            {
+              "input": "/workbench/Temp/Temp_Restoration_Workbench.proto.js.proto.js",
+              "output": "/workbench/Fun/{prefix}/{prefix}_FunCollection_8.proto.js",
+              "classname": "{prefix}_FunCollection_8",
+              "title": "{object_title}",
+              "hint": "{object_hint}",
+              "description": "{object_description}",
+              "extra.window_title": "{window_title}",
+              "extra.window_description": "{window_description}",
+              "extra.window_recipe_availble": "{window_recipe_available|Починить}",
+              "find": "Fun11_Restoration_R_",
+              "replace": "{prefix}_FunCollection_8_R_",
+              "find_2": "Fun11_Restoration_Workbench",
+              "replace_2": "{prefix}_FunCollection_8",
+              "find_3": "Temp_Restoration_Workbench_Unlock",
+              "replace_3": "{prefix}_FunCollection_8_Unlock"
+            }
+          ]
+        },
+        {
+          "title": "Объект FunCollection_8_Unlock",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "array", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "open_price", "extra.action_availability_conditions", "extra.time_till_open_description", "extra.get_description", "extra.open_btn", "extra.window_spec.description", "id"],
+          "rows": [
+            {
+              "input": "/chest/Temp/Temp_Restoration_Workbench_Unlock.proto.js",
+              "output": "/chest/Fun/{prefix}/{prefix}_FunCollection_8_Unlock.proto.js",
+              "classname": "{prefix}_FunCollection_8_Unlock",
+              "title": "{object_title}",
+              "open_price": "asset={prefix}_FunCollection_8_GR_1:{unlock_amount|30}",
+              "extra.action_availability_conditions": "active_quest={tech_quest}",
+              "extra.time_till_open_description": "{unlock_time_till_open_description|Можно начать ремонт через:}",
+              "extra.get_description": "{unlock_get_description|Для доступа нужно:}",
+              "extra.open_btn": "{unlock_open_button|Подготовить верстак}",
+              "extra.window_spec.description": "{unlock_window_description}"
+            }
+          ]
+        },
+        {
+          "title": "Ресурсы FunCollection_8",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "id"],
+          "rows": [
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/quest_item/Fun/Fun11/Fun11_FunCollection_2_CL_1.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_8_CL_{index}.proto.js",
+              "classname": "{prefix}_FunCollection_8_CL_{index}",
+              "view_classname": "{prefix}_FunCollection_8_CL_{index}",
+              "title": "{collection_rewards[index].title}",
+              "description": "{collection_rewards[index].description}"
+            },
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/quest_item/Fun/Fun11/Fun11_FunCollection_2_CL_1.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_8_CL_{index}_1.proto.js",
+              "classname": "{prefix}_FunCollection_8_CL_{index}_1",
+              "view_classname": "{prefix}_FunCollection_8_CL_{index}_1",
+              "title": "{collection_rewards[index].title}, {part_1_suffix|часть 1}",
+              "description": "{part_1_description|Убирай мусор {part_1_location_title} дома и в гостях, чтобы найти.}"
+            },
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/quest_item/Fun/Fun11/Fun11_FunCollection_2_CL_1.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_8_CL_{index}_2.proto.js",
+              "classname": "{prefix}_FunCollection_8_CL_{index}_2",
+              "view_classname": "{prefix}_FunCollection_8_CL_{index}_2",
+              "title": "{collection_rewards[index].title}, {part_2_suffix|часть 2}",
+              "description": "{part_2_description|Убирай мусор {part_2_location_title} дома и в гостях, чтобы найти.}"
+            },
+            {
+              "repeat": "unlock_resource",
+              "input": "/quest_item/Fun/Fun11/Fun11_FunCollection_2_CL_1.proto.js",
+              "output": "/quest_item/Fun/{prefix}/{prefix}_FunCollection_8_GR_1.proto.js",
+              "classname": "{prefix}_FunCollection_8_GR_1",
+              "view_classname": "{prefix}_FunCollection_8_GR_1",
+              "title": "{unlock_resource_title}",
+              "description": "{unlock_resource_description}",
+              "meta_info": "pack_asset={prefix}_FunCollection_8_GR_1_Package"
+            }
+          ]
+        },
+        {
+          "title": "Способ получения Ресурсы FunCollection_8",
+          "types": ["temp_01", "string", "string", "ignore", "array", "array", "int", "string", "string", "array", "int"],
+          "headers": ["", "input", "output", "file_name", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "assets", "id"],
+          "rows": [
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/global_reward/Fun11/Fun11_FunCollection_2_CL_1.proto.js",
+              "output": "/global_reward/{prefix}/{prefix}_FunCollection_8_CL_{index}_1.proto.js",
+              "file_name": "{prefix}_FunCollection_8_CL_{index}_1",
+              "actions": "{part_1_source_action|clean_garbage_in_guest}",
+              "location_tags": "{location_tag_part_1}",
+              "rand_reward.p": "{part_drop_probability|30}",
+              "rand_reward.asset": "{prefix}_FunCollection_8_CL_{index}_1",
+              "conditions": "active_quest={tech_quest}+multiplicity={part_1_multiplicity[index]}"
+            },
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "/global_reward/Fun11/Fun11_FunCollection_2_CL_1.proto.js",
+              "output": "/global_reward/{prefix}/{prefix}_FunCollection_8_CL_{index}_2.proto.js",
+              "file_name": "{prefix}_FunCollection_8_CL_{index}_2",
+              "actions": "{part_2_source_action|clean_garbage_in_guest}",
+              "location_tags": "{location_tag_part_2}",
+              "rand_reward.p": "{part_drop_probability|30}",
+              "rand_reward.asset": "{prefix}_FunCollection_8_CL_{index}_2",
+              "conditions": "active_quest={tech_quest}+multiplicity={part_2_multiplicity[index]}"
+            },
+            {
+              "input": "/global_reward/Fun11/Fun11_FunCollection_2_CL_1.proto.js",
+              "output": "/global_reward/{prefix}/{prefix}_FunCollection_8_GR_1.proto.js",
+              "file_name": "{prefix}_FunCollection_8_GR_1",
+              "actions": "{unlock_source_action|clean_garbage}",
+              "location_tags": "{unlock_location_tag|{location_tag_part_1}}",
+              "rand_reward.p": "{unlock_drop_probability|30}",
+              "rand_reward.asset": "{prefix}_FunCollection_8_GR_1",
+              "conditions": "active_quest={tech_quest}+multiplicity={unlock_multiplicity|1}"
+            }
+          ]
+        },
+        {
+          "title": "Пакеты FunCollection_8",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "int", "string", "int"],
+          "headers": ["", "input", "output", "classname", "title", "reward", "price", "stuff_icon", "id"],
+          "rows": [
+            {
+              "input": "/asset_package/Fun/Fun11/Fun11_FunCollection_2_CL_1_Package.proto.js",
+              "output": "/asset_package/Fun/{prefix}/{prefix}_FunCollection_8_GR_1_Package.proto.js",
+              "classname": "{prefix}_FunCollection_8_GR_1_Package",
+              "title": "{unlock_resource_title}",
+              "reward": "asset={prefix}_FunCollection_8_GR_1:{package_amount|1}",
+              "price": "{package_price|5}",
+              "stuff_icon": "{prefix}_FunCollection_8_GR_1"
+            }
+          ]
+        },
+        {
+          "title": "Рецепты FunCollection_8",
+          "types": ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+          "headers": ["", "input", "output", "identifier", "reward", "ingredients", "conditions", "id"],
+          "rows": [
+            {
+              "repeat": "collection_rewards[1..10]",
+              "input": "\\\\recipe\\\\BD24\\\\BD24_Swap_R_1_Recipe.proto.js",
+              "output": "/recipe/Fun/{prefix}/{prefix}_FunCollection_8_CL_{index}_Recipe.proto.js",
+              "identifier": "{prefix}_FunCollection_8_CL_{index}_Recipe",
+              "reward": "asset={prefix}_FunCollection_8_CL_{index}:{recipe_reward_amount|1}",
+              "ingredients": "asset={prefix}_FunCollection_8_CL_{index}_1:{recipe_part_1_amount|1}+asset={prefix}_FunCollection_8_CL_{index}_2:{recipe_part_2_amount|1}",
+              "conditions": "active_quest={tech_quest}"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "FunCollection_9",
       "source_file": "docs/FunCollection/FunCollection_9.xlsx",
       "category": "fun_collection",
