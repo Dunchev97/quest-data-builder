@@ -252,7 +252,7 @@ def collect_resources(
                     hogs.append(
                         HogResource(
                             classname=str(hog_classname),
-                            title=normalize_title(task_object.get("title"), "HOG"),
+                            title=normalize_title(task.get("resource_title") or task_object.get("title"), "HOG"),
                             quest_classname=quest_classname,
                             task_number=task_number,
                         )
@@ -268,7 +268,7 @@ def collect_resources(
                     Resource(
                         kind=kind,
                         classname=str(classname),
-                        title=normalize_title(task_object.get("title"), kind),
+                        title=normalize_title(task.get("resource_title") or task_object.get("title"), kind),
                         pack_id=pack_dir.name,
                         quest_classname=quest_classname,
                         task_number=task_number,
@@ -369,12 +369,13 @@ def recipe_rows(
 
     for craft_index, craft in enumerate([resource for resource in resources if resource.kind == "R"]):
         quest_resources = sorted(by_quest.get(craft.quest_classname, []), key=lambda item: item.task_number or 0)
-        before = [
+        candidates = [
             item
             for item in quest_resources
-            if item.kind != "R" and item.task_number is not None and craft.task_number is not None and item.task_number < craft.task_number
+            if item.kind != "R" and item.task_number is not None and craft.task_number is not None
         ]
-        ingredients = before[-2:]
+        nearest = sorted(candidates, key=lambda item: (abs((item.task_number or 0) - (craft.task_number or 0)), item.task_number or 0))
+        ingredients = sorted(nearest[:2], key=lambda item: item.task_number or 0)
         if len(ingredients) < 2:
             warnings.append(
                 {

@@ -17,6 +17,11 @@ def write_json(path: Path, value: object) -> None:
 
 
 class ReviewDocsTests(unittest.TestCase):
+    def test_stage4_short_title_keeps_head_noun(self) -> None:
+        self.assertEqual(review_docs.short_stage4_title("розовую мерную ложечку"), "Розовая ложечка")
+        self.assertEqual(review_docs.short_stage4_title("приличное зелье первого впечатления"), "Приличное зелье")
+        self.assertEqual(review_docs.short_stage4_title("мягкий цветочный настил"), "Мягкий настил")
+
     def test_stage1_review_applies_back_to_stage1_story(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             campaigns_dir = Path(tmp)
@@ -260,6 +265,7 @@ class ReviewDocsTests(unittest.TestCase):
 
             review_path = review_docs.write_review_doc("Event_2026", "pack_001", "4", campaigns_dir)
             review = review_path.read_text(encoding="utf-8")
+            self.assertIn("В тексте задания: Турку", review)
             self.assertIn("Выбранный кандидат: Турка.GarbageCupCoffeeCollection5", review)
             self.assertIn("Кандидаты:\nТурка.GarbageCupCoffeeCollection5\nЛинза.OldCameraCollection5", review)
             self.assertNotIn("Обоснование:", review)
@@ -278,6 +284,7 @@ class ReviewDocsTests(unittest.TestCase):
                 data["quests"][0]["tasks"][0]["selected_candidate_id"],
                 "collection_drop:OldCameraCollection5:OldCamera:home",
             )
+            self.assertEqual(data["quests"][0]["tasks"][0]["item_title_accusative"], "Линзу")
 
     def test_stage4_review_applies_item_from_subject_field(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -335,16 +342,21 @@ class ReviewDocsTests(unittest.TestCase):
             )
 
             review_path = review_docs.write_review_doc("Event_2026", "pack_001", "4", campaigns_dir)
+            review = review_path.read_text(encoding="utf-8")
+            self.assertIn("Название: Мерная ложечка", review)
+            self.assertIn("Предмет: Мерная ложечка", review)
+            self.assertIn("В тексте задания: Мерную ложечку", review)
             review_path.write_text(
-                review_path.read_text(encoding="utf-8").replace("Предмет: Мерная ложечка", "Предмет: Половник главного повара"),
+                review.replace("Предмет: Мерная ложечка", "Предмет: Половник главного повара"),
                 encoding="utf-8",
             )
 
             target = review_docs.apply_review_doc("Event_2026", "pack_001", "4", campaigns_dir)
 
             data = json.loads(target.read_text(encoding="utf-8"))
-            self.assertEqual(data["quests"][0]["tasks"][0]["item_title"], "половник главного повара")
-            self.assertEqual(data["quests"][0]["tasks"][0]["item_title_accusative"], "половник главного повара")
+            self.assertEqual(data["quests"][0]["tasks"][0]["item_title"], "Половник повара")
+            self.assertEqual(data["quests"][0]["tasks"][0]["item_title_nominative"], "Половник главного повара")
+            self.assertEqual(data["quests"][0]["tasks"][0]["item_title_accusative"], "Половник главного повара")
 
     def test_stage4_review_adds_hog_location_tags_reference(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

@@ -33,6 +33,30 @@ class BuildResourceTableTests(unittest.TestCase):
         self.assertTrue(any("asset=Event_2026_Chest_2_R_1:1+asset=Event_2026_Chest_1_R_1:1" in row for row in flat_rows))
         self.assertTrue(any("asset=Event_2026_HELP_1_R_Opener:1+asset=Event_2026_Chest_2_R_1:1" in row for row in flat_rows))
 
+    def test_recipe_uses_resource_tasks_after_craft_when_craft_is_first(self):
+        quest = "Event_2026_Story_1"
+        resources = [
+            Resource("R", "Event_2026_R_1", "Craft", "pack_001", quest, 1, "get_and_decrease_asset craft", "", 1, "", None),
+            Resource("ASK", "Event_2026_ASK_1", "Ask", "pack_001", quest, 2, "get_asset ASK", "", 1, "", None),
+            Resource("GR", "Event_2026_GR_1", "Gr", "pack_001", quest, 3, "get_asset GR", "", 1, "", None),
+        ]
+        interactive = [
+            InteractiveIngredient("chest_1", "Event_2026_Chest_1_R_1", "Chest 1", "Chest_1"),
+            InteractiveIngredient("help_1", "Event_2026_HELP_1_R_Opener", "Help 1", "HELP_1"),
+        ]
+
+        rows, warnings = build_rows("Event_2026", [], resources, interactive)
+
+        self.assertEqual(warnings, [])
+        flat_rows = [";".join(str(cell) for cell in row) for row in rows]
+        self.assertTrue(any("Event_2026_R_1_Recipe" in row for row in flat_rows))
+        self.assertTrue(
+            any(
+                "asset=Event_2026_ASK_1:1+asset=Event_2026_GR_1:1+asset=Event_2026_Chest_1_R_1:1+asset=Event_2026_HELP_1_R_Opener:1" in row
+                for row in flat_rows
+            )
+        )
+
     def test_builds_campaign_resource_table_blocks(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
@@ -48,6 +72,7 @@ class BuildResourceTableTests(unittest.TestCase):
                                     {
                                         "task_number": 1,
                                         "task_type": "HOG clean_debris location",
+                                        "resource_title": "Синяя лента",
                                         "task_object": {
                                             "type": "action",
                                             "param": "Event_2026_HOG_1",
@@ -57,10 +82,11 @@ class BuildResourceTableTests(unittest.TestCase):
                                     {
                                         "task_number": 2,
                                         "task_type": "get_asset ASK",
+                                        "resource_title": "Занавеска",
                                         "task_object": {
                                             "type": "get_asset",
                                             "classname": "Event_2026_ASK_1",
-                                            "title": "Попроси у друзей Барабанные палочки",
+                                            "title": "Попроси у друзей Занавеску",
                                             "amount": 1,
                                         },
                                     },
@@ -159,6 +185,8 @@ class BuildResourceTableTests(unittest.TestCase):
             self.assertEqual([len(row) for row in rows[recipe_header_index : recipe_header_index + 4]], [19, 19, 19, 19])
 
             flat_rows = [";".join(str(cell) for cell in row) for row in rows]
+            self.assertTrue(any("Синяя лента" in row for row in flat_rows))
+            self.assertTrue(any("Занавеска" in row for row in flat_rows))
             self.assertTrue(any("active_quest=Event_2026_Story_1+asset!=Event_2026_R_1:1" in row for row in flat_rows))
             self.assertTrue(any("asset=Event_2026_ASK_1:1+asset=Event_2026_GR_1:1+asset=Event_2026_Chest_1_R_1:1+asset=Event_2026_HELP_1_R_Opener:1" in row for row in flat_rows))
 

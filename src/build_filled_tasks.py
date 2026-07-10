@@ -251,7 +251,63 @@ def phrase_form(value: Any, case_name: str, choice: dict[str, Any] | None = None
 
 
 def item_accusative(value: Any, choice: dict[str, Any] | None = None) -> str:
-    return phrase_form(value, "accusative", choice)
+    text = str(value or "").strip()
+    result = phrase_form(text, "accusative", choice)
+    if result != text:
+        return result
+    return simple_nominative_to_accusative(text)
+
+
+def upper_first(value: str) -> str:
+    text = value.strip()
+    return text[:1].upper() + text[1:] if text else text
+
+
+def short_resource_title(value: Any) -> str:
+    text = upper_first(str(value or "").strip())
+    words = text.split()
+    stopwords = {"для", "из", "от", "у", "в", "во", "на", "с", "со", "при", "по"}
+    if any(word.lower() in stopwords for word in words):
+        words = words[: next(index for index, word in enumerate(words) if word.lower() in stopwords)]
+    if len(words) > 2:
+        second = words[1].lower()
+        modifier_endings = ("ый", "ий", "ая", "яя", "ое", "ее", "ой", "ей", "ого", "его", "ому", "ему", "ым", "им")
+        words = [words[0], words[-1]] if second.endswith(modifier_endings) else words[:2]
+    return " ".join(words) or text
+
+
+def item_accusative_for_title(value: Any, choice: dict[str, Any] | None = None) -> str:
+    return upper_first(item_accusative(value, choice))
+
+
+def simple_nominative_to_accusative(value: str) -> str:
+    words = value.strip().rstrip(".").split()
+    converted: list[str] = []
+    has_feminine_modifier = any(word.lower().endswith(("ая", "яя")) for word in words[:-1])
+    last_index = len(words) - 1
+    for index, word in enumerate(words):
+        lower = word.lower()
+        if lower.endswith("ая"):
+            converted.append(word[:-2] + "ую")
+        elif lower.endswith("яя"):
+            converted.append(word[:-2] + "юю")
+        elif index == last_index and (
+            lower.endswith("чка") or lower.endswith("жка") or lower.endswith("шка") or lower.endswith("щка")
+        ):
+            converted.append(word[:-1] + "у")
+        elif index == last_index and lower.endswith("ка"):
+            converted.append(word[:-1] + "у")
+        elif index == last_index and (lower.endswith("ля") or lower.endswith("ря")):
+            converted.append(word[:-1] + "ю")
+        elif index == last_index and lower.endswith("ия"):
+            converted.append(word[:-2] + "ию")
+        elif index == last_index and lower.endswith("а") and (len(words) == 1 or has_feminine_modifier):
+            converted.append(word[:-1] + "у")
+        elif index == last_index and lower.endswith("я") and (len(words) == 1 or has_feminine_modifier):
+            converted.append(word[:-1] + "ю")
+        else:
+            converted.append(word)
+    return " ".join(converted)
 
 
 def garbage_task_title(value: Any, choice: dict[str, Any] | None = None) -> str:
@@ -383,11 +439,33 @@ def item_title_for_choice(
     return fallback
 
 
+def resource_title_for_task(
+    template_id: str,
+    choice: dict[str, Any],
+    selected: dict[str, Any] | None,
+    task_object: dict[str, Any],
+) -> str:
+    keys = ("item_title", "item_title_nominative", "resource_title", "hog_item_title", "craft_title", "title_item")
+    if template_id in CRAFT_ANCHOR_TEMPLATE_IDS:
+        keys = ("craft_title", "item_title", "item_title_nominative", "resource_title", "hog_item_title", "title_item")
+    for key in keys:
+        value = clean_item_title(choice.get(key))
+        if value:
+            if key == "craft_title":
+                return short_resource_title(value)
+            return upper_first(value)
+    candidate_title = candidate_title_for_template(template_id, selected)
+    if candidate_title:
+        return upper_first(candidate_title)
+    title_item = clean_item_title(title_item_text(task_object.get("title")) or task_object.get("title"))
+    return upper_first(title_item)
+
+
 def hog_title(choice: dict[str, Any], item_title: str) -> str:
     title = str(choice.get("title") or "").strip()
     if title:
         return title
-    return f"Найди {item_title}"
+    return f"Найди {item_accusative_for_title(item_title, choice)}"
 
 
 def riddle_text(choice: dict[str, Any], selected: dict[str, Any] | None, template_id: str, issues: list[dict[str, Any]]) -> str:
@@ -479,7 +557,7 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Попроси у друзей {item_accusative(item_title, choice)}",
+            "title": f"Попроси у друзей {item_accusative_for_title(item_title, choice)}",
             "hint": "Попроси у друзей или купи.",
             "identifier": "",
         }
@@ -490,7 +568,7 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Попроси у друзей {item_accusative(item_title, choice)}",
+            "title": f"Попроси у друзей {item_accusative_for_title(item_title, choice)}",
             "hint": "Отправь личные просьбы друзьям или купи.",
             "identifier": "",
         }
@@ -507,7 +585,7 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Найди {item_accusative(item_title, choice)}",
+            "title": f"Найди {item_accusative_for_title(item_title, choice)}",
             "hint": f"{item_title} можно получить за сбор коллекции {collection_title} при уборке мусора в локации {location_text} дома и в гостях.",
             "identifier": "",
         }
@@ -519,7 +597,7 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Получи {item_accusative(item_title, choice)}",
+            "title": f"Получи {item_accusative_for_title(item_title, choice)}",
             "hint": f"{item_title} можно получить {action_text}",
             "identifier": "",
         }
@@ -531,7 +609,7 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Найди {item_accusative(item_title, choice)}",
+            "title": f"Найди {item_accusative_for_title(item_title, choice)}",
             "hint": f"Убирай мусор в локации {location_text} дома, чтобы найти.",
             "identifier": "",
         }
@@ -545,7 +623,7 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Найди {item_accusative(item_title, choice)}",
+            "title": f"Найди {item_accusative_for_title(item_title, choice)}",
             "hint": f"Убирай мусор {garbage_title} {mode_text}, чтобы найти. Место поиска: {location_text}.",
             "identifier": "",
         }
@@ -561,7 +639,7 @@ def generated_resource_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Получи {item_accusative(item_title, choice)}",
+            "title": f"Получи {item_accusative_for_title(item_title, choice)}",
             "hint": hint,
             "identifier": "",
         }
@@ -606,7 +684,7 @@ def build_task_object(
             "classname": classname,
             "icon": classname,
             "amount": task_amount(choice, defaults),
-            "title": f"Создай {item_accusative(item_title, choice)}",
+            "title": f"Создай {item_accusative_for_title(item_title, choice)}",
             "go_to_location": [{"classname": f"{prefix}_Workbench_1"}],
             "hint": "Для создания используй Станок.",
             "identifier": "",
@@ -666,7 +744,7 @@ def build_task_object(
             "icon": classname,
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
-            "title": f"Найди {item_accusative(collection_title, choice)}",
+            "title": f"Найди {item_accusative_for_title(collection_title, choice)}",
             "hint": f"{collection_title} - элемент коллекции, выпадает при уборке мусора {source_title} дома и в гостях. Место поиска: {location_text}.",
             "identifier": "",
         }
@@ -710,7 +788,7 @@ def build_task_object(
                 "param": flower_classname,
                 "amount": task_amount(choice, defaults),
                 "price": task_price(choice, defaults),
-                "title": f"Собери {item_accusative(flower_title, choice)} {place}",
+                "title": f"Собери {item_accusative_for_title(flower_title, choice)} {place}",
                 "hint": hint,
                 "identifier": "",
             }
@@ -817,7 +895,7 @@ def build_task_object(
         item_classname = str(choice.get("item_classname") or f"{prefix}_Give_{context_task.get('task_number') or 1}")
         person = str(choice.get("person") or context_quest.get("character") or "персонажу").strip()
         location_title = first_location_title(context_quest, choice)
-        title = str(choice.get("title") or f"Передай {item_title}").strip()
+        title = str(choice.get("title") or f"Передай {item_accusative_for_title(item_title, choice)}").strip()
         return {
             "type": "action",
             "action": str(choice.get("action") or f"{item_classname}_Give"),
@@ -948,6 +1026,10 @@ def build_filled_tasks(
                 "choice_reason": choice_reason(context_quest, template_id, choice, selected, task_object, craft_title),
                 "task_object": task_object,
             }
+            if template_id in GENERATED_RESOURCE_TEMPLATE_IDS | CRAFT_ANCHOR_TEMPLATE_IDS | {"TT-003", "TT-004", "TT-005", "TT-006", "TT-007"}:
+                resource_title = resource_title_for_task(template_id, choice, selected, task_object)
+                if resource_title:
+                    filled_task["resource_title"] = resource_title
             dialogue = str(choice.get("dialogue_replica") or choice.get("dialogue") or choice.get("replica") or "").strip()
             if not dialogue and template_id == "TT-001":
                 dialogue = str(context_quest.get("description") or "").strip()[:360]

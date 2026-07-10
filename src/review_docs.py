@@ -571,6 +571,19 @@ def upper_first(value: str) -> str:
     return text[:1].upper() + text[1:] if text else text
 
 
+def short_stage4_title(value: str) -> str:
+    text = upper_first(simple_accusative_to_nominative(value))
+    words = text.split()
+    stopwords = {"для", "из", "от", "у", "в", "во", "на", "с", "со", "при", "по"}
+    if any(word.lower() in stopwords for word in words):
+        words = words[: next(index for index, word in enumerate(words) if word.lower() in stopwords)]
+    if len(words) > 2:
+        second = words[1].lower()
+        modifier_endings = ("ый", "ий", "ая", "яя", "ое", "ее", "ой", "ей", "ого", "его", "ому", "ему", "ым", "им")
+        words = [words[0], words[-1]] if second.endswith(modifier_endings) else words[:2]
+    return " ".join(words) or text
+
+
 def simple_accusative_to_nominative(value: str) -> str:
     words = value.strip().rstrip(".").split()
     normalized: list[str] = []
@@ -586,6 +599,12 @@ def simple_accusative_to_nominative(value: str) -> str:
             normalized.append(word[:-1] + "а")
         elif lower.endswith("лю") or lower.endswith("рю"):
             normalized.append(word[:-1] + "я")
+        elif lower.endswith("ию"):
+            normalized.append(word[:-2] + "ия")
+        elif lower.endswith("у"):
+            normalized.append(word[:-1] + "а")
+        elif lower.endswith("ю"):
+            normalized.append(word[:-1] + "я")
         else:
             normalized.append(word)
     return " ".join(normalized)
@@ -594,21 +613,41 @@ def simple_accusative_to_nominative(value: str) -> str:
 def simple_nominative_to_accusative(value: str) -> str:
     words = value.strip().rstrip(".").split()
     converted: list[str] = []
-    for word in words:
+    has_feminine_modifier = any(word.lower().endswith(("ая", "яя")) for word in words[:-1])
+    last_index = len(words) - 1
+    for index, word in enumerate(words):
         lower = word.lower()
         if lower.endswith("ая"):
             converted.append(word[:-2] + "ую")
         elif lower.endswith("яя"):
             converted.append(word[:-2] + "юю")
-        elif lower.endswith("чка") or lower.endswith("жка") or lower.endswith("шка") or lower.endswith("щка"):
+        elif index == last_index and (
+            lower.endswith("чка") or lower.endswith("жка") or lower.endswith("шка") or lower.endswith("щка")
+        ):
             converted.append(word[:-1] + "у")
-        elif lower.endswith("ка"):
+        elif index == last_index and lower.endswith("ка"):
             converted.append(word[:-1] + "у")
-        elif lower.endswith("ля") or lower.endswith("ря"):
+        elif index == last_index and (lower.endswith("ля") or lower.endswith("ря")):
+            converted.append(word[:-1] + "ю")
+        elif index == last_index and lower.endswith("ия"):
+            converted.append(word[:-2] + "ию")
+        elif index == last_index and lower.endswith("а") and (len(words) == 1 or has_feminine_modifier):
+            converted.append(word[:-1] + "у")
+        elif index == last_index and lower.endswith("я") and (len(words) == 1 or has_feminine_modifier):
             converted.append(word[:-1] + "ю")
         else:
             converted.append(word)
     return lower_first(" ".join(converted))
+
+
+def candidate_title(candidate: dict[str, Any] | None) -> str:
+    if not candidate:
+        return ""
+    for key in ("collection_title", "flower_title", "garbage_title", "source_title", "location_title"):
+        value = str(candidate.get(key) or "").strip()
+        if value:
+            return value
+    return ""
 
 
 def display_item_for_review(choice: dict[str, Any], task: dict[str, Any]) -> str:
@@ -617,6 +656,25 @@ def display_item_for_review(choice: dict[str, Any], task: dict[str, Any]) -> str
         return source
     title = title_from_choice_or_task(choice, task)
     return upper_first(simple_accusative_to_nominative(title))
+
+
+def resource_title_for_review(choice: dict[str, Any], task: dict[str, Any], selected: dict[str, Any] | None = None) -> str:
+    source = str(choice.get("craft_title") or choice.get("item_title") or choice.get("item_title_nominative") or "").strip()
+    if not source:
+        source = candidate_title(selected) or title_from_choice_or_task(choice, task)
+    return short_stage4_title(source)
+
+
+def task_text_item_for_review(choice: dict[str, Any], task: dict[str, Any], selected: dict[str, Any] | None = None) -> str:
+    source = str(choice.get("item_title_accusative") or "").strip()
+    if source and choice.get("craft_title") and choice.get("item_title"):
+        old_auto = upper_first(simple_nominative_to_accusative(str(choice.get("item_title") or "")))
+        if source.casefold() == old_auto.casefold():
+            source = ""
+    if source:
+        return upper_first(source)
+    source = str(choice.get("craft_title") or choice.get("item_title_nominative") or "").strip() or candidate_title(selected) or display_item_for_review(choice, task)
+    return upper_first(simple_nominative_to_accusative(short_stage4_title(source)))
 
 
 def default_hog_location_tags(template_id: str) -> str:
@@ -701,27 +759,38 @@ def render_stage4_review(campaign_id: str, pack_id: str, campaigns_dir: Path) ->
             choice = choices_by_key.get((str(quest.get("classname_quests") or ""), task_number), {})
             context_task = context_tasks_by_key.get((quest_classname, task_number), {})
             template_id = str(task.get("task_template_id") or "")
+            selected_id = str(choice.get("selected_candidate_id") or task.get("selected_candidate_id") or "")
+            selected = candidate_by_selected_id(context_task, selected_id)
+            task_text_line_written = False
             lines.append(f"#### {quest_index}.{task_index}. {task.get('task_template_name') or task.get('task_template_id') or ''}")
             if template_id == "TT-001":
                 lines.append(f"Реплика: {choice.get('dialogue_replica') or task.get('dialogue_replica') or ''}")
                 if choice.get("person"):
                     lines.append(f"Персонаж в действии: {choice.get('person') or ''}")
             elif template_id in {"TT-002", "TT-033"}:
-                lines.append(f"Название: {display_item_for_review(choice, task)}")
+                lines.append(f"Название: {resource_title_for_review(choice, task, selected)}")
+                lines.append(f"В тексте задания: {task_text_item_for_review(choice, task, selected)}")
+                task_text_line_written = True
                 lines.extend(craft_ingredients_lines(quest, choices_by_key, campaign_id, campaigns_dir))
             elif template_id in {"TT-008", "TT-009"}:
-                lines.append(f"Название: {choice.get('item_title') or ''}")
+                lines.append(f"Название: {resource_title_for_review(choice, task, selected)}")
                 lines.append(f"Предмет: {display_item_for_review(choice, task)}")
+                lines.append(f"В тексте задания: {task_text_item_for_review(choice, task, selected)}")
+                task_text_line_written = True
             elif template_id in {"TT-003", "TT-004", "TT-005", "TT-006", "TT-007"}:
-                lines.append(f"Название: {choice.get('item_title') or title_from_choice_or_task(choice, task)}")
+                lines.append(f"Название: {resource_title_for_review(choice, task, selected)}")
                 lines.append(f"Предмет: {display_item_for_review(choice, task)}")
+                lines.append(f"В тексте задания: {task_text_item_for_review(choice, task, selected)}")
+                task_text_line_written = True
                 lines.append(f"Тэги локаций: {choice.get('location_tags') or default_hog_location_tags(template_id)}")
                 lines.extend(hog_location_tags_reference_lines())
             elif choice.get("item_title"):
-                lines.append(f"Название: {choice.get('item_title') or ''}")
-            selected_id = str(choice.get("selected_candidate_id") or task.get("selected_candidate_id") or "")
-            selected = candidate_by_selected_id(context_task, selected_id)
+                lines.append(f"Название: {resource_title_for_review(choice, task, selected)}")
+                lines.append(f"В тексте задания: {task_text_item_for_review(choice, task, selected)}")
+                task_text_line_written = True
             if context_task.get("candidates"):
+                if not task_text_line_written and template_id not in {"TT-026", "TT-027", "TT-028", "TT-029", "TT-030", "TT-031", "TT-032"}:
+                    lines.append(f"В тексте задания: {task_text_item_for_review(choice, task, selected)}")
                 lines.append(f"Выбранный кандидат: {candidate_display(selected) or selected_id}")
                 lines.append("Кандидаты:")
                 for candidate in context_task.get("candidates", []):
@@ -751,6 +820,7 @@ def parse_stage4_review(text: str, current_choices: dict[str, Any], context_pack
                     "Персонаж в действии",
                     "Название",
                     "Предмет",
+                    "В тексте задания",
                     "Тэги локаций",
                     "Выбранный кандидат",
                     "Кандидаты",
@@ -760,11 +830,14 @@ def parse_stage4_review(text: str, current_choices: dict[str, Any], context_pack
             )
             task = quest["tasks"][task_index]
             context_task = context_tasks_by_key.get((str(quest.get("classname_quests") or ""), task.get("task_number")), {})
-            template_id = str(task.get("task_template_id") or "")
+            original_task = json.loads(json.dumps(task, ensure_ascii=False))
+            original_selected_id = str(original_task.get("selected_candidate_id") or "")
+            original_selected = candidate_by_selected_id(context_task, original_selected_id)
+            original_name = resource_title_for_review(original_task, context_task, original_selected)
+            original_task_text = task_text_item_for_review(original_task, context_task, original_selected)
             field_map = {
                 "Реплика": "dialogue_replica",
                 "Персонаж в действии": "person",
-                "Название": "item_title",
                 "Загадка": "riddle",
             }
             for label, key in field_map.items():
@@ -774,18 +847,6 @@ def parse_stage4_review(text: str, current_choices: dict[str, Any], context_pack
                         task[key] = value
                     elif key in task:
                         task.pop(key)
-            if "Предмет" in fields:
-                value = fields["Предмет"].strip().rstrip(".")
-                if value:
-                    task["item_title_nominative"] = value
-                    task["item_title"] = simple_nominative_to_accusative(value)
-                    task["item_title_accusative"] = simple_nominative_to_accusative(value)
-            if "Тэги локаций" in fields:
-                value = fields["Тэги локаций"].strip()
-                if value:
-                    task["location_tags"] = value
-                elif "location_tags" in task:
-                    task.pop("location_tags")
             if "Выбранный кандидат" in fields:
                 value = fields["Выбранный кандидат"].strip()
                 if value:
@@ -793,6 +854,51 @@ def parse_stage4_review(text: str, current_choices: dict[str, Any], context_pack
                     task["selected_candidate_id"] = str((candidate or {}).get("candidate_id") or value)
                 elif "selected_candidate_id" in task:
                     task.pop("selected_candidate_id")
+            selected_id = str(task.get("selected_candidate_id") or "")
+            selected = candidate_by_selected_id(context_task, selected_id)
+            subject_value = fields.get("Предмет", "").strip().rstrip(".")
+            subject_nominative = upper_first(simple_accusative_to_nominative(subject_value)) if subject_value else ""
+            if "Название" in fields:
+                value = fields["Название"].strip().rstrip(".")
+                value_title = short_stage4_title(value) if value else ""
+                if value_title and (not subject_nominative or value_title.casefold() != original_name.casefold()):
+                    task["item_title"] = value_title
+                elif subject_nominative:
+                    task["item_title"] = short_stage4_title(subject_nominative)
+                elif value_title:
+                    task["item_title"] = value_title
+                elif "item_title" in task:
+                    task.pop("item_title")
+            elif subject_nominative:
+                task["item_title"] = short_stage4_title(subject_nominative)
+            if "В тексте задания" in fields:
+                value = fields["В тексте задания"].strip().rstrip(".")
+                value_text = upper_first(value) if value else ""
+                if value_text and value_text.casefold() != original_task_text.casefold():
+                    task["item_title_accusative"] = value_text
+                elif subject_nominative:
+                    task["item_title_accusative"] = upper_first(simple_nominative_to_accusative(subject_nominative))
+                elif candidate_title(selected):
+                    task["item_title_accusative"] = upper_first(simple_nominative_to_accusative(candidate_title(selected)))
+                elif value_text:
+                    task["item_title_accusative"] = value_text
+                elif "item_title_accusative" in task:
+                    task.pop("item_title_accusative")
+            if "Предмет" in fields:
+                if subject_nominative:
+                    task["item_title_nominative"] = subject_nominative
+                    if not task.get("item_title"):
+                        task["item_title"] = short_stage4_title(subject_nominative)
+                    if not task.get("item_title_accusative"):
+                        task["item_title_accusative"] = upper_first(simple_nominative_to_accusative(subject_nominative))
+                elif "item_title_nominative" in task:
+                    task.pop("item_title_nominative")
+            if "Тэги локаций" in fields:
+                value = fields["Тэги локаций"].strip()
+                if value:
+                    task["location_tags"] = value
+                elif "location_tags" in task:
+                    task.pop("location_tags")
     return updated
 
 

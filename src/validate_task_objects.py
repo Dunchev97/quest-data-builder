@@ -309,6 +309,7 @@ CRAFT_LINK_REASON_MARKERS = (
     "рецепт",
     "итог",
     "состав",
+    "основ",
 )
 
 
@@ -457,6 +458,41 @@ def candidate_by_id(context_task: dict[str, Any], candidate_id: str | None) -> d
         if candidate.get("candidate_id") == candidate_id:
             return candidate
     return None
+
+
+def simple_nominative_to_accusative(value: str) -> str:
+    words = value.strip().rstrip(".").split()
+    converted: list[str] = []
+    has_feminine_modifier = any(word.lower().endswith(("ая", "яя")) for word in words[:-1])
+    last_index = len(words) - 1
+    for index, word in enumerate(words):
+        lower = word.lower()
+        if lower.endswith("ая"):
+            converted.append(word[:-2] + "ую")
+        elif lower.endswith("яя"):
+            converted.append(word[:-2] + "юю")
+        elif index == last_index and (
+            lower.endswith("чка") or lower.endswith("жка") or lower.endswith("шка") or lower.endswith("щка")
+        ):
+            converted.append(word[:-1] + "у")
+        elif index == last_index and lower.endswith("ка"):
+            converted.append(word[:-1] + "у")
+        elif index == last_index and (lower.endswith("ля") or lower.endswith("ря")):
+            converted.append(word[:-1] + "ю")
+        elif index == last_index and lower.endswith("ия"):
+            converted.append(word[:-2] + "ию")
+        elif index == last_index and lower.endswith("а") and (len(words) == 1 or has_feminine_modifier):
+            converted.append(word[:-1] + "у")
+        elif index == last_index and lower.endswith("я") and (len(words) == 1 or has_feminine_modifier):
+            converted.append(word[:-1] + "ю")
+        else:
+            converted.append(word)
+    return " ".join(converted)
+
+
+def upper_first(value: str) -> str:
+    text = value.strip()
+    return text[:1].upper() + text[1:] if text else text
 
 
 def validate_required_fields(
@@ -1304,7 +1340,7 @@ def validate_strict_stage4_templates(
     if template_id in {"TT-018", "TT-019"} and selected_candidate:
         flower_title = candidate_title_for_template(template_id, selected_candidate)
         place = "дома" if template_id == "TT-018" else "в гостях"
-        expected_title = f"Собери {flower_title} {place}"
+        expected_title = f"Собери {upper_first(simple_nominative_to_accusative(flower_title))} {place}"
         expected_hint = f"Собирай {flower_title} {place}. Чтобы собрать растение, кликни на горшок с нужным растением"
         if template_id == "TT-019":
             expected_hint += " в гостях у друга"

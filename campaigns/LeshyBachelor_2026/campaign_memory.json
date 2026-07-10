@@ -2,7 +2,7 @@
   "version": 1,
   "campaign_id": "LeshyBachelor_2026",
   "created_at": "2026-07-08T13:25:20.360964+00:00",
-  "updated_at": "2026-07-09T12:17:45.945702+00:00",
+  "updated_at": "2026-07-10T11:12:36.282247+00:00",
   "packs": {
     "pack_001": {
       "pack_id": "pack_001",
@@ -821,11 +821,11 @@
       "classname_quests": "LeshyBachelor_2026_Story_2",
       "task_number": 5,
       "task_template_id": "TT-017",
-      "title": "Получи синий бутон для бутоньерки",
+      "title": "Получи Синюю розу",
       "field": "classname",
       "uses": 2,
       "first_seen_at": "2026-07-09T12:17:45.950702+00:00",
-      "last_seen_at": "2026-07-09T12:17:45.950702+00:00"
+      "last_seen_at": "2026-07-10T11:08:51.673177+00:00"
     },
     "LeshyBachelor_2026_Character_3": {
       "pack_id": "pack_001",
@@ -841,33 +841,33 @@
       "classname_quests": "LeshyBachelor_2026_Story_3",
       "task_number": 7,
       "task_template_id": "TT-002",
-      "title": "Создай Приличное зелье первого впечатления",
+      "title": "Создай Приличное зелье",
       "field": "classname",
       "uses": 2,
       "first_seen_at": "2026-07-09T12:17:45.950702+00:00",
-      "last_seen_at": "2026-07-09T12:17:45.950702+00:00"
+      "last_seen_at": "2026-07-10T11:12:36.284246+00:00"
     },
     "LeshyBachelor_2026_ASK_1": {
       "pack_id": "pack_001",
       "classname_quests": "LeshyBachelor_2026_Story_3",
       "task_number": 8,
       "task_template_id": "TT-008",
-      "title": "Попроси у друзей розовую мерную ложечку",
+      "title": "Попроси у друзей Розовую мерную ложечку",
       "field": "classname",
       "uses": 2,
       "first_seen_at": "2026-07-09T12:17:45.950702+00:00",
-      "last_seen_at": "2026-07-09T12:17:45.950702+00:00"
+      "last_seen_at": "2026-07-10T11:08:51.673177+00:00"
     },
     "LeshyBachelor_2026_GR_2": {
       "pack_id": "pack_001",
       "classname_quests": "LeshyBachelor_2026_Story_3",
       "task_number": 9,
       "task_template_id": "TT-014",
-      "title": "Найди ароматную каплю для котла",
+      "title": "Найди Разлитый коктейль",
       "field": "classname",
       "uses": 2,
       "first_seen_at": "2026-07-09T12:17:45.950702+00:00",
-      "last_seen_at": "2026-07-09T12:17:45.950702+00:00"
+      "last_seen_at": "2026-07-10T11:08:51.673177+00:00"
     },
     "LeshyBachelor_2026_Character_4": {
       "pack_id": "pack_001",
@@ -894,11 +894,11 @@
       "classname_quests": "LeshyBachelor_2026_Story_4",
       "task_number": 12,
       "task_template_id": "TT-016",
-      "title": "Получи синюю болотную ленту",
+      "title": "Получи Синюю розу",
       "field": "classname",
       "uses": 2,
       "first_seen_at": "2026-07-09T12:17:45.950702+00:00",
-      "last_seen_at": "2026-07-09T12:17:45.950702+00:00"
+      "last_seen_at": "2026-07-10T11:08:51.673177+00:00"
     },
     "LeshyBachelor_2026_Character_5": {
       "pack_id": "pack_001",
@@ -943,33 +943,33 @@
       "classname_quests": "LeshyBachelor_2026_Story_7",
       "task_number": 19,
       "task_template_id": "TT-002",
-      "title": "Создай Набор для романтического похода",
+      "title": "Создай Набор",
       "field": "classname",
       "uses": 2,
       "first_seen_at": "2026-07-09T12:17:45.951700+00:00",
-      "last_seen_at": "2026-07-09T12:17:45.951700+00:00"
+      "last_seen_at": "2026-07-10T11:08:51.673177+00:00"
     },
     "LeshyBachelor_2026_PER_1": {
       "pack_id": "pack_001",
       "classname_quests": "LeshyBachelor_2026_Story_7",
       "task_number": 20,
       "task_template_id": "TT-009",
-      "title": "Попроси у друзей заплатку",
+      "title": "Попроси у друзей Заплатку",
       "field": "classname",
       "uses": 2,
       "first_seen_at": "2026-07-09T12:17:45.951700+00:00",
-      "last_seen_at": "2026-07-09T12:17:45.951700+00:00"
+      "last_seen_at": "2026-07-10T11:08:51.673177+00:00"
     },
     "LeshyBachelor_2026_GR_4": {
       "pack_id": "pack_001",
       "classname_quests": "LeshyBachelor_2026_Story_7",
       "task_number": 21,
       "task_template_id": "TT-014",
-      "title": "Найди серебряную застёжку для фляги",
+      "title": "Найди Родированное серебро",
       "field": "classname",
       "uses": 2,
       "first_seen_at": "2026-07-09T12:17:45.951700+00:00",
-      "last_seen_at": "2026-07-09T12:17:45.951700+00:00"
+      "last_seen_at": "2026-07-10T11:08:51.673177+00:00"
     },
     "LeshyBachelor_2026_Character_8": {
       "pack_id": "pack_001",
@@ -1007,33 +1007,33 @@
       "classname_quests": "LeshyBachelor_2026_Story_11",
       "task_number": 31,
       "task_template_id": "TT-002",
-      "title": "Создай Тихий шалаш для двоих",
+      "title": "Создай Тихий шалаш",
       "field": "classname",
       "uses": 2,
       "first_seen_at": "2026-07-09T12:17:45.951700+00:00",
-      "last_seen_at": "2026-07-09T12:17:45.951700+00:00"
+      "last_seen_at": "2026-07-10T11:08:51.674176+00:00"
     },
     "LeshyBachelor_2026_ASK_2": {
       "pack_id": "pack_001",
       "classname_quests": "LeshyBachelor_2026_Story_11",
       "task_number": 32,
       "task_template_id": "TT-008",
-      "title": "Попроси у друзей занавеску",
+      "title": "Попроси у друзей Занавеску",
       "field": "classname",
       "uses": 2,
       "first_seen_at": "2026-07-09T12:17:45.951700+00:00",
-      "last_seen_at": "2026-07-09T12:17:45.951700+00:00"
+      "last_seen_at": "2026-07-10T11:08:51.674176+00:00"
     },
     "LeshyBachelor_2026_GR_5": {
       "pack_id": "pack_001",
       "classname_quests": "LeshyBachelor_2026_Story_11",
       "task_number": 33,
       "task_template_id": "TT-016",
-      "title": "Получи семицветный огонёк для шалаша",
+      "title": "Получи Ландыш",
       "field": "classname",
       "uses": 2,
       "first_seen_at": "2026-07-09T12:17:45.951700+00:00",
-      "last_seen_at": "2026-07-09T12:17:45.951700+00:00"
+      "last_seen_at": "2026-07-10T11:08:51.674176+00:00"
     }
   }
 }

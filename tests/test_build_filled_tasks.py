@@ -229,14 +229,16 @@ class BuildFilledTasksTests(unittest.TestCase):
         self.assertEqual(result["quests"][0]["helper"], "Event_2026_Character_1")
         tasks = result["quests"][0]["tasks"]
         self.assertEqual(tasks[0]["task_object"]["hint"], "Поговори с Царевна Несмеяна. Для этого просто кликни на неё. Она находится в Оранжерея.")
-        self.assertEqual(tasks[1]["task_object"]["hint"], "Найди огуречный значок. Место поиска: Оранжерея. Если найти все не удаётся, можно купить подсказку.")
+        self.assertEqual(tasks[1]["task_object"]["hint"], "Найди Огуречный значок. Место поиска: Оранжерея. Если найти все не удаётся, можно купить подсказку.")
         self.assertEqual(tasks[1]["task_object"]["amount"], 20)
         self.assertEqual(tasks[1]["task_object"]["price"], 20)
+        self.assertEqual(tasks[1]["resource_title"], "Огуречный значок")
         self.assertEqual(tasks[2]["task_object"]["amount"], 20)
         self.assertEqual(tasks[2]["task_object"]["price"], 20)
         self.assertEqual(tasks[3]["task_object"]["hint"], "Попроси у друзей или купи.")
         self.assertEqual(tasks[3]["task_object"]["amount"], 10)
         self.assertEqual(tasks[3]["task_object"]["price"], 20)
+        self.assertEqual(tasks[3]["resource_title"], "Барабанные палочки")
         self.assertEqual(tasks[4]["task_object"]["amount"], 80)
         self.assertEqual(tasks[4]["task_object"]["price"], 40)
         self.assertEqual(tasks[5]["task_object"]["hint"], "Для создания используй Станок.")
@@ -250,6 +252,67 @@ class BuildFilledTasksTests(unittest.TestCase):
             build_template_catalog(PROJECT_ROOT / "data" / "task_templates.json"),
         )
         self.assertEqual(validation["summary"]["errors"], 0)
+
+    def test_item_text_field_controls_task_title_and_resource_title(self) -> None:
+        context = {
+            "quests": [
+                {
+                    "classname_quests": "Event_2026_Story_1",
+                    "title_quest": "Проверка падежей",
+                    "quest_number": 1,
+                    "tasks": [
+                        {
+                            "task_number": 1,
+                            "task_template_id": "TT-011",
+                            "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+                            "task_type": "get_asset Collection",
+                            "candidates": [
+                                {
+                                    "candidate_id": "collection_drop:GarbageCupCoffeeCollection5:GarbageCupCoffee:home",
+                                    "collection_classname": "GarbageCupCoffeeCollection5",
+                                    "collection_title": "Турка",
+                                    "source_title": "Кофейная чашка",
+                                }
+                            ],
+                        },
+                        {
+                            "task_number": 2,
+                            "task_template_id": "TT-008",
+                            "task_template_name": "Получить ASK",
+                            "task_type": "get_asset ASK",
+                            "candidates": [],
+                        },
+                    ],
+                }
+            ]
+        }
+        choice_data = {
+            "quests": [
+                {
+                    "classname_quests": "Event_2026_Story_1",
+                    "tasks": [
+                        {
+                            "task_number": 1,
+                            "selected_candidate_id": "collection_drop:GarbageCupCoffeeCollection5:GarbageCupCoffee:home",
+                            "item_title_accusative": "Турку",
+                        },
+                        {
+                            "task_number": 2,
+                            "item_title": "Занавеска",
+                            "item_title_accusative": "Занавеску",
+                        },
+                    ],
+                }
+            ]
+        }
+
+        result = build_filled_tasks(context, choice_data)
+
+        self.assertEqual(result["summary"]["issues"], 0)
+        tasks = result["quests"][0]["tasks"]
+        self.assertEqual(tasks[0]["task_object"]["title"], "Найди Турку")
+        self.assertEqual(tasks[1]["task_object"]["title"], "Попроси у друзей Занавеску")
+        self.assertEqual(tasks[1]["resource_title"], "Занавеска")
 
     def test_tt033_acts_as_craft_anchor_for_neighbor_resources(self) -> None:
         result = build_filled_tasks(give_context_pack(), give_choices())
