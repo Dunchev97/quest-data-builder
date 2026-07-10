@@ -30,13 +30,13 @@ INTERACTIVE_SHEET_NAMES = {
     "friend_action_1": "ИНТЕРАКТИВ Story_FriendAction",
     "story_random_recipe": "ИНТЕРАКТИВ Story_RandomRecipe",
     "exchanger": "ИНТЕРАКТИВ Exchanger",
-    "mixer_1": "ИНТЕРАКТИВ Story_Mixer",
+    "mixer_1": "ИНТЕРАКТИВ Mixer",
 }
 INTERACTIVE_ORDER = {
     "chest_1": 10,
     "help_1": 20,
-    "friend_action_1": 30,
-    "exchanger": 40,
+    "exchanger": 30,
+    "friend_action_1": 40,
     "story_random_recipe": 50,
     "mixer_1": 60,
 }
@@ -111,7 +111,6 @@ def style_sheet(ws) -> None:
 
     for column_index, width in widths.items():
         ws.column_dimensions[get_column_letter(column_index)].width = max(10, width)
-    ws.freeze_panes = "A2"
     ws.sheet_view.showGridLines = True
     ws.page_setup.fitToWidth = 1
     ws.page_setup.fitToHeight = 0

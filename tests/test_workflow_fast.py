@@ -386,6 +386,14 @@ class WorkflowFastTests(unittest.TestCase):
                         "selected_objects": [
                             {"template_id": "chest_1"},
                             {"template_id": "help_1"},
+                            {"template_id": "exchanger"},
+                            {
+                                "template_id": "friend_action_1",
+                                "action_start_time": "2026-01-01 00:00:00",
+                                "action_end_time": "2026-12-31 23:59:59",
+                            },
+                            {"template_id": "story_random_recipe"},
+                            {"template_id": "mixer_1"},
                         ],
                     }
                 ),
@@ -397,6 +405,10 @@ class WorkflowFastTests(unittest.TestCase):
                 campaign_dir / "resource_table.csv",
                 campaign_dir / "generated_interactive_objects_chest_1.csv",
                 campaign_dir / "generated_interactive_objects_help_1.csv",
+                campaign_dir / "generated_interactive_objects_exchanger.csv",
+                campaign_dir / "generated_interactive_objects_story_friendaction_1.csv",
+                campaign_dir / "generated_interactive_objects_story_randomrecipe_1.csv",
+                campaign_dir / "generated_interactive_objects_mixer_1.csv",
             ):
                 stale_csv.write_text("stale", encoding="utf-8")
             context_path.write_text(
@@ -437,6 +449,10 @@ class WorkflowFastTests(unittest.TestCase):
             self.assertFalse((pack_dir / "generated_actions.csv").exists())
             self.assertFalse((campaign_dir / "generated_interactive_objects_chest_1.csv").exists())
             self.assertFalse((campaign_dir / "generated_interactive_objects_help_1.csv").exists())
+            self.assertFalse((campaign_dir / "generated_interactive_objects_exchanger.csv").exists())
+            self.assertFalse((campaign_dir / "generated_interactive_objects_story_friendaction_1.csv").exists())
+            self.assertFalse((campaign_dir / "generated_interactive_objects_story_randomrecipe_1.csv").exists())
+            self.assertFalse((campaign_dir / "generated_interactive_objects_mixer_1.csv").exists())
             self.assertFalse((campaign_dir / "resource_table.csv").exists())
             self.assertTrue((pack_dir / "generated_actions.summary.json").exists())
             self.assertTrue((campaign_dir / "generated_interactive_objects.summary.json").exists())
@@ -446,8 +462,19 @@ class WorkflowFastTests(unittest.TestCase):
             workbook = load_workbook(workbook_path, data_only=False)
             self.assertEqual(
                 workbook.sheetnames,
-                ["КВЕСТЫ", "ЭКШЕНЫ", "РЕСУРСЫ", "ИНТЕРАКТИВ Chest", "ИНТЕРАКТИВ HELP"],
+                [
+                    "КВЕСТЫ",
+                    "ЭКШЕНЫ",
+                    "РЕСУРСЫ",
+                    "ИНТЕРАКТИВ Chest",
+                    "ИНТЕРАКТИВ HELP",
+                    "ИНТЕРАКТИВ Exchanger",
+                    "ИНТЕРАКТИВ Story_FriendAction",
+                    "ИНТЕРАКТИВ Story_RandomRecipe",
+                    "ИНТЕРАКТИВ Mixer",
+                ],
             )
+            self.assertTrue(all(sheet.freeze_panes is None for sheet in workbook.worksheets))
             quest_values = [str(value) for row in workbook["КВЕСТЫ"].iter_rows(values_only=True) for value in row if value]
             self.assertIn("Проверочная группа", quest_values)
 
