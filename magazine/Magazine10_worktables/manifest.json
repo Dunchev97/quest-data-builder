@@ -1,0 +1,80 @@
+[
+  {
+    "slug": "00_main",
+    "quest_groups": 1,
+    "quests": 1,
+    "resources": 2
+  },
+  {
+    "slug": "01_stone_almaz",
+    "quest_groups": 1,
+    "quests": 1,
+    "resources": 2
+  },
+  {
+    "slug": "02_flower_psychotria",
+    "quest_groups": 1,
+    "quests": 1,
+    "resources": 7
+  },
+  {
+    "slug": "03_tree_dogwood",
+    "quest_groups": 1,
+    "quests": 1,
+    "resources": 3
+  },
+  {
+    "slug": "04_animal_okapi",
+    "quest_groups": 1,
+    "quests": 1,
+    "resources": 2
+  },
+  {
+    "slug": "05_photo_copy",
+    "quest_groups": 1,
+    "quests": 1,
+    "resources": 2
+  },
+  {
+    "slug": "06_clothes_scandi",
+    "quest_groups": 2,
+    "quests": 2,
+    "resources": 15
+  },
+  {
+    "slug": "07_clothes_fair",
+    "quest_groups": 2,
+    "quests": 2,
+    "resources": 15
+  },
+  {
+    "slug": "08_clothes_atelier",
+    "quest_groups": 2,
+    "quests": 2,
+    "resources": 15
+  },
+  {
+    "slug": "09_diy_detective_cats",
+    "quest_groups": 1,
+    "quests": 3,
+    "resources": 2
+  },
+  {
+    "slug": "10_achieve_doll_designer",
+    "quest_groups": 1,
+    "quests": 1,
+    "resources": 2
+  },
+  {
+    "slug": "11_search_copy",
+    "quest_groups": 1,
+    "quests": 5,
+    "resources": 7
+  },
+  {
+    "slug": "12_hero_feats",
+    "quest_groups": 1,
+    "quests": 14,
+    "resources": 14
+  }
+]

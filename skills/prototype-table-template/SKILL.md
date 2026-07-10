@@ -1,76 +1,207 @@
 ---
 name: prototype-table-template
-description: "Analyze a user-provided prototype file or donor artifact and turn it into a reusable table/CSV/XLSX template. Use when the user asks to create a template for tables, Excel, CSV, conf sheets, generated object tables, or dev-ready spreadsheets based on a prototype, sample .proto.js, JSON-like object, XLSX, CSV, or similar donor file."
+description: "Build converter-compatible XLSX/CSV table templates from .proto.js / JSON prototypes, especially quest_group + quest + task prototypes. Use when Codex must create dev tables for the radmirxan xlsx-to-json.js pipeline with ml/sl/temp_01/temp_02 blocks, input/output donor paths, update keys, and nested object blocks such as tasks.0."
 ---
 
 # Prototype Table Template
 
-## Core Workflow
+This skill creates templates for the real converter, not decorative planning sheets.
 
-Use this skill when the user gives a prototype and wants a reusable table template, not just a one-off explanation.
+Converter to inspect when in this repo:
 
-1. Read the prototype from source.
-   - Prefer the exact file the user attached or referenced.
-   - If the file is JSON-like JavaScript, parse structurally where possible; tolerate comments/trailing commas only after inspecting format.
-   - If the file is XLSX/CSV, read the actual sheet/range and preserve existing block order, headers, and donor paths unless the user asks to redesign them.
+```text
+D:/domovoy/trunk/data_ingenering/tool/NodeTest/radmirxan/xlsx-to-json.js
+D:/domovoy/trunk/data_ingenering/tool/NodeTest/radmirxan/myXLSX.js
+D:/domovoy/trunk/data_ingenering/tool/NodeTest/radmirxan/proto.js
+```
 
-2. Map the mechanic.
-   - Identify class/type, primary object id/classname, title, groups, behaviours/actions, prices, rewards, conditions, progress/counters, windows, icons, visual actions, packages, recipes, and generated resources.
-   - Separate fixed structure from theme-specific values.
-   - Mark stale donor-only fields that must be removed or replaced in the new template.
+## Non-Negotiable Format
 
-3. Define the template contract.
-   - Choose a stable template id and mechanic prefix.
-   - List required user fields, optional fields, defaults, list fields, resource suffixes, and numbering rules.
-   - Define classname/output patterns with placeholders such as `{prefix}`, `{campaign_id}`, `{object_number}`, `{resource_suffix}`.
-   - Normalize obvious suffix typos when the pattern is clear, for example `GR2` -> `GR_2`.
+`xlsx-to-json.js` reads only the first worksheet and only rows where column A is non-empty.
 
-4. Convert to table blocks.
-   - Preserve donor `input` paths as donor references.
-   - Generate target `output`, `classname`, `file_name`, `identifier`, `reward`, `ingredients`, `conditions`, `view_classname`, `stuff_icon`, `pack_asset`, and related fields from the new prefix.
-   - Leave `id` blank unless the user explicitly provides ids.
-   - Keep one logical block per object/resource/action/package/recipe/global reward.
-   - If the final artifact is XLSX, put the dev table on a `conf` sheet unless the project convention says otherwise.
+Column A may contain only parser directives:
 
-5. Implement in the local project when appropriate.
-   - Prefer existing project generators, template registries, validators, and CSV/XLSX helpers over ad hoc generation.
-   - Add or update tests for at least one realistic sample based on the user's data.
-   - Do not edit raw donor data unless the user explicitly requests it.
+```text
+temp_01
+temp_02
+sl
+ml
+```
 
-6. Verify the generated artifacts.
-   - Read generated CSV/XLSX back with the correct encoding.
-   - Assert that required Russian titles, classnames, rewards, prices, and output paths are present.
-   - Assert that forbidden stale donor markers are absent.
-   - For XLSX, render or inspect at least the key sheet/range and scan for formula errors.
-   - Run the narrow validator/test for the changed workflow; run broader tests if code, templates, or workflow docs changed.
+Never put human titles in column A. Put human section titles in column B with column A blank.
 
-7. Report the result.
-   - Explain the principle of the new template briefly.
-   - List the created/changed files.
-   - Include the final CSV/XLSX link when an artifact was created.
-   - Mention any assumption, especially if the prototype had fields whose runtime behavior is not visible in the file.
+Each parser block has this shape:
 
-## Analysis Checklist
+```csv
+<directive>;<type for input>;<type for output>;<type for update field>...
+;input;output;<update key>...
+;<donor input path>;<target output path>;<value>...
+```
 
-Use this checklist while reading the prototype:
+Rules:
 
-- What does the player/user action consume?
-- What does it always or randomly produce?
-- Which fields are user-facing text?
-- Which fields are technical ids that must follow prefix/numbering rules?
-- Which arrays are weighted pools, ordered lists, or conditional branches?
-- Which conditions gate behavior?
-- Which fields are visual-only and should not survive if the mechanic changes?
-- Which resources need assets, packages, post actions, recipes, or global rewards?
-- Which values are donor leftovers and must be replaced?
+- Column B is always `input`.
+- Column C is always `output`.
+- Columns B/C are `tech`; columns D onward are proto `update`.
+- `input` is the donor proto path.
+- `output` is the target proto path.
+- Leave `id` blank unless the user explicitly gave ids.
+- Unknown generated identifiers may be blank if the downstream pipeline fills/preserves them.
 
-## Template Output Checklist
+## Directives
 
-Before finalizing, make sure the template has:
+| Directive | Converter behavior | Use |
+|---|---|---|
+| `sl` | Flat multi-row table, internally prefixes types with `sl_` | One row per quest or simple proto update. |
+| `ml` | One logical multiline block, internally prefixes types with `ml_` | Quest group blocks, task object blocks, arrays/objects. |
+| `temp_01` | Same shape as `sl`, no prefix | Only when donor examples use it. |
+| `temp_02` | Same shape as `ml`, no prefix | Only when donor examples use it. |
 
-- Stable `template_id`.
-- Clear required fields and defaults.
-- Classname patterns for object, resources, actions, recipes, packages, and outputs.
-- Exact table block names and headers.
-- Sample data filled from the user's example.
-- Validation notes for stale donor markers and encoding.
+Use base type names in the sheet:
+
+```text
+string
+int
+array
+array_of_values
+array_of_objects
+object
+ignore
+replace
+```
+
+Do not write `ml_string` or `sl_string` in the table when using `ml`/`sl`; the converter adds the prefix.
+
+## Canonical Quest Template
+
+For a quest pack, the first worksheet should be named `conf` and ordered exactly like this:
+
+1. Human title row:
+
+```csv
+;Квест группа;;;;;;
+```
+
+2. Quest group block:
+
+```csv
+ml;string;string;string;string;string;array_of_values;string;string
+;input;output;title;description;description_complete;extra.quest_reward_prewiew;extra.description_condition;extra.description_complete
+;/quest_group/...donor.proto.js;/quest_group/...target.proto.js;...
+```
+
+3. For each quest in that group, human title row plus quest block:
+
+```csv
+;Квест 1;;;;;;
+sl;string;string;string;string;string;string;string
+;input;output;title;description;congratulation;helper;extra.sequence_icon
+;/quest/...donor.proto.js;/quest/...target.proto.js;...
+```
+
+4. Immediately after that quest, add its task blocks:
+
+```csv
+;Таск 1;Диалог;;;
+ml;string;string;object
+;input;output;tasks.0
+;/quest/...donor.proto.js;/quest/...target.proto.js;type;action
+;;;icon;SomeCharacterIcon
+;;;action;Some_Dialog_Action
+;;;title;Поговори с персонажем
+;;;hint;Поговори с персонажем.
+;;;identifier;
+```
+
+Task rules:
+
+- One task = one `ml` block.
+- The task update key is `tasks.N`, zero-based.
+- The task object is written as vertical key/value pairs in columns D/E.
+- On continuation rows, columns A/B/C stay blank.
+- Include `identifier` with an empty value when the pipeline/dev should generate or preserve it.
+- JSON object/array values must be valid JSON text in a cell, for example:
+
+```json
+[{"classname":"SomeObject"}]
+```
+
+## Object Encoding
+
+For `ml` object blocks:
+
+```csv
+;Название блока;;;
+ml;string;string;object
+;input;output;some.nested.key
+;/donor.proto.js;/target.proto.js;field_1;value_1
+;;;field_2;value_2
+```
+
+For `ml array_of_values`:
+
+```csv
+;Название блока;;;
+ml;string;string;array_of_values
+;input;output;opens
+;/donor.proto.js;/target.proto.js;Quest_1
+;;;Quest_2
+```
+
+Use dot paths exactly as proto update keys:
+
+```text
+tasks.0
+tasks.1
+extra.sequence_icon
+extra.window_spec.view_window
+on_accomplish
+```
+
+## Workflow
+
+1. Read donor prototypes structurally as JSON.
+2. Read any user-provided example CSV/XLSX and preserve its block style.
+3. Map source `quest_group` to quests by `group_identifier`, `first_quest`, `last_quest`, and `opens`.
+4. Build the parser table itself as the primary artifact. Do not make a pretty hierarchy sheet as the main output.
+5. Put the final XLSX parser sheet first and name it `conf`.
+6. Use donor paths in `input`, target paths in `output`, and update columns D onward.
+7. Replace stale donor names in target values; donor names may remain in `input` only.
+8. Leave unknown ids/prices/classnames blank or clearly mark only non-parser planning sheets. In parser blocks, prefer blank cells over prose markers.
+9. Reopen and validate the XLSX before reporting.
+
+## Helper Scripts
+
+Optional helpers live in `scripts/`:
+
+- `scripts/prototype_to_table.py`: creates a first-pass `conf` XLSX from one JSON `.proto.js`. Use it as a starting point, then curate block order and values.
+- `scripts/validate_converter_table.py`: validates a produced XLSX against the converter block rules.
+
+Example:
+
+```powershell
+python skills/prototype-table-template/scripts/validate_converter_table.py magazine/Magazine10.xlsx
+```
+
+## Validation
+
+Before finalizing:
+
+- Reopen the XLSX with `openpyxl`.
+- Assert the first worksheet is `conf`.
+- Assert column A has only blank, `temp_01`, `temp_02`, `sl`, `ml`.
+- Assert every directive row is followed by a key row with `input` in B and `output` in C.
+- Assert every task block is `ml; string; string; object` with update key `tasks.N`.
+- Assert `id` cells are blank unless ids were supplied.
+- Assert no mojibake or `????`.
+- Assert stale donor identifiers are absent from target values except donor `input` paths or explicit `replace` blocks.
+- If practical, run the converter on a small copy and inspect generated proto JSON.
+
+## Report
+
+Return:
+
+- Link to the created XLSX/CSV.
+- Source prototypes and converter scripts used.
+- Counts of quest groups, quests, and task blocks.
+- Remaining assumptions: blank ids, unknown classnames, balance values, or copied donor tasks.

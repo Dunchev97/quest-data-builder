@@ -258,10 +258,14 @@ def print_context(context: dict[str, Any]) -> None:
     if context.get("notes"):
         print(f"notes: {context['notes']}")
     approvals = context.get("stage_approvals") or {}
+    current_campaign_id = context.get("campaign_id") or ""
+    current_pack_id = context.get("pack_id") or ""
     approved_stages = [
         str(stage)
         for stage, approval in sorted(approvals.items())
         if isinstance(approval, dict) and approval.get("approved")
+        and approval.get("campaign_id") == current_campaign_id
+        and approval.get("pack_id") == current_pack_id
     ]
     if approved_stages:
         print(f"approved stages: {', '.join(approved_stages)}")

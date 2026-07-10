@@ -203,6 +203,29 @@ def save_memory(memory: dict[str, Any], campaigns_dir: Path = DEFAULT_CAMPAIGNS_
     write_json(campaign_memory_path(str(memory["campaign_id"]), campaigns_dir), memory)
 
 
+def normalize_pack_entries(campaign_id: str, campaign: dict[str, Any], campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR) -> list[dict[str, Any]]:
+    by_pack_id: dict[str, dict[str, Any]] = {}
+    for item in campaign.get("packs", []):
+        if isinstance(item, str):
+            pack_id = item
+            entry = {"pack_id": pack_id, "title": ""}
+        elif isinstance(item, dict) and item.get("pack_id"):
+            pack_id = str(item["pack_id"])
+            entry = dict(item)
+        else:
+            continue
+        by_pack_id.setdefault(pack_id, entry)
+
+    for path in campaign_dir(campaign_id, campaigns_dir).glob("pack_*"):
+        if path.is_dir() and parse_pack_number(path.name) is not None:
+            by_pack_id.setdefault(path.name, {"pack_id": path.name, "title": ""})
+
+    return sorted(
+        by_pack_id.values(),
+        key=lambda item: parse_pack_number(str(item.get("pack_id") or "")) or 0,
+    )
+
+
 def create_campaign(
     campaign_id: str,
     title: str | None = None,
@@ -235,8 +258,19 @@ def create_pack(
     pack_number: int | None = None,
 ) -> dict[str, Any]:
     campaign = load_campaign(campaign_id, campaigns_dir)
+    campaign["packs"] = normalize_pack_entries(campaign_id, campaign, campaigns_dir)
     if pack_number is None:
-        pack_number = int(campaign.get("next_pack_number") or 1)
+        existing_numbers = [
+            number
+            for number in (
+                parse_pack_number(path.name)
+                for path in campaign_dir(campaign_id, campaigns_dir).glob("pack_*")
+                if path.is_dir()
+            )
+            if number is not None
+        ]
+        metadata_next = int(campaign.get("next_pack_number") or 1)
+        pack_number = max([metadata_next, *[number + 1 for number in existing_numbers]], default=metadata_next)
     pack_id = pack_id_from_number(pack_number)
     target = pack_dir(campaign_id, pack_id, campaigns_dir)
     target.mkdir(parents=True, exist_ok=True)
@@ -259,6 +293,7 @@ def create_pack(
     packs = campaign.setdefault("packs", [])
     if pack_id not in [item.get("pack_id") for item in packs if isinstance(item, dict)]:
         packs.append({"pack_id": pack_id, "title": title or "", "created_at": pack["created_at"]})
+        packs.sort(key=lambda item: parse_pack_number(str(item.get("pack_id") or "")) or 0)
     campaign["next_pack_number"] = max(int(campaign.get("next_pack_number") or 1), pack_number + 1)
     campaign["updated_at"] = now_iso()
     save_campaign(campaign, campaigns_dir)

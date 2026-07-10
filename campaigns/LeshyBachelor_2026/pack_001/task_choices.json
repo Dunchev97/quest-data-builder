@@ -1,0 +1,336 @@
+{
+  "quests": [
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_1",
+      "title_quest": "Камеры на пнях",
+      "quest_number": 1,
+      "character": "Шапокляк",
+      "tasks": [
+        {
+          "task_number": 1,
+          "item_title": "спрятанные камеры на пнях",
+          "title": "Найди спрятанные камеры на пнях",
+          "hint": "Найди спрятанные камеры на пнях и отличи их от обычных трухлявых пней.",
+          "choice_reason": "В квесте Шапокляк потеряла камеры, замаскированные под пни; HOG истинного среди ложного прямо поддерживает эту путаницу.",
+          "item_title_nominative": "Спрятанные камеры на пнях",
+          "item_title_accusative": "спрятанные камеры на пнях",
+          "location_tags": "rnd_big_home\nСтандартные кандидаты:\nHOG в локациях дома - rnd_old_home,rnd_new_home,rnd_big_home\nHOG в мире - rnd_world\nHOG на даче - farm_room"
+        },
+        {
+          "task_number": 2,
+          "selected_candidate_id": "collection_drop:GarbageCupCoffeeCollection5:GarbageCupCoffee:home",
+          "choice_reason": "Турка выглядит как мелкий закулисный реквизит съёмочной группы и хорошо ложится в подготовку первого выпуска."
+        },
+        {
+          "task_number": 3,
+          "selected_candidate_id": "garbage:GarbageCupCoffee",
+          "choice_reason": "Смятые стаканчики из-под кофе похожи на мусор после суетливой подготовки съёмочной поляны."
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_2",
+      "title_quest": "Первое появление холостяка",
+      "quest_number": 2,
+      "character": "Леший",
+      "tasks": [
+        {
+          "task_number": 4,
+          "selected_candidate_id": "collection_drop:ArmorOfSnailCollection4:ArmorOfSnail:home",
+          "choice_reason": "Улитка-поцелуйчик смешно поддерживает романтический выход Лешего и его неловкое первое впечатление."
+        },
+        {
+          "task_number": 5,
+          "selected_candidate_id": "flower:FlowerBlueRose",
+          "item_title": "синий бутон для бутоньерки",
+          "choice_reason": "Синяя роза подходит как аккуратная бутоньерка к костюмчику Лешего."
+        },
+        {
+          "task_number": 6,
+          "selected_candidate_id": "flower:FlowerMagazine4_Hippeastrum",
+          "choice_reason": "Гиппеаструм выглядит нарядно и подходит для торжественного выхода жениха из чащи."
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_3",
+      "title_quest": "Зелье первого впечатления",
+      "quest_number": 3,
+      "character": "Баба Яга",
+      "tasks": [
+        {
+          "task_number": 7,
+          "item_title": "Приличное зелье первого впечатления",
+          "craft_title": "приличное зелье первого впечатления",
+          "choice_reason": "Квест строится вокруг приворотного котла; итоговый craft должен дать пригодное зелье, а не очередное амбре."
+        },
+        {
+          "task_number": 8,
+          "item_title": "розовую мерную ложечку",
+          "item_title_accusative": "розовую мерную ложечку",
+          "choice_reason": "Мерная ложечка помогает Яге не переборщить с ингредиентами и удержать зелье в романтическом тоне.",
+          "item_title_nominative": "Розовая мерная ложечка"
+        },
+        {
+          "task_number": 9,
+          "selected_candidate_id": "gr_garbage:BigHome_Garbage_Bar_BrokenCocktail:guest",
+          "item_title": "ароматную каплю для котла",
+          "item_title_accusative": "ароматную каплю для котла",
+          "choice_reason": "Разлитый коктейль даёт смешную ароматную основу для зелья первого впечатления."
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_4",
+      "title_quest": "Болотный образ для свидания",
+      "quest_number": 4,
+      "character": "Кикимора",
+      "tasks": [
+        {
+          "task_number": 10,
+          "item_title": "болотные украшения Кикиморы",
+          "title": "Найди болотные украшения Кикиморы",
+          "location_title": "Мир",
+          "choice_reason": "Кикимора ищет растащенные украшения, поэтому HOG на локации собирает детали образа.",
+          "item_title_nominative": "Болотные украшения Кикиморы",
+          "item_title_accusative": "болотные украшения Кикиморы",
+          "location_tags": "rnd_big_home\nСтандартные кандидаты:\nHOG в локациях дома - rnd_old_home,rnd_new_home,rnd_big_home\nHOG в мире - rnd_world\nHOG на даче - farm_room"
+        },
+        {
+          "task_number": 11,
+          "selected_candidate_id": "flower:FlowerPinkRose",
+          "choice_reason": "Нежная роза хорошо контрастирует с болотным образом и выглядит как украшение для волос."
+        },
+        {
+          "task_number": 12,
+          "selected_candidate_id": "flower:FlowerBlueRose",
+          "item_title": "синюю болотную ленту",
+          "item_title_accusative": "синюю болотную ленту",
+          "choice_reason": "Синяя роза даёт цветовую основу для болотной ленты и подходит к образу Кикиморы."
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_5",
+      "title_quest": "Песня у пруда",
+      "quest_number": 5,
+      "character": "Русалка",
+      "tasks": [
+        {
+          "task_number": 13,
+          "item_title": "промокший микрофон Русалки",
+          "title": "Найди промокший микрофон Русалки",
+          "location_title": "Мир",
+          "choice_reason": "Русалка жалуется на барахлящий микрофон; HOG помогает отыскать его среди прудового реквизита.",
+          "item_title_nominative": "Промокший микрофон Русалки",
+          "item_title_accusative": "промокший микрофон Русалки",
+          "location_tags": "rnd_old_home,rnd_new_home,rnd_big_home\nСтандартные кандидаты:\nHOG в локациях дома - rnd_old_home,rnd_new_home,rnd_big_home\nHOG в мире - rnd_world\nHOG на даче - farm_room"
+        },
+        {
+          "task_number": 14,
+          "selected_candidate_id": "collection_drop:BarometerCollection1:Barometer:home",
+          "choice_reason": "Гидрокостюм связан с водой и сценой у пруда, где Русалка спасает выступление."
+        },
+        {
+          "task_number": 15,
+          "selected_candidate_id": "garbage:Barometer",
+          "choice_reason": "Разбитый барометр похож на мокрый прибор из-за которого звук и погода у пруда ведут себя странно."
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_6",
+      "title_quest": "Ручная работа",
+      "quest_number": 6,
+      "character": "Василиса",
+      "tasks": [
+        {
+          "task_number": 16,
+          "selected_candidate_id": "collection_drop:MulticoloredBumpsCollection2:MulticoloredBumps:home",
+          "choice_reason": "Венок из роз напрямую связан с ручной работой Василисы и подарком для Лешего."
+        },
+        {
+          "task_number": 17,
+          "selected_candidate_id": "flower:FlowerCvetikSemicvetik",
+          "choice_reason": "Цветик-семицветик выглядит как волшебная деталь для венка, который Василиса пытается собрать руками."
+        },
+        {
+          "task_number": 18,
+          "selected_candidate_id": "garbage:BrokenBasketForNeedlework",
+          "choice_reason": "Сломанная корзиночка для рукоделия подчёркивает, что теория у Василисы сильнее практики."
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_7",
+      "title_quest": "Романтический поход",
+      "quest_number": 7,
+      "character": "Марья Моревна",
+      "tasks": [
+        {
+          "task_number": 19,
+          "item_title": "Набор для романтического похода",
+          "craft_title": "набор для романтического похода",
+          "choice_reason": "Марья Моревна спасает свидание-поход, поэтому итоговый craft собирает тёплый походный набор."
+        },
+        {
+          "task_number": 20,
+          "item_title": "заплатку",
+          "item_title_accusative": "заплатку",
+          "choice_reason": "Мягкая походная салфетка является тканевой частью набора для романтического похода: ею можно застелить плед или завернуть блинчики.",
+          "item_title_nominative": "Заплатка"
+        },
+        {
+          "task_number": 21,
+          "selected_candidate_id": "gr_garbage:BigHome_Garbage_Overview_Silver:guest",
+          "item_title": "серебряную застёжку для фляги",
+          "item_title_accusative": "серебряную застёжку для фляги",
+          "choice_reason": "Серебряная застёжка для фляги является близкой деталью набора для романтического похода: она чинит флягу и делает походный набор аккуратным."
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_8",
+      "title_quest": "Пирожки для каждого сердечка",
+      "quest_number": 8,
+      "character": "Алёнушка",
+      "tasks": [
+        {
+          "task_number": 22,
+          "selected_candidate_id": "flower:FlowerDahlia",
+          "riddle": "Пышный цветок, как начинка в тесте,\nВ кадре смотрится очень уместно.\nНе роза, не мята, но яркий господин,\nДля пирожка подскажет нам цвет — это...",
+          "choice_reason": "Георгин даёт яркую цветочную загадку для пирожков с разными начинками."
+        },
+        {
+          "task_number": 23,
+          "selected_candidate_id": "collection_drop:Garbage_PinkPetalsCollection3:Garbage_PinkPetals:home",
+          "riddle": "В лепестках розовых прячется вкус,\nСладкий, колючий, лесной перекус.\nВ креме найдёшь ароматный намёк,\nЧто в пирожок просится...",
+          "choice_reason": "Крем с шиповником прямо связан с начинкой для пирожков и розовой темой шоу."
+        },
+        {
+          "task_number": 24,
+          "selected_candidate_id": "garbage:CircassianWalnutShell",
+          "riddle": "Хрустят на столе, но не сухари,\nОт ореховой тайны остались они.\nАлёнушка ищет, куда их убрать,\nЧтобы начинку не перепутать опять.",
+          "choice_reason": "Скорлупки грецкого ореха поддерживают ореховую начинку и кухонный переполох."
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_9",
+      "title_quest": "Слишком драматичная пауза",
+      "quest_number": 9,
+      "character": "Шапокляк",
+      "tasks": [
+        {
+          "task_number": 25,
+          "item_title": "рекламные таблички Шапокляк",
+          "title": "Найди рекламные таблички Шапокляк",
+          "choice_reason": "Шапокляк собирает саморекламу; HOG в мире ищет таблички для её драматичной паузы.",
+          "item_title_nominative": "Рекламные таблички Шапокляк",
+          "item_title_accusative": "рекламные таблички Шапокляк",
+          "location_tags": "rnd_world\nСтандартные кандидаты:\nHOG в локациях дома - rnd_old_home,rnd_new_home,rnd_big_home\nHOG в мире - rnd_world\nHOG на даче - farm_room"
+        },
+        {
+          "task_number": 26,
+          "selected_candidate_id": "collection_drop:BigHome_Garbage_Bar_BrokenDiscoBall_Collection1:BigHome_Garbage_Bar_BrokenDiscoBall:home",
+          "choice_reason": "Диско очки выглядят как реквизит ведущей, которая решила сиять даже в рекламной паузе."
+        },
+        {
+          "task_number": 27,
+          "selected_candidate_id": "garbage:FlapOfTissue",
+          "choice_reason": "Лоскут ткани похож на обрывок баннера или занавески для саморекламы Шапокляк."
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_10",
+      "title_quest": "Букет от Лешего",
+      "quest_number": 10,
+      "character": "Леший",
+      "tasks": [
+        {
+          "task_number": 28,
+          "item_title": "правильные розы среди шиповнику",
+          "title": "Найди правильные розы среди шиповника",
+          "location_title": "Мир",
+          "choice_reason": "Леший перепутал букет; HOG на локации помогает отличить розы от колючих и лишних веток.",
+          "item_title_nominative": "Правильные розы среди шиповника",
+          "item_title_accusative": "правильные розы среди шиповнику",
+          "location_tags": "rnd_big_home\nСтандартные кандидаты:\nHOG в локациях дома - rnd_old_home,rnd_new_home,rnd_big_home\nHOG в мире - rnd_world\nHOG на даче - farm_room"
+        },
+        {
+          "task_number": 29,
+          "selected_candidate_id": "flower:FlowerFive",
+          "choice_reason": "Обычная роза лучше всего поддерживает мысль Лешего, что классика не банальность."
+        },
+        {
+          "task_number": 30,
+          "selected_candidate_id": "flower:FlowerFour",
+          "choice_reason": "Роза Нежная страсть подходит для романтического букета и церемонии."
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_11",
+      "title_quest": "Разговор без камер",
+      "quest_number": 11,
+      "character": "Василиса",
+      "tasks": [
+        {
+          "task_number": 31,
+          "item_title": "Тихий шалаш для двоих",
+          "craft_title": "тихий шалаш для двоих",
+          "choice_reason": "Квест строится вокруг тихого места у берёзы; craft создаёт тот самый шалаш без камер."
+        },
+        {
+          "task_number": 32,
+          "item_title": "занавеску",
+          "item_title_accusative": "занавеску",
+          "choice_reason": "Занавеска помогает скрыть шалаш от съёмочной суеты и сделать разговор спокойным.",
+          "item_title_nominative": "Занавеска"
+        },
+        {
+          "task_number": 33,
+          "selected_candidate_id": "flower:FlowerElewen",
+          "item_title": "мягкий цветочный настил",
+          "item_title_accusative": "семицветный огонёк для шалаша",
+          "choice_reason": "Семицветный огонёк является украшением и светлой деталью тихого шалаша для двоих, чтобы внутри было уютно без камер."
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_12",
+      "title_quest": "Первая церемония роз",
+      "quest_number": 12,
+      "character": "Леший",
+      "tasks": [
+        {
+          "task_number": 34,
+          "dialogue_replica": "Леший стоит с букетом и честно признаётся: среди участниц пока нет той самой единственной, зато все стали ему дороги. Он хочет завершить выпуск бережно, без обид и с чаепитием.",
+          "person": "Леший",
+          "person_instrumental": "Лешим",
+          "object_pronoun": "него",
+          "subject_pronoun": "Он",
+          "location_title": "Мир",
+          "choice_reason": "Диалог закрывает выпуск и объясняет мягкий поворот церемонии роз."
+        },
+        {
+          "task_number": 35,
+          "selected_candidate_id": "collection_drop:Fl5Col2:FlowerFive:home",
+          "choice_reason": "Ведёрко со льдом поддерживает праздничный финал, шампанское во льду и церемонию после роз."
+        },
+        {
+          "task_number": 36,
+          "person": "Леший",
+          "person_nominative": "Леший",
+          "person_accusative": "Лешего",
+          "person_instrumental": "Лешим",
+          "find_pronoun": "его",
+          "with_pronoun": "ним",
+          "location_title": "Мир",
+          "choice_reason": "Фото с Лешим фиксирует финал первого выпуска и тёплую церемонию роз."
+        }
+      ]
+    }
+  ]
+}

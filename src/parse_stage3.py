@@ -218,13 +218,16 @@ def is_stage2_quest_header(lines: list[str], index: int) -> bool:
         return False
 
     key = line.split(":", 1)[0].strip()
-    if key in {"ЭТАП 2", "Суть задания", "Старт", "Завершение", "Конец этапа 2"}:
+    if key in {"ЭТАП 2", "Суть", "Суть задания", "Старт", "Завершение", "Конец этапа 2"}:
         return False
 
     next_index = index + 1
     while next_index < len(lines) and not lines[next_index].strip():
         next_index += 1
-    return next_index < len(lines) and lines[next_index].strip().startswith("Суть задания:")
+    if next_index >= len(lines):
+        return False
+    next_line = lines[next_index].strip()
+    return next_line.startswith("Суть:") or next_line.startswith("Суть задания:")
 
 
 def append_stage2_text(target: list[str], value: str) -> None:
@@ -260,7 +263,7 @@ def parse_stage2_story_text(text: str) -> dict[str, Stage2QuestText]:
             elif line.startswith("Завершение:"):
                 active_field = "finish"
                 append_stage2_text(finish_lines, line.split(":", 1)[1])
-            elif line.startswith("Суть задания:") or line.startswith("Конец этапа 2"):
+            elif line.startswith("Суть:") or line.startswith("Суть задания:") or line.startswith("Конец этапа 2"):
                 active_field = None
             elif active_field == "start":
                 append_stage2_text(start_lines, line)

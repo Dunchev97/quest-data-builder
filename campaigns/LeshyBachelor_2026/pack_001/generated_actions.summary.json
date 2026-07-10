@@ -1,0 +1,12 @@
+{
+  "campaign_id": "LeshyBachelor_2026",
+  "entities": 8,
+  "entities_without_actions": 7,
+  "dialog_actions": 1,
+  "search_actions": 5,
+  "give_actions": 0,
+  "current_pack_id": "pack_001",
+  "packs_scanned": [
+    "pack_001"
+  ]
+}

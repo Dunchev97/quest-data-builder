@@ -56,6 +56,14 @@ STAGE2_ONE_QUEST = """
 """
 
 
+STAGE2_ONE_QUEST_REVIEW_FORMAT = """
+1. Домовёнок: Первый переполох
+Суть: Дом нужно быстро привести в порядок.
+Старт: "Нужно быстро привести дом в порядок."
+Завершение: "Дом снова сияет!"
+"""
+
+
 STAGE2_ONE_QUEST_MISMATCH = """
 ЭТАП 2: РЕПЛИКИ НАЧАЛА И ЗАВЕРШЕНИЯ
 
@@ -194,6 +202,13 @@ class ParseStage3Tests(unittest.TestCase):
 
     def test_parses_stage2_start_and_finish_by_title(self) -> None:
         stage2_quests = parse_stage2_story_text(STAGE2_ONE_QUEST)
+
+        self.assertIn("первый переполох", stage2_quests)
+        self.assertEqual(stage2_quests["первый переполох"].start, "Нужно быстро привести дом в порядок.")
+        self.assertEqual(stage2_quests["первый переполох"].finish, "Дом снова сияет!")
+
+    def test_parses_stage2_review_format_start_and_finish(self) -> None:
+        stage2_quests = parse_stage2_story_text(STAGE2_ONE_QUEST_REVIEW_FORMAT)
 
         self.assertIn("первый переполох", stage2_quests)
         self.assertEqual(stage2_quests["первый переполох"].start, "Нужно быстро привести дом в порядок.")

@@ -1,0 +1,47 @@
+{
+  "campaign_id": "LeshyBachelor_2026",
+  "packs": [
+    "pack_001"
+  ],
+  "blocks": [
+    "HOG",
+    "GR ассет",
+    "GR способы получения",
+    "GR ПАКЕТЫ",
+    "ASK",
+    "ASK пост экшен",
+    "ASK ПАКЕТЫ",
+    "PER",
+    "PER пост экшен",
+    "PER ПАКЕТЫ",
+    "R ассет"
+  ],
+  "hogs": 5,
+  "resources": {
+    "ASK": 2,
+    "PER": 1,
+    "GR": 5,
+    "FG": 0,
+    "FA": 0,
+    "R": 3
+  },
+  "interactive_recipe_ingredients": [
+    "LeshyBachelor_2026_Story_RandomRecipe_1_R_1",
+    "LeshyBachelor_2026_Story_FA_2",
+    "LeshyBachelor_2026_Chest_1_R_1"
+  ],
+  "warnings": [
+    {
+      "resource": "LeshyBachelor_2026_R_1",
+      "warning": "recipe has fewer than two nearby resource tasks; recipe skipped"
+    },
+    {
+      "resource": "LeshyBachelor_2026_R_2",
+      "warning": "recipe has fewer than two nearby resource tasks; recipe skipped"
+    },
+    {
+      "resource": "LeshyBachelor_2026_R_3",
+      "warning": "recipe has fewer than two nearby resource tasks; recipe skipped"
+    }
+  ]
+}

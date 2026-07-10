@@ -1,0 +1,836 @@
+{
+  "quests": [
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_1",
+      "title_quest": "Камеры на пнях",
+      "quest_number": 1,
+      "description": "Домовёнок, срочно на поляну! Я замаскировала камеры под пни так талантливо, что теперь не могу отличить главный план от старого трухлявого пня. А Леший уже спрятался за кустом и надеется, что в кадре будет идеально смотреться. Помоги навести порядок, пока премьера не началась с чьей-то пятки?",
+      "congratulation": "Вот это работа! Камеры снова смотрят куда надо. Спасибо, теперь выпуск начнётся как настоящее шоу.",
+      "character": "Шапокляк",
+      "helper": "LeshyBachelor_2026_Character_1",
+      "tasks": [
+        {
+          "task_number": 1,
+          "task_template_id": "TT-007",
+          "task_template_name": "HOG поиск истинного среди ложного",
+          "task_type": "HOG clean_debris true_among_false",
+          "selected_candidate_id": null,
+          "choice_reason": "В квесте Шапокляк потеряла камеры, замаскированные под пни; HOG истинного среди ложного прямо поддерживает эту путаницу.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "LeshyBachelor_2026_HOG_1",
+            "amount": 1,
+            "price": 1,
+            "title": "Найди спрятанные камеры на пнях",
+            "hint": "Найди спрятанные камеры на пнях и отличи их от обычных трухлявых пней.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 2,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:GarbageCupCoffeeCollection5:GarbageCupCoffee:home",
+          "choice_reason": "Турка выглядит как мелкий закулисный реквизит съёмочной группы и хорошо ложится в подготовку первого выпуска.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "GarbageCupCoffeeCollection5",
+            "icon": "GarbageCupCoffeeCollection5",
+            "amount": 10,
+            "price": 20,
+            "title": "Найди Турка",
+            "hint": "Турка - элемент коллекции, выпадает при уборке мусора Смятый стаканчик из-под кофе дома и в гостях. Место поиска: Кухня, Комната искусств.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 3,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "selected_candidate_id": "garbage:GarbageCupCoffee",
+          "choice_reason": "Смятые стаканчики из-под кофе похожи на мусор после суетливой подготовки съёмочной поляны.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "GarbageCupCoffee",
+            "in_guest": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Убери мусор Смятый стаканчик из-под кофе в гостях",
+            "hint": "Убери мусор Смятый стаканчик из-под кофе в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Кухня, Комната искусств.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_2",
+      "title_quest": "Первое появление холостяка",
+      "quest_number": 2,
+      "description": "Домовёнок, беда! Мне сейчас выходить к девушкам, а костюмчик не сидит как надо, да еще и кукушка-суфлёр всё шепчет: \"Ку-ку да ку-ку\". Поможешь собраться, чтобы я выглядел не пугалом из чащи, а приличным женихом?",
+      "congratulation": "Уф, вышел и даже не сказал \"ку-ку\" вместо доброго вечера! Спасибо тебе, домовёнок. Участницы даже улыбнулись.",
+      "character": "Леший",
+      "helper": "LeshyBachelor_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 4,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette",
+          "selected_candidate_id": "collection_drop:ArmorOfSnailCollection4:ArmorOfSnail:home",
+          "choice_reason": "Улитка-поцелуйчик смешно поддерживает романтический выход Лешего и его неловкое первое впечатление.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "ArmorOfSnailCollection4",
+            "icon": "ArmorOfSnailCollection4",
+            "is_silhouette": 1,
+            "amount": 10,
+            "price": 20,
+            "title": "Угадай элемент коллекции",
+            "hint": "Угадай элемент коллекции и найди его дома или в гостях у друзей",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 5,
+          "task_template_id": "TT-017",
+          "task_template_name": "GR с цветов дома",
+          "task_type": "get_asset GR flower",
+          "selected_candidate_id": "flower:FlowerBlueRose",
+          "choice_reason": "Синяя роза подходит как аккуратная бутоньерка к костюмчику Лешего.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "LeshyBachelor_2026_GR_1",
+            "icon": "LeshyBachelor_2026_GR_1",
+            "amount": 40,
+            "price": 30,
+            "title": "Получи синий бутон для бутоньерки",
+            "hint": "Собирай цветы Синяя роза дома, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 6,
+          "task_template_id": "TT-018",
+          "task_template_name": "Сбор цветов дома (зависит от времени роста)",
+          "task_type": "action take_crop",
+          "selected_candidate_id": "flower:FlowerMagazine4_Hippeastrum",
+          "choice_reason": "Гиппеаструм выглядит нарядно и подходит для торжественного выхода жениха из чащи.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop",
+            "param": "FlowerMagazine4_Hippeastrum",
+            "amount": 30,
+            "price": 20,
+            "title": "Собери Гиппеаструм дома",
+            "hint": "Собирай Гиппеаструм дома. Чтобы собрать растение, кликни на горшок с нужным растением",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_3",
+      "title_quest": "Зелье первого впечатления",
+      "quest_number": 3,
+      "description": "Ну, дружок, хотела я сварить зелье первого впечатления, а котёл чудит. То розами пахнет, то мокрым пнём, то такое амбре, что даже ступа отъехала подальше. Помоги с ингредиентами, пока Леший не решил, что это свидание со скунсом!",
+      "congratulation": "Вот теперь другое дело! Зелье пахнет отлично и пузырится прилично. Спасибо, домовятушка!",
+      "character": "Баба Яга",
+      "helper": "LeshyBachelor_2026_Character_3",
+      "tasks": [
+        {
+          "task_number": 7,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Квест строится вокруг приворотного котла; итоговый craft должен дать пригодное зелье, а не очередное амбре.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "LeshyBachelor_2026_R_1",
+            "icon": "LeshyBachelor_2026_R_1",
+            "amount": 1,
+            "title": "Создай Приличное зелье первого впечатления",
+            "go_to_location": [
+              {
+                "classname": "LeshyBachelor_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 8,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "selected_candidate_id": null,
+          "choice_reason": "Мерная ложечка помогает Яге не переборщить с ингредиентами и удержать зелье в романтическом тоне.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "LeshyBachelor_2026_ASK_1",
+            "icon": "LeshyBachelor_2026_ASK_1",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей розовую мерную ложечку",
+            "hint": "Попроси у друзей или купи.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 9,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "selected_candidate_id": "gr_garbage:BigHome_Garbage_Bar_BrokenCocktail:guest",
+          "choice_reason": "Разлитый коктейль даёт смешную ароматную основу для зелья первого впечатления.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "LeshyBachelor_2026_GR_2",
+            "icon": "LeshyBachelor_2026_GR_2",
+            "amount": 40,
+            "price": 40,
+            "title": "Найди ароматную каплю для котла",
+            "hint": "Убирай мусор Разлитый коктейль в гостях, чтобы найти. Место поиска: Барная комната.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_4",
+      "title_quest": "Болотный образ для свидания",
+      "quest_number": 4,
+      "description": "Это какой-то болотный модный переполох! Мох мой, ленточки, и кувшинка для волос, всё было готово. А лягушки посмотрели и решили: \"А чем мы хуже?\" Теперь всё на них, а я в отражении выгляжу как болотная кочка. Лови их!",
+      "congratulation": "Спасибо, дружок, теперь можно идти на свидание, а не в пучину глубокого омута от обиды.",
+      "character": "Кикимора",
+      "helper": "LeshyBachelor_2026_Character_4",
+      "tasks": [
+        {
+          "task_number": 10,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "Кикимора ищет растащенные украшения, поэтому HOG на локации собирает детали образа.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "LeshyBachelor_2026_HOG_2",
+            "search_action": "search_LeshyBachelor_2026_HOG_2",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "LeshyBachelor_2026_HOG_2"
+              }
+            ],
+            "amount": 20,
+            "price": 20,
+            "title": "Найди болотные украшения Кикиморы",
+            "hint": "Найди болотные украшения Кикиморы. Место поиска: Мир. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 11,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette",
+          "selected_candidate_id": "flower:FlowerPinkRose",
+          "choice_reason": "Нежная роза хорошо контрастирует с болотным образом и выглядит как украшение для волос.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerPinkRose",
+            "is_silhouette": 1,
+            "amount": 30,
+            "price": 10,
+            "title": "Угадай загаданный цветок",
+            "hint": "Угадай загаданный цветок и собери его в гостях у друга",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 12,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower",
+          "selected_candidate_id": "flower:FlowerBlueRose",
+          "choice_reason": "Синяя роза даёт цветовую основу для болотной ленты и подходит к образу Кикиморы.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "LeshyBachelor_2026_GR_3",
+            "icon": "LeshyBachelor_2026_GR_3",
+            "amount": 80,
+            "price": 40,
+            "title": "Получи синюю болотную ленту",
+            "hint": "Собирай цветы Синяя роза в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_5",
+      "title_quest": "Песня у пруда",
+      "quest_number": 5,
+      "description": "Помоги мне исполнить песню. Камыши шуршат громче моего голоса, микрофон барахлит, промок наверное. Не песня, а шум выходит!",
+      "congratulation": "Как нежно зазвучало! Спасибо тебе, дружок. Романтика у пруда.",
+      "character": "Русалка",
+      "helper": "LeshyBachelor_2026_Character_5",
+      "tasks": [
+        {
+          "task_number": 13,
+          "task_template_id": "TT-005",
+          "task_template_name": "HOG в локациях дома",
+          "task_type": "HOG clean_debris home_locations",
+          "selected_candidate_id": null,
+          "choice_reason": "Русалка жалуется на барахлящий микрофон; HOG помогает отыскать его среди прудового реквизита.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "LeshyBachelor_2026_HOG_3",
+            "amount": 3,
+            "price": 30,
+            "title": "Найди промокший микрофон Русалки",
+            "hint": "Найди промокший микрофон Русалки. Они могут быть в Мир.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 14,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette",
+          "selected_candidate_id": "collection_drop:BarometerCollection1:Barometer:home",
+          "choice_reason": "Гидрокостюм связан с водой и сценой у пруда, где Русалка спасает выступление.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "BarometerCollection1",
+            "icon": "BarometerCollection1",
+            "is_silhouette": 1,
+            "amount": 10,
+            "price": 20,
+            "title": "Угадай элемент коллекции",
+            "hint": "Угадай элемент коллекции и найди его дома или в гостях у друзей",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 15,
+          "task_template_id": "TT-030",
+          "task_template_name": "Силуэт мусора дома",
+          "task_type": "garbage classname is_silhouette",
+          "selected_candidate_id": "garbage:Barometer",
+          "choice_reason": "Разбитый барометр похож на мокрый прибор из-за которого звук и погода у пруда ведут себя странно.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "Barometer",
+            "is_silhouette": 1,
+            "amount": 20,
+            "price": 40,
+            "title": "Угадай загаданный мусор и убери его дома",
+            "hint": "Угадай загаданный мусор и убери его дома",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_6",
+      "title_quest": "Ручная работа",
+      "quest_number": 6,
+      "description": "У меня всё было рассчитано! Три шишки справа, два листа, лесные огоньки. Но стоило взяться создавать его руками, как венок рассыпался. Поможешь собрать его по-человечески, то есть по-домовячьему?",
+      "congratulation": "Благодарю тебя. Венок вышел красивый и главное ручная работа, уникальный дизайн!",
+      "character": "Василиса",
+      "helper": "LeshyBachelor_2026_Character_6",
+      "tasks": [
+        {
+          "task_number": 16,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette",
+          "selected_candidate_id": "collection_drop:MulticoloredBumpsCollection2:MulticoloredBumps:home",
+          "choice_reason": "Венок из роз напрямую связан с ручной работой Василисы и подарком для Лешего.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "MulticoloredBumpsCollection2",
+            "icon": "MulticoloredBumpsCollection2",
+            "is_silhouette": 1,
+            "amount": 10,
+            "price": 20,
+            "title": "Угадай элемент коллекции",
+            "hint": "Угадай элемент коллекции и найди его дома или в гостях у друзей",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 17,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette",
+          "selected_candidate_id": "flower:FlowerCvetikSemicvetik",
+          "choice_reason": "Цветик-семицветик выглядит как волшебная деталь для венка, который Василиса пытается собрать руками.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerCvetikSemicvetik",
+            "is_silhouette": 1,
+            "amount": 30,
+            "price": 10,
+            "title": "Угадай загаданный цветок",
+            "hint": "Угадай загаданный цветок и собери его в гостях у друга",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 18,
+          "task_template_id": "TT-029",
+          "task_template_name": "Силуэт мусора в гостях",
+          "task_type": "garbage classname is_silhouette in_guest",
+          "selected_candidate_id": "garbage:BrokenBasketForNeedlework",
+          "choice_reason": "Сломанная корзиночка для рукоделия подчёркивает, что теория у Василисы сильнее практики.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "BrokenBasketForNeedlework",
+            "is_silhouette": 1,
+            "amount": 40,
+            "price": 20,
+            "title": "Угадай загаданный мусор",
+            "hint": "Угадай загаданный мусор и убери его в гостях у друзей",
+            "identifier": "",
+            "in_guest": 1
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_7",
+      "title_quest": "Романтический поход",
+      "quest_number": 7,
+      "description": "Дело серьёзное... Романтический поход должен быть незабываемым, а так будто мы идём брать крепость. Плед пострадал от моли, фляга заржавела, блинчики мои пригорели. Помоги свидание спасти!",
+      "congratulation": "Отлично, теперь поход будет похож на романтическую прогулку.",
+      "character": "Марья Моревна",
+      "helper": "LeshyBachelor_2026_Character_7",
+      "tasks": [
+        {
+          "task_number": 19,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Марья Моревна спасает свидание-поход, поэтому итоговый craft собирает тёплый походный набор.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "LeshyBachelor_2026_R_2",
+            "icon": "LeshyBachelor_2026_R_2",
+            "amount": 1,
+            "title": "Создай Набор для романтического похода",
+            "go_to_location": [
+              {
+                "classname": "LeshyBachelor_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 20,
+          "task_template_id": "TT-009",
+          "task_template_name": "Получить PER",
+          "task_type": "get_asset PER",
+          "selected_candidate_id": null,
+          "choice_reason": "Мягкая походная салфетка является тканевой частью набора для романтического похода: ею можно застелить плед или завернуть блинчики.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "LeshyBachelor_2026_PER_1",
+            "icon": "LeshyBachelor_2026_PER_1",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей заплатку",
+            "hint": "Отправь личные просьбы друзьям или купи.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 21,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "selected_candidate_id": "gr_garbage:BigHome_Garbage_Overview_Silver:guest",
+          "choice_reason": "Серебряная застёжка для фляги является близкой деталью набора для романтического похода: она чинит флягу и делает походный набор аккуратным.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "LeshyBachelor_2026_GR_4",
+            "icon": "LeshyBachelor_2026_GR_4",
+            "amount": 40,
+            "price": 40,
+            "title": "Найди серебряную застёжку для фляги",
+            "hint": "Убирай мусор Родированное серебро в гостях, чтобы найти. Место поиска: Обзорная.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_8",
+      "title_quest": "Пирожки для каждого сердечка",
+      "quest_number": 8,
+      "description": "Домовёнок, помоги, пожалуйста. Я хотела испечь пирожки для каждого сердечка, кому с малиной, кому с орехами, кому с шиповником. Но забыла какие начинки куда положила.",
+      "congratulation": "Спасибо тебе, дружок! Пирожки румяные, начинки на своих местах.",
+      "character": "Алёнушка",
+      "helper": "LeshyBachelor_2026_Character_8",
+      "tasks": [
+        {
+          "task_number": 22,
+          "task_template_id": "TT-022",
+          "task_template_name": "Загадка на цветок в гостях",
+          "task_type": "action take_crop_in_guest mystery",
+          "selected_candidate_id": "flower:FlowerDahlia",
+          "choice_reason": "Георгин даёт яркую цветочную загадку для пирожков с разными начинками.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerDahlia",
+            "is_hide": 1,
+            "amount": 60,
+            "price": 25,
+            "title": "Загадка, цветы в гостях у друга",
+            "hint": "Пышный цветок, как начинка в тесте, В кадре смотрится очень уместно. Не роза, не мята, но яркий господин, Для пирожка подскажет нам цвет — это...",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 23,
+          "task_template_id": "TT-026",
+          "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection mystery",
+          "selected_candidate_id": "collection_drop:Garbage_PinkPetalsCollection3:Garbage_PinkPetals:home",
+          "choice_reason": "Крем с шиповником прямо связан с начинкой для пирожков и розовой темой шоу.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "Garbage_PinkPetalsCollection3",
+            "icon": "Garbage_PinkPetalsCollection3",
+            "is_hide": 1,
+            "amount": 10,
+            "price": 30,
+            "title": "Загадка, предмет из коллекции",
+            "hint": "В лепестках розовых прячется вкус, Сладкий, колючий, лесной перекус. В креме найдёшь ароматный намёк, Что в пирожок просится...",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 24,
+          "task_template_id": "TT-024",
+          "task_template_name": "Загадка на мусор в гостях",
+          "task_type": "garbage classname in_guest mystery",
+          "selected_candidate_id": "garbage:CircassianWalnutShell",
+          "choice_reason": "Скорлупки грецкого ореха поддерживают ореховую начинку и кухонный переполох.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "CircassianWalnutShell",
+            "is_hide": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Загадка, мусор в гостях",
+            "hint": "Хрустят на столе, но не сухари, От ореховой тайны остались они. Алёнушка ищет, куда их убрать, Чтобы начинку не перепутать опять.",
+            "identifier": "",
+            "in_guest": 1
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_9",
+      "title_quest": "Слишком драматичная пауза",
+      "quest_number": 9,
+      "description": "Домовёнок, сейчас будет пауза, а пауза должна работать на репутацию! Надо себя прорекламировать ведь я и сыщик и тамада и ведущая!",
+      "congratulation": "Браво! Теперь пауза не просто пауза, а маленький памятник моим талантам.",
+      "character": "Шапокляк",
+      "helper": "LeshyBachelor_2026_Character_1",
+      "tasks": [
+        {
+          "task_number": 25,
+          "task_template_id": "TT-003",
+          "task_template_name": "HOG в мире",
+          "task_type": "HOG clean_debris world",
+          "selected_candidate_id": null,
+          "choice_reason": "Шапокляк собирает саморекламу; HOG в мире ищет таблички для её драматичной паузы.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "LeshyBachelor_2026_HOG_4",
+            "search_action": "search_LeshyBachelor_2026_HOG_4",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "LeshyBachelor_2026_HOG_4"
+              }
+            ],
+            "amount": 15,
+            "price": 50,
+            "title": "Найди рекламные таблички Шапокляк",
+            "hint": "Найди рекламные таблички Шапокляк. Место поиска: Мир. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 26,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:BigHome_Garbage_Bar_BrokenDiscoBall_Collection1:BigHome_Garbage_Bar_BrokenDiscoBall:home",
+          "choice_reason": "Диско очки выглядят как реквизит ведущей, которая решила сиять даже в рекламной паузе.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "BigHome_Garbage_Bar_BrokenDiscoBall_Collection1",
+            "icon": "BigHome_Garbage_Bar_BrokenDiscoBall_Collection1",
+            "amount": 10,
+            "price": 20,
+            "title": "Найди Диско очки",
+            "hint": "Диско очки - элемент коллекции, выпадает при уборке мусора Разбитый диско-шар дома и в гостях. Место поиска: Барная комната.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 27,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "selected_candidate_id": "garbage:FlapOfTissue",
+          "choice_reason": "Лоскут ткани похож на обрывок баннера или занавески для саморекламы Шапокляк.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "FlapOfTissue",
+            "in_guest": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Убери мусор Лоскут ткани в гостях",
+            "hint": "Убери мусор Лоскут ткани в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Светлица, Рукодельня.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_10",
+      "title_quest": "Букет от Лешего",
+      "quest_number": 10,
+      "description": "Домовёнок, я хотел выбрать букет от души, честное пеньковое слово! Только вот этот цветок колется, этот цепляется за рукав, а это вообще ветка малины. Поможешь собрать правильные цветы, чтобы удивить невест?",
+      "congratulation": "Вот теперь букет что надо! Спасибо тебе. Я понял. роза не банальность, а классика.",
+      "character": "Леший",
+      "helper": "LeshyBachelor_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 28,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "Леший перепутал букет; HOG на локации помогает отличить розы от колючих и лишних веток.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "LeshyBachelor_2026_HOG_5",
+            "search_action": "search_LeshyBachelor_2026_HOG_5",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "LeshyBachelor_2026_HOG_5"
+              }
+            ],
+            "amount": 20,
+            "price": 20,
+            "title": "Найди правильные розы среди шиповника",
+            "hint": "Найди правильные розы среди шиповника. Место поиска: Мир. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 29,
+          "task_template_id": "TT-018",
+          "task_template_name": "Сбор цветов дома (зависит от времени роста)",
+          "task_type": "action take_crop",
+          "selected_candidate_id": "flower:FlowerFive",
+          "choice_reason": "Обычная роза лучше всего поддерживает мысль Лешего, что классика не банальность.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop",
+            "param": "FlowerFive",
+            "amount": 30,
+            "price": 20,
+            "title": "Собери Роза дома",
+            "hint": "Собирай Роза дома. Чтобы собрать растение, кликни на горшок с нужным растением",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 30,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette",
+          "selected_candidate_id": "flower:FlowerFour",
+          "choice_reason": "Роза Нежная страсть подходит для романтического букета и церемонии.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerFour",
+            "is_silhouette": 1,
+            "amount": 30,
+            "price": 10,
+            "title": "Угадай загаданный цветок",
+            "hint": "Угадай загаданный цветок и собери его в гостях у друга",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_11",
+      "title_quest": "Разговор без камер",
+      "quest_number": 11,
+      "description": "Можно нам немного тишины? Помоги устроить \"Шалаш для двоих\" у берёзы, где каждая скажет Лешему пару добрых слов, а он услышит не шум шоу, а нас.",
+      "congratulation": "Спасибо, дружок. В шалаше тихо и романтично. Иногда самая важная сцена получается без камер.",
+      "character": "Василиса",
+      "helper": "LeshyBachelor_2026_Character_6",
+      "tasks": [
+        {
+          "task_number": 31,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Квест строится вокруг тихого места у берёзы; craft создаёт тот самый шалаш без камер.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "LeshyBachelor_2026_R_3",
+            "icon": "LeshyBachelor_2026_R_3",
+            "amount": 1,
+            "title": "Создай Тихий шалаш для двоих",
+            "go_to_location": [
+              {
+                "classname": "LeshyBachelor_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 32,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "selected_candidate_id": null,
+          "choice_reason": "Занавеска помогает скрыть шалаш от съёмочной суеты и сделать разговор спокойным.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "LeshyBachelor_2026_ASK_2",
+            "icon": "LeshyBachelor_2026_ASK_2",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей занавеску",
+            "hint": "Попроси у друзей или купи.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 33,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower",
+          "selected_candidate_id": "flower:FlowerElewen",
+          "choice_reason": "Семицветный огонёк является украшением и светлой деталью тихого шалаша для двоих, чтобы внутри было уютно без камер.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "LeshyBachelor_2026_GR_5",
+            "icon": "LeshyBachelor_2026_GR_5",
+            "amount": 80,
+            "price": 40,
+            "title": "Получи семицветный огонёк для шалаша",
+            "hint": "Собирай цветы Ландыш в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_12",
+      "title_quest": "Первая церемония роз",
+      "quest_number": 12,
+      "description": "Сердце у меня стучит, как дятел по сухой сосне. Я хочу сказать всем спасибо так, чтобы никто не ушёл с обидой. Ведь я понял, нет с реди них той моей единственной.",
+      "congratulation": "Спасибо тебе, друг мой. Розы вручены, участницы улыбаются, Шапокляк довольна таким поворотом, а я понял - любовь не любит суеты. Вечер закончим чаепитием, а дальше пусть сердце разбирается не спеша.",
+      "character": "Леший",
+      "helper": "LeshyBachelor_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 34,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "choice_reason": "Диалог закрывает выпуск и объясняет мягкий поворот церемонии роз.",
+          "task_object": {
+            "type": "action",
+            "icon": "LeshyBachelor_2026_Character_2",
+            "action": "LeshyBachelor_2026_Character_2_Dialog_1",
+            "title": "Поговори с Лешим",
+            "hint": "Поговори с Лешим. Для этого просто кликни на него. Он находится в Мир.",
+            "go_to_location": [
+              {
+                "classname": "LeshyBachelor_2026_Character_2"
+              }
+            ],
+            "identifier": ""
+          },
+          "dialogue_replica": "Леший стоит с букетом и честно признаётся: среди участниц пока нет той самой единственной, зато все стали ему дороги. Он хочет завершить выпуск бережно, без обид и с чаепитием."
+        },
+        {
+          "task_number": 35,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:Fl5Col2:FlowerFive:home",
+          "choice_reason": "Ведёрко со льдом поддерживает праздничный финал, шампанское во льду и церемонию после роз.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "Fl5Col2",
+            "icon": "Fl5Col2",
+            "amount": 10,
+            "price": 20,
+            "title": "Найди Букет роз",
+            "hint": "Букет роз - элемент коллекции, выпадает при уборке мусора Роза дома и в гостях. Место поиска: Детская.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 36,
+          "task_template_id": "TT-034",
+          "task_template_name": "Фото предмета",
+          "task_type": "action post_photo",
+          "selected_candidate_id": null,
+          "choice_reason": "Фото с Лешим фиксирует финал первого выпуска и тёплую церемонию роз.",
+          "task_object": {
+            "type": "action",
+            "action": "post_photo",
+            "icon": "LeshyBachelor_2026_Character_2",
+            "param": "LeshyBachelor_2026_Character_2",
+            "go_to_location": [
+              {
+                "classname": "LeshyBachelor_2026_Character_2"
+              }
+            ],
+            "amount": 1,
+            "title": "Сфотографируйся с Лешим",
+            "hint": "Леший - персонаж, с которым нужно сфотографироваться. Найди его у себя на Мир и нажми на иконку \"Сделать фотографию\" в правом верхнем углу. Наведи фокус на Лешего, сфотографируйся с ним и нажми \"Славненько\".",
+            "identifier": ""
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 Title: 
 Tone: приключенческий, юморной, ламповый
 Status: 
-Next pack number: 1
+Next pack number: 3
 
 ## Characters
 
@@ -11,6 +11,8 @@ Next pack number: 1
 
 ## Packs
 
+- pack_001: 
+- pack_002: 
 
 ## Memory Counts
 

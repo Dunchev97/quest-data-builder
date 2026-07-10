@@ -1,0 +1,22 @@
+{
+  "class": "QuestGroupPrototype",
+  "disabled": 1,
+  "disabled_ru": 0,
+  "priority": 9,
+  "identifier": "Magazine9",
+  "title": "Журнал №9",
+  "tags": ["magazine","magazine_main","label_magazine"],
+  "first_quest": "Magazine9_1",
+  "last_quest": "Magazine9_1",
+  "icon_start": "Magazine9_icon",
+  "icon_complete": "Magazine9_icon",
+  "icon_quest": "Magazine9QuestIcon",
+  "hide_final_window": 1,
+  "hide_spoil_window": 1,
+  "hide_quests_accomplished_window": 1,
+  "start_price": "money=30",
+  "window_type": "magazine",
+  "task_type": "magazine",
+  "special_reward_classname": "Magazine9_FinalReward",
+  "id": 53257
+}

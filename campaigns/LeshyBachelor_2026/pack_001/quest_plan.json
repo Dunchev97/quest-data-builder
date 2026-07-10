@@ -1,0 +1,598 @@
+{
+  "quests": [
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_1",
+      "title_quest": "Камеры на пнях",
+      "quest_number": 1,
+      "task_numbers": [
+        1,
+        2,
+        3
+      ],
+      "task_template_ids": [
+        "TT-007",
+        "TT-011",
+        "TT-020"
+      ],
+      "task_template_names": [
+        "HOG поиск истинного среди ложного",
+        "Получить элемент коллекции (зависит от редкости)",
+        "Уборка конкретного мусора в гостях"
+      ],
+      "task_types": [
+        "HOG clean_debris true_among_false",
+        "get_asset Collection",
+        "garbage classname in_guest"
+      ],
+      "description": "Домовёнок, срочно на поляну! Я замаскировала камеры под пни так талантливо, что теперь не могу отличить главный план от старого трухлявого пня. А Леший уже спрятался за кустом и надеется, что в кадре будет идеально смотреться. Помоги навести порядок, пока премьера не началась с чьей-то пятки?",
+      "congratulation": "Вот это работа! Камеры снова смотрят куда надо. Спасибо, теперь выпуск начнётся как настоящее шоу.",
+      "character": "Шапокляк",
+      "raw_text": "Classname quests: LeshyBachelor_2026_Story_1\ntitle_quest: Камеры на пнях\n№ quest: 1\n№ task: 1 2 3\nTask template ID: TT-007 / TT-011 / TT-020\nTask template name: HOG поиск истинного среди ложного / Получить элемент коллекции (зависит от редкости) / Уборка конкретного мусора в гостях\nTask type: HOG clean_debris true_among_false / get_asset Collection / garbage classname in_guest\ndescription: \"Домовёнок, срочно на поляну! Я замаскировала камеры под пни так талантливо, что теперь не могу отличить главный план от старого трухлявого пня. А Леший уже спрятался за кустом и надеется, что в кадре будет идеально смотреться. Помоги навести порядок, пока премьера не началась с чьей-то пятки?\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Вот это работа! Камеры снова смотрят куда надо. Спасибо, теперь выпуск начнётся как настоящее шоу.\"\nCharacter: Шапокляк",
+      "tasks": [
+        {
+          "task_number": 1,
+          "task_template_id": "TT-007",
+          "task_template_name": "HOG поиск истинного среди ложного",
+          "task_type": "HOG clean_debris true_among_false"
+        },
+        {
+          "task_number": 2,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection"
+        },
+        {
+          "task_number": 3,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest"
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_2",
+      "title_quest": "Первое появление холостяка",
+      "quest_number": 2,
+      "task_numbers": [
+        4,
+        5,
+        6
+      ],
+      "task_template_ids": [
+        "TT-028",
+        "TT-017",
+        "TT-018"
+      ],
+      "task_template_names": [
+        "Силуэт элемент коллекции (зависит от редкости)",
+        "GR с цветов дома",
+        "Сбор цветов дома (зависит от времени роста)"
+      ],
+      "task_types": [
+        "get_asset Collection is_silhouette",
+        "get_asset GR flower",
+        "action take_crop"
+      ],
+      "description": "Домовёнок, беда! Мне сейчас выходить к девушкам, а костюмчик не сидит как надо, да еще и кукушка-суфлёр всё шепчет: \"Ку-ку да ку-ку\". Поможешь собраться, чтобы я выглядел не пугалом из чащи, а приличным женихом?",
+      "congratulation": "Уф, вышел и даже не сказал \"ку-ку\" вместо доброго вечера! Спасибо тебе, домовёнок. Участницы даже улыбнулись.",
+      "character": "Леший",
+      "raw_text": "Classname quests: LeshyBachelor_2026_Story_2\ntitle_quest: Первое появление холостяка\n№ quest: 2\n№ task: 4 5 6\nTask template ID: TT-028 / TT-017 / TT-018\nTask template name: Силуэт элемент коллекции (зависит от редкости) / GR с цветов дома / Сбор цветов дома (зависит от времени роста)\nTask type: get_asset Collection is_silhouette / get_asset GR flower / action take_crop\ndescription: \"Домовёнок, беда! Мне сейчас выходить к девушкам, а костюмчик не сидит как надо, да еще и кукушка-суфлёр всё шепчет: \"Ку-ку да ку-ку\". Поможешь собраться, чтобы я выглядел не пугалом из чащи, а приличным женихом?\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Уф, вышел и даже не сказал \"ку-ку\" вместо доброго вечера! Спасибо тебе, домовёнок. Участницы даже улыбнулись.\"\nCharacter: Леший",
+      "tasks": [
+        {
+          "task_number": 4,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette"
+        },
+        {
+          "task_number": 5,
+          "task_template_id": "TT-017",
+          "task_template_name": "GR с цветов дома",
+          "task_type": "get_asset GR flower"
+        },
+        {
+          "task_number": 6,
+          "task_template_id": "TT-018",
+          "task_template_name": "Сбор цветов дома (зависит от времени роста)",
+          "task_type": "action take_crop"
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_3",
+      "title_quest": "Зелье первого впечатления",
+      "quest_number": 3,
+      "task_numbers": [
+        7,
+        8,
+        9
+      ],
+      "task_template_ids": [
+        "TT-002",
+        "TT-008",
+        "TT-014"
+      ],
+      "task_template_names": [
+        "Крафт",
+        "Получить ASK",
+        "GR с конкретного мусора в гостях"
+      ],
+      "task_types": [
+        "get_and_decrease_asset craft",
+        "get_asset ASK",
+        "get_asset GR in_guest garbage classname"
+      ],
+      "description": "Ну, дружок, хотела я сварить зелье первого впечатления, а котёл чудит. То розами пахнет, то мокрым пнём, то такое амбре, что даже ступа отъехала подальше. Помоги с ингредиентами, пока Леший не решил, что это свидание со скунсом!",
+      "congratulation": "Вот теперь другое дело! Зелье пахнет отлично и пузырится прилично. Спасибо, домовятушка!",
+      "character": "Баба Яга",
+      "raw_text": "Classname quests: LeshyBachelor_2026_Story_3\ntitle_quest: Зелье первого впечатления\n№ quest: 3\n№ task: 7 8 9\nTask template ID: TT-002 / TT-008 / TT-014\nTask template name: Крафт / Получить ASK / GR с конкретного мусора в гостях\nTask type: get_and_decrease_asset craft / get_asset ASK / get_asset GR in_guest garbage classname\ndescription: \"Ну, дружок, хотела я сварить зелье первого впечатления, а котёл чудит. То розами пахнет, то мокрым пнём, то такое амбре, что даже ступа отъехала подальше. Помоги с ингредиентами, пока Леший не решил, что это свидание со скунсом!\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Вот теперь другое дело! Зелье пахнет отлично и пузырится прилично. Спасибо, домовятушка!\"\nCharacter: Баба Яга",
+      "tasks": [
+        {
+          "task_number": 7,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft"
+        },
+        {
+          "task_number": 8,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK"
+        },
+        {
+          "task_number": 9,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname"
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_4",
+      "title_quest": "Болотный образ для свидания",
+      "quest_number": 4,
+      "task_numbers": [
+        10,
+        11,
+        12
+      ],
+      "task_template_ids": [
+        "TT-004",
+        "TT-031",
+        "TT-016"
+      ],
+      "task_template_names": [
+        "HOG на локации",
+        "Силуэт цветка в гостях",
+        "GR с цветов в гостях"
+      ],
+      "task_types": [
+        "HOG clean_debris location",
+        "action take_crop_in_guest is_silhouette",
+        "get_asset GR in_guest flower"
+      ],
+      "description": "Это какой-то болотный модный переполох! Мох мой, ленточки, и кувшинка для волос, всё было готово. А лягушки посмотрели и решили: \"А чем мы хуже?\" Теперь всё на них, а я в отражении выгляжу как болотная кочка. Лови их!",
+      "congratulation": "Спасибо, дружок, теперь можно идти на свидание, а не в пучину глубокого омута от обиды.",
+      "character": "Кикимора",
+      "raw_text": "Classname quests: LeshyBachelor_2026_Story_4\ntitle_quest: Болотный образ для свидания\n№ quest: 4\n№ task: 10 11 12\nTask template ID: TT-004 / TT-031 / TT-016\nTask template name: HOG на локации / Силуэт цветка в гостях / GR с цветов в гостях\nTask type: HOG clean_debris location / action take_crop_in_guest is_silhouette / get_asset GR in_guest flower\ndescription: \"Это какой-то болотный модный переполох! Мох мой, ленточки, и кувшинка для волос, всё было готово. А лягушки посмотрели и решили: \"А чем мы хуже?\" Теперь всё на них, а я в отражении выгляжу как болотная кочка. Лови их!\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Спасибо, дружок, теперь можно идти на свидание, а не в пучину глубокого омута от обиды.\"\nCharacter: Кикимора",
+      "tasks": [
+        {
+          "task_number": 10,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location"
+        },
+        {
+          "task_number": 11,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette"
+        },
+        {
+          "task_number": 12,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower"
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_5",
+      "title_quest": "Песня у пруда",
+      "quest_number": 5,
+      "task_numbers": [
+        13,
+        14,
+        15
+      ],
+      "task_template_ids": [
+        "TT-005",
+        "TT-028",
+        "TT-030"
+      ],
+      "task_template_names": [
+        "HOG в локациях дома",
+        "Силуэт элемент коллекции (зависит от редкости)",
+        "Силуэт мусора  дома"
+      ],
+      "task_types": [
+        "HOG clean_debris home_locations",
+        "get_asset Collection is_silhouette",
+        "garbage classname is_silhouette"
+      ],
+      "description": "Помоги мне исполнить песню. Камыши шуршат громче моего голоса, микрофон барахлит, промок наверное. Не песня, а шум выходит!",
+      "congratulation": "Как нежно зазвучало! Спасибо тебе, дружок. Романтика у пруда.",
+      "character": "Русалка",
+      "raw_text": "Classname quests: LeshyBachelor_2026_Story_5\ntitle_quest: Песня у пруда\n№ quest: 5\n№ task: 13 14 15\nTask template ID: TT-005 / TT-028 / TT-030\nTask template name: HOG в локациях дома / Силуэт элемент коллекции (зависит от редкости) / Силуэт мусора  дома\nTask type: HOG clean_debris home_locations / get_asset Collection is_silhouette / garbage classname is_silhouette\ndescription: \"Помоги мне исполнить песню. Камыши шуршат громче моего голоса, микрофон барахлит, промок наверное. Не песня, а шум выходит!\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Как нежно зазвучало! Спасибо тебе, дружок. Романтика у пруда.\"\nCharacter: Русалка",
+      "tasks": [
+        {
+          "task_number": 13,
+          "task_template_id": "TT-005",
+          "task_template_name": "HOG в локациях дома",
+          "task_type": "HOG clean_debris home_locations"
+        },
+        {
+          "task_number": 14,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette"
+        },
+        {
+          "task_number": 15,
+          "task_template_id": "TT-030",
+          "task_template_name": "Силуэт мусора  дома",
+          "task_type": "garbage classname is_silhouette"
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_6",
+      "title_quest": "Ручная работа",
+      "quest_number": 6,
+      "task_numbers": [
+        16,
+        17,
+        18
+      ],
+      "task_template_ids": [
+        "TT-028",
+        "TT-031",
+        "TT-029"
+      ],
+      "task_template_names": [
+        "Силуэт элемент коллекции (зависит от редкости)",
+        "Силуэт цветка в гостях",
+        "Силуэт мусора в гостях"
+      ],
+      "task_types": [
+        "get_asset Collection is_silhouette",
+        "action take_crop_in_guest is_silhouette",
+        "garbage classname is_silhouette in_guest"
+      ],
+      "description": "У меня всё было рассчитано! Три шишки справа, два листа, лесные огоньки. Но стоило взяться создавать его руками, как венок рассыпался. Поможешь собрать его по-человечески, то есть по-домовячьему?",
+      "congratulation": "Благодарю тебя. Венок вышел красивый и главное ручная работа, уникальный дизайн!",
+      "character": "Василиса",
+      "raw_text": "Classname quests: LeshyBachelor_2026_Story_6\ntitle_quest: Ручная работа\n№ quest: 6\n№ task: 16 17 18\nTask template ID: TT-028 / TT-031 / TT-029\nTask template name: Силуэт элемент коллекции (зависит от редкости) / Силуэт цветка в гостях / Силуэт мусора в гостях\nTask type: get_asset Collection is_silhouette / action take_crop_in_guest is_silhouette / garbage classname is_silhouette in_guest\ndescription: \"У меня всё было рассчитано! Три шишки справа, два листа, лесные огоньки. Но стоило взяться создавать его руками, как венок рассыпался. Поможешь собрать его по-человечески, то есть по-домовячьему?\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Благодарю тебя. Венок вышел красивый и главное ручная работа, уникальный дизайн!\"\nCharacter: Василиса",
+      "tasks": [
+        {
+          "task_number": 16,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette"
+        },
+        {
+          "task_number": 17,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette"
+        },
+        {
+          "task_number": 18,
+          "task_template_id": "TT-029",
+          "task_template_name": "Силуэт мусора в гостях",
+          "task_type": "garbage classname is_silhouette in_guest"
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_7",
+      "title_quest": "Романтический поход",
+      "quest_number": 7,
+      "task_numbers": [
+        19,
+        20,
+        21
+      ],
+      "task_template_ids": [
+        "TT-002",
+        "TT-009",
+        "TT-014"
+      ],
+      "task_template_names": [
+        "Крафт",
+        "Получить PER",
+        "GR с конкретного мусора в гостях"
+      ],
+      "task_types": [
+        "get_and_decrease_asset craft",
+        "get_asset PER",
+        "get_asset GR in_guest garbage classname"
+      ],
+      "description": "Дело серьёзное... Романтический поход должен быть незабываемым, а так будто мы идём брать крепость. Плед пострадал от моли, фляга заржавела, блинчики мои пригорели. Помоги свидание спасти!",
+      "congratulation": "Отлично, теперь поход будет похож на романтическую прогулку.",
+      "character": "Марья Моревна",
+      "raw_text": "Classname quests: LeshyBachelor_2026_Story_7\ntitle_quest: Романтический поход\n№ quest: 7\n№ task: 19 20 21\nTask template ID: TT-002 / TT-009 / TT-014\nTask template name: Крафт / Получить PER / GR с конкретного мусора в гостях\nTask type: get_and_decrease_asset craft / get_asset PER / get_asset GR in_guest garbage classname\ndescription: \"Дело серьёзное... Романтический поход должен быть незабываемым, а так будто мы идём брать крепость. Плед пострадал от моли, фляга заржавела, блинчики мои пригорели. Помоги свидание спасти!\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Отлично, теперь поход будет похож на романтическую прогулку.\"\nCharacter: Марья Моревна",
+      "tasks": [
+        {
+          "task_number": 19,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft"
+        },
+        {
+          "task_number": 20,
+          "task_template_id": "TT-009",
+          "task_template_name": "Получить PER",
+          "task_type": "get_asset PER"
+        },
+        {
+          "task_number": 21,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname"
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_8",
+      "title_quest": "Пирожки для каждого сердечка",
+      "quest_number": 8,
+      "task_numbers": [
+        22,
+        23,
+        24
+      ],
+      "task_template_ids": [
+        "TT-022",
+        "TT-026",
+        "TT-024"
+      ],
+      "task_template_names": [
+        "Загадка на цветок в гостях",
+        "Загадка на коллекцию (зависит от редкости)",
+        "Загадка на мусор в гостях"
+      ],
+      "task_types": [
+        "action take_crop_in_guest mystery",
+        "get_asset Collection mystery",
+        "garbage classname in_guest mystery"
+      ],
+      "description": "Домовёнок, помоги, пожалуйста. Я хотела испечь пирожки для каждого сердечка, кому с малиной, кому с орехами, кому с шиповником. Но забыла какие начинки куда положила.",
+      "congratulation": "Спасибо тебе, дружок! Пирожки румяные, начинки на своих местах.",
+      "character": "Алёнушка",
+      "raw_text": "Classname quests: LeshyBachelor_2026_Story_8\ntitle_quest: Пирожки для каждого сердечка\n№ quest: 8\n№ task: 22 23 24\nTask template ID: TT-022 / TT-026 / TT-024\nTask template name: Загадка на цветок в гостях / Загадка на коллекцию (зависит от редкости) / Загадка на мусор в гостях\nTask type: action take_crop_in_guest mystery / get_asset Collection mystery / garbage classname in_guest mystery\ndescription: \"Домовёнок, помоги, пожалуйста. Я хотела испечь пирожки для каждого сердечка, кому с малиной, кому с орехами, кому с шиповником. Но забыла какие начинки куда положила.\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Спасибо тебе, дружок! Пирожки румяные, начинки на своих местах.\"\nCharacter: Алёнушка",
+      "tasks": [
+        {
+          "task_number": 22,
+          "task_template_id": "TT-022",
+          "task_template_name": "Загадка на цветок в гостях",
+          "task_type": "action take_crop_in_guest mystery"
+        },
+        {
+          "task_number": 23,
+          "task_template_id": "TT-026",
+          "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection mystery"
+        },
+        {
+          "task_number": 24,
+          "task_template_id": "TT-024",
+          "task_template_name": "Загадка на мусор в гостях",
+          "task_type": "garbage classname in_guest mystery"
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_9",
+      "title_quest": "Слишком драматичная пауза",
+      "quest_number": 9,
+      "task_numbers": [
+        25,
+        26,
+        27
+      ],
+      "task_template_ids": [
+        "TT-003",
+        "TT-011",
+        "TT-020"
+      ],
+      "task_template_names": [
+        "HOG в мире",
+        "Получить элемент коллекции (зависит от редкости)",
+        "Уборка конкретного мусора в гостях"
+      ],
+      "task_types": [
+        "HOG clean_debris world",
+        "get_asset Collection",
+        "garbage classname in_guest"
+      ],
+      "description": "Домовёнок, сейчас будет пауза, а пауза должна работать на репутацию! Надо себя прорекламировать ведь я и сыщик и тамада и ведущая!",
+      "congratulation": "Браво! Теперь пауза не просто пауза, а маленький памятник моим талантам.",
+      "character": "Шапокляк",
+      "raw_text": "Classname quests: LeshyBachelor_2026_Story_9\ntitle_quest: Слишком драматичная пауза\n№ quest: 9\n№ task: 25 26 27\nTask template ID: TT-003 / TT-011 / TT-020\nTask template name: HOG в мире / Получить элемент коллекции (зависит от редкости) / Уборка конкретного мусора в гостях\nTask type: HOG clean_debris world / get_asset Collection / garbage classname in_guest\ndescription: \"Домовёнок, сейчас будет пауза, а пауза должна работать на репутацию! Надо себя прорекламировать ведь я и сыщик и тамада и ведущая!\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Браво! Теперь пауза не просто пауза, а маленький памятник моим талантам.\"\nCharacter: Шапокляк",
+      "tasks": [
+        {
+          "task_number": 25,
+          "task_template_id": "TT-003",
+          "task_template_name": "HOG в мире",
+          "task_type": "HOG clean_debris world"
+        },
+        {
+          "task_number": 26,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection"
+        },
+        {
+          "task_number": 27,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest"
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_10",
+      "title_quest": "Букет от Лешего",
+      "quest_number": 10,
+      "task_numbers": [
+        28,
+        29,
+        30
+      ],
+      "task_template_ids": [
+        "TT-004",
+        "TT-018",
+        "TT-031"
+      ],
+      "task_template_names": [
+        "HOG на локации",
+        "Сбор цветов дома (зависит от времени роста)",
+        "Силуэт цветка в гостях"
+      ],
+      "task_types": [
+        "HOG clean_debris location",
+        "action take_crop",
+        "action take_crop_in_guest is_silhouette"
+      ],
+      "description": "Домовёнок, я хотел выбрать букет от души, честное пеньковое слово! Только вот этот цветок колется, этот цепляется за рукав, а это вообще ветка малины. Поможешь собрать правильные цветы, чтобы удивить невест?",
+      "congratulation": "Вот теперь букет что надо! Спасибо тебе. Я понял. роза не банальность, а классика.",
+      "character": "Леший",
+      "raw_text": "Classname quests: LeshyBachelor_2026_Story_10\ntitle_quest: Букет от Лешего\n№ quest: 10\n№ task: 28 29 30\nTask template ID: TT-004 / TT-018 / TT-031\nTask template name: HOG на локации / Сбор цветов дома (зависит от времени роста) / Силуэт цветка в гостях\nTask type: HOG clean_debris location / action take_crop / action take_crop_in_guest is_silhouette\ndescription: \"Домовёнок, я хотел выбрать букет от души, честное пеньковое слово! Только вот этот цветок колется, этот цепляется за рукав, а это вообще ветка малины. Поможешь собрать правильные цветы, чтобы удивить невест?\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Вот теперь букет что надо! Спасибо тебе. Я понял. роза не банальность, а классика.\"\nCharacter: Леший",
+      "tasks": [
+        {
+          "task_number": 28,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location"
+        },
+        {
+          "task_number": 29,
+          "task_template_id": "TT-018",
+          "task_template_name": "Сбор цветов дома (зависит от времени роста)",
+          "task_type": "action take_crop"
+        },
+        {
+          "task_number": 30,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette"
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_11",
+      "title_quest": "Разговор без камер",
+      "quest_number": 11,
+      "task_numbers": [
+        31,
+        32,
+        33
+      ],
+      "task_template_ids": [
+        "TT-002",
+        "TT-008",
+        "TT-016"
+      ],
+      "task_template_names": [
+        "Крафт",
+        "Получить ASK",
+        "GR с цветов в гостях"
+      ],
+      "task_types": [
+        "get_and_decrease_asset craft",
+        "get_asset ASK",
+        "get_asset GR in_guest flower"
+      ],
+      "description": "Можно нам немного тишины? Помоги устроить \"Шалаш для двоих\" у берёзы, где каждая скажет Лешему пару добрых слов, а он услышит не шум шоу, а нас.",
+      "congratulation": "Спасибо, дружок. В шалаше тихо и романтично. Иногда самая важная сцена получается без камер.",
+      "character": "Василиса",
+      "raw_text": "Classname quests: LeshyBachelor_2026_Story_11\ntitle_quest: Разговор без камер\n№ quest: 11\n№ task: 31 32 33\nTask template ID: TT-002 / TT-008 / TT-016\nTask template name: Крафт / Получить ASK / GR с цветов в гостях\nTask type: get_and_decrease_asset craft / get_asset ASK / get_asset GR in_guest flower\ndescription: \"Можно нам немного тишины? Помоги устроить \"Шалаш для двоих\" у берёзы, где каждая скажет Лешему пару добрых слов, а он услышит не шум шоу, а нас.\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Спасибо, дружок. В шалаше тихо и романтично. Иногда самая важная сцена получается без камер.\"\nCharacter: Василиса",
+      "tasks": [
+        {
+          "task_number": 31,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft"
+        },
+        {
+          "task_number": 32,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK"
+        },
+        {
+          "task_number": 33,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower"
+        }
+      ]
+    },
+    {
+      "classname_quests": "LeshyBachelor_2026_Story_12",
+      "title_quest": "Первая церемония роз",
+      "quest_number": 12,
+      "task_numbers": [
+        34,
+        35,
+        36
+      ],
+      "task_template_ids": [
+        "TT-001",
+        "TT-011",
+        "TT-034"
+      ],
+      "task_template_names": [
+        "Диалог",
+        "Получить элемент коллекции (зависит от редкости)",
+        "Фото предмета"
+      ],
+      "task_types": [
+        "action dialog",
+        "get_asset Collection",
+        "action post_photo"
+      ],
+      "description": "Сердце у меня стучит, как дятел по сухой сосне. Я хочу сказать всем спасибо так, чтобы никто не ушёл с обидой. Ведь я понял, нет с реди них той моей единственной.",
+      "congratulation": "Спасибо тебе, друг мой. Розы вручены, участницы улыбаются, Шапокляк довольна таким поворотом, а я понял - любовь не любит суеты. Вечер закончим чаепитием, а дальше пусть сердце разбирается не спеша.",
+      "character": "Леший",
+      "raw_text": "Classname quests: LeshyBachelor_2026_Story_12\ntitle_quest: Первая церемония роз\n№ quest: 12\n№ task: 34 35 36\nTask template ID: TT-001 / TT-011 / TT-034\nTask template name: Диалог / Получить элемент коллекции (зависит от редкости) / Фото предмета\nTask type: action dialog / get_asset Collection / action post_photo\ndescription: \"Сердце у меня стучит, как дятел по сухой сосне. Я хочу сказать всем спасибо так, чтобы никто не ушёл с обидой. Ведь я понял, нет с реди них той моей единственной.\"\nTasks:\n[пусто на этом этапе]\ncongratulation: \"Спасибо тебе, друг мой. Розы вручены, участницы улыбаются, Шапокляк довольна таким поворотом, а я понял - любовь не любит суеты. Вечер закончим чаепитием, а дальше пусть сердце разбирается не спеша.\"\nCharacter: Леший",
+      "tasks": [
+        {
+          "task_number": 34,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog"
+        },
+        {
+          "task_number": 35,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection"
+        },
+        {
+          "task_number": 36,
+          "task_template_id": "TT-034",
+          "task_template_name": "Фото предмета",
+          "task_type": "action post_photo"
+        }
+      ]
+    }
+  ],
+  "issues": [],
+  "summary": {
+    "quests_found": 12,
+    "tasks_found": 36,
+    "issues": 0
+  }
+}

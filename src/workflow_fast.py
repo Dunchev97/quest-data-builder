@@ -11,8 +11,10 @@ try:
     from . import build_quest_group as quest_group_builder
     from . import build_resource_table as resource_table_builder
     from . import export_csv
+    from . import export_xlsx
     from . import interactive_objects as interactive_objects_builder
     from . import parse_stage3
+    from . import review_docs
     from . import task_type_resolver
     from . import validate_task_objects
     from .campaigns import (
@@ -29,8 +31,10 @@ except ImportError:
     import build_quest_group as quest_group_builder
     import build_resource_table as resource_table_builder
     import export_csv
+    import export_xlsx
     import interactive_objects as interactive_objects_builder
     import parse_stage3
+    import review_docs
     import task_type_resolver
     import validate_task_objects
     from campaigns import (
@@ -65,9 +69,11 @@ GENERATED_ACTIONS = "generated_actions.csv"
 GENERATED_ACTIONS_SUMMARY = "generated_actions.summary.json"
 RESOURCE_TABLE = "resource_table.csv"
 RESOURCE_TABLE_SUMMARY = "resource_table.summary.json"
+STAGE6_REVIEW_XLSX = "review/stage6_review.xlsx"
 INTERACTIVE_OBJECTS = "interactive_objects.json"
 INTERACTIVE_OBJECTS_PREVIEW = "interactive_objects.preview.md"
 GENERATED_INTERACTIVE_OBJECTS_SUMMARY = "generated_interactive_objects.summary.json"
+REVIEW_DIR = "review"
 
 
 def pack_artifact(campaign_id: str, pack_id: str, filename: str, campaigns_dir: Path) -> Path:
@@ -106,6 +112,15 @@ def resource_table_inputs(campaign_id: str, campaigns_dir: Path) -> list[Path]:
 def generated_interactive_outputs(campaign_id: str, campaigns_dir: Path) -> list[Path]:
     campaign_dir = campaigns_dir / campaign_id
     return list(campaign_dir.glob("generated_interactive_objects_*.csv"))
+
+
+def stage6_legacy_csv_outputs(campaign_id: str, pack_id: str, campaigns_dir: Path) -> list[Path]:
+    return [
+        pack_artifact(campaign_id, pack_id, GENERATED_QUESTS, campaigns_dir),
+        pack_artifact(campaign_id, pack_id, GENERATED_ACTIONS, campaigns_dir),
+        campaigns_dir / campaign_id / RESOURCE_TABLE,
+        *generated_interactive_outputs(campaign_id, campaigns_dir),
+    ]
 
 
 def resolve_ids(args: argparse.Namespace, require_pack: bool = True) -> tuple[str, str]:
@@ -285,10 +300,8 @@ def run_stage6(args: argparse.Namespace) -> int:
     validation_path = pack_artifact(campaign_id, pack_id, FILLED_TASKS_VALIDATION, args.campaigns_dir)
     quest_group_path = pack_artifact(campaign_id, pack_id, QUEST_GROUP, args.campaigns_dir)
     quest_group_validation_path = pack_artifact(campaign_id, pack_id, QUEST_GROUP_VALIDATION, args.campaigns_dir)
-    output_csv_path = pack_artifact(campaign_id, pack_id, GENERATED_QUESTS, args.campaigns_dir)
-    actions_csv_path = pack_artifact(campaign_id, pack_id, GENERATED_ACTIONS, args.campaigns_dir)
+    workbook_path = pack_artifact(campaign_id, pack_id, STAGE6_REVIEW_XLSX, args.campaigns_dir)
     actions_summary_path = pack_artifact(campaign_id, pack_id, GENERATED_ACTIONS_SUMMARY, args.campaigns_dir)
-    resource_table_path = args.campaigns_dir / campaign_id / RESOURCE_TABLE
     resource_table_summary_path = args.campaigns_dir / campaign_id / RESOURCE_TABLE_SUMMARY
     campaign_interactive_manifest_path = args.campaigns_dir / campaign_id / INTERACTIVE_OBJECTS
     pack_interactive_manifest_path = pack_artifact(campaign_id, pack_id, INTERACTIVE_OBJECTS, args.campaigns_dir)
@@ -297,7 +310,7 @@ def run_stage6(args: argparse.Namespace) -> int:
 
     approval_error = export_csv.stage5_approval_error(args.context, campaign_id, pack_id)
     if approval_error is not None and not args.allow_unapproved:
-        print(f"CSV was not created: {approval_error}.")
+        print(f"XLSX was not created: {approval_error}.")
         print("Approve stage 5 first.")
         return 1
 
@@ -308,73 +321,48 @@ def run_stage6(args: argparse.Namespace) -> int:
             quest_group_validation_path,
             allow_stale=args.allow_stale_validation,
         )
-        interactive_summary = None
-        interactive_skipped = False
-        if interactive_manifest_path.exists():
-            interactive_validation = interactive_objects_builder.validate_manifest_file(interactive_manifest_path)
-            if interactive_validation["summary"]["errors"] == 0:
-                existing_interactive_csv = generated_interactive_outputs(campaign_id, args.campaigns_dir)
-                interactive_outputs = [interactive_summary_path, *existing_interactive_csv]
-                if existing_interactive_csv and outputs_are_fresh(interactive_outputs, [interactive_manifest_path]):
-                    interactive_skipped = True
-                else:
-                    interactive_summary = interactive_objects_builder.build_interactive_objects_files(
-                        campaign_id=campaign_id,
-                        pack_id=pack_id,
-                        manifest_path=interactive_manifest_path,
-                        output_dir=args.campaigns_dir / campaign_id,
-                        summary_path=interactive_summary_path,
-                    )
-            else:
-                print(f"interactive object csv skipped: {interactive_validation['summary']['errors']} validation errors")
-        filled_tasks = export_csv.read_json(input_path)
-        quest_group = export_csv.read_json(quest_group_path)
-        summary = export_csv.export_filled_tasks_to_csv(
-            filled_tasks,
-            output_csv_path,
-            quest_group=quest_group,
-        )
-        actions_summary = actions_table_builder.build_actions_table_file(
+        result = export_xlsx.build_stage6_review_workbook(
             campaign_id=campaign_id,
-            output_csv=actions_csv_path,
-            summary_json=actions_summary_path,
+            pack_id=pack_id,
             campaigns_dir=args.campaigns_dir,
-            current_pack_id=pack_id,
+            output_xlsx=workbook_path,
+            interactive_manifest_path=interactive_manifest_path,
         )
+        summary = result["quest_summary"]
+        actions_summary = result["actions_summary"]
+        resource_summary = result["resource_summary"]
+        interactive_summary = result["interactive_summary"]
+        workbook_summary = result["workbook"]
+        actions_table_builder.write_json(actions_summary_path, actions_summary)
+        resource_table_builder.write_json(resource_table_summary_path, resource_summary)
+        interactive_objects_builder.write_json(interactive_summary_path, interactive_summary)
         memory = update_memory_from_pack(campaign_id, pack_id, args.campaigns_dir)
-        resource_skipped = outputs_are_fresh(
-            [resource_table_path, resource_table_summary_path],
-            resource_table_inputs(campaign_id, args.campaigns_dir),
-        )
-        if resource_skipped:
-            resource_summary = resource_table_builder.read_json(resource_table_summary_path)
-        else:
-            resource_rows, resource_summary = resource_table_builder.build_resource_table(campaign_id, campaigns_dir=args.campaigns_dir)
-            resource_table_builder.write_csv(resource_table_path, resource_rows)
-            resource_table_builder.write_json(resource_table_summary_path, resource_summary)
+        removed_csv = []
+        for path in stage6_legacy_csv_outputs(campaign_id, pack_id, args.campaigns_dir):
+            if path.exists():
+                path.unlink()
+                removed_csv.append(path)
     except (OSError, ValueError, FileNotFoundError) as exc:
         print(str(exc))
         return 2
 
-    print(f"csv written: {output_csv_path}")
-    print(f"rows written: {summary['rows_written']}")
+    print(f"xlsx review written: {workbook_path}")
+    print(f"quest rows written: {summary['rows_written']}")
     print(
-        "actions csv written: "
-        f"{actions_csv_path} "
+        "actions sheet written: "
         f"(entities={actions_summary['entities']} dialog={actions_summary['dialog_actions']} "
         f"search={actions_summary['search_actions']} give={actions_summary['give_actions']})"
     )
-    if interactive_summary is not None:
-        print(
-            "interactive object csv written: "
-            f"{len(interactive_summary['files_written'])} files "
-            f"(summary={interactive_summary_path})"
-        )
-    elif interactive_skipped:
-        print(f"interactive object csv skipped: outputs are up to date ({interactive_summary_path})")
+    print(
+        "interactive object sheets written: "
+        f"{len(interactive_summary['sheets_written'])} "
+        f"(summary={interactive_summary_path})"
+    )
     print(f"memory updated: used_garbage={len(memory.get('used_garbage', {}))} used_flowers={len(memory.get('used_flowers', {}))}")
-    resource_status = "skipped" if resource_skipped else "written"
-    print(f"resource table {resource_status}: {resource_table_path} (blocks={len(resource_summary['blocks'])} warnings={len(resource_summary['warnings'])})")
+    print(f"resource sheet written: blocks={len(resource_summary['blocks'])} warnings={len(resource_summary['warnings'])}")
+    if removed_csv:
+        print(f"legacy csv removed: {len(removed_csv)}")
+    print("sheets: " + " | ".join(item["name"] for item in workbook_summary["sheets"]))
     return 0
 
 
@@ -440,10 +428,30 @@ def run_interactive_objects(args: argparse.Namespace) -> int:
 
 def run_approve(args: argparse.Namespace) -> int:
     campaign_id, pack_id = resolve_ids(args)
+    stage = str(args.stage)
+    if stage in review_docs.STAGE_REVIEW_FILES and stage != "6":
+        stage_review_path = review_docs.review_path(campaign_id, pack_id, stage, args.campaigns_dir)
+        if stage_review_path.exists():
+            applied_path = review_docs.apply_review_doc(campaign_id, pack_id, stage, args.campaigns_dir)
+            print(f"review applied before approval: {applied_path}")
     context = approve_stage(load_context(args.context), args.stage, campaign_id=campaign_id, pack_id=pack_id, notes=args.notes)
     write_json(args.context, context)
     print(f"stage approved: {args.stage}")
     print(f"context written: {args.context}")
+    return 0
+
+
+def run_review(args: argparse.Namespace) -> int:
+    campaign_id, pack_id = resolve_ids(args)
+    path = review_docs.write_review_doc(campaign_id, pack_id, args.stage, args.campaigns_dir)
+    print(f"review written: {path}")
+    return 0
+
+
+def run_apply_review(args: argparse.Namespace) -> int:
+    campaign_id, pack_id = resolve_ids(args)
+    path = review_docs.apply_review_doc(campaign_id, pack_id, args.stage, args.campaigns_dir)
+    print(f"review applied: {path}")
     return 0
 
 
@@ -463,9 +471,8 @@ def run_status(args: argparse.Namespace) -> int:
         (QUEST_GROUP_CHOICES, False),
         (QUEST_GROUP, True),
         (QUEST_GROUP_VALIDATION, True),
-        (GENERATED_QUESTS, True),
-        (GENERATED_ACTIONS, True),
         (GENERATED_ACTIONS_SUMMARY, True),
+        (STAGE6_REVIEW_XLSX, True),
     ]
     print(f"campaign: {campaign_id}")
     print(f"pack: {pack_id}")
@@ -473,7 +480,6 @@ def run_status(args: argparse.Namespace) -> int:
         (INTERACTIVE_OBJECTS, False),
         (INTERACTIVE_OBJECTS_PREVIEW, False),
         (GENERATED_INTERACTIVE_OBJECTS_SUMMARY, False),
-        (RESOURCE_TABLE, False),
         (RESOURCE_TABLE_SUMMARY, False),
     ]
     for filename, required in campaign_files:
@@ -490,6 +496,11 @@ def run_status(args: argparse.Namespace) -> int:
         else:
             status = "missing" if required else "optional-missing"
         print(f"{filename}: {status}")
+    review_root = pack_artifact(campaign_id, pack_id, REVIEW_DIR, args.campaigns_dir)
+    for stage, filename in review_docs.STAGE_REVIEW_FILES.items():
+        path = review_root / filename
+        status = "ok" if path.exists() else "optional-missing"
+        print(f"review/stage {stage}: {status}")
     return 0
 
 
@@ -559,6 +570,16 @@ def build_parser() -> argparse.ArgumentParser:
     approve_parser.add_argument("--stage", required=True)
     approve_parser.add_argument("--notes", default="")
     approve_parser.set_defaults(func=run_approve)
+
+    review_parser = subparsers.add_parser("review", help="Write a user-facing review document for a stage.")
+    add_pack_options(review_parser)
+    review_parser.add_argument("--stage", required=True)
+    review_parser.set_defaults(func=run_review)
+
+    apply_review_parser = subparsers.add_parser("apply-review", help="Apply edits from a stage review document back to workflow files.")
+    add_pack_options(apply_review_parser)
+    apply_review_parser.add_argument("--stage", required=True)
+    apply_review_parser.set_defaults(func=run_apply_review)
 
     status_parser = subparsers.add_parser("status", help="Show pack artifact status.")
     add_pack_options(status_parser)

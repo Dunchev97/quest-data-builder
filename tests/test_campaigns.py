@@ -134,6 +134,35 @@ class CampaignTests(unittest.TestCase):
             self.assertTrue((root / "Event_2026" / "campaign_memory.json").exists())
             self.assertTrue((root / "Event_2026" / "pack_001" / "pack.json").exists())
 
+    def test_create_pack_uses_existing_pack_dirs_when_metadata_is_stale(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            create_campaign("Event_2026", campaigns_dir=root)
+            (root / "Event_2026" / "pack_002").mkdir(parents=True)
+
+            pack = create_pack("Event_2026", campaigns_dir=root)
+
+            self.assertEqual(pack["pack_id"], "pack_003")
+            self.assertTrue((root / "Event_2026" / "pack_003" / "pack.json").exists())
+
+    def test_create_pack_normalizes_legacy_pack_entries(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            create_campaign("Event_2026", campaigns_dir=root)
+            campaign_path = root / "Event_2026" / "campaign.json"
+            campaign = json.loads(campaign_path.read_text(encoding="utf-8"))
+            campaign["packs"] = ["pack_001"]
+            campaign["next_pack_number"] = 1
+            write_json(campaign_path, campaign)
+            (root / "Event_2026" / "pack_001").mkdir(parents=True)
+            (root / "Event_2026" / "pack_002").mkdir(parents=True)
+
+            pack = create_pack("Event_2026", campaigns_dir=root)
+
+            self.assertEqual(pack["pack_id"], "pack_003")
+            updated = json.loads(campaign_path.read_text(encoding="utf-8"))
+            self.assertEqual([item["pack_id"] for item in updated["packs"]], ["pack_001", "pack_002", "pack_003"])
+
     def test_updates_memory_from_pack(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

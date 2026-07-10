@@ -200,7 +200,129 @@ class WorkflowFastTests(unittest.TestCase):
             self.assertTrue((campaigns_dir / "Event_2026" / "interactive_objects.json").exists())
             self.assertTrue((campaigns_dir / "Event_2026" / "interactive_objects.preview.md").exists())
 
-    def test_stage6_exports_interactive_object_csv_files(self) -> None:
+    def test_review_and_apply_review_commands_roundtrip_stage5(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            campaigns_dir = root / "campaigns"
+            pack_dir = campaigns_dir / "Event_2026" / "pack_001"
+            pack_dir.mkdir(parents=True)
+            (pack_dir / "quest_group_choices.json").write_text(
+                json.dumps(
+                    {
+                        "title": "Старый заголовок",
+                        "description": "Описание.",
+                        "description_complete": "Успех.",
+                        "description_spoil": "Провал.",
+                    },
+                    ensure_ascii=False,
+                    indent=2,
+                ),
+                encoding="utf-8",
+            )
+
+            review_code = workflow_fast.main(
+                [
+                    "review",
+                    "--stage",
+                    "5",
+                    "--campaign",
+                    "Event_2026",
+                    "--pack",
+                    "pack_001",
+                    "--campaigns-dir",
+                    str(campaigns_dir),
+                ]
+            )
+            self.assertEqual(review_code, 0)
+            review_path = pack_dir / "review" / "stage5_review.md"
+            self.assertTrue(review_path.exists())
+            review_path.write_text(
+                review_path.read_text(encoding="utf-8").replace("Старый заголовок", "Новый заголовок"),
+                encoding="utf-8",
+            )
+
+            apply_code = workflow_fast.main(
+                [
+                    "apply-review",
+                    "--stage",
+                    "5",
+                    "--campaign",
+                    "Event_2026",
+                    "--pack",
+                    "pack_001",
+                    "--campaigns-dir",
+                    str(campaigns_dir),
+                ]
+            )
+
+            self.assertEqual(apply_code, 0)
+            data = json.loads((pack_dir / "quest_group_choices.json").read_text(encoding="utf-8"))
+            self.assertEqual(data["title"], "Новый заголовок")
+
+    def test_approve_applies_existing_review_before_marking_stage(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            campaigns_dir = root / "campaigns"
+            context_path = root / "active_context.json"
+            pack_dir = campaigns_dir / "Event_2026" / "pack_001"
+            pack_dir.mkdir(parents=True)
+            (pack_dir / "quest_group_choices.json").write_text(
+                json.dumps(
+                    {
+                        "title": "Старый заголовок",
+                        "description": "Описание.",
+                        "description_complete": "Успех.",
+                        "description_spoil": "Провал.",
+                    },
+                    ensure_ascii=False,
+                    indent=2,
+                ),
+                encoding="utf-8",
+            )
+
+            review_code = workflow_fast.main(
+                [
+                    "review",
+                    "--stage",
+                    "5",
+                    "--campaign",
+                    "Event_2026",
+                    "--pack",
+                    "pack_001",
+                    "--campaigns-dir",
+                    str(campaigns_dir),
+                ]
+            )
+            self.assertEqual(review_code, 0)
+            review_path = pack_dir / "review" / "stage5_review.md"
+            review_path.write_text(
+                review_path.read_text(encoding="utf-8").replace("Старый заголовок", "Новый заголовок"),
+                encoding="utf-8",
+            )
+
+            approve_code = workflow_fast.main(
+                [
+                    "approve",
+                    "--stage",
+                    "5",
+                    "--campaign",
+                    "Event_2026",
+                    "--pack",
+                    "pack_001",
+                    "--campaigns-dir",
+                    str(campaigns_dir),
+                    "--context",
+                    str(context_path),
+                ]
+            )
+
+            self.assertEqual(approve_code, 0)
+            data = json.loads((pack_dir / "quest_group_choices.json").read_text(encoding="utf-8"))
+            context = json.loads(context_path.read_text(encoding="utf-8"))
+            self.assertEqual(data["title"], "Новый заголовок")
+            self.assertTrue(context["stage_approvals"]["5"]["approved"])
+
+    def test_stage6_exports_review_workbook_without_csv_files(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             campaigns_dir = root / "campaigns"
@@ -269,6 +391,14 @@ class WorkflowFastTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
+            for stale_csv in (
+                pack_dir / "generated_quests.csv",
+                pack_dir / "generated_actions.csv",
+                campaign_dir / "resource_table.csv",
+                campaign_dir / "generated_interactive_objects_chest_1.csv",
+                campaign_dir / "generated_interactive_objects_help_1.csv",
+            ):
+                stale_csv.write_text("stale", encoding="utf-8")
             context_path.write_text(
                 json.dumps(
                     {
@@ -301,11 +431,25 @@ class WorkflowFastTests(unittest.TestCase):
             )
 
             self.assertEqual(exit_code, 0)
-            self.assertTrue((campaign_dir / "generated_interactive_objects_chest_1.csv").exists())
-            self.assertTrue((campaign_dir / "generated_interactive_objects_help_1.csv").exists())
+            workbook_path = pack_dir / "review" / "stage6_review.xlsx"
+            self.assertTrue(workbook_path.exists())
+            self.assertFalse((pack_dir / "generated_quests.csv").exists())
+            self.assertFalse((pack_dir / "generated_actions.csv").exists())
+            self.assertFalse((campaign_dir / "generated_interactive_objects_chest_1.csv").exists())
+            self.assertFalse((campaign_dir / "generated_interactive_objects_help_1.csv").exists())
+            self.assertFalse((campaign_dir / "resource_table.csv").exists())
+            self.assertTrue((pack_dir / "generated_actions.summary.json").exists())
             self.assertTrue((campaign_dir / "generated_interactive_objects.summary.json").exists())
-            self.assertTrue((campaign_dir / "resource_table.csv").exists())
             self.assertTrue((campaign_dir / "resource_table.summary.json").exists())
+            from openpyxl import load_workbook
+
+            workbook = load_workbook(workbook_path, data_only=False)
+            self.assertEqual(
+                workbook.sheetnames,
+                ["КВЕСТЫ", "ЭКШЕНЫ", "РЕСУРСЫ", "ИНТЕРАКТИВ Chest", "ИНТЕРАКТИВ HELP"],
+            )
+            quest_values = [str(value) for row in workbook["КВЕСТЫ"].iter_rows(values_only=True) for value in row if value]
+            self.assertIn("Проверочная группа", quest_values)
 
 
 if __name__ == "__main__":
