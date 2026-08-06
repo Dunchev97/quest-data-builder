@@ -1,4 +1,0 @@
-interface:
-  display_name: "Prototype Table Template"
-  short_description: "Turn prototypes into table templates"
-  default_prompt: "Use $prototype-table-template to turn this prototype into a reusable table template."
