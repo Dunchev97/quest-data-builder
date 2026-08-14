@@ -1,0 +1,403 @@
+{
+  "quests": [
+    {
+      "classname_quests": "MagicSchool_2026_Story_1",
+      "title_quest": "Прибытие в школу",
+      "quest_number": 1,
+      "character": "Кот Учёный",
+      "tasks": [
+        {
+          "task_number": 1,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname",
+          "selected_candidate_id": "garbage:Garbage_Crescent",
+          "choice_reason": "Полумесяц — волшебный указатель, который перепутался вместе с коридорами школы."
+        },
+        {
+          "task_number": 2,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "selected_candidate_id": "garbage:Garbage_MilkyWay",
+          "choice_reason": "Млечный путь — перепутанный указатель в гостях, подходит к теме заблудившихся коридоров."
+        },
+        {
+          "task_number": 3,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "selected_candidate_id": "gr_garbage:BigHome_Garbage_Server_TornPunchCard:guest",
+          "item_title": "волшебный указатель",
+          "choice_reason": "Рваная перфокарта в Серверной комнате — перепутанный указатель школы, источник волшебного ресурса."
+        }
+      ]
+    },
+    {
+      "classname_quests": "MagicSchool_2026_Story_2",
+      "title_quest": "Волшебные улики",
+      "quest_number": 2,
+      "character": "Полицейский",
+      "tasks": [
+        {
+          "task_number": 4,
+          "task_template_id": "TT-030",
+          "task_template_name": "Силуэт мусора дома",
+          "task_type": "garbage classname is_silhouette",
+          "selected_candidate_id": "garbage:Goldfish",
+          "choice_reason": "Золотая рыбка — волшебная улика, которую Полицейский угадывает по силуэту."
+        },
+        {
+          "task_number": 5,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "item_title": "магические следы",
+          "location_title": "Мир",
+          "choice_reason": "Полицейский ищет магические следы — прямая отсылка к упражнению Кота Учёного на «магические следы»."
+        },
+        {
+          "task_number": 6,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette",
+          "selected_candidate_id": "flower:FlowerMagazine5_RainbowCalla",
+          "choice_reason": "Радужная калла — необычный волшебный цветок, который Полицейский находит как улику в гостях по силуэту."
+        }
+      ]
+    },
+    {
+      "classname_quests": "MagicSchool_2026_Story_3",
+      "title_quest": "Допрос волшебных свидетелей",
+      "quest_number": 3,
+      "character": "Полицейский",
+      "tasks": [
+        {
+          "task_number": 7,
+          "task_template_id": "TT-026",
+          "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection mystery",
+          "selected_candidate_id": "collection_drop:OracleBookCollection3:OracleBook:home",
+          "riddle": "Шар прозрачный, как слеза,\nВ нём судьба и небеса.\nГадатель смотрит — и читает,\nЧто в глубине ему мелькает.",
+          "choice_reason": "Хрустальный шар из Книги с гаданиями — прямой волшебный свидетель, которого Полицейский «допрашивает» загадкой."
+        },
+        {
+          "task_number": 8,
+          "task_template_id": "TT-024",
+          "task_template_name": "Загадка на мусор в гостях",
+          "task_type": "garbage classname in_guest mystery",
+          "selected_candidate_id": "garbage:RustyLock",
+          "riddle": "На двери стоит, не пускает,\nЖелезным ртом ответ держит.\nКлюч попросит — заскрипит,\nА без ключа — не отворит.",
+          "choice_reason": "Ржавый замок — волшебный свидетель, который «молчит» как партизан, пока не дашь ключ-загадку."
+        },
+        {
+          "task_number": 9,
+          "task_template_id": "TT-026",
+          "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection mystery",
+          "selected_candidate_id": "collection_drop:OracleBookCollection2:OracleBook:guest",
+          "riddle": "Круглый глаз на тонкой нити,\nНад стаканом в позеленевшем виде.\nКачнётся раз, качнётся два —\nИ скажет правду или ложь.",
+          "choice_reason": "Ромашка из Книги с гаданиями — второй волшебный свидетель-загадка, не дублирует source T7 (другая коллекция)."
+        }
+      ]
+    },
+    {
+      "classname_quests": "MagicSchool_2026_Story_4",
+      "title_quest": "Экзамен — Дело о пропавшем гримуаре",
+      "quest_number": 4,
+      "character": "Ректор",
+      "tasks": [
+        {
+          "task_number": 10,
+          "task_template_id": "TT-003",
+          "task_template_name": "HOG в мире",
+          "task_type": "HOG clean_debris world",
+          "item_title": "пропавшие страницы гримуара",
+          "location_title": "Мир",
+          "choice_reason": "Полицейский ищет страницы пропавшего гримуара — прямая улика экзамена Ректора."
+        },
+        {
+          "task_number": 11,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "item_title": "лупа следопыта",
+          "choice_reason": "Лупа — инструмент следопыта, ingredient для итогового Знака следопыта."
+        },
+        {
+          "task_number": 12,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "item_title": "Знак следопыта",
+          "choice_reason": "Итоговый предмет экзамена — Знак следопыта, который Ректор требует собрать."
+        }
+      ]
+    },
+    {
+      "classname_quests": "MagicSchool_2026_Story_5",
+      "title_quest": "Знакомство с огоньками",
+      "quest_number": 5,
+      "character": "Игнис",
+      "tasks": [
+        {
+          "task_number": 13,
+          "task_template_id": "TT-018",
+          "task_template_name": "Сбор цветов дома (зависит от времени роста)",
+          "task_type": "action take_crop",
+          "selected_candidate_id": "flower:MagicFlowerMiracle",
+          "choice_reason": "Цветок магии — волшебный цветок, который Игнис выращивает для своих огоньков дома."
+        },
+        {
+          "task_number": 14,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "selected_candidate_id": "garbage:RustyNail",
+          "choice_reason": "Ржавый гвоздь — в Кузнице, огненно-тепловая ассоциация, подходит к дрессировке огоньков."
+        },
+        {
+          "task_number": 15,
+          "task_template_id": "TT-015",
+          "task_template_name": "GR с конкретного мусора дома",
+          "task_type": "get_asset GR garbage classname",
+          "selected_candidate_id": "gr_garbage:BrokenBarrel:home",
+          "item_title": "искорка огонька",
+          "choice_reason": "Разбитая бочка из Трюма — источник искорки огонька,resource связан с огнём."
+        }
+      ]
+    },
+    {
+      "classname_quests": "MagicSchool_2026_Story_6",
+      "title_quest": "Неукротимый дракончик",
+      "quest_number": 6,
+      "character": "Пожарный",
+      "tasks": [
+        {
+          "task_number": 16,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:AshesCollection1:Ashes:home",
+          "choice_reason": "Огненная саламандра из Пепла — прямая отсылка к огненной теме дракончика, не дублирует source T15 (тот же source, но другая коллекция)."
+        },
+        {
+          "task_number": 17,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette",
+          "selected_candidate_id": "flower:FlowerHibiscus",
+          "choice_reason": "Гибискус — красно-огненный цветок, подходит к теме укрощения дракончика."
+        },
+        {
+          "task_number": 18,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "selected_candidate_id": "gr_garbage:CircassianWalnutShell:guest",
+          "item_title": "огненный уголёк",
+          "choice_reason": "Скорлупки грецкого ореха в гостях — огненная ассоциация, источник уголька для дракончика."
+        }
+      ]
+    },
+    {
+      "classname_quests": "MagicSchool_2026_Story_7",
+      "title_quest": "Экзамен — Контроль пламени",
+      "quest_number": 7,
+      "character": "Ректор",
+      "tasks": [
+        {
+          "task_number": 19,
+          "task_template_id": "TT-007",
+          "task_template_name": "HOG поиск истинного среди ложного",
+          "task_type": "HOG clean_debris true_among_false",
+          "item_title": "настоящее пламя дракончика",
+          "choice_reason": "Среди ложных огоньков нужно найти настоящее пламя дракончика — суть экзамена."
+        },
+        {
+          "task_number": 20,
+          "task_template_id": "TT-009",
+          "task_template_name": "Получить PER",
+          "task_type": "get_asset PER",
+          "item_title": "огнеупорный кристалл",
+          "choice_reason": "Огнеупорный кристалл — деталь Ордена укротителя, ingredient для крафта."
+        },
+        {
+          "task_number": 21,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "item_title": "Орден укротителя",
+          "choice_reason": "Итоговый предмет экзамена — Орден укротителя, который Ректор требует собрать."
+        }
+      ]
+    },
+    {
+      "classname_quests": "MagicSchool_2026_Story_8",
+      "title_quest": "Тайная тропа",
+      "quest_number": 8,
+      "character": "Засоня",
+      "tasks": [
+        {
+          "task_number": 22,
+          "task_template_id": "TT-026",
+          "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection mystery",
+          "selected_candidate_id": "collection_drop:Garbage_PentagramCollection4:Garbage_Pentagram:home",
+          "riddle": "Знаки древние на камне,\nНе буквы, не черты, не линии.\nКто прочитает — тот и путь\nСквозь пещеру проложит, не теряяся.",
+          "choice_reason": "Руны из Магических знаков — прямой атрибут тайной тропы, которую Засоня показывает знаками."
+        },
+        {
+          "task_number": 23,
+          "task_template_id": "TT-024",
+          "task_template_name": "Загадка на мусор в гостях",
+          "task_type": "garbage classname in_guest mystery",
+          "selected_candidate_id": "garbage:MossCommon",
+          "riddle": "Под ногой у лесной тропы\nШляпка прячется в траве.\nНе цветок, не лист, не куст —\nА грибной семьи посланец.",
+          "choice_reason": "Грибы — прямой атрибут лесной тайной тропы, которую Засоня показывает знаками."
+        },
+        {
+          "task_number": 24,
+          "task_template_id": "TT-029",
+          "task_template_name": "Силуэт мусора в гостях",
+          "task_type": "garbage classname is_silhouette in_guest",
+          "selected_candidate_id": "garbage:BigHome_Garbage_Overview_Ammonit",
+          "choice_reason": "Аммонит — магический предмет-указатель на тайной тропе в гостях."
+        }
+      ]
+    },
+    {
+      "classname_quests": "MagicSchool_2026_Story_9",
+      "title_quest": "Волшебная руда",
+      "quest_number": 9,
+      "character": "Шахтер",
+      "tasks": [
+        {
+          "task_number": 25,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette",
+          "selected_candidate_id": "collection_drop:BarometerCollection1:Barometer:home",
+          "choice_reason": "Разбитый барометр-коллекция — волшебный указатель, прямой предметный аналог для поиска руды."
+        },
+        {
+          "task_number": 26,
+          "task_template_id": "TT-007",
+          "task_template_name": "HOG поиск истинного среди ложного",
+          "task_type": "HOG clean_debris true_among_false",
+          "item_title": "настоящая волшебная руда",
+          "choice_reason": "Среди пустой породы нужно найти настоящую волшебную руду — суть упражнения Засони."
+        },
+        {
+          "task_number": 27,
+          "task_template_id": "TT-013",
+          "task_template_name": "GR с мусора в локации дома",
+          "task_type": "get_asset GR garbage location_tags",
+          "selected_candidate_id": "gr_garbage:CaveBug:home",
+          "item_title": "окаменелый кристалл",
+          "choice_reason": "Пещерный жук — прямой предметный аналог волшебной породы для Шахтера в пещерах."
+        }
+      ]
+    },
+    {
+      "classname_quests": "MagicSchool_2026_Story_10",
+      "title_quest": "Экзамен — Корни мандрагоры",
+      "quest_number": 10,
+      "character": "Ректор",
+      "tasks": [
+        {
+          "task_number": 28,
+          "task_template_id": "TT-015",
+          "task_template_name": "GR с конкретного мусора дома",
+          "task_type": "get_asset GR garbage classname",
+          "selected_candidate_id": "gr_garbage:DeadFlower:home",
+          "item_title": "корень мандрагоры",
+          "choice_reason": "Засохший цветок из Оранжереи — ингредиент для крафта Самоцвета рудокопа, связь с корнем мандрагоры."
+        },
+        {
+          "task_number": 29,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "item_title": "зачарованная кирка",
+          "choice_reason": "Зачарованная кирка — инструмент Шахтера, ingredient для итогового Самоцвета рудокопа."
+        },
+        {
+          "task_number": 30,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "item_title": "Самоцвет рудокопа",
+          "choice_reason": "Итоговый предмет экзамена — Самоцвет рудокопа, который Ректор требует собрать."
+        }
+      ]
+    },
+    {
+      "classname_quests": "MagicSchool_2026_Story_11",
+      "title_quest": "Подготовка к выпуску",
+      "quest_number": 11,
+      "character": "Кот Учёный",
+      "tasks": [
+        {
+          "task_number": 31,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:PawnCollection5:Pawn:home",
+          "choice_reason": "Король из Пешки — церемониальный элемент для выпускного, шахматная фигура как символ ученика-выпускника."
+        },
+        {
+          "task_number": 32,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "item_title": "печатная лента",
+          "choice_reason": "Печатная лента — ингредиент для передачи церемониального предмета в TT-033."
+        },
+        {
+          "task_number": 33,
+          "task_template_id": "TT-033",
+          "task_template_name": "Передача предмета",
+          "task_type": "action give",
+          "item_title": "церемониальная печать",
+          "person": "Ректор",
+          "choice_reason": "Кот Учёный передаёт церемониальную печать Ректору — подготовка к выпускному."
+        }
+      ]
+    },
+    {
+      "classname_quests": "MagicSchool_2026_Story_12",
+      "title_quest": "Торжественный выпуск",
+      "quest_number": 12,
+      "character": "Ректор",
+      "tasks": [
+        {
+          "task_number": 34,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:BigButtonCollection1:BigButton:home",
+          "choice_reason": "Пуговица-коллекция — отсылка к ученикам-выпускникам, которые «на все пуговицы застёгнуты»."
+        },
+        {
+          "task_number": 35,
+          "task_template_id": "TT-034",
+          "task_template_name": "Фото предмета",
+          "task_type": "action post_photo",
+          "item_title": "диплом выпускника",
+          "location_title": "Мир",
+          "choice_reason": "Торжественное фото диплома выпускника — фиксация завершения курсов."
+        },
+        {
+          "task_number": 36,
+          "task_template_id": "TT-034",
+          "task_template_name": "Фото предмета",
+          "task_type": "action post_photo",
+          "item_title": "школьный сувенир",
+          "location_title": "Мир",
+          "choice_reason": "Памятное фото школьного декора-сувенира на память о волшебной школе."
+        }
+      ]
+    }
+  ]
+}

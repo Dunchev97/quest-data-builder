@@ -100,6 +100,8 @@ workspace/active_context.json
 - На Stage 3 task templates `TT-008` (`get_asset ASK`) и `TT-009` (`get_asset PER`) использовать только внутри квестов, где в этом же квесте есть `TT-002` (`get_and_decrease_asset craft`) или `TT-033` (`action give`). В обычных поисковых/сюжетных квестах без craft/give не ставить ASK/PER.
 - На Stage 3 любой HOG template (`TT-003`-`TT-007`) нельзя ставить в квест, если в предыдущем квесте в любом task уже был HOG.
 - В крафтовых квестах чередовать `ASK` и `PER` между собой: если предыдущий крафтовый квест использовал `ASK`, следующий крафтовый должен использовать `PER`, и наоборот.
+- После каждого этапа (1-6) обязательно генерировать review-документ командой `python src/workflow_fast.py review --campaign <campaign_id> --pack <pack_id> --stage <N>`. Review-файлы сохраняются в `campaigns/<campaign_id>/<pack_id>/review/stageN_review.md` (для stage 6 — `stage6_review.xlsx`). Review генерируется всегда, до approval, чтобы пользователь мог проверить результат.
+- Stage 2 `stage2_story.txt` писать в формате `N. Персонаж: Название` с нумерацией квестов в первой строке блока, чтобы парсер `review_docs.parse_stage2_source` находил заголовки. Поле `Суть:` писать без префикса `Суть задания:`, чтобы review stage 4 корректно подхватывал суть квеста в свой раздел.
 
 ## Pot Description Workflow
 
