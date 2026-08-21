@@ -4,9 +4,24 @@
 
 Не смешивать их с `docs/FunCollection/*.xlsx`: FunCollection-шаблоны нужны для Потех/Сказаний и не пишутся в campaign-level `interactive_objects.json`.
 
+## `chest_1` / `Chest`
+
+Механика состоит из пары `{campaign_id}_Chest_N_Home` и `{campaign_id}_Chest_N_Guest`, одного активационного `GR_1` и итогового ресурса `R_1`. Пара Home/Guest считается одним интерактивным объектом.
+
+Контракт экспорта:
+
+- Home/Guest используют `/chest/Dacha_2025/Dacha_2025_Chest_1_Home.proto.js` и `/chest/Dacha_2025/Dacha_2025_Chest_1_Guest.proto.js`.
+- В обеих объектных строках обязательны `find=Dacha_2025` и `replace=<campaign_id>`.
+- GR, R, package и global reward используют donors семейства `Fun12_FunCollection_1`.
+- `Fun12` разрешён только в donor `input`; generated `output` всегда строится с текущим `campaign_id`.
+- Все пять строк типов используют `sl`; `temp`, `temp_01`, `temp_02` запрещены.
+- `price`, `Количество ассетов` и `rand_reward.p` записываются числами, а не строками.
+- Все `id` остаются пустыми.
+- Лист `ИНТЕРАКТИВ Chest` в `stage6_review.xlsx` не требует `freeze_panes`.
+
 ## `story_random_recipe` / `Story_RandomRecipe`
 
-Донор структуры: `NY23_Chest_LadyDogState1.proto.js`.
+Донор структуры: `/chest/Fun/Fun13/Fun13_Story_RandomRecipe_1.proto.js`.
 
 Механика: объект `chest` с `generate_price`. При каждом открытии он выбирает несколько элементов из `price_elements`, тратит выбранные ресурсы и всегда выдает один итоговый ресурс `{campaign_id}_Story_RandomRecipe_N_R_1`. В отличие от коллекционных версий, здесь нет `CL`, `MB`, прогресс-счетчика и финальной смены награды.
 
@@ -17,7 +32,7 @@
 - `result_resource_title`: итоговый ресурс `R_1`.
 - `result_resource_description`: короткое описание итогового ресурса.
 - `wnd_description`: текст окна объекта.
-- `rule_title`, `rule_description`, `rule_window`: справка/правила окна.
+- `rule_title`, `rule_description`, `rule_window`: справка/правила окна. `rule_window` обязательно является тематическим текстом для игрока, а не техническим classname.
 - `price_amounts`: сколько каждого ресурса просит price element.
 - `price_weights`: веса выбора price elements; это не проценты, а относительные веса.
 - `price_elements_amount`: сколько элементов цены показывать за одно открытие.
@@ -51,6 +66,11 @@
 - Не оставлять `NY23_Parallel_Box_*`, `NY23_Parallel_Box_Counter`, `progress_resource`, `progress_total` и `after_open_actions` из донора: награда теперь ресурс, а не появляющийся на карте объект.
 - Суффиксы ресурсов писать с подчеркиванием: `GR_2`, `GR_3`, `GR_4`, а не `GR2`, `GR3`, `GR4`.
 - `price_elements_amount` не должен превышать количество ресурсов в `price_elements`.
+- Все пять строк типов используют `sl`; `temp`, `temp_01`, `temp_02` запрещены.
+- `price_elements_amount`, веса `price_elements.*.p`, GR probability, параметры post action и числа пакетов записываются как числа, а не строки.
+- Для `GR_1..GR_4` значение `rand_reward.p` по умолчанию равно `35`.
+- В объектном блоке сохраняются обе колонки `id`, включая финальную колонку после `price_elements.7.price`; значения всех `id` остаются пустыми.
+- Лист `ИНТЕРАКТИВ Story_RandomRecipe` в `stage6_review.xlsx` закрепляется через `freeze_panes=A22`.
 
 ## `mixer_1` / `Story_Mixer`
 

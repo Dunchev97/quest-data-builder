@@ -1,0 +1,38 @@
+{
+  "campaign_id": "MagicSchool_2026",
+  "pack_id": "pack_001",
+  "manifest": "D:\\quest-data-builder\\campaigns\\MagicSchool_2026\\interactive_objects.json",
+  "selected_count": 2,
+  "sheets_written": [
+    {
+      "template_id": "chest_1",
+      "object_id": "chest_1",
+      "result_resource": "MagicSchool_2026_Chest_1_R_1",
+      "sheet": "ИНТЕРАКТИВ Chest",
+      "rows": 25
+    },
+    {
+      "template_id": "story_random_recipe",
+      "object_id": "story_randomrecipe_1",
+      "result_resource": "MagicSchool_2026_Story_RandomRecipe_1_R_1",
+      "sheet": "ИНТЕРАКТИВ Story_RandomRecipe",
+      "rows": 45
+    }
+  ],
+  "files_written": [
+    {
+      "template_id": "chest_1",
+      "object_id": "chest_1",
+      "result_resource": "MagicSchool_2026_Chest_1_R_1",
+      "sheet": "ИНТЕРАКТИВ Chest",
+      "rows": 25
+    },
+    {
+      "template_id": "story_random_recipe",
+      "object_id": "story_randomrecipe_1",
+      "result_resource": "MagicSchool_2026_Story_RandomRecipe_1_R_1",
+      "sheet": "ИНТЕРАКТИВ Story_RandomRecipe",
+      "rows": 45
+    }
+  ]
+}

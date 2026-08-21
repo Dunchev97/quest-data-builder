@@ -23,6 +23,7 @@ except ImportError:
 
 MAX_SHEET_NAME_LENGTH = 31
 STAGE6_WORKBOOK_NAME = "stage6_review.xlsx"
+ACCOMPLISHED_WORKBOOK_PATTERN = "quest_{campaign_id}_accomplished.xlsx"
 
 INTERACTIVE_SHEET_NAMES = {
     "chest_1": "ИНТЕРАКТИВ Chest",
@@ -131,6 +132,12 @@ def write_workbook(output_path: Path, sheets: list[WorkbookSheet]) -> dict[str, 
             values = [cell_value(value) for value in row]
             max_columns = max(max_columns, len(values))
             ws.append(values)
+        if sheet.source in {"generated_quests", "generated_actions"}:
+            ws.freeze_panes = "A4"
+        elif sheet.source == "resource_table":
+            ws.freeze_panes = "A76"
+        elif sheet.name == INTERACTIVE_SHEET_NAMES["story_random_recipe"]:
+            ws.freeze_panes = "A22"
         style_sheet(ws)
         written_sheets.append(
             {
@@ -153,6 +160,64 @@ def write_workbook(output_path: Path, sheets: list[WorkbookSheet]) -> dict[str, 
                     raise ValueError(f"xlsx contains broken Cyrillic marker on sheet {ws.title}")
 
     return {"xlsx": str(output_path), "sheets": written_sheets}
+
+
+def accomplished_workbook_name(campaign_id: str) -> str:
+    return ACCOMPLISHED_WORKBOOK_PATTERN.format(campaign_id=campaign_id)
+
+
+def accomplished_rows(campaign_id: str, filled_tasks: dict[str, Any]) -> list[list[Any]]:
+    rows: list[list[Any]] = [
+        ["", f"quest_{campaign_id}_Story_accomplished"],
+        ["sl", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int", "int", "int"],
+        ["", "input", "output", "identifier", "title", "text", "img_url", "photo_id", "link_text", "clicker_reward", "clicks_limit", "life_time", "id"],
+    ]
+    seen: set[str] = set()
+    for quest in filled_tasks.get("quests", []):
+        classname = str(quest.get("classname_quests") or "").strip()
+        if not classname:
+            raise ValueError("filled_tasks quest is missing classname_quests for accomplished export")
+        if classname in seen:
+            raise ValueError(f"duplicate classname_quests in accomplished export: {classname}")
+        seen.add(classname)
+        identifier = f"quest_{classname}_accomplished"
+        rows.append(
+            [
+                "",
+                "/post_action/quest_Night_2026_Story_1_accomplished.proto.js",
+                f"/post_action/{identifier}.proto.js",
+                identifier,
+                "Задание выполнено!",
+                "ТЫ МОЛОДЕЦ!",
+                "icon/post_new/quest_Night_2026_Story.jpg",
+                "456244744",
+                "Получить {0}",
+                "money_alt=50",
+                5,
+                43200,
+                "",
+            ]
+        )
+    return rows
+
+
+def build_accomplished_workbook(
+    campaign_id: str,
+    pack_id: str,
+    campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR,
+    output_xlsx: Path | None = None,
+) -> dict[str, Any]:
+    target = pack_dir(campaign_id, pack_id, campaigns_dir)
+    filled_tasks = export_csv.read_json(target / "filled_tasks.json")
+    rows = accomplished_rows(campaign_id, filled_tasks)
+    output_path = output_xlsx or target / accomplished_workbook_name(campaign_id)
+    workbook = write_workbook(output_path, [WorkbookSheet("conf", rows, "quest_accomplished")])
+    return {
+        "xlsx": str(output_path),
+        "quests": len(rows) - 3,
+        "rows": len(rows),
+        "workbook": workbook,
+    }
 
 
 def quest_rows_and_summary(filled_tasks: dict[str, Any], quest_group: dict[str, Any]) -> tuple[list[list[Any]], dict[str, int]]:

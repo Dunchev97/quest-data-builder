@@ -301,6 +301,12 @@ def run_stage6(args: argparse.Namespace) -> int:
     quest_group_path = pack_artifact(campaign_id, pack_id, QUEST_GROUP, args.campaigns_dir)
     quest_group_validation_path = pack_artifact(campaign_id, pack_id, QUEST_GROUP_VALIDATION, args.campaigns_dir)
     workbook_path = pack_artifact(campaign_id, pack_id, STAGE6_REVIEW_XLSX, args.campaigns_dir)
+    accomplished_path = pack_artifact(
+        campaign_id,
+        pack_id,
+        export_xlsx.accomplished_workbook_name(campaign_id),
+        args.campaigns_dir,
+    )
     actions_summary_path = pack_artifact(campaign_id, pack_id, GENERATED_ACTIONS_SUMMARY, args.campaigns_dir)
     resource_table_summary_path = args.campaigns_dir / campaign_id / RESOURCE_TABLE_SUMMARY
     campaign_interactive_manifest_path = args.campaigns_dir / campaign_id / INTERACTIVE_OBJECTS
@@ -328,6 +334,12 @@ def run_stage6(args: argparse.Namespace) -> int:
             output_xlsx=workbook_path,
             interactive_manifest_path=interactive_manifest_path,
         )
+        accomplished_summary = export_xlsx.build_accomplished_workbook(
+            campaign_id=campaign_id,
+            pack_id=pack_id,
+            campaigns_dir=args.campaigns_dir,
+            output_xlsx=accomplished_path,
+        )
         summary = result["quest_summary"]
         actions_summary = result["actions_summary"]
         resource_summary = result["resource_summary"]
@@ -347,6 +359,7 @@ def run_stage6(args: argparse.Namespace) -> int:
         return 2
 
     print(f"xlsx review written: {workbook_path}")
+    print(f"accomplished table written: {accomplished_path} (quests={accomplished_summary['quests']})")
     print(f"quest rows written: {summary['rows_written']}")
     print(
         "actions sheet written: "
@@ -473,6 +486,7 @@ def run_status(args: argparse.Namespace) -> int:
         (QUEST_GROUP_VALIDATION, True),
         (GENERATED_ACTIONS_SUMMARY, True),
         (STAGE6_REVIEW_XLSX, True),
+        (export_xlsx.accomplished_workbook_name(campaign_id), True),
     ]
     print(f"campaign: {campaign_id}")
     print(f"pack: {pack_id}")

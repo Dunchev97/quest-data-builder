@@ -77,6 +77,11 @@ def clean_text(value: Any) -> str:
     return str(value or "").strip()
 
 
+def integer_value(value: Any, default: int) -> int:
+    text = clean_text(value)
+    return int(text) if text else default
+
+
 def phrase_form(value: Any, case_name: str) -> str:
     text = clean_text(value)
     return str((CASE_FORMS.get(text) or {}).get(case_name) or text)
@@ -407,7 +412,7 @@ def chest_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     )
     instruction_title = clean_text(selection.get("instruction_title"))
 
-    object_types = ["temp_01", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int"]
+    object_types = ["sl", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int", "int", "replace"]
     object_headers = [
         "",
         "input",
@@ -423,6 +428,8 @@ def chest_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
         "extra.open_btn_window",
         "extra.open_now_btn_window",
         "id",
+        "find",
+        "replace",
     ]
     object_row_common = [
         object_title,
@@ -435,6 +442,8 @@ def chest_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
         "Получить",
         "Получить сейчас за {price}",
         "",
+        "Dacha_2025",
+        campaign_id,
     ]
 
     rows: list[list[Any]] = []
@@ -471,12 +480,12 @@ def chest_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "АССЕТЫ Ресурсов"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "classname", "title", "description", "meta_info", "id"],
         [
             [
                 "",
-                "/quest_item/Fun/Fun10/Fun10_Chest_1_GR_1.proto.js",
+                "/quest_item/Fun/Fun12/Fun12_FunCollection_1_GR_1.proto.js",
                 output_path("quest_item", "Fun", campaign_id, f"{gr}.proto.js"),
                 gr,
                 activation_title,
@@ -486,7 +495,7 @@ def chest_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
             ],
             [
                 "",
-                "/quest_item/Fun/Fun10/Fun10_Chest_1_CL_1.proto.js",
+                "/quest_item/Fun/Fun12/Fun12_FunCollection_1_CL_1.proto.js",
                 output_path("quest_item", "Fun", campaign_id, f"{result}.proto.js"),
                 result,
                 result_title,
@@ -499,19 +508,19 @@ def chest_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "ПАКЕТЫ ДЛЯ ПРОДАЖИ"],
-        ["temp_01", "string", "string", "string", "ignore", "string", "string", "int", "ignore", "string", "int"],
+        ["sl", "string", "string", "string", "ignore", "string", "string", "int", "ignore", "string", "int"],
         ["", "input", "output", "classname", "asset", "title", "reward", "price", "Количество ассетов", "stuff_icon", "id"],
         [
             [
                 "",
-                "/asset_package/Fun/Fun10/Fun10_Chest_1_GR_1_Package.proto.js",
+                "/asset_package/Fun/Fun12/Fun12_FunCollection_1_GR_1_Package.proto.js",
                 output_path("asset_package", "Fun", campaign_id, f"{gr}_Package.proto.js"),
                 f"{gr}_Package",
                 gr,
                 activation_title,
                 f"asset={gr}:3",
-                "4",
-                "3",
+                4,
+                3,
                 gr,
                 "",
             ]
@@ -520,17 +529,17 @@ def chest_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "СПОСОБ ВЫПАДЕНИЯ GR"],
-        ["temp_01", "string", "string", "ignore", "array", "array", "int", "string", "string", "int"],
+        ["sl", "string", "string", "ignore", "array", "array", "int", "string", "string", "int"],
         ["", "input", "output", "file_name", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "id"],
         [
             [
                 "",
-                "/global_reward/Fun11/Fun11_Chest_1_GR_1.proto.js",
+                "/global_reward/Fun12/Fun12_FunCollection_1_GR_1.proto.js",
                 output_path("global_reward", campaign_id, f"{gr}.proto.js"),
                 gr,
                 "clean_garbage_in_guest",
                 clean_text(selection.get("location_tags")) or "lawn",
-                "40",
+                40,
                 gr,
                 f"stuff={home}",
                 "",
@@ -1166,8 +1175,8 @@ def random_recipe_resource_specs(campaign_id: str, recipe: str, selection: dict[
                 "classname": classname,
                 "title": title,
                 "description": description,
-                "price_amount": clean_text(list_item(amounts, index, 1)) or "1",
-                "price_weight": clean_text(list_item(weights, index, 60)) or "60",
+                "price_amount": integer_value(list_item(amounts, index), 1),
+                "price_weight": integer_value(list_item(weights, index), 60),
             }
         )
     return specs
@@ -1187,13 +1196,16 @@ def random_recipe_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
     )
     wnd_classname = first_non_empty(selection.get("wnd_classname"), f"Open{campaign_id}StoryRandomRecipeWindow{object_number}")
     icon = first_non_empty(selection.get("icon"), f"{wnd_classname}Icon")
-    rule_window = first_non_empty(selection.get("rule_window"), f"RecipeRule_{recipe}_Window")
+    rule_window = first_non_empty(
+        selection.get("rule_window"),
+        f"Собирай ресурсы, проси у друзей и используй {accusative(object_title)}, чтобы получить {accusative(result_title)}.",
+    )
     tech_quest = clean_text(selection.get("tech_quest"))
     active_condition = f"active_quest={tech_quest}" if tech_quest else ""
     resources = random_recipe_resource_specs(campaign_id, recipe, selection)
 
     object_types = [
-        "temp_01",
+        "sl",
         "string",
         "string",
         "string",
@@ -1230,7 +1242,7 @@ def random_recipe_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
     ]
     object_row = [
         "",
-        "/chest/NY23/NY23_Chest_LadyDogState1.proto.js",
+        "/chest/Fun/Fun13/Fun13_Story_RandomRecipe_1.proto.js",
         output_path("chest", "Fun", campaign_id, f"{recipe}.proto.js"),
         recipe,
         object_title,
@@ -1238,7 +1250,7 @@ def random_recipe_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
         wnd_description,
         wnd_classname,
         icon,
-        clean_text(selection.get("price_elements_amount")) or "4",
+        integer_value(selection.get("price_elements_amount"), 4),
         result,
         "",
         first_non_empty(selection.get("rule_title"), result_title),
@@ -1250,6 +1262,9 @@ def random_recipe_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
         object_types.extend(["int", "string"])
         object_headers.extend([f"price_elements.{index}.p", f"price_elements.{index}.price"])
         object_row.extend([spec["price_weight"], f"asset={spec['classname']}:{spec['price_amount']}"])
+    object_types.append("int")
+    object_headers.append("id")
+    object_row.append("")
 
     rows: list[list[Any]] = []
     block(
@@ -1262,7 +1277,7 @@ def random_recipe_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
     block(
         rows,
         ["", "Story_RandomRecipe resources"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "id"],
         [
             [
@@ -1305,7 +1320,13 @@ def random_recipe_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
                 spec["classname"],
                 clean_text(selection.get(f"source_action_{spec['suffix'].lower()}")) or clean_text(selection.get("source_action")) or "clean_garbage",
                 clean_text(selection.get(f"location_tag_{spec['suffix'].lower()}")) or clean_text(selection.get("location_tag")),
-                clean_text(selection.get(f"drop_probability_{spec['suffix'].lower()}")) or clean_text(selection.get("drop_probability")) or "30",
+                integer_value(
+                    first_non_empty(
+                        selection.get(f"drop_probability_{spec['suffix'].lower()}"),
+                        selection.get("drop_probability"),
+                    ),
+                    35,
+                ),
                 spec["classname"],
                 active_condition,
                 clean_text(selection.get(f"assets_{spec['suffix'].lower()}")) or clean_text(selection.get("assets")),
@@ -1315,7 +1336,7 @@ def random_recipe_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
     block(
         rows,
         ["", "Story_RandomRecipe GR global rewards"],
-        ["temp_01", "string", "string", "ignore", "array", "array", "int", "string", "string", "array", "int"],
+        ["sl", "string", "string", "ignore", "array", "array", "int", "string", "string", "array", "int"],
         ["", "input", "output", "file_name", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "assets", "id"],
         gr_rows,
     )
@@ -1334,16 +1355,16 @@ def random_recipe_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
                 spec["classname"],
                 spec["title"],
                 f"asset={spec['classname']}:1",
-                clean_text(selection.get(f"{kind_lower}_clicks_limit")) or "5",
-                clean_text(selection.get(f"{kind_lower}_life_time")) or "43200",
-                clean_text(selection.get(f"{kind_lower}_send_interval")) or "7200",
+                integer_value(selection.get(f"{kind_lower}_clicks_limit"), 5),
+                integer_value(selection.get(f"{kind_lower}_life_time"), 43200),
+                integer_value(selection.get(f"{kind_lower}_send_interval"), 7200),
                 "",
             ]
         )
     block(
         rows,
         ["", "Story_RandomRecipe ASK/PER post actions"],
-        ["temp_01", "string", "string", "string", "ignore", "string", "string", "int", "int", "int", "int"],
+        ["sl", "string", "string", "string", "ignore", "string", "string", "int", "int", "int", "int"],
         ["", "input", "output", "identifier", "classname", "title", "poster_reward", "clicks_limit", "life_time", "send_interval", "id"],
         request_rows,
     )
@@ -1351,8 +1372,8 @@ def random_recipe_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
     package_rows = []
     for spec in resources:
         kind_lower = str(spec["kind"]).lower()
-        amount = clean_text(selection.get(f"{kind_lower}_package_amount")) or ("2" if spec["kind"] == "GR" else "1")
-        price = clean_text(selection.get(f"{kind_lower}_package_price")) or ("5" if spec["kind"] == "GR" else "2")
+        amount = integer_value(selection.get(f"{kind_lower}_package_amount"), 2 if spec["kind"] == "GR" else 1)
+        price = integer_value(selection.get(f"{kind_lower}_package_price"), 5 if spec["kind"] == "GR" else 2)
         package_rows.append(
             [
                 "",
@@ -1371,7 +1392,7 @@ def random_recipe_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
     block(
         rows,
         ["", "Story_RandomRecipe packages"],
-        ["temp_01", "string", "string", "string", "ignore", "string", "string", "ignore", "int", "string", "int"],
+        ["sl", "string", "string", "string", "ignore", "string", "string", "ignore", "int", "string", "int"],
         ["", "input", "output", "classname", "asset", "title", "reward", "Количество ассетов", "price", "stuff_icon", "id"],
         package_rows,
     )

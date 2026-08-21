@@ -305,8 +305,8 @@ def package_row(prefix: str, kind: str, resource: Resource) -> list[Any]:
         resource.classname,
         resource.title,
         f"asset={resource.classname}:{amount}",
-        str(amount),
-        str(price),
+        amount,
+        price,
         resource.classname,
         "",
     ]
@@ -337,14 +337,14 @@ def gr_description(resource: Resource) -> str:
     return ""
 
 
-def gr_reward_action(resource: Resource) -> tuple[str, str, str]:
+def gr_reward_action(resource: Resource) -> tuple[str, str, int]:
     candidate = resource.candidate or {}
     task_type = resource.task_type
     if "take_crop_in_guest" in task_type or candidate.get("domain") == "flower":
-        return "take_crop_in_guest", "/global_reward/Fun10/Fun11_GR_10.proto.js", "30"
+        return "take_crop_in_guest", "/global_reward/Fun10/Fun11_GR_10.proto.js", 30
     if "in_guest" in task_type:
-        return "clean_garbage_in_guest", "/global_reward/Fun10/Fun11_GR_10.proto.js", "40" if candidate.get("garbage_classname") else "50"
-    return "clean_garbage", "/global_reward/Fun10/Fun11_GR_7.proto.js" if candidate.get("garbage_classname") else "/global_reward/Fun10/Fun11_GR_11.proto.js", "60" if candidate.get("garbage_classname") else "40"
+        return "clean_garbage_in_guest", "/global_reward/Fun10/Fun11_GR_10.proto.js", 40 if candidate.get("garbage_classname") else 50
+    return "clean_garbage", "/global_reward/Fun10/Fun11_GR_7.proto.js" if candidate.get("garbage_classname") else "/global_reward/Fun10/Fun11_GR_11.proto.js", 60 if candidate.get("garbage_classname") else 40
 
 
 def gr_assets(resource: Resource) -> str:
@@ -411,17 +411,17 @@ def recipe_rows(
                 f"/recipe/{prefix}/{identifier}.proto.js",
                 identifier,
                 craft.classname,
-                "2400",
+                2400,
                 prefix,
                 "+".join(ingredient_parts),
                 ingredients[0].classname,
-                str(ingredients[0].amount),
+                ingredients[0].amount,
                 ingredients[1].classname,
-                str(ingredients[1].amount),
+                ingredients[1].amount,
                 ingredients[2].classname,
-                str(ingredients[2].amount),
+                ingredients[2].amount,
                 ingredients[3].classname,
-                str(ingredients[3].amount),
+                ingredients[3].amount,
                 f"active_quest={craft.quest_classname}+asset!={craft.classname}:1",
                 f"asset={craft.classname}:1",
                 "",
@@ -443,7 +443,7 @@ def build_rows(
     block(
         rows,
         ["", "HOG"],
-        ["temp_01", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "classname", "view_classname", "title", "id"],
         [
             [
@@ -462,7 +462,7 @@ def build_rows(
     block(
         rows,
         ["", "GR ассет"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "id"],
         [
             [
@@ -506,13 +506,13 @@ def build_rows(
     block(
         rows,
         ["", "", "", "GR способы получения"],
-        ["temp_01", "string", "string", "ignore", "array", "array", "int", "string", "string", "array", "int"],
+        ["sl", "string", "string", "ignore", "array", "array", "int", "string", "string", "array", "int"],
         ["", "input", "output", "file_name", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "assets", "id"],
         gr_way_rows,
     )
 
     package_headers = ["", "input", "output", "classname", "asset", "title", "reward", "Количество ассетов", "price", "stuff_icon", "id"]
-    package_types = ["temp_01", "string", "string", "string", "ignore", "string", "string", "ignore", "int", "string", "int"]
+    package_types = ["sl", "string", "string", "string", "ignore", "string", "string", "ignore", "int", "string", "int"]
     block(rows, ["", "GR ПАКЕТЫ"], package_types, package_headers, [package_row(campaign_id, "GR", resource) for resource in by_kind["GR"]])
 
     for kind, title, asset_input, post_title, package_title in [
@@ -522,7 +522,7 @@ def build_rows(
         block(
             rows,
             ["", title],
-            ["temp_01", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
+            ["sl", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
             ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "conditions", "id"],
             [
                 [
@@ -543,7 +543,7 @@ def build_rows(
         block(
             rows,
             ["", post_title],
-            ["temp_01", "string", "string", "string", "ignore", "string", "string", "int", "int", "int", "int"],
+            ["sl", "string", "string", "string", "ignore", "string", "string", "int", "int", "int", "int"],
             ["", "input", "output", "identifier", "classname", "title", "poster_reward", "clicks_limit", "life_time", "send_interval", "id"],
             [
                 [
@@ -554,9 +554,9 @@ def build_rows(
                     resource.classname,
                     resource.title,
                     f"asset={resource.classname}:1",
-                    "5",
-                    "43200",
-                    "7200",
+                    5,
+                    43200,
+                    7200,
                     "",
                 ]
                 for resource in by_kind[kind]
@@ -567,7 +567,7 @@ def build_rows(
     block(
         rows,
         ["", "FG АССЕТ"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "conditions", "id"],
         [
             [
@@ -588,7 +588,7 @@ def build_rows(
     block(
         rows,
         ["", "FG МЕХАНИКА"],
-        ["temp_01", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "asset_classname", "conditions", "label", "id"],
         [
             [
@@ -608,7 +608,7 @@ def build_rows(
     block(
         rows,
         ["", "R ассет"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "tags.0", "id"],
         [
             [
@@ -632,7 +632,7 @@ def build_rows(
     block(
         rows,
         ["", "Рецепты 4 ингридиента"],
-        ["temp_01", "string", "string", "string", "ignore", "int", "array", "string", "ignore", "ignore", "ignore", "ignore", "ignore", "ignore", "ignore", "ignore", "string", "string", "int"],
+        ["sl", "string", "string", "string", "ignore", "int", "array", "string", "ignore", "ignore", "ignore", "ignore", "ignore", "ignore", "ignore", "ignore", "string", "string", "int"],
         ["", "input", "output", "identifier", "", "lifespan", "tags", "ingredients", "ingredient_1_asset", "ingredient_1_asset_amount", "ingredient_2_asset", "ingredient_2_asset_amount", "ingredient_3_asset", "ingredient_3_asset_amount", "ingredient_4_asset", "ingredient_4_asset_amount", "conditions", "reward", "id"],
         recipe_data,
     )
@@ -640,7 +640,7 @@ def build_rows(
     block(
         rows,
         ["", "FA ассет"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "tags.0", "id"],
         [
             [

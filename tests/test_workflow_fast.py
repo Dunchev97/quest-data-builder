@@ -352,7 +352,12 @@ class WorkflowFastTests(unittest.TestCase):
                                 "classname_quests": "Event_2026_Story_1",
                                 "title_quest": "Проверка",
                                 "tasks": [],
-                            }
+                            },
+                            {
+                                "classname_quests": "Event_2026_Story_2",
+                                "title_quest": "Вторая проверка",
+                                "tasks": [],
+                            },
                         ]
                     },
                     ensure_ascii=False,
@@ -367,9 +372,12 @@ class WorkflowFastTests(unittest.TestCase):
             (pack_dir / "quest_group.json").write_text(
                 json.dumps(
                     {
-                        "input": "/quest_group/fun/Fun13_Story_1.proto.js",
-                        "output": "/quest_group/fun/Event_2026_pack_001.proto.js",
+                        "input": "/quest_group/event/Night_2026_Story.proto.js",
+                        "output": "/quest_group/event/Event_2026_Story.proto.js",
                         "title": "Проверочная группа",
+                        "id": 125028,
+                        "find": "Night_2026",
+                        "replace": "Event_2026",
                     },
                     ensure_ascii=False,
                 ),
@@ -444,7 +452,9 @@ class WorkflowFastTests(unittest.TestCase):
 
             self.assertEqual(exit_code, 0)
             workbook_path = pack_dir / "review" / "stage6_review.xlsx"
+            accomplished_path = pack_dir / "quest_Event_2026_accomplished.xlsx"
             self.assertTrue(workbook_path.exists())
+            self.assertTrue(accomplished_path.exists())
             self.assertFalse((pack_dir / "generated_quests.csv").exists())
             self.assertFalse((pack_dir / "generated_actions.csv").exists())
             self.assertFalse((campaign_dir / "generated_interactive_objects_chest_1.csv").exists())
@@ -460,6 +470,23 @@ class WorkflowFastTests(unittest.TestCase):
             from openpyxl import load_workbook
 
             workbook = load_workbook(workbook_path, data_only=False)
+            accomplished = load_workbook(accomplished_path, data_only=False)
+            self.assertEqual(accomplished.sheetnames, ["conf"])
+            accomplished_sheet = accomplished["conf"]
+            self.assertIsNone(accomplished_sheet.freeze_panes)
+            self.assertEqual(accomplished_sheet.max_row, 5)
+            self.assertEqual(accomplished_sheet.cell(1, 2).value, "quest_Event_2026_Story_accomplished")
+            self.assertEqual(accomplished_sheet.cell(2, 1).value, "sl")
+            self.assertEqual(
+                [accomplished_sheet.cell(row, 3).value for row in (4, 5)],
+                [
+                    "/post_action/quest_Event_2026_Story_1_accomplished.proto.js",
+                    "/post_action/quest_Event_2026_Story_2_accomplished.proto.js",
+                ],
+            )
+            self.assertTrue(all(accomplished_sheet.cell(row, 13).value is None for row in (4, 5)))
+            self.assertTrue(all(isinstance(accomplished_sheet.cell(row, 11).value, int) for row in (4, 5)))
+            self.assertTrue(all(isinstance(accomplished_sheet.cell(row, 12).value, int) for row in (4, 5)))
             self.assertEqual(
                 workbook.sheetnames,
                 [
@@ -474,7 +501,17 @@ class WorkflowFastTests(unittest.TestCase):
                     "ИНТЕРАКТИВ Mixer",
                 ],
             )
-            self.assertTrue(all(sheet.freeze_panes is None for sheet in workbook.worksheets))
+            self.assertEqual(workbook["КВЕСТЫ"].freeze_panes, "A4")
+            self.assertEqual(workbook["ЭКШЕНЫ"].freeze_panes, "A4")
+            self.assertEqual(workbook["РЕСУРСЫ"].freeze_panes, "A76")
+            self.assertEqual(workbook["ИНТЕРАКТИВ Story_RandomRecipe"].freeze_panes, "A22")
+            self.assertTrue(
+                all(
+                    sheet.freeze_panes is None
+                    for sheet in workbook.worksheets[3:]
+                    if sheet.title != "ИНТЕРАКТИВ Story_RandomRecipe"
+                )
+            )
             quest_values = [str(value) for row in workbook["КВЕСТЫ"].iter_rows(values_only=True) for value in row if value]
             self.assertIn("Проверочная группа", quest_values)
 

@@ -89,12 +89,30 @@ workspace/active_context.json
 - Выбранные интерактивные объекты фиксировать в `campaigns/<campaign_id>/interactive_objects.json`.
 - Если пользователь выбирает несколько объектов одной механики, нумеровать их последовательно (`Chest_1`, `Chest_2`, `HELP_1`, `HELP_2`, `Exchanger_1`, `Exchanger_2`, `Story_FriendAction_1`, `Story_FriendAction_2`, `Mixer_1`, `Mixer_2`). В остальных случаях ресурсы выбранных объектов не менять на протяжении campaign.
 - Для quest mixer использовать template `mixer_1` / `Story_Mixer`: читать `docs/QUEST_INTERACTIVE_OBJECT_TEMPLATES.md`; квестовая версия тратит `GR_1+GR_2+ASK_1` и сразу выдает готовый `{campaign_id}_Mixer_N_R_1`, без `MB` и без `CL`.
+- Для `chest_1` использовать donors семейства `Fun12_FunCollection_1` для GR, R, package и global reward; Home/Guest берут donors `Dacha_2025` и обязательно получают `find=Dacha_2025`, `replace=<campaign_id>`. Все блоки используют `sl`, числовые поля пишутся числами, все `id` пустые; `Fun12` допустим только в donor `input`, но не в generated `output`.
+- Для `story_random_recipe` использовать donor `/chest/Fun/Fun13/Fun13_Story_RandomRecipe_1.proto.js`; все пять блоков используют `sl`, числовые поля пишутся как числа, GR probability по умолчанию равна `35`, все `id` пустые. `rule_window` является видимым тематическим текстом для игрока, а не classname вида `RecipeRule_*_Window`; лист Stage 6 закрепляется через `freeze_panes=A22`.
 - После каждого творческого этапа показывать результат пользователю и ждать явный approval.
 - После Stage 3 в сводке по каждому квесту показывать не только `Task template ID`, но и `task_template_names` / русские названия шаблонов, например: `TT-001 Диалог / TT-008 Получить ASK / TT-004 HOG на локации`.
 - Stage 3.1 - технический подготовительный шаг без отдельного approval; запускать после утвержденного stage 3 перед stage 4.
 - Stage 5 нельзя собирать до approval stage 4.
 - Stage 6 нельзя запускать до approval stage 5.
+- Для листа `КВЕСТЫ` на Stage 6 использовать только проверенный donor `Night_2026`:
+  - блок quest group: `ml`, поля `input/output/title/description/description_complete/description_spoil/id/find/replace`, `id=125028`, `find=Night_2026`, `replace=<campaign_id>`;
+  - `input` quest group: `/quest_group/event/Night_2026_Story.proto.js`, `output`: `/quest_group/event/<campaign_id>_Story.proto.js`;
+  - блок каждого quest: `sl`, те же служебные поля `id/find/replace`; `id=125028+quest_number`;
+  - `input` quest N: `/quest/event/Night_2026/Night_2026_Story_N.proto.js`, `output`: `/quest/<campaign_id>/story_N/<campaign_id>_Story_N.proto.js`;
+  - блок каждого task: `ml`; его `input` и `output` оба равны новому output текущего quest, а не donor-пути `Night_2026`;
+  - в quest group и quest не экспортировать старые `extra.*`; в листе `КВЕСТЫ` не использовать `temp`, `temp_01` или `temp_02`.
+- Для `TT-033` classname предмета передачи строить как `<campaign_id>_Give_<character_number>_<give_number>`, например `MagicSchool_2026_Give_3_1`, а action как `<classname>_Give`. Не использовать глобальный `task_number` в classname Give.
+- Для листа `ЭКШЕНЫ` на Stage 6:
+  - использовать только `ml` для furniture/entity блоков и `sl` для action блоков; `temp*` не использовать;
+  - сначала резервировать `id` начиная с `125015` для всех персонажей в исходном порядке; персонажи без экшенов сохраняют зарезервированные ID, а action-enabled версии получают новые ID после всего зарезервированного диапазона, поэтому пропуски допустимы; затем назначать ID action строкам; continuation-строки массива actions остаются без нового `id`;
+  - для персонажей без экшенов использовать donor `/furniture/Fun/Fun13/Character/Fun13_Character_23.proto.js`, для персонажей с экшенами — `/furniture/Fun/Fun13/Character/Fun13_Character_18.proto.js`;
+  - для Give использовать donor `/quest_action/Fun/Fun13/Fun13_Character_18_Give_1.proto.js`;
+  - для `TT-033` identifier action строить от classname предмета `Give_*`, но записывать action в `behaviour.0.actions` персонажа-получателя, найденного по `person`/`hint`; не создавать furniture-сущность с classname предмета;
+  - в `stage6_review.xlsx` закреплять лист `ЭКШЕНЫ` через `freeze_panes=A4`.
 - Stage 6 обязательно вместе с остальными CSV пересобирает campaign-level `campaigns/<campaign_id>/resource_table.csv` и `resource_table.summary.json`: таблица ресурсов агрегирует все `pack_*` текущей campaign по `docs/resource_table_template.csv` / `workflows/RESOURCE_TABLE_WORKFLOW.md`, а не создается отдельным ручным шагом после экспорта.
+- Stage 6 всегда создает pack-level `quest_<campaign_id>_accomplished.xlsx` с листом `conf` и одной строкой на каждый quest из `filled_tasks.json`. Использовать `sl`, donor `/post_action/quest_Night_2026_Story_1_accomplished.proto.js`, фиксированные тексты/награду из утвержденного шаблона, числовые `clicks_limit=5` и `life_time=43200`; `id` оставлять пустым.
 - В `generated_actions.csv` создавать и персонажей без экшенов: отдельный блок с заголовком `ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ`, строки персонажей без параметра `behaviour.0.actions`.
 - Approval записывать через `src/workflow_context.py approve`.
 - На Stage 3 task templates `TT-008` (`get_asset ASK`) и `TT-009` (`get_asset PER`) использовать только внутри квестов, где в этом же квесте есть `TT-002` (`get_and_decrease_asset craft`) или `TT-033` (`action give`). В обычных поисковых/сюжетных квестах без craft/give не ставить ASK/PER.
@@ -127,7 +145,11 @@ workspace/active_context.json
 - один pack использовать только если пользователь явно попросил фильтр по pack;
 - создавать только блоки, для которых есть ресурсы в выбранной campaign или явно выбранных pack;
 - сохранять минимум одну пустую строку между блоками;
-- не использовать `Fun12`, если текущий prefix другой.
+- не использовать `Fun12`, если текущий prefix другой;
+- во всех строках типов ресурсов использовать `sl`; `temp`, `temp_01`, `temp_02` запрещены;
+- `id` оставлять пустым во всех ресурсных блоках;
+- значения полей с типом `int` писать как числа, а не как текстовые строки;
+- лист `РЕСУРСЫ` в `stage6_review.xlsx` закреплять через `freeze_panes=A76`.
 - В recipe craft 3-й и 4-й ингредиенты брать из выбранных интерактивных `_R_` ресурсов campaign по кругу: 1-й craft = объекты 1+2, 2-й craft = 3+4, если 4-го нет = 3+1, дальше продолжать по кругу. Не дублировать 1-й и 2-й ингредиенты, если есть выбранные interactive resources.
 
 ## Fun Interactive Object Workflow
@@ -167,6 +189,7 @@ Stage 6 должен брать `filled_tasks.json` и `quest_group.json` из �
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
+campaigns/<campaign_id>/<pack_id>/quest_<campaign_id>_accomplished.xlsx
 campaigns/<campaign_id>/generated_interactive_objects_*.csv
 campaigns/<campaign_id>/generated_interactive_objects.summary.json
 campaigns/<campaign_id>/resource_table.csv

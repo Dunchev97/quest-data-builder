@@ -21,8 +21,10 @@ TEMPLATE_GIVE = "TT-033"
 
 DIALOG_TEMPLATE_INPUT = "/quest_action/Fun/Fun10/Fun10_Character_1_1_Dialog_1.proto.js"
 SEARCH_TEMPLATE_INPUT = "/quest_action/Fun/Fun10/search_Fun10_HOG_1.proto.js"
-GIVE_TEMPLATE_INPUT = "/quest_action/Fun/Fun9/action_Fun9_Story_Character_2_1_Give_1.proto.js"
-FURNITURE_TEMPLATE_INPUT = "/furniture/Fun/Fun10/Character/Fun10_Character_1_1.proto.js"
+GIVE_TEMPLATE_INPUT = "/quest_action/Fun/Fun13/Fun13_Character_18_Give_1.proto.js"
+FURNITURE_WITHOUT_ACTIONS_TEMPLATE_INPUT = "/furniture/Fun/Fun13/Character/Fun13_Character_23.proto.js"
+FURNITURE_WITH_ACTIONS_TEMPLATE_INPUT = "/furniture/Fun/Fun13/Character/Fun13_Character_18.proto.js"
+ACTIONS_REFERENCE_FIRST_ID = 125015
 
 
 @dataclass
@@ -71,7 +73,7 @@ def write_json(path: Path, value: Any) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def write_csv(path: Path, rows: list[list[str]]) -> None:
+def write_csv(path: Path, rows: list[list[Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="cp1251", newline="") as handle:
         writer = csv.writer(handle, delimiter=";", quotechar='"', lineterminator="\r\n")
@@ -219,7 +221,7 @@ def build_actions(
     campaign_id: str,
     campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR,
     current_pack_id: str | None = None,
-) -> tuple[list[list[str]], dict[str, Any]]:
+) -> tuple[list[list[Any]], dict[str, Any]]:
     campaign_dir = campaigns_dir / campaign_id
     if not campaign_dir.exists():
         raise FileNotFoundError(f"campaign not found: {campaign_dir}")
@@ -311,23 +313,34 @@ def build_actions(
 
         if kind == "give":
             locations = task_object.get("go_to_location")
-            target_classname = ""
+            location_classname = ""
             if isinstance(locations, list) and locations:
                 first = locations[0]
                 if isinstance(first, dict):
-                    target_classname = safe_text(first.get("classname"))
-            if not target_classname:
-                target_classname = safe_text(task_object.get("action"))
-            if not target_classname:
+                    location_classname = safe_text(first.get("classname"))
+
+            task_action = safe_text(task_object.get("action"))
+            action_classname = task_action.removesuffix("_Give") if task_action.endswith("_Give") else ""
+            icon = safe_text(task_object.get("icon"))
+            action_classname = action_classname or icon or location_classname
+            if not action_classname:
                 continue
 
-            give_counters[target_classname] = give_counters.get(target_classname, 0) + 1
-            action_id = f"action_{target_classname}_Give_{give_counters[target_classname]}"
-            target_title = entity_titles.get(target_classname) or extract_person_from_hint(safe_text(task_object.get("hint"))) or safe_text(task_object.get("title")) or target_classname
-            entity_titles.setdefault(target_classname, target_title)
+            recipient_title = extract_person_from_hint(safe_text(task_object.get("hint")))
+            recipient_classname = next(
+                (classname for classname, title in entity_titles.items() if title == recipient_title),
+                "",
+            )
+            if not recipient_classname and location_classname in entity_titles:
+                recipient_classname = location_classname
+            recipient_classname = recipient_classname or location_classname or action_classname
+
+            give_counters[action_classname] = give_counters.get(action_classname, 0) + 1
+            action_id = f"action_{action_classname}_Give_{give_counters[action_classname]}"
+            target_title = entity_titles.get(recipient_classname) or recipient_title or safe_text(task_object.get("title")) or recipient_classname
+            entity_titles.setdefault(recipient_classname, target_title)
             if not export_current_task:
                 continue
-            icon = safe_text(task_object.get("icon"))
             open_price = f"asset={icon}:1" if icon else ""
             give_rows.append(
                 GiveActionRow(
@@ -338,13 +351,22 @@ def build_actions(
                     open_price=open_price,
                 )
             )
-            entity = register_entity(target_classname, target_title)
+            entity = register_entity(recipient_classname, target_title)
             if entity is not None:
                 entity.actions.append(EntityAction(action_id=action_id))
             continue
 
-    rows: list[list[str]] = []
+    rows: list[list[Any]] = []
+    next_id = ACTIONS_REFERENCE_FIRST_ID
+
+    def take_reference_id() -> int:
+        nonlocal next_id
+        value = next_id
+        next_id += 1
+        return value
+
     entities_sorted = sorted(entity_rows.values(), key=lambda item: item.order)
+    reserved_entity_ids = {item.classname: take_reference_id() for item in entities_sorted}
     groups: dict[int, list[EntityRow]] = {}
     for item in entities_sorted:
         groups.setdefault(len(item.actions), []).append(item)
@@ -359,11 +381,11 @@ def build_actions(
                 rows.append(
                     [
                         "",
-                        FURNITURE_TEMPLATE_INPUT,
+                        FURNITURE_WITHOUT_ACTIONS_TEMPLATE_INPUT,
                         entity_output_path(campaign_id, entity.classname),
                         entity.classname,
                         entity.title,
-                        "",
+                        reserved_entity_ids[entity.classname],
                         "",
                         "",
                         "",
@@ -381,12 +403,12 @@ def build_actions(
                     rows.append(
                         [
                             "",
-                            FURNITURE_TEMPLATE_INPUT,
+                            FURNITURE_WITH_ACTIONS_TEMPLATE_INPUT,
                             entity_output_path(campaign_id, entity.classname),
                             entity.classname,
                             entity.title,
                             action.action_id,
-                            "",
+                            take_reference_id(),
                             "",
                             "",
                             "",
@@ -425,7 +447,7 @@ def build_actions(
                     row.icon_mc,
                     row.title,
                     row.text,
-                    "",
+                    take_reference_id(),
                 ]
             )
         rows.append([])
@@ -444,7 +466,7 @@ def build_actions(
                     "money=2",
                     "Fun10_HOG_1",
                     row.replace,
-                    "",
+                    take_reference_id(),
                     "",
                     "",
                 ]
@@ -466,7 +488,7 @@ def build_actions(
                     row.icon,
                     row.conditions,
                     row.open_price,
-                    "",
+                    take_reference_id(),
                     "",
                 ]
             )

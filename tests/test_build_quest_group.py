@@ -48,14 +48,15 @@ class BuildQuestGroupTests(unittest.TestCase):
             description_spoil="Овощной дождь не остановлен, и переполох продолжается.",
         )
 
-        self.assertEqual(quest_group["input"], "/quest_group/fun/Fun13_Story_1.proto.js")
-        self.assertEqual(quest_group["output"], "/quest_group/fun/Fun14_Story_1.proto.js")
-        self.assertEqual(quest_group["extra"]["quest_reward_prewiew"], ["", "", ""])
-        self.assertEqual(quest_group["extra"]["description_condition"], quest_group["description"])
-        self.assertEqual(quest_group["extra"]["description_complete"], quest_group["description_complete"])
+        self.assertEqual(quest_group["input"], "/quest_group/event/Night_2026_Story.proto.js")
+        self.assertEqual(quest_group["output"], "/quest_group/event/Fun14_Story.proto.js")
+        self.assertEqual(quest_group["id"], 125028)
+        self.assertEqual(quest_group["find"], "Night_2026")
+        self.assertEqual(quest_group["replace"], "Fun14")
+        self.assertNotIn("extra", quest_group)
         self.assertEqual(validate_quest_group(quest_group)["summary"]["errors"], 0)
 
-    def test_reports_invalid_reward_preview(self) -> None:
+    def test_rejects_legacy_extra_fields(self) -> None:
         quest_group = build_quest_group(
             sample_filled_tasks(),
             title="Овощной переполох",
@@ -63,12 +64,12 @@ class BuildQuestGroupTests(unittest.TestCase):
             description_complete="Успех.",
             description_spoil="Провал.",
         )
-        quest_group["extra"]["quest_reward_prewiew"] = ["Fun14_Story_1_1", "", ""]
+        quest_group["extra"] = {"description_condition": "Завязка."}
 
         validation = validate_quest_group(quest_group)
 
         self.assertEqual(validation["summary"]["errors"], 1)
-        self.assertEqual(validation["errors"][0]["code"], "quest_reward_prewiew_must_be_empty")
+        self.assertEqual(validation["errors"][0]["code"], "legacy_quest_group_extra")
 
     def test_cli_writes_quest_group_files(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -167,7 +168,8 @@ class BuildQuestGroupTests(unittest.TestCase):
             )
 
             self.assertEqual(validation["summary"]["errors"], 0)
-            self.assertEqual(quest_group["output"], "/quest_group/fun/MeatballRain_2026_pack_002.proto.js")
+            self.assertEqual(quest_group["output"], "/quest_group/event/MeatballRain_2026_Story.proto.js")
+            self.assertEqual(quest_group["replace"], "MeatballRain_2026")
 
     def test_cli_defaults_to_campaign_pack_outputs_when_campaign_pack_known(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

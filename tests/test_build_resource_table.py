@@ -184,6 +184,27 @@ class BuildResourceTableTests(unittest.TestCase):
             self.assertEqual([len(row) for row in rows[ask_header_index : ask_header_index + 4]], [10, 10, 10, 10])
             self.assertEqual([len(row) for row in rows[recipe_header_index : recipe_header_index + 4]], [19, 19, 19, 19])
 
+            type_rows = [row for row in rows if row and row[0] == "sl"]
+            self.assertTrue(type_rows)
+            self.assertFalse(any(row and str(row[0]).startswith("temp") for row in rows))
+            for header_index, header_row in enumerate(rows):
+                if "id" not in header_row:
+                    continue
+                id_index = header_row.index("id")
+                for data_row in rows[header_index + 1 :]:
+                    if not data_row:
+                        break
+                    self.assertEqual(data_row[id_index], "")
+
+            gr_way_row = next(row for row in rows if len(row) > 2 and row[2] == "/global_reward/Event_2026/Event_2026_GR_1.proto.js")
+            ask_post_row = next(row for row in rows if len(row) > 2 and row[2] == "/post_action/ask_for_Event_2026_ASK_1.proto.js")
+            ask_package_row = next(row for row in rows if len(row) > 3 and row[3] == "Event_2026_ASK_1_Package")
+            recipe_row = rows[recipe_data_index]
+            self.assertIsInstance(gr_way_row[6], int)
+            self.assertTrue(all(isinstance(ask_post_row[index], int) for index in (7, 8, 9)))
+            self.assertTrue(all(isinstance(ask_package_row[index], int) for index in (7, 8)))
+            self.assertTrue(all(isinstance(recipe_row[index], int) for index in (5, 9, 11, 13, 15)))
+
             flat_rows = [";".join(str(cell) for cell in row) for row in rows]
             self.assertTrue(any("Синяя лента" in row for row in flat_rows))
             self.assertTrue(any("Занавеска" in row for row in flat_rows))

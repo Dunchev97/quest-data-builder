@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -200,6 +201,7 @@ class BuildState:
         self.counters = generated_sequence_offsets(context_pack)
         self.dialog_counter = 0
         self.characters: dict[tuple[str, str], str] = {}
+        self.give_counters: dict[tuple[str, int], int] = {}
 
     def next_generated(self, prefix: str, kind: str) -> str:
         key = (prefix, kind)
@@ -218,6 +220,13 @@ class BuildState:
         if key not in self.characters:
             self.characters[key] = self.next_generated(prefix, "Character")
         return self.characters[key]
+
+    def next_give_classname(self, prefix: str, character_classname: str) -> str:
+        match = re.fullmatch(rf"{re.escape(prefix)}_Character_(\d+)", character_classname)
+        character_number = int(match.group(1)) if match else 1
+        key = (prefix, character_number)
+        self.give_counters[key] = self.give_counters.get(key, 0) + 1
+        return f"{prefix}_Give_{character_number}_{self.give_counters[key]}"
 
 
 def one_line_text(value: Any) -> str:
@@ -892,8 +901,10 @@ def build_task_object(
         }
 
     if template_id == "TT-033":
-        item_classname = str(choice.get("item_classname") or f"{prefix}_Give_{context_task.get('task_number') or 1}")
         person = str(choice.get("person") or context_quest.get("character") or "персонажу").strip()
+        target_person = str(choice.get("person_nominative") or person).strip()
+        target_character = state.character_classname(prefix, target_person, choice.get("character_classname"))
+        item_classname = str(choice.get("item_classname") or state.next_give_classname(prefix, target_character))
         location_title = first_location_title(context_quest, choice)
         title = str(choice.get("title") or f"Передай {item_accusative_for_title(item_title, choice)}").strip()
         return {

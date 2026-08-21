@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -34,7 +35,8 @@ DIALOGUE_TEMPLATE_IDS = {"TT-001"}
 DIALOGUE_REPLICA_KEYS = ("dialogue_replica", "dialogue", "replica", "dialogue_text")
 DIALOGUE_HEADER_PREFIX = "РЕПЛИКА ДИАЛОГА: "
 REQUIRED_APPROVAL_STAGE = "5"
-QUEST_GROUP_REWARD_PREVIEW_ROWS = 3
+QUEST_REFERENCE_CAMPAIGN_ID = "Night_2026"
+QUEST_GROUP_REFERENCE_ID = 125028
 
 
 def read_json(path: Path) -> Any:
@@ -94,45 +96,10 @@ def blank_row() -> list[Any]:
     return pad_row([])
 
 
-def quest_group_extra(quest_group: dict[str, Any]) -> dict[str, Any]:
-    extra = quest_group.get("extra")
-    return extra if isinstance(extra, dict) else {}
-
-
-def quest_group_reward_preview(quest_group: dict[str, Any]) -> list[str]:
-    value = quest_group_extra(quest_group).get("quest_reward_prewiew")
-    if isinstance(value, list):
-        items = ["" if item is None else str(item) for item in value]
-    elif value in (None, ""):
-        items = []
-    else:
-        items = [str(value)]
-
-    items = items[:QUEST_GROUP_REWARD_PREVIEW_ROWS]
-    while len(items) < QUEST_GROUP_REWARD_PREVIEW_ROWS:
-        items.append("")
-    return items
-
-
 def append_quest_group_block(rows: list[list[Any]], quest_group: dict[str, Any]) -> None:
-    extra = quest_group_extra(quest_group)
-    reward_preview = quest_group_reward_preview(quest_group)
-    rows.append(
-        pad_row(
-            [
-                "",
-                "Квест группа",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "Перечислить квесты текущей квест группы награды которых будут отображены на странице журнала.",
-                "Условие старта квеста на странице журанала",
-                "Текст на странице журанала после завршения квеста.",
-            ]
-        )
-    )
+    find = str(quest_group.get("find") or QUEST_REFERENCE_CAMPAIGN_ID)
+    replace = str(quest_group.get("replace") or quest_prefix_from_group(quest_group))
+    rows.append(pad_row(["", "Квест группа"]))
     rows.append(
         pad_row(
             [
@@ -143,9 +110,8 @@ def append_quest_group_block(rows: list[list[Any]], quest_group: dict[str, Any])
                 "string",
                 "string",
                 "string",
-                "array_of_values",
-                "string",
-                "string",
+                "int",
+                "replace",
             ]
         )
     )
@@ -159,9 +125,9 @@ def append_quest_group_block(rows: list[list[Any]], quest_group: dict[str, Any])
                 "description",
                 "description_complete",
                 "description_spoil",
-                "extra.quest_reward_prewiew",
-                "extra.description_condition",
-                "extra.description_complete",
+                "id",
+                "find",
+                "replace",
             ]
         )
     )
@@ -169,21 +135,19 @@ def append_quest_group_block(rows: list[list[Any]], quest_group: dict[str, Any])
         pad_row(
             [
                 "",
-                quest_group.get("input") or "",
-                quest_group.get("output") or "",
+                f"/quest_group/event/{find}_Story.proto.js",
+                f"/quest_group/event/{replace}_Story.proto.js",
                 quest_group.get("title") or "",
                 quest_group.get("description") or "",
                 quest_group.get("description_complete") or "",
                 quest_group.get("description_spoil") or "",
-                reward_preview[0],
-                extra.get("description_condition") or "",
-                extra.get("description_complete") or "",
+                quest_group.get("id") or QUEST_GROUP_REFERENCE_ID,
+                find,
+                replace,
             ]
         )
     )
-    for value in reward_preview[1:]:
-        rows.append(pad_row(["", "", "", "", "", "", "", value]))
-    rows.extend([blank_row(), blank_row(), blank_row()])
+    rows.extend([blank_row()] * 5)
 
 
 def quest_classname(quest: dict[str, Any]) -> str:
@@ -197,13 +161,35 @@ def quest_prefix(classname: str) -> str:
     return classname
 
 
+def quest_prefix_from_group(quest_group: dict[str, Any]) -> str:
+    output = str(quest_group.get("output") or "")
+    match = re.search(r"/([^/]+)_Story\.proto\.js$", output)
+    if match:
+        return match.group(1)
+    return "Campaign"
+
+
+def quest_number(quest: dict[str, Any], quest_index: int = 0) -> int:
+    try:
+        return int(quest.get("quest_number") or quest_index + 1)
+    except (TypeError, ValueError):
+        return quest_index + 1
+
+
 def make_proto_path(quest: dict[str, Any]) -> str:
-    if quest.get("proto_path"):
-        return str(quest["proto_path"])
     classname = quest_classname(quest)
     prefix = quest_prefix(classname)
-    quest_number = quest.get("quest_number") or 1
-    return f"/quest/generated/{prefix}/story_{quest_number}/{classname}.proto.js"
+    number = quest_number(quest)
+    return f"/quest/{prefix}/story_{number}/{classname}.proto.js"
+
+
+def make_reference_proto_path(quest: dict[str, Any], quest_index: int = 0) -> str:
+    number = quest_number(quest, quest_index)
+    return f"/quest/event/{QUEST_REFERENCE_CAMPAIGN_ID}/{QUEST_REFERENCE_CAMPAIGN_ID}_Story_{number}.proto.js"
+
+
+def quest_reference_id(quest: dict[str, Any], quest_index: int = 0) -> int:
+    return QUEST_GROUP_REFERENCE_ID + quest_number(quest, quest_index)
 
 
 def task_object_from_entry(task_entry: dict[str, Any]) -> dict[str, Any]:
@@ -276,46 +262,15 @@ def quest_helper(quest: dict[str, Any]) -> str:
     return ""
 
 
-def explicit_sequence_icon(quest: dict[str, Any]) -> str:
-    for field_name in ("extra.sequence_icon", "sequence_icon", "quest_sequence_icon"):
-        value = quest.get(field_name)
-        if value:
-            return str(value)
-
-    extra = quest.get("extra")
-    if isinstance(extra, dict) and extra.get("sequence_icon"):
-        return str(extra["sequence_icon"])
-    return ""
-
-
-def sequence_icon_base(classname: str) -> str:
-    parts = classname.split("_Story_")
-    if len(parts) != 2:
-        return classname
-
-    prefix, suffix = parts
-    numbers = suffix.split("_")
-    if len(numbers) >= 2 and all(part.isdigit() for part in numbers[:2]):
-        return f"{prefix}_Story_{numbers[0]}"
-    if numbers and numbers[0].isdigit():
-        return prefix
-    return classname
-
-
-def quest_sequence_icon(quest: dict[str, Any]) -> str:
-    explicit = explicit_sequence_icon(quest)
-    if explicit:
-        return explicit
-
-    classname = quest_classname(quest)
-    if not classname or classname == "Quest":
-        return ""
-    return f"MagazinePage_{sequence_icon_base(classname)}_QuestIcon_1"
-
-
-def append_quest_block(rows: list[list[Any]], quest: dict[str, Any], quest_index: int, proto_path: str) -> None:
+def append_quest_block(
+    rows: list[list[Any]],
+    quest: dict[str, Any],
+    quest_index: int,
+    input_proto_path: str,
+    output_proto_path: str,
+) -> None:
     rows.append(pad_row(["", quest_label(quest, quest_index)]))
-    rows.append(pad_row(["sl", "string", "string", "string", "string", "string", "string", "string"]))
+    rows.append(pad_row(["sl", "string", "string", "string", "string", "string", "string", "int", "replace"]))
     rows.append(
         pad_row(
             [
@@ -326,7 +281,9 @@ def append_quest_block(rows: list[list[Any]], quest: dict[str, Any], quest_index
                 "description",
                 "congratulation",
                 "helper",
-                "extra.sequence_icon",
+                "id",
+                "find",
+                "replace",
             ]
         )
     )
@@ -334,13 +291,15 @@ def append_quest_block(rows: list[list[Any]], quest: dict[str, Any], quest_index
         pad_row(
             [
                 "",
-                proto_path,
-                proto_path,
+                input_proto_path,
+                output_proto_path,
                 quest_title(quest),
                 quest_description(quest),
                 quest_congratulation(quest),
                 quest_helper(quest),
-                quest_sequence_icon(quest),
+                quest_reference_id(quest, quest_index),
+                QUEST_REFERENCE_CAMPAIGN_ID,
+                quest_prefix(quest_classname(quest)),
             ]
         )
     )
@@ -406,8 +365,9 @@ def iter_csv_rows(quests: list[dict[str, Any]], quest_group: dict[str, Any] | No
     if quest_group is not None:
         append_quest_group_block(rows, quest_group)
     for quest_index, quest in enumerate(quests):
-        proto_path = make_proto_path(quest)
-        append_quest_block(rows, quest, quest_index, proto_path)
+        output_proto_path = make_proto_path(quest)
+        input_proto_path = make_reference_proto_path(quest, quest_index)
+        append_quest_block(rows, quest, quest_index, input_proto_path, output_proto_path)
         for local_index, task_entry in enumerate(quest.get("tasks", [])):
             task_object = task_object_from_entry(task_entry)
             rows.append(pad_row(task_header_row(task_entry, task_object, local_index)))
@@ -420,7 +380,7 @@ def iter_csv_rows(quests: list[dict[str, Any]], quest_group: dict[str, Any] | No
                 continue
 
             first_key, first_value = fields[0]
-            rows.append(pad_row(["", proto_path, proto_path, first_key, first_value]))
+            rows.append(pad_row(["", output_proto_path, output_proto_path, first_key, first_value]))
             for key, value in fields[1:]:
                 rows.append(pad_row(["", "", "", key, value]))
             rows.append(blank_row())

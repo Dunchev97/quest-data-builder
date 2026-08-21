@@ -196,7 +196,7 @@
         "per_package_price": 2,
         "gr_package_amount": 2,
         "gr_package_price": 5,
-        "drop_probability": 30,
+        "drop_probability": 35,
         "source_action": "clean_garbage"
       }
     },

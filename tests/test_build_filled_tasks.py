@@ -320,6 +320,8 @@ class BuildFilledTasksTests(unittest.TestCase):
         self.assertEqual(result["summary"]["issues"], 0)
         tasks = result["quests"][0]["tasks"]
         self.assertEqual(tasks[0]["task_object"]["title"], "Передай Праздничный ключ перезвона")
+        self.assertEqual(tasks[0]["task_object"]["icon"], "Event_2026_Give_2_1")
+        self.assertEqual(tasks[0]["task_object"]["action"], "Event_2026_Give_2_1_Give")
         self.assertIn("Праздничный ключ перезвона", tasks[1]["choice_reason"])
         self.assertIn("Праздничный ключ перезвона", tasks[2]["choice_reason"])
 
@@ -329,6 +331,62 @@ class BuildFilledTasksTests(unittest.TestCase):
             build_template_catalog(PROJECT_ROOT / "data" / "task_templates.json"),
         )
         self.assertEqual(validation["summary"]["errors"], 0)
+
+    def test_tt033_reuses_existing_target_character_number(self) -> None:
+        context = {
+            "quests": [
+                {
+                    "classname_quests": "Event_2026_Story_1",
+                    "quest_number": 1,
+                    "character": "Кот Учёный",
+                    "tasks": [],
+                },
+                {
+                    "classname_quests": "Event_2026_Story_2",
+                    "quest_number": 2,
+                    "character": "Полицейский",
+                    "tasks": [],
+                },
+                {
+                    "classname_quests": "Event_2026_Story_3",
+                    "quest_number": 3,
+                    "character": "Ректор",
+                    "tasks": [
+                        {
+                            "task_number": 1,
+                            "task_template_id": "TT-033",
+                            "task_template_name": "Передача предмета",
+                            "task_type": "action give",
+                            "candidates": [],
+                        }
+                    ],
+                },
+            ],
+            "generated_sequence_offsets": {},
+            "next_generated_numbers": {},
+        }
+        choice_data = {
+            "quests": [
+                {
+                    "classname_quests": "Event_2026_Story_3",
+                    "tasks": [
+                        {
+                            "task_number": 1,
+                            "item_title": "Церемониальная печать",
+                            "person": "Ректор",
+                            "location_title": "Омут",
+                        }
+                    ],
+                }
+            ]
+        }
+
+        result = build_filled_tasks(context, choice_data)
+
+        task_object = result["quests"][2]["tasks"][0]["task_object"]
+        self.assertEqual(result["summary"]["issues"], 0)
+        self.assertEqual(task_object["icon"], "Event_2026_Give_3_1")
+        self.assertEqual(task_object["action"], "Event_2026_Give_3_1_Give")
 
     def test_file_builder_writes_filled_tasks_and_build_summary(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

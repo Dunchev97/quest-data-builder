@@ -1,0 +1,12 @@
+{
+  "campaign_id": "MagicSchool_2026",
+  "entities": 7,
+  "entities_without_actions": 6,
+  "dialog_actions": 0,
+  "search_actions": 4,
+  "give_actions": 1,
+  "current_pack_id": "pack_001",
+  "packs_scanned": [
+    "pack_001"
+  ]
+}

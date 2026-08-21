@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 from pathlib import Path
 from typing import Any
 
@@ -27,10 +26,11 @@ QUEST_GROUP_CHOICES_NAME = "quest_group_choices.json"
 QUEST_GROUP_VALIDATION_NAME = "quest_group.validation.json"
 QUEST_GROUP_PREVIEW_NAME = "quest_group.preview.md"
 FILLED_TASKS_JSON_NAME = "filled_tasks.json"
-QUEST_GROUP_INPUT_PATH = "/quest_group/fun/Fun13_Story_1.proto.js"
-QUEST_GROUP_PATH_PREFIX = "/quest_group/fun"
+QUEST_REFERENCE_CAMPAIGN_ID = "Night_2026"
+QUEST_GROUP_REFERENCE_ID = 125028
+QUEST_GROUP_INPUT_PATH = f"/quest_group/event/{QUEST_REFERENCE_CAMPAIGN_ID}_Story.proto.js"
+QUEST_GROUP_PATH_PREFIX = "/quest_group/event"
 REQUIRED_APPROVAL_STAGE = "4"
-REWARD_PREVIEW_ROWS = 3
 
 
 def read_json(path: Path) -> Any:
@@ -75,37 +75,24 @@ def infer_group_classname(filled_tasks: dict[str, Any]) -> str:
         return "QuestGroup"
 
     classname = quest_classname(quests[0])
-    nested_match = re.fullmatch(r"(.+_Story_\d+)_\d+", classname)
-    if nested_match:
-        return nested_match.group(1)
+    if "_Story_" in classname:
+        return classname.split("_Story_", 1)[0]
     return classname
 
 
 def infer_output_path(filled_tasks: dict[str, Any], output_classname: str | None = None) -> str:
-    classname = output_classname or infer_group_classname(filled_tasks)
-    return f"{QUEST_GROUP_PATH_PREFIX}/{classname}.proto.js"
+    campaign_id = output_classname or infer_group_classname(filled_tasks)
+    if "_Story_" in campaign_id:
+        campaign_id = campaign_id.split("_Story_", 1)[0]
+    if campaign_id.endswith("_Story"):
+        campaign_id = campaign_id[: -len("_Story")]
+    return f"{QUEST_GROUP_PATH_PREFIX}/{campaign_id}_Story.proto.js"
 
 
 def quest_group_classname(campaign_id: str | None = None, pack_id: str | None = None) -> str | None:
-    if not campaign_id or not pack_id:
+    if not campaign_id:
         return None
-    return f"{campaign_id}_{pack_id}"
-
-
-def normalize_reward_preview(value: Any) -> list[str]:
-    if value is None:
-        return [""] * REWARD_PREVIEW_ROWS
-    if isinstance(value, str):
-        items = [value]
-    elif isinstance(value, list):
-        items = ["" if item is None else str(item) for item in value]
-    else:
-        items = [str(value)]
-
-    items = items[:REWARD_PREVIEW_ROWS]
-    while len(items) < REWARD_PREVIEW_ROWS:
-        items.append("")
-    return items
+    return campaign_id
 
 
 def build_quest_group(
@@ -116,18 +103,21 @@ def build_quest_group(
     description_spoil: str,
     output_classname: str | None = None,
 ) -> dict[str, Any]:
+    campaign_id = output_classname or infer_group_classname(filled_tasks)
+    if "_Story_" in campaign_id:
+        campaign_id = campaign_id.split("_Story_", 1)[0]
+    if campaign_id.endswith("_Story"):
+        campaign_id = campaign_id[: -len("_Story")]
     return {
         "input": QUEST_GROUP_INPUT_PATH,
-        "output": infer_output_path(filled_tasks, output_classname=output_classname),
+        "output": infer_output_path(filled_tasks, output_classname=campaign_id),
         "title": title,
         "description": description,
         "description_complete": description_complete,
         "description_spoil": description_spoil,
-        "extra": {
-            "quest_reward_prewiew": [""] * REWARD_PREVIEW_ROWS,
-            "description_condition": description,
-            "description_complete": description_complete,
-        },
+        "id": QUEST_GROUP_REFERENCE_ID,
+        "find": QUEST_REFERENCE_CAMPAIGN_ID,
+        "replace": campaign_id,
     }
 
 
@@ -154,7 +144,7 @@ def issue(severity: str, code: str, message: str, **extra: Any) -> dict[str, Any
 
 def validate_quest_group(quest_group: dict[str, Any]) -> dict[str, Any]:
     issues: list[dict[str, Any]] = []
-    for field_name in ("input", "output", "title", "description", "description_complete", "description_spoil"):
+    for field_name in ("input", "output", "title", "description", "description_complete", "description_spoil", "id", "find", "replace"):
         if quest_group.get(field_name) in (None, "", []):
             issues.append(issue("error", "missing_quest_group_field", f"quest_group is missing field: {field_name}", field=field_name))
 
@@ -175,44 +165,47 @@ def validate_quest_group(quest_group: dict[str, Any]) -> dict[str, Any]:
             issue(
                 "error",
                 "quest_group_output_path_invalid",
-                "quest_group.output must look like /quest_group/fun/<Classname>.proto.js.",
+                "quest_group.output must look like /quest_group/event/<campaign_id>_Story.proto.js.",
                 actual=quest_group.get("output"),
             )
         )
 
-    extra = quest_group.get("extra")
-    if not isinstance(extra, dict):
-        issues.append(issue("error", "missing_quest_group_extra", "quest_group.extra must be an object."))
-        extra = {}
-
-    reward_preview = normalize_reward_preview(extra.get("quest_reward_prewiew"))
-    if reward_preview != [""] * REWARD_PREVIEW_ROWS:
+    if quest_group.get("id") != QUEST_GROUP_REFERENCE_ID:
         issues.append(
             issue(
                 "error",
-                "quest_reward_prewiew_must_be_empty",
-                "extra.quest_reward_prewiew must contain three empty rows.",
-                actual=reward_preview,
+                "quest_group_reference_id_mismatch",
+                "quest_group.id must match the Night_2026 donor row.",
+                expected=QUEST_GROUP_REFERENCE_ID,
+                actual=quest_group.get("id"),
             )
         )
 
-    if extra.get("description_condition") != quest_group.get("description"):
+    if quest_group.get("find") != QUEST_REFERENCE_CAMPAIGN_ID:
         issues.append(
             issue(
                 "error",
-                "description_condition_mismatch",
-                "extra.description_condition must equal description.",
+                "quest_group_find_mismatch",
+                "quest_group.find must reference the Night_2026 donor.",
+                expected=QUEST_REFERENCE_CAMPAIGN_ID,
+                actual=quest_group.get("find"),
             )
         )
 
-    if extra.get("description_complete") != quest_group.get("description_complete"):
+    expected_output = f"{QUEST_GROUP_PATH_PREFIX}/{quest_group.get('replace') or ''}_Story.proto.js"
+    if output != expected_output:
         issues.append(
             issue(
                 "error",
-                "extra_description_complete_mismatch",
-                "extra.description_complete must equal description_complete.",
+                "quest_group_replace_output_mismatch",
+                "quest_group.output must be built from quest_group.replace.",
+                expected=expected_output,
+                actual=output,
             )
         )
+
+    if "extra" in quest_group:
+        issues.append(issue("error", "legacy_quest_group_extra", "quest_group.extra is not part of the Night_2026 template."))
 
     errors = [item for item in issues if item["severity"] == "error"]
     warnings = [item for item in issues if item["severity"] == "warning"]
@@ -240,6 +233,9 @@ def render_preview(quest_group: dict[str, Any], validation: dict[str, Any]) -> s
         f"- description: {quest_group.get('description') or ''}",
         f"- description_complete: {quest_group.get('description_complete') or ''}",
         f"- description_spoil: {quest_group.get('description_spoil') or ''}",
+        f"- id: `{quest_group.get('id') or ''}`",
+        f"- find: `{quest_group.get('find') or ''}`",
+        f"- replace: `{quest_group.get('replace') or ''}`",
         "",
     ]
     if validation["errors"]:

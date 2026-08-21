@@ -117,6 +117,7 @@ quest_group.preview.md
 generated_quests.csv
 generated_actions.csv
 generated_actions.summary.json
+quest_<campaign_id>_accomplished.xlsx
 ```
 
 Campaign-level files:
@@ -198,9 +199,11 @@ python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack
 
 - `exchanger` - Exchanger / обмен ресурсами с друзьями; источник ресурсов может быть `generator` или `gr`.
 - `chest_1` - парный `Chest_1_Home` + `Chest_1_Guest`; пара считается одним интерактивным объектом.
+- Для `chest_1` Home/Guest используют donors `Dacha_2025` с `find=Dacha_2025`, `replace=<campaign_id>`; GR, R, package и global reward используют donors `Fun12_FunCollection_1`. Все `id` остаются пустыми.
 - `help_1` - парный `HELP_1_Home` + `HELP_1_Guest`; пара считается одним интерактивным объектом.
 - `friend_action_1` - `Story_FriendAction_1`: действие у друзей с шансом, дневным лимитом, флагом доступности и двумя `FA`-ресурсами (`reward_for_action`, `reward_on_receive`).
 - `story_random_recipe` - `Story_RandomRecipe`: chest-объект с `generate_price`, случайным набором ресурсов цены и одним итоговым `R_1` без `CL`/`MB`.
+- Для `story_random_recipe` donor объекта всегда `/chest/Fun/Fun13/Fun13_Story_RandomRecipe_1.proto.js`; `rule_window` заполняется видимым тематическим текстом, а не техническим classname.
 - `mixer_1` - `Story_Mixer`: миксер для квестов, тратит два `GR`-ингредиента и один `ASK_1`, правильное действие сразу выдает готовый `R_1` без mystery box и без `CL`.
 
 Выбор фиксировать в:
@@ -362,11 +365,10 @@ campaigns/<campaign_id>/<pack_id>/quest_group.preview.md
 Важно:
 
 - `quest_group.json` привязан к pack, а не к `output/`.
-- `input` всегда `/quest_group/fun/Fun13_Story_1.proto.js`.
-- `output` строится как `/quest_group/fun/<campaign_id>_<pack_id>.proto.js`.
-- `extra.quest_reward_prewiew` содержит три пустые строки.
-- `description_condition` совпадает с `description`.
-- `extra.description_complete` совпадает с `description_complete`.
+- Проверенный donor для quest group — `Night_2026`: `input` всегда `/quest_group/event/Night_2026_Story.proto.js`.
+- `output` строится как `/quest_group/event/<campaign_id>_Story.proto.js`; `pack_id` в classname не добавляется.
+- Служебные поля quest group: `id=125028`, `find=Night_2026`, `replace=<campaign_id>`.
+- Старый объект `extra` (`quest_reward_prewiew`, `description_condition`, `description_complete`) больше не входит в этот шаблон.
 
 После approval пользователя записать:
 
@@ -402,6 +404,7 @@ campaigns/<campaign_id>/interactive_objects.json
 campaigns/<campaign_id>/<pack_id>/generated_quests.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.csv
 campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
+campaigns/<campaign_id>/<pack_id>/quest_<campaign_id>_accomplished.xlsx
 campaigns/<campaign_id>/generated_interactive_objects_*.csv
 campaigns/<campaign_id>/generated_interactive_objects.summary.json
 campaigns/<campaign_id>/resource_table.csv
@@ -409,6 +412,50 @@ campaigns/<campaign_id>/resource_table.summary.json
 ```
 
 `generated_actions.csv` содержит только actions текущего pack. Для нумерации `Dialog_N` и `Give_N` код просматривает предыдущие pack-и campaign, чтобы не создавать дубли. Персонажи, которые используются квестами как helper, но не имеют экшенов в текущем pack, все равно пишутся в этот же CSV отдельным блоком `ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ` без колонки/параметра `behaviour.0.actions`.
+
+Контракт листа `КВЕСТЫ` в `stage6_review.xlsx`:
+
+- quest group использует `ml`; quest использует `sl`; task использует `ml`. Значения `temp`, `temp_01`, `temp_02` в этом листе запрещены;
+- у quest group и quest нет колонок `extra.*`; вместо них используются `id`, `find`, `replace`;
+- quest N берет `input` из `/quest/event/Night_2026/Night_2026_Story_N.proto.js`, а новый `output` — `/quest/<campaign_id>/story_N/<campaign_id>_Story_N.proto.js`;
+- каждый task quest N берет и `input`, и `output` из нового output этого quest, а не из `Night_2026`;
+- `id` quest N равен `125028 + N`, `find=Night_2026`, `replace=<campaign_id>`;
+- для `TT-033` использовать classname `<campaign_id>_Give_<character_number>_<give_number>`, а не classname на основе глобального `task_number`.
+
+Контракт листа `ЭКШЕНЫ` в `stage6_review.xlsx`:
+
+- entity/furniture блоки используют `ml`, action блоки используют `sl`; значения `temp`, `temp_01`, `temp_02` запрещены;
+- начиная с `125015` сначала резервируется диапазон ID для всех персонажей в исходном порядке; строки персонажей без экшенов сохраняют свои зарезервированные ID, action-enabled версии получают новые ID после этого диапазона, а затем ID получают action строки; из-за переноса персонажа между блоками пропуски допустимы, continuation-строки массива `behaviour.0.actions` отдельный `id` не получают;
+- персонажи без экшенов берут `input` из `/furniture/Fun/Fun13/Character/Fun13_Character_23.proto.js`, персонажи с экшенами — из `/furniture/Fun/Fun13/Character/Fun13_Character_18.proto.js`;
+- Give action берет `input` из `/quest_action/Fun/Fun13/Fun13_Character_18_Give_1.proto.js`;
+- у `TT-033` identifier action строится от classname предмета `Give_*`, а action добавляется в `behaviour.0.actions` персонажа-получателя из `person`/`hint`; отдельная furniture-сущность с classname предмета не создается;
+- лист закрепляется через `freeze_panes=A4`.
+
+Контракт листа `РЕСУРСЫ` в `stage6_review.xlsx`:
+
+- все ресурсные блоки используют `sl`; значения `temp`, `temp_01`, `temp_02` запрещены;
+- `id` всегда остается пустым, даже если в файле-доноре есть числовые ID;
+- поля, объявленные как `int`, записываются в XLSX числами, а не строками;
+- лист закрепляется через `freeze_panes=A76`.
+
+Контракт листа `ИНТЕРАКТИВ Story_RandomRecipe` в `stage6_review.xlsx`:
+
+- все блоки используют `sl`, числовые поля записываются числами;
+- GR probability по умолчанию равна `35`;
+- обе объектные колонки `id` и все остальные `id` остаются пустыми;
+- финальная колонка `id` после `price_elements.7.price` обязательна;
+- лист закрепляется через `freeze_panes=A22`.
+
+Контракт дополнительного `quest_<campaign_id>_accomplished.xlsx`:
+
+- файл создается всегда при Stage 6 в папке текущего pack;
+- лист называется `conf` и содержит один блок `quest_<campaign_id>_Story_accomplished`;
+- одна строка создается для каждого `classname_quests` из `filled_tasks.json`, без ручного списка и пропусков;
+- тип блока `sl`, donor `/post_action/quest_Night_2026_Story_1_accomplished.proto.js`;
+- `output` и `identifier` строятся как `quest_<classname_quests>_accomplished`;
+- `title=Задание выполнено!`, `text=ТЫ МОЛОДЕЦ!`, `img_url=icon/post_new/quest_Night_2026_Story.jpg`, `photo_id=456244744`, `link_text=Получить {0}`, `clicker_reward=money_alt=50`;
+- `clicks_limit=5` и `life_time=43200` записываются числами, `id` остается пустым;
+- `freeze_panes` не используется.
 
 `resource_table.csv` на Stage 6 не является отдельным ручным шагом: `workflow_fast.py stage6` собирает его вместе с остальными CSV на уровне `campaigns/<campaign_id>/`, читая все `campaigns/<campaign_id>/pack_*` и используя структуру из `docs/resource_table_template.csv` / `workflows/RESOURCE_TABLE_WORKFLOW.md`.
 

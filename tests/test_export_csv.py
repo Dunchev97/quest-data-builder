@@ -69,17 +69,15 @@ def sample_filled_tasks() -> dict[str, object]:
 
 def sample_quest_group() -> dict[str, object]:
     return {
-        "input": "/quest_group/fun/Fun13_Story_1.proto.js",
-        "output": "/quest_group/fun/Event_2026_Story_2.proto.js",
+        "input": "/quest_group/event/Night_2026_Story.proto.js",
+        "output": "/quest_group/event/Event_2026_Story.proto.js",
         "title": "Проверочный переполох",
         "description": "Герои проверяют запуск квестового пака.",
         "description_complete": "Пак проверен, все задачи готовы.",
         "description_spoil": "Проверка не удалась, и запуск придется повторить.",
-        "extra": {
-            "quest_reward_prewiew": ["", "", ""],
-            "description_condition": "Герои проверяют запуск квестового пака.",
-            "description_complete": "Пак проверен, все задачи готовы.",
-        },
+        "id": 125028,
+        "find": "Night_2026",
+        "replace": "Event_2026",
     }
 
 
@@ -98,32 +96,35 @@ class ExportCsvTests(unittest.TestCase):
                 rows = list(csv.reader(stream, delimiter=";"))
 
             self.assertEqual(rows[0][1], "Квест группа")
-            self.assertEqual(rows[1][:10], ["ml", "string", "string", "string", "string", "string", "string", "array_of_values", "string", "string"])
-            self.assertEqual(rows[2][1:10], ["input", "output", "title", "description", "description_complete", "description_spoil", "extra.quest_reward_prewiew", "extra.description_condition", "extra.description_complete"])
-            self.assertEqual(rows[3][1], "/quest_group/fun/Fun13_Story_1.proto.js")
-            self.assertEqual(rows[3][2], "/quest_group/fun/Event_2026_Story_2.proto.js")
-            self.assertEqual(rows[3][7], "")
-            self.assertEqual(rows[4][7], "")
-            self.assertEqual(rows[5][7], "")
+            self.assertEqual(rows[1][:10], ["ml", "string", "string", "string", "string", "string", "string", "int", "replace", ""])
+            self.assertEqual(rows[2][1:10], ["input", "output", "title", "description", "description_complete", "description_spoil", "id", "find", "replace"])
+            self.assertEqual(rows[3][1], "/quest_group/event/Night_2026_Story.proto.js")
+            self.assertEqual(rows[3][2], "/quest_group/event/Event_2026_Story.proto.js")
+            self.assertEqual(rows[3][7:10], ["125028", "Night_2026", "Event_2026"])
 
             quest_row_index = next(index for index, row in enumerate(rows) if row[1] == "Квест 2")
-            self.assertEqual(rows[quest_row_index + 1][:8], ["sl", "string", "string", "string", "string", "string", "string", "string"])
-            self.assertEqual(rows[quest_row_index + 2][1:8], ["input", "output", "title", "description", "congratulation", "helper", "extra.sequence_icon"])
+            self.assertEqual(rows[quest_row_index + 1][:10], ["sl", "string", "string", "string", "string", "string", "string", "int", "replace", ""])
+            self.assertEqual(rows[quest_row_index + 2][1:10], ["input", "output", "title", "description", "congratulation", "helper", "id", "find", "replace"])
             self.assertEqual(rows[quest_row_index + 3][3], "Проверка")
             self.assertEqual(rows[quest_row_index + 3][4], "Описание квеста.")
             self.assertEqual(rows[quest_row_index + 3][5], "Поздравление квеста.")
             self.assertEqual(rows[quest_row_index + 3][6], "Event_2026_Character_1")
-            self.assertEqual(rows[quest_row_index + 3][7], "MagazinePage_Event_2026_QuestIcon_1")
+            self.assertEqual(rows[quest_row_index + 3][7:10], ["125030", "Night_2026", "Event_2026"])
+            self.assertEqual(rows[quest_row_index + 3][1], "/quest/event/Night_2026/Night_2026_Story_2.proto.js")
+            self.assertEqual(rows[quest_row_index + 3][2], "/quest/Event_2026/story_2/Event_2026_Story_2.proto.js")
             self.assertEqual(rows[quest_row_index + 5][1], "Таск 1")
             self.assertEqual(rows[quest_row_index + 5][2], "Уборка конкретного мусора в гостях")
             self.assertEqual(rows[quest_row_index + 7][3], "tasks.0")
-            self.assertEqual(rows[quest_row_index + 8][1], "/quest/generated/Event_2026/story_2/Event_2026_Story_2.proto.js")
+            self.assertEqual(rows[quest_row_index + 8][1], "/quest/Event_2026/story_2/Event_2026_Story_2.proto.js")
+            self.assertEqual(rows[quest_row_index + 8][2], "/quest/Event_2026/story_2/Event_2026_Story_2.proto.js")
             self.assertEqual(rows[quest_row_index + 8][3], "type")
             self.assertEqual(rows[quest_row_index + 8][4], "garbage")
             dialog_header = next(row for row in rows if row[1] == "Таск 2" and row[2] == "Диалог")
             self.assertEqual(dialog_header[5], "РЕПЛИКА ДИАЛОГА: Нужно проверить, всё ли готово к запуску квеста.")
             self.assertTrue(any(row[3] == "identifier" for row in rows))
             self.assertTrue(any(row[3] == "go_to_location" and "Event_2026_Character_1" in row[4] for row in rows))
+            self.assertFalse(any(cell.startswith("temp") for row in rows for cell in row))
+            self.assertFalse(any(cell.startswith("extra.") for row in rows for cell in row))
 
     def test_cli_refuses_validation_errors(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

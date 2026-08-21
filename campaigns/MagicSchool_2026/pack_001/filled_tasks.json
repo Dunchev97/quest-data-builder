@@ -754,11 +754,11 @@
           "choice_reason": "Кот Учёный передаёт церемониальную печать Ректору — подготовка к выпускному.",
           "task_object": {
             "type": "action",
-            "action": "MagicSchool_2026_Give_33_Give",
-            "icon": "MagicSchool_2026_Give_33",
+            "action": "MagicSchool_2026_Give_3_1_Give",
+            "icon": "MagicSchool_2026_Give_3_1",
             "go_to_location": [
               {
-                "classname": "MagicSchool_2026_Give_33"
+                "classname": "MagicSchool_2026_Give_3_1"
               }
             ],
             "amount": 1,

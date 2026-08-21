@@ -2,13 +2,1133 @@
   "version": 1,
   "campaign_id": "MagicSchool_2026",
   "created_at": "2026-08-07T00:00:00+00:00",
-  "updated_at": "2026-08-07T00:00:00+00:00",
-  "packs": {},
-  "used_candidate_ids": {},
-  "used_task_templates": {},
-  "used_garbage": {},
-  "used_collections": {},
-  "used_flowers": {},
-  "used_locations": {},
-  "used_generated_assets": {}
+  "updated_at": "2026-08-21T10:01:47.565345+00:00",
+  "packs": {
+    "pack_001": {
+      "pack_id": "pack_001",
+      "updated_at": "2026-08-18T07:12:55.786323+00:00",
+      "filled_tasks": "D:\\quest-data-builder\\campaigns\\MagicSchool_2026\\pack_001\\filled_tasks.json",
+      "context_pack": "D:\\quest-data-builder\\campaigns\\MagicSchool_2026\\pack_001\\context_pack.json",
+      "tasks_found": 36,
+      "selected_candidates_found": 22,
+      "quest_group": "D:\\quest-data-builder\\campaigns\\MagicSchool_2026\\pack_001\\quest_group.json",
+      "quest_group_validation": "D:\\quest-data-builder\\campaigns\\MagicSchool_2026\\pack_001\\quest_group.validation.json",
+      "interactive_objects": "D:\\quest-data-builder\\campaigns\\MagicSchool_2026\\interactive_objects.json"
+    }
+  },
+  "used_candidate_ids": {
+    "garbage:Garbage_Crescent": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_1",
+      "task_number": 1,
+      "task_template_id": "TT-021",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "garbage:Garbage_MilkyWay": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_1",
+      "task_number": 2,
+      "task_template_id": "TT-020",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "gr_garbage:BigHome_Garbage_Server_TornPunchCard:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_1",
+      "task_number": 3,
+      "task_template_id": "TT-014",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "garbage:Goldfish": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_2",
+      "task_number": 4,
+      "task_template_id": "TT-030",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "flower:FlowerMagazine5_RainbowCalla": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_2",
+      "task_number": 6,
+      "task_template_id": "TT-031",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "collection_drop:OracleBookCollection3:OracleBook:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_3",
+      "task_number": 7,
+      "task_template_id": "TT-026",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "garbage:RustyLock": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-024",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "collection_drop:OracleBookCollection2:OracleBook:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_3",
+      "task_number": 9,
+      "task_template_id": "TT-026",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "flower:MagicFlowerMiracle": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_5",
+      "task_number": 13,
+      "task_template_id": "TT-018",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "garbage:RustyNail": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-020",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "gr_garbage:BrokenBarrel:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-015",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "collection_drop:AshesCollection1:Ashes:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_6",
+      "task_number": 16,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "flower:FlowerHibiscus": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_6",
+      "task_number": 17,
+      "task_template_id": "TT-031",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "gr_garbage:CircassianWalnutShell:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_6",
+      "task_number": 18,
+      "task_template_id": "TT-014",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "collection_drop:Garbage_PentagramCollection4:Garbage_Pentagram:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_8",
+      "task_number": 22,
+      "task_template_id": "TT-026",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "garbage:MossCommon": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_8",
+      "task_number": 23,
+      "task_template_id": "TT-024",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "garbage:BigHome_Garbage_Overview_Ammonit": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_8",
+      "task_number": 24,
+      "task_template_id": "TT-029",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "collection_drop:BarometerCollection1:Barometer:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_9",
+      "task_number": 25,
+      "task_template_id": "TT-028",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "gr_garbage:CaveBug:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_9",
+      "task_number": 27,
+      "task_template_id": "TT-013",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "gr_garbage:DeadFlower:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_10",
+      "task_number": 28,
+      "task_template_id": "TT-015",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "collection_drop:PawnCollection5:Pawn:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_11",
+      "task_number": 31,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "collection_drop:BigButtonCollection1:BigButton:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_12",
+      "task_number": 34,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.786323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.786323+00:00"
+    }
+  },
+  "used_task_templates": {
+    "TT-021": {
+      "pack_id": "pack_001",
+      "task_template_name": "Уборка конкретного мусора дома",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "TT-020": {
+      "pack_id": "pack_001",
+      "task_template_name": "Уборка конкретного мусора в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-014": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с конкретного мусора в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-030": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт мусора дома",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "TT-004": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG на локации",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "TT-031": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт цветка в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-026": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+      "uses": 3,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-024": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на мусор в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-003": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG в мире",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-008": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить ASK",
+      "uses": 3,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-002": {
+      "pack_id": "pack_001",
+      "task_template_name": "Крафт",
+      "uses": 3,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-018": {
+      "pack_id": "pack_001",
+      "task_template_name": "Сбор цветов дома (зависит от времени роста)",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-015": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с конкретного мусора дома",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-011": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+      "uses": 3,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.786323+00:00"
+    },
+    "TT-007": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG поиск истинного среди ложного",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-009": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить PER",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-029": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт мусора в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-028": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-013": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с мусора в локации дома",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "TT-033": {
+      "pack_id": "pack_001",
+      "task_template_name": "Передача предмета",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.786323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.786323+00:00"
+    },
+    "TT-034": {
+      "pack_id": "pack_001",
+      "task_template_name": "Фото предмета",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.786323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.786323+00:00"
+    }
+  },
+  "used_garbage": {
+    "Garbage_Crescent": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_1",
+      "task_number": 1,
+      "task_template_id": "TT-021",
+      "classname": "Garbage_Crescent",
+      "title": "Полумесяц",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "Garbage_MilkyWay": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_1",
+      "task_number": 2,
+      "task_template_id": "TT-020",
+      "classname": "Garbage_MilkyWay",
+      "title": "Рисунок млечного пути",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "BigHome_Garbage_Server_TornPunchCard": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_1",
+      "task_number": 3,
+      "task_template_id": "TT-014",
+      "classname": "BigHome_Garbage_Server_TornPunchCard",
+      "title": "Рваная перфокарта",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "Goldfish": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_2",
+      "task_number": 4,
+      "task_template_id": "TT-030",
+      "classname": "Goldfish",
+      "title": "Золотая рыбка",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "RustyLock": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-024",
+      "classname": "RustyLock",
+      "title": "Ржавый замок",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "RustyNail": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-020",
+      "classname": "RustyNail",
+      "title": "Ржавый гвоздь",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "BrokenBarrel": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-015",
+      "classname": "BrokenBarrel",
+      "title": "Разбитая бочка",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "CircassianWalnutShell": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_6",
+      "task_number": 18,
+      "task_template_id": "TT-014",
+      "classname": "CircassianWalnutShell",
+      "title": "Скорлупки грецкого ореха",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MossCommon": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_8",
+      "task_number": 23,
+      "task_template_id": "TT-024",
+      "classname": "MossCommon",
+      "title": "Мох",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "BigHome_Garbage_Overview_Ammonit": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_8",
+      "task_number": 24,
+      "task_template_id": "TT-029",
+      "classname": "BigHome_Garbage_Overview_Ammonit",
+      "title": "Аммонит",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "CaveBug": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_9",
+      "task_number": 27,
+      "task_template_id": "TT-013",
+      "classname": "CaveBug",
+      "title": "Пещерный жук",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "DeadFlower": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_10",
+      "task_number": 28,
+      "task_template_id": "TT-015",
+      "classname": "DeadFlower",
+      "title": "Засохший цветок",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    }
+  },
+  "used_collections": {
+    "OracleBookCollection3": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_3",
+      "task_number": 7,
+      "task_template_id": "TT-026",
+      "classname": "OracleBookCollection3",
+      "title": "Хрустальный шар",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "OracleBookCollection2": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_3",
+      "task_number": 9,
+      "task_template_id": "TT-026",
+      "classname": "OracleBookCollection2",
+      "title": "Ромашка",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "AshesCollection1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_6",
+      "task_number": 16,
+      "task_template_id": "TT-011",
+      "classname": "AshesCollection1",
+      "title": "Огненная саламандра",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Garbage_PentagramCollection4": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_8",
+      "task_number": 22,
+      "task_template_id": "TT-026",
+      "classname": "Garbage_PentagramCollection4",
+      "title": "Руны",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "BarometerCollection1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_9",
+      "task_number": 25,
+      "task_template_id": "TT-028",
+      "classname": "BarometerCollection1",
+      "title": "Гидрокостюм",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "PawnCollection5": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_11",
+      "task_number": 31,
+      "task_template_id": "TT-011",
+      "classname": "PawnCollection5",
+      "title": "Король",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "BigButtonCollection1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_12",
+      "task_number": 34,
+      "task_template_id": "TT-011",
+      "classname": "BigButtonCollection1",
+      "title": "Хрюшкин пятачок",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.786323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.786323+00:00"
+    }
+  },
+  "used_flowers": {
+    "FlowerMagazine5_RainbowCalla": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_2",
+      "task_number": 6,
+      "task_template_id": "TT-031",
+      "classname": "FlowerMagazine5_RainbowCalla",
+      "title": "Радужная калла",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "MagicFlowerMiracle": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_5",
+      "task_number": 13,
+      "task_template_id": "TT-018",
+      "classname": "MagicFlowerMiracle",
+      "title": "Цветок магии",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "FlowerHibiscus": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_6",
+      "task_number": 17,
+      "task_template_id": "TT-031",
+      "classname": "FlowerHibiscus",
+      "title": "Гибискус",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    }
+  },
+  "used_locations": {
+    "Планетарий": {
+      "code": "96",
+      "title": "Планетарий",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_1",
+      "task_number": 1,
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "Серверная комната": {
+      "code": "134",
+      "title": "Серверная комната",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_1",
+      "task_number": 3,
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Омут": {
+      "code": "58",
+      "title": "Омут",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_2",
+      "task_number": 4,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "Причал": {
+      "code": "71",
+      "title": "Причал",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_2",
+      "task_number": 4,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "Гадальня": {
+      "code": "38",
+      "title": "Гадальня",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_3",
+      "task_number": 7,
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Чародейная": {
+      "code": "91",
+      "title": "Чародейная",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_3",
+      "task_number": 7,
+      "uses": 3,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Лавка": {
+      "code": "12",
+      "title": "Лавка",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_3",
+      "task_number": 8,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "Кузница": {
+      "code": "8",
+      "title": "Кузница",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_3",
+      "task_number": 8,
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Котельная": {
+      "code": "65",
+      "title": "Котельная",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_5",
+      "task_number": 14,
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Трюм": {
+      "code": "73",
+      "title": "Трюм",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_5",
+      "task_number": 15,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Погребок": {
+      "code": "10",
+      "title": "Погребок",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_6",
+      "task_number": 18,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Комната с привидениями": {
+      "code": "88",
+      "title": "Комната с привидениями",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_8",
+      "task_number": 22,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Кухня": {
+      "code": "86",
+      "title": "Кухня",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_8",
+      "task_number": 23,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Комната искусств": {
+      "code": "93",
+      "title": "Комната искусств",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_8",
+      "task_number": 23,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Обзорная": {
+      "code": "184",
+      "title": "Обзорная",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_8",
+      "task_number": 24,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Каюта капитана": {
+      "code": "74",
+      "title": "Каюта капитана",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_9",
+      "task_number": 25,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Озеро девичьих слез": {
+      "code": "21",
+      "title": "Озеро девичьих слез",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_9",
+      "task_number": 27,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Сокровищница": {
+      "code": "22",
+      "title": "Сокровищница",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_9",
+      "task_number": 27,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Барная комната": {
+      "code": "310",
+      "title": "Барная комната",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_9",
+      "task_number": 27,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Хижина Чинга": {
+      "code": "14",
+      "title": "Хижина Чинга",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_10",
+      "task_number": 28,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Оранжерея": {
+      "code": "31",
+      "title": "Оранжерея",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_10",
+      "task_number": 28,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Тронный зал": {
+      "code": "20",
+      "title": "Тронный зал",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_11",
+      "task_number": 31,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Лаборатория": {
+      "code": "23",
+      "title": "Лаборатория",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_11",
+      "task_number": 31,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "Светлица": {
+      "code": "4",
+      "title": "Светлица",
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_12",
+      "task_number": 34,
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.786323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.786323+00:00"
+    }
+  },
+  "used_generated_assets": {
+    "MagicSchool_2026_Character_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_1",
+      "field": "helper",
+      "title": "Кот Учёный",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_GR_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_1",
+      "task_number": 3,
+      "task_template_id": "TT-014",
+      "title": "Найди Волшебный указатель",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "MagicSchool_2026_Character_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_2",
+      "field": "helper",
+      "title": "Полицейский",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "MagicSchool_2026_HOG_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_2",
+      "task_number": 5,
+      "task_template_id": "TT-004",
+      "title": "Найди Магические следы",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.784323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.784323+00:00"
+    },
+    "MagicSchool_2026_Character_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_4",
+      "field": "helper",
+      "title": "Ректор",
+      "uses": 8,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.786323+00:00",
+      "task_number": 35,
+      "task_template_id": "TT-034"
+    },
+    "MagicSchool_2026_HOG_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_4",
+      "task_number": 10,
+      "task_template_id": "TT-003",
+      "title": "Найди Пропавшие страницы гримуара",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_ASK_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_4",
+      "task_number": 11,
+      "task_template_id": "TT-008",
+      "title": "Попроси у друзей Лупа следопыта",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_R_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_4",
+      "task_number": 12,
+      "task_template_id": "TT-002",
+      "title": "Создай Знак следопыта",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_Character_4": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_5",
+      "field": "helper",
+      "title": "Игнис",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_GR_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-015",
+      "title": "Найди Искорка огоньку",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_Character_5": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_6",
+      "field": "helper",
+      "title": "Пожарный",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_GR_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_6",
+      "task_number": 18,
+      "task_template_id": "TT-014",
+      "title": "Найди Огненный уголёк",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_HOG_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_7",
+      "task_number": 19,
+      "task_template_id": "TT-007",
+      "title": "Найди Настоящее пламя дракончику",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_PER_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_7",
+      "task_number": 20,
+      "task_template_id": "TT-009",
+      "title": "Попроси у друзей Огнеупорный кристалл",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_R_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_7",
+      "task_number": 21,
+      "task_template_id": "TT-002",
+      "title": "Создай Орден укротителю",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_Character_6": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_8",
+      "field": "helper",
+      "title": "Засоня",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_Character_7": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_9",
+      "field": "helper",
+      "title": "Шахтер",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_HOG_4": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_9",
+      "task_number": 26,
+      "task_template_id": "TT-007",
+      "title": "Найди Настоящую волшебную руду",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_GR_4": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_9",
+      "task_number": 27,
+      "task_template_id": "TT-013",
+      "title": "Найди Окаменелый кристалл",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_GR_5": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_10",
+      "task_number": 28,
+      "task_template_id": "TT-015",
+      "title": "Найди Корень мандрагоры",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_ASK_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_10",
+      "task_number": 29,
+      "task_template_id": "TT-008",
+      "title": "Попроси у друзей Зачарованную кирку",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_R_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_10",
+      "task_number": 30,
+      "task_template_id": "TT-002",
+      "title": "Создай Самоцвет рудокопа",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.785324+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.785324+00:00"
+    },
+    "MagicSchool_2026_ASK_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_11",
+      "task_number": 32,
+      "task_template_id": "TT-008",
+      "title": "Попроси у друзей Печатную ленту",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-18T07:12:55.786323+00:00",
+      "last_seen_at": "2026-08-18T07:12:55.786323+00:00"
+    },
+    "MagicSchool_2026_Give_3_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "MagicSchool_2026_Story_11",
+      "task_number": 33,
+      "task_template_id": "TT-033",
+      "title": "Передай Церемониальную печать",
+      "field": "icon",
+      "uses": 1,
+      "first_seen_at": "2026-08-21T10:01:47.569343+00:00",
+      "last_seen_at": "2026-08-21T10:01:47.569343+00:00"
+    }
+  }
 }
