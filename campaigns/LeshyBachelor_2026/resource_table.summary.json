@@ -14,8 +14,7 @@
     "PER",
     "PER пост экшен",
     "PER ПАКЕТЫ",
-    "R ассет",
-    "Рецепты 4 ингридиента"
+    "R ассет"
   ],
   "hogs": 5,
   "resources": {
@@ -31,5 +30,18 @@
     "LeshyBachelor_2026_Story_FA_2",
     "LeshyBachelor_2026_Chest_1_R_1"
   ],
-  "warnings": []
+  "warnings": [
+    {
+      "resource": "LeshyBachelor_2026_R_1",
+      "warning": "recipe has fewer than two nearby resource tasks; recipe skipped"
+    },
+    {
+      "resource": "LeshyBachelor_2026_R_2",
+      "warning": "recipe has fewer than two nearby resource tasks; recipe skipped"
+    },
+    {
+      "resource": "LeshyBachelor_2026_R_3",
+      "warning": "recipe has fewer than two nearby resource tasks; recipe skipped"
+    }
+  ]
 }
