@@ -136,6 +136,8 @@ python src/workflow_fast.py fill --campaign <campaign_id> --pack <pack_id>
 
 После успешной сборки ИИ обязан вывести пользователю полный путь к `filled_tasks.json` и краткую сводку для проверки.
 
+Команда `fill` автоматически создает `review/stage4_review.md`. Это единственный файл Stage 4 для ручных правок человека. `workflow_fast.py approve --stage 4 ...` применяет review в `task_choices.json`, заново собирает `filled_tasks.json`, запускает validation и сохраняет checksum review.
+
 ГЛАВНОЕ ПРАВИЛО ЭТАПА 4
 
 ИИ отвечает за смысл: какой кандидат выбран, какой generated-предмет нужен, какая загадка написана, почему выбор подходит к квесту.

@@ -93,6 +93,73 @@ class ReviewDocsTests(unittest.TestCase):
             characters = review.split("## Персонажи", 1)[1].split("## Квесты", 1)[0]
             self.assertNotIn("- Домовёнок", characters)
 
+    def test_stage1_review_parses_legacy_unnumbered_quests(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            campaigns_dir = Path(tmp)
+            pack_dir = campaigns_dir / "Event_2026" / "pack_001"
+            pack_dir.mkdir(parents=True)
+            (pack_dir / "stage1_story.txt").write_text(
+                """Основной сюжет:
+Домовята собирают старых друзей.
+
+Персонажи истории:
+
+Дед Домовед — хранитель дома.
+
+Задания сюжета:
+
+Дед Домовед: Первое письмо
+Суть задания: Дед нашёл старый адрес.
+
+Баба Яга: Второе письмо
+Суть задания: Яга готовит ответ.
+
+Конец этапа 1.
+""",
+                encoding="utf-8",
+            )
+
+            review_path = review_docs.write_review_doc("Event_2026", "pack_001", "1", campaigns_dir)
+            review = review_path.read_text(encoding="utf-8")
+
+            self.assertIn("### 1. Первое письмо", review)
+            self.assertIn("Персонаж: Дед Домовед", review)
+            self.assertIn("### 2. Второе письмо", review)
+            self.assertTrue(review_docs.review_file_is_usable(review_path, "1"))
+
+    def test_stage2_review_parses_legacy_unnumbered_blocks(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            campaigns_dir = Path(tmp)
+            pack_dir = campaigns_dir / "Event_2026" / "pack_001"
+            pack_dir.mkdir(parents=True)
+            (pack_dir / "stage2_story.txt").write_text(
+                """Дед Домовед: Первое письмо
+Суть задания: Дед нашёл старое письмо.
+Старт:
+Домовёнок, взгляни на конверт!
+Завершение:
+Спасибо, дружок, письмо прочитано.
+
+Баба Яга: Второе письмо
+Суть задания: Яга готовит ответ.
+Старт:
+Домовятушка, подай чернила!
+Завершение:
+Ай да ответ получился!
+
+Конец этапа 2.
+""",
+                encoding="utf-8",
+            )
+
+            review_path = review_docs.write_review_doc("Event_2026", "pack_001", "2", campaigns_dir)
+            review = review_path.read_text(encoding="utf-8")
+
+            self.assertIn("### 1. Первое письмо", review)
+            self.assertIn("Персонаж: Дед Домовед", review)
+            self.assertIn("### 2. Второе письмо", review)
+            self.assertTrue(review_docs.review_file_is_usable(review_path, "2"))
+
     def test_stage3_review_applies_template_names_to_stage3_source(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             campaigns_dir = Path(tmp)

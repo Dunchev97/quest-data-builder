@@ -20,7 +20,11 @@ CSV можно создавать только если:
 - `campaigns/<campaign_id>/<pack_id>/quest_group.validation.json` существует;
 - `campaigns/<campaign_id>/<pack_id>/quest_group.validation.json` содержит `errors = 0`;
 - validation-файлы не устарели относительно входных JSON;
-- approval stage 5 записан для того же `campaign_id/pack_id`.
+- для того же `campaign_id/pack_id` записана вся цепочка approval Stage 1-5;
+- существуют и непусты все `review/stage1_review.md`-`review/stage5_review.md`;
+- ни один `review/stage1_review.md`-`review/stage5_review.md` не менялся после соответствующего approval.
+
+Финальный результат — `review/stage6_review.xlsx`. Это единственный файл Stage 6 для ручных правок человека. Повторный Stage 6 не перезаписывает существующий workbook без явного `--force-review`.
 
 Если валидация нашла ошибки, этап 6 должен остановиться:
 

@@ -23,7 +23,7 @@ try:
         pack_dir,
         update_memory_from_pack,
     )
-    from .workflow_context import DEFAULT_CONTEXT_PATH, approve_stage, load_context, write_json
+    from .workflow_context import DEFAULT_CONTEXT_PATH, approve_stage, file_sha256, load_context, stage_approval_error, write_json
 except ImportError:
     import build_actions_table as actions_table_builder
     import build_context_pack as context_pack_builder
@@ -43,7 +43,7 @@ except ImportError:
         pack_dir,
         update_memory_from_pack,
     )
-    from workflow_context import DEFAULT_CONTEXT_PATH, approve_stage, load_context, write_json
+    from workflow_context import DEFAULT_CONTEXT_PATH, approve_stage, file_sha256, load_context, stage_approval_error, write_json
 
 
 STAGE3_TEXT = "stage3_quests.txt"
@@ -78,6 +78,15 @@ REVIEW_DIR = "review"
 
 def pack_artifact(campaign_id: str, pack_id: str, filename: str, campaigns_dir: Path) -> Path:
     return pack_dir(campaign_id, pack_id, campaigns_dir) / filename
+
+
+def ensure_stage_review(campaign_id: str, pack_id: str, stage: str, campaigns_dir: Path) -> Path:
+    path = review_docs.review_path(campaign_id, pack_id, stage, campaigns_dir)
+    existed = path.exists() and path.stat().st_size > 0
+    review_docs.write_review_doc(campaign_id, pack_id, stage, campaigns_dir, overwrite=False)
+    action = "preserved" if existed else "written"
+    print(f"stage {stage} review {action}: {path}")
+    return path
 
 
 def outputs_are_fresh(outputs: list[Path], inputs: list[Path]) -> bool:
@@ -160,6 +169,7 @@ def run_stage3(args: argparse.Namespace) -> int:
     print(f"preview written: {quest_plan_preview_path}")
     if quest_plan["summary"]["issues"]:
         print(f"stage 3 parse issues: {quest_plan['summary']['issues']}")
+        ensure_stage_review(campaign_id, pack_id, "3", args.campaigns_dir)
         return 2
 
     resolved_plan = task_type_resolver.resolve_file(
@@ -171,15 +181,16 @@ def run_stage3(args: argparse.Namespace) -> int:
     print(f"stage 3 resolved: issues={resolved_plan['summary']['issues']}")
     print(f"json written: {resolved_path}")
     print(f"preview written: {resolved_preview_path}")
+    ensure_stage_review(campaign_id, pack_id, "3", args.campaigns_dir)
     return 0 if resolved_plan["summary"]["issues"] == 0 else 2
 
 
 def run_context(args: argparse.Namespace) -> int:
     campaign_id, pack_id = resolve_ids(args)
     approval_error = context_pack_builder.stage3_approval_error(args.context, campaign_id, pack_id)
-    if approval_error is not None and args.require_stage3_approval:
+    if approval_error is not None:
         print(f"context_pack was not built: {approval_error}.")
-        print("Approve stage 3 first.")
+        print("Review and approve stage 3 first through workflow_fast.py approve.")
         return 1
 
     memory_path = existing_campaign_memory(campaign_id, args.campaigns_dir)
@@ -220,6 +231,7 @@ def run_fill(args: argparse.Namespace) -> int:
     print(f"json written: {output_path}")
     print(f"build summary written: {build_path}")
     if summary["issues"]:
+        ensure_stage_review(campaign_id, pack_id, "4", args.campaigns_dir)
         return 2
     validate_rc = run_validate(args)
     # Always remind the user where to inspect the result
@@ -243,13 +255,14 @@ def run_validate(args: argparse.Namespace) -> int:
     print(f"stage 4 validation: tasks={summary['tasks_found']} errors={summary['errors']} warnings={summary['warnings']}")
     print(f"json written: {pack_artifact(campaign_id, pack_id, FILLED_TASKS_VALIDATION, args.campaigns_dir)}")
     print(f"preview written: {pack_artifact(campaign_id, pack_id, FILLED_TASKS_PREVIEW, args.campaigns_dir)}")
+    ensure_stage_review(campaign_id, pack_id, "4", args.campaigns_dir)
     return 0 if summary["errors"] == 0 else 2
 
 
 def run_quest_group(args: argparse.Namespace) -> int:
     campaign_id, pack_id = resolve_ids(args)
     approval_error = quest_group_builder.stage4_approval_error(args.context, campaign_id, pack_id)
-    if approval_error is not None and not args.allow_unapproved:
+    if approval_error is not None:
         print(f"quest_group was not built: {approval_error}.")
         print("Approve stage 4 first.")
         return 1
@@ -291,6 +304,7 @@ def run_quest_group(args: argparse.Namespace) -> int:
     print(f"quest group built: output={quest_group['output']}")
     print(f"errors: {summary['errors']} warnings: {summary['warnings']}")
     print(f"json written: {pack_artifact(campaign_id, pack_id, QUEST_GROUP, args.campaigns_dir)}")
+    ensure_stage_review(campaign_id, pack_id, "5", args.campaigns_dir)
     return 0 if summary["errors"] == 0 else 2
 
 
@@ -314,11 +328,29 @@ def run_stage6(args: argparse.Namespace) -> int:
     interactive_manifest_path = campaign_interactive_manifest_path if campaign_interactive_manifest_path.exists() else pack_interactive_manifest_path
     interactive_summary_path = args.campaigns_dir / campaign_id / GENERATED_INTERACTIVE_OBJECTS_SUMMARY
 
-    approval_error = export_csv.stage5_approval_error(args.context, campaign_id, pack_id)
-    if approval_error is not None and not args.allow_unapproved:
-        print(f"XLSX was not created: {approval_error}.")
-        print("Approve stage 5 first.")
+    reviews_error = review_docs.required_reviews_error(campaign_id, pack_id, campaigns_dir=args.campaigns_dir)
+    if reviews_error is not None:
+        print(f"XLSX was not created: {reviews_error}.")
+        print("Create and approve review documents for stages 1-5 first.")
         return 1
+
+    if workbook_path.exists() and workbook_path.stat().st_size > 0 and not args.force_review:
+        print(f"XLSX was not created: stage 6 review already exists and may contain manual edits: {workbook_path}")
+        print("Pass --force-review only when replacing the reviewed workbook intentionally.")
+        return 1
+
+    approval_context = load_context(args.context)
+    for required_stage in review_docs.EDITABLE_TEXT_REVIEW_STAGES:
+        approval_error = stage_approval_error(
+            approval_context,
+            required_stage,
+            campaign_id=campaign_id,
+            pack_id=pack_id,
+        )
+        if approval_error is not None:
+            print(f"XLSX was not created: {approval_error}.")
+            print("Approve stages 1-5 in order through workflow_fast.py approve.")
+            return 1
 
     try:
         export_csv.ensure_validation_passed(input_path, validation_path, args.allow_stale_validation)
@@ -439,25 +471,76 @@ def run_interactive_objects(args: argparse.Namespace) -> int:
     return 0 if validation["summary"]["errors"] == 0 else 2
 
 
+def rebuild_stage_after_review(args: argparse.Namespace, stage: str) -> int:
+    if stage == "3":
+        return run_stage3(args)
+    if stage == "4":
+        return run_fill(args)
+    if stage == "5":
+        rebuild_args = argparse.Namespace(**vars(args))
+        rebuild_args.title = ""
+        rebuild_args.description = ""
+        rebuild_args.description_complete = ""
+        rebuild_args.description_spoil = ""
+        rebuild_args.output_classname = ""
+        rebuild_args.allow_unapproved = False
+        return run_quest_group(rebuild_args)
+    return 0
+
+
 def run_approve(args: argparse.Namespace) -> int:
     campaign_id, pack_id = resolve_ids(args)
-    stage = str(args.stage)
-    if stage in review_docs.STAGE_REVIEW_FILES and stage != "6":
-        stage_review_path = review_docs.review_path(campaign_id, pack_id, stage, args.campaigns_dir)
-        if stage_review_path.exists():
-            applied_path = review_docs.apply_review_doc(campaign_id, pack_id, stage, args.campaigns_dir)
-            print(f"review applied before approval: {applied_path}")
-    context = approve_stage(load_context(args.context), args.stage, campaign_id=campaign_id, pack_id=pack_id, notes=args.notes)
+    stage = review_docs.normalize_stage(args.stage)
+    current_context = load_context(args.context)
+    for prior_stage_number in range(1, int(stage)):
+        prior_stage = str(prior_stage_number)
+        prior_error = stage_approval_error(
+            current_context,
+            prior_stage,
+            campaign_id=campaign_id,
+            pack_id=pack_id,
+        )
+        if prior_error is not None:
+            print(f"stage was not approved: prior gate failed: {prior_error}")
+            print("Approve stages in order through workflow_fast.py approve.")
+            return 1
+    stage_review_path = review_docs.review_path(campaign_id, pack_id, stage, args.campaigns_dir)
+    if not review_docs.review_file_is_usable(stage_review_path, stage):
+        print(f"stage was not approved: required review document is missing, empty, or has no parsed content: {stage_review_path}")
+        print(f"Create it first: workflow_fast.py review --stage {stage} --campaign {campaign_id} --pack {pack_id}")
+        return 1
+
+    if stage != "6":
+        applied_path = review_docs.apply_review_doc(campaign_id, pack_id, stage, args.campaigns_dir)
+        print(f"review applied before approval: {applied_path}")
+        rebuild_rc = rebuild_stage_after_review(args, stage)
+        if rebuild_rc != 0:
+            print(f"stage was not approved: rebuild/validation after review failed with code {rebuild_rc}")
+            return rebuild_rc
+
+    context = approve_stage(
+        current_context,
+        stage,
+        campaign_id=campaign_id,
+        pack_id=pack_id,
+        notes=args.notes,
+        review_path=stage_review_path,
+        review_sha256=file_sha256(stage_review_path),
+    )
     write_json(args.context, context)
-    print(f"stage approved: {args.stage}")
+    print(f"stage approved: {stage}")
+    print(f"review checksum recorded: {context['stage_approvals'][stage]['review_sha256']}")
     print(f"context written: {args.context}")
     return 0
 
 
 def run_review(args: argparse.Namespace) -> int:
     campaign_id, pack_id = resolve_ids(args)
-    path = review_docs.write_review_doc(campaign_id, pack_id, args.stage, args.campaigns_dir)
-    print(f"review written: {path}")
+    path = review_docs.review_path(campaign_id, pack_id, args.stage, args.campaigns_dir)
+    existed = path.exists() and path.stat().st_size > 0
+    path = review_docs.write_review_doc(campaign_id, pack_id, args.stage, args.campaigns_dir, overwrite=args.force)
+    action = "overwritten" if existed and args.force else "preserved" if existed else "written"
+    print(f"review {action}: {path}")
     return 0
 
 
@@ -511,11 +594,14 @@ def run_status(args: argparse.Namespace) -> int:
             status = "missing" if required else "optional-missing"
         print(f"{filename}: {status}")
     review_root = pack_artifact(campaign_id, pack_id, REVIEW_DIR, args.campaigns_dir)
+    missing_reviews = 0
     for stage, filename in review_docs.STAGE_REVIEW_FILES.items():
         path = review_root / filename
-        status = "ok" if path.exists() else "optional-missing"
+        status = "ok" if review_docs.review_file_is_usable(path, stage) else "missing-or-invalid"
+        if status != "ok":
+            missing_reviews += 1
         print(f"review/stage {stage}: {status}")
-    return 0
+    return 0 if missing_reviews == 0 else 1
 
 
 def add_pack_options(parser: argparse.ArgumentParser) -> None:
@@ -537,7 +623,6 @@ def build_parser() -> argparse.ArgumentParser:
     add_pack_options(context_parser)
     context_parser.add_argument("--candidate-limit", type=int, default=context_pack_builder.DEFAULT_CANDIDATE_LIMIT)
     context_parser.add_argument("--reset-history", action="store_true")
-    context_parser.add_argument("--require-stage3-approval", action="store_true")
     context_parser.set_defaults(func=run_context)
 
     fill_parser = subparsers.add_parser("fill", help="Build strict stage 4 filled_tasks.json from task_choices.json and validate it.")
@@ -555,13 +640,16 @@ def build_parser() -> argparse.ArgumentParser:
     quest_group_parser.add_argument("--description-complete", default="")
     quest_group_parser.add_argument("--description-spoil", default="")
     quest_group_parser.add_argument("--output-classname", default="")
-    quest_group_parser.add_argument("--allow-unapproved", action="store_true")
     quest_group_parser.set_defaults(func=run_quest_group)
 
     stage6_parser = subparsers.add_parser("stage6", help="Export CSV and update campaign memory.")
     add_pack_options(stage6_parser)
     stage6_parser.add_argument("--allow-stale-validation", action="store_true")
-    stage6_parser.add_argument("--allow-unapproved", action="store_true")
+    stage6_parser.add_argument(
+        "--force-review",
+        action="store_true",
+        help="Intentionally overwrite an existing stage6_review.xlsx.",
+    )
     stage6_parser.set_defaults(func=run_stage6)
 
     resource_table_parser = subparsers.add_parser("resource-table", help="Build campaign resource_table.csv.")
@@ -588,6 +676,7 @@ def build_parser() -> argparse.ArgumentParser:
     review_parser = subparsers.add_parser("review", help="Write a user-facing review document for a stage.")
     add_pack_options(review_parser)
     review_parser.add_argument("--stage", required=True)
+    review_parser.add_argument("--force", action="store_true", help="Intentionally overwrite an existing text review.")
     review_parser.set_defaults(func=run_review)
 
     apply_review_parser = subparsers.add_parser("apply-review", help="Apply edits from a stage review document back to workflow files.")

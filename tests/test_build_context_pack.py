@@ -9,6 +9,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.build_context_pack import build_context_pack, build_context_pack_file, main as build_context_pack_main
+from src.workflow_context import file_sha256
 
 
 def write_json(path: Path, value: object) -> None:
@@ -302,6 +303,8 @@ class BuildContextPackTests(unittest.TestCase):
             write_json(input_path, resolved_plan([task(1, "TT-020", "Уборка конкретного мусора в гостях", "garbage classname in_guest", "garbage")]))
             write_json(index_path, sample_quest_ready_index())
             write_json(drops_path, sample_drops())
+            review_path = root / "stage3_review.md"
+            review_path.write_text("approved review", encoding="utf-8")
             write_json(
                 context_path,
                 {
@@ -313,6 +316,8 @@ class BuildContextPackTests(unittest.TestCase):
                             "approved": True,
                             "campaign_id": "Event_2026",
                             "pack_id": "pack_001",
+                            "review_path": str(review_path.resolve()),
+                            "review_sha256": file_sha256(review_path),
                         }
                     },
                 },

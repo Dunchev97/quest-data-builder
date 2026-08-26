@@ -26,6 +26,7 @@ python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <p
 - `campaigns/<campaign_id>/<pack_id>/quest_group.json`
 - `campaigns/<campaign_id>/<pack_id>/quest_group.validation.json`
 - `campaigns/<campaign_id>/<pack_id>/quest_group.preview.md`
+- `campaigns/<campaign_id>/<pack_id>/review/stage5_review.md` — единственный файл этапа для ручных правок человека
 
 `quest_group` привязан к pack, поэтому постоянным источником правды является папка pack в `campaigns/`, а не временная папка `output/`.
 
@@ -130,11 +131,11 @@ python src/workflow_fast.py quest-group \
   --description-spoil "..."
 ```
 
-Скрипт прочитает `campaigns/<campaign_id>/<pack_id>/filled_tasks.json` и создаст `quest_group.json`, validation и preview в той же папке pack.
+Скрипт прочитает `campaigns/<campaign_id>/<pack_id>/filled_tasks.json` и создаст `quest_group.json`, validation, preview и `review/stage5_review.md` в той же папке pack.
 
 Если нужно вручную взять `filled_tasks.json` из другого места, путь можно передать первым аргументом, но `quest_group` всё равно по умолчанию будет записан в `campaigns/<campaign_id>/<pack_id>/`.
 
-После результата этапа 5 нужно остановиться, показать пользователю `quest_group.json`/preview и ждать явный апрув.
+После результата этапа 5 нужно остановиться, показать пользователю `review/stage5_review.md` и ждать явный апрув. Человек правит только этот review, не `quest_group_choices.json` и не `quest_group.json`.
 
 После апрува этапа 5 записать gate:
 

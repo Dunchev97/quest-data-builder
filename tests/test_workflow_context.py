@@ -8,7 +8,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.workflow_context import detect_mode, load_modes, main, stage_is_approved
+from src.workflow_context import approve_stage, detect_mode, file_sha256, load_modes, main, stage_is_approved
 
 
 class WorkflowContextTests(unittest.TestCase):
@@ -86,7 +86,7 @@ class WorkflowContextTests(unittest.TestCase):
             self.assertEqual(context["pack_id"], "pack_001")
             self.assertIn("создай csv", context["matched_keywords"])
 
-    def test_cli_records_stage_approval_for_current_pack(self) -> None:
+    def test_direct_cli_approval_is_disabled(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             context_path = Path(tmp) / "active_context.json"
             main(
@@ -107,10 +107,27 @@ class WorkflowContextTests(unittest.TestCase):
 
             exit_code = main(["--context", str(context_path), "approve", "--stage", "3"])
 
-            self.assertEqual(exit_code, 0)
+            self.assertEqual(exit_code, 1)
             context = json.loads(context_path.read_text(encoding="utf-8"))
-            self.assertTrue(stage_is_approved(context, "3", "MeatballRain_2026", "pack_002"))
+            self.assertFalse(stage_is_approved(context, "3", "MeatballRain_2026", "pack_002"))
             self.assertFalse(stage_is_approved(context, "3", "MeatballRain_2026", "pack_003"))
+
+    def test_review_checksum_invalidates_approval_after_edit(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            review_path = Path(tmp) / "stage3_review.md"
+            review_path.write_text("approved", encoding="utf-8")
+            context = approve_stage(
+                {"stage_approvals": {}},
+                "3",
+                campaign_id="MeatballRain_2026",
+                pack_id="pack_002",
+                review_path=review_path,
+                review_sha256=file_sha256(review_path),
+            )
+
+            self.assertTrue(stage_is_approved(context, "3", "MeatballRain_2026", "pack_002"))
+            review_path.write_text("changed", encoding="utf-8")
+            self.assertFalse(stage_is_approved(context, "3", "MeatballRain_2026", "pack_002"))
 
 
 if __name__ == "__main__":

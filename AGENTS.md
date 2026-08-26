@@ -114,11 +114,18 @@ workspace/active_context.json
 - Stage 6 обязательно вместе с остальными CSV пересобирает campaign-level `campaigns/<campaign_id>/resource_table.csv` и `resource_table.summary.json`: таблица ресурсов агрегирует все `pack_*` текущей campaign по `docs/resource_table_template.csv` / `workflows/RESOURCE_TABLE_WORKFLOW.md`, а не создается отдельным ручным шагом после экспорта.
 - Stage 6 всегда создает pack-level `quest_<campaign_id>_accomplished.xlsx` с листом `conf` и одной строкой на каждый quest из `filled_tasks.json`. Использовать `sl`, donor `/post_action/quest_Night_2026_Story_1_accomplished.proto.js`, фиксированные тексты/награду из утвержденного шаблона, числовые `clicks_limit=5` и `life_time=43200`; `id` оставлять пустым.
 - В `generated_actions.csv` создавать и персонажей без экшенов: отдельный блок с заголовком `ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ`, строки персонажей без параметра `behaviour.0.actions`.
-- Approval записывать через `src/workflow_context.py approve`.
+- Approval записывать только через `python src/workflow_fast.py approve ...`. Прямой `src/workflow_context.py approve` запрещен, потому что он не применяет review и не пересобирает производные артефакты.
 - На Stage 3 task templates `TT-008` (`get_asset ASK`) и `TT-009` (`get_asset PER`) использовать только внутри квестов, где в этом же квесте есть `TT-002` (`get_and_decrease_asset craft`) или `TT-033` (`action give`). В обычных поисковых/сюжетных квестах без craft/give не ставить ASK/PER.
 - На Stage 3 любой HOG template (`TT-003`-`TT-007`) нельзя ставить в квест, если в предыдущем квесте в любом task уже был HOG.
 - В крафтовых квестах чередовать `ASK` и `PER` между собой: если предыдущий крафтовый квест использовал `ASK`, следующий крафтовый должен использовать `PER`, и наоборот.
 - После каждого этапа (1-6) обязательно генерировать review-документ командой `python src/workflow_fast.py review --campaign <campaign_id> --pack <pack_id> --stage <N>`. Review-файлы сохраняются в `campaigns/<campaign_id>/<pack_id>/review/stageN_review.md` (для stage 6 — `stage6_review.xlsx`). Review генерируется всегда, до approval, чтобы пользователь мог проверить результат.
+- `review/` — единственное место, где человек вручную правит quest pack: Stage 1-5 правятся в `stageN_review.md`, Stage 6 — в `stage6_review.xlsx`. `stage1_story.txt`, `stage2_story.txt`, `stage3_quests.txt`, `task_choices.json`, `quest_group_choices.json` и остальные файлы pack являются машинными артефактами и вручную человеком не редактируются.
+- Команды `stage3`, `fill`, `quest-group` и `stage6` создают review автоматически. Для Stage 1-2, у которых нет отдельного build-wrapper, review обязательно создать явной командой `workflow_fast.py review` до approval.
+- Approval Stage 1-5 запрещен, если соответствующий review отсутствует или пуст. Перед записью approval review автоматически применяется к машинному source, а Stage 3-5 заново собираются и валидируются.
+- Approval хранит SHA-256 соответствующего review. Любая правка review после approval аннулирует gate до повторного `workflow_fast.py approve`.
+- Approval записывается строго по порядку Stage 1 → 2 → 3 → 4 → 5; следующий этап нельзя утвердить, пока отсутствует или устарел любой предыдущий gate.
+- Существующий review по умолчанию не перезаписывать: это защита ручных правок. Осознанная регенерация текстового review требует `review --force`, перезапись `stage6_review.xlsx` — `stage6 --force-review`.
+- Stage 6 запрещен без полного семантически непустого комплекта `stage1_review.md`-`stage5_review.md` и без действующей цепочки approval Stage 1-5 с неизмененными review.
 - Stage 2 `stage2_story.txt` писать в формате `N. Персонаж: Название` с нумерацией квестов в первой строке блока, чтобы парсер `review_docs.parse_stage2_source` находил заголовки. Поле `Суть:` писать без префикса `Суть задания:`, чтобы review stage 4 корректно подхватывал суть квеста в свой раздел.
 
 ## Pot Description Workflow

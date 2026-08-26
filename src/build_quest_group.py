@@ -6,9 +6,9 @@ from pathlib import Path
 from typing import Any
 
 try:
-    from .workflow_context import DEFAULT_CONTEXT_PATH, load_context, stage_is_approved
+    from .workflow_context import DEFAULT_CONTEXT_PATH, load_context, stage_approval_error
 except ImportError:
-    from workflow_context import DEFAULT_CONTEXT_PATH, load_context, stage_is_approved
+    from workflow_context import DEFAULT_CONTEXT_PATH, load_context, stage_approval_error
 
 try:
     from .campaigns import DEFAULT_CAMPAIGNS_DIR, pack_dir
@@ -254,16 +254,12 @@ def stage4_approval_error(
     context = load_context(context_path)
     expected_campaign_id = campaign_id or context.get("campaign_id") or ""
     expected_pack_id = pack_id or context.get("pack_id") or ""
-    if stage_is_approved(context, REQUIRED_APPROVAL_STAGE, campaign_id=expected_campaign_id, pack_id=expected_pack_id):
-        return None
-
-    approval = (context.get("stage_approvals") or {}).get(REQUIRED_APPROVAL_STAGE) or {}
-    if approval.get("approved"):
-        return (
-            "stage 4 approval belongs to another campaign/pack: "
-            f"{approval.get('campaign_id') or '-'} / {approval.get('pack_id') or '-'}"
-        )
-    return "stage 4 approval is missing"
+    return stage_approval_error(
+        context,
+        REQUIRED_APPROVAL_STAGE,
+        campaign_id=expected_campaign_id,
+        pack_id=expected_pack_id,
+    )
 
 
 def build_quest_group_file(
@@ -368,7 +364,7 @@ def main(argv: list[str] | None = None) -> int:
             print("Сначала покажи пользователю результат этапа 4 и получи явный апрув в чате.")
             print(
                 "Затем запиши апрув командой: "
-                "python src/workflow_context.py approve --stage 4 "
+                "python src/workflow_fast.py approve --stage 4 "
                 "--campaign <campaign_id> --pack <pack_id>"
             )
             return 1

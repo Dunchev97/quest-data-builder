@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 from datetime import datetime, timezone
@@ -24,6 +25,14 @@ def read_json(path: Path) -> Any:
 def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for chunk in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def normalize_text(value: str) -> str:
@@ -72,6 +81,8 @@ def approve_stage(
     campaign_id: str | None = None,
     pack_id: str | None = None,
     notes: str = "",
+    review_path: Path | None = None,
+    review_sha256: str = "",
 ) -> dict[str, Any]:
     stage = str(stage)
     updated = dict(context)
@@ -82,10 +93,43 @@ def approve_stage(
         "campaign_id": campaign_id if campaign_id is not None else updated.get("campaign_id") or "",
         "pack_id": pack_id if pack_id is not None else updated.get("pack_id") or "",
         "notes": notes,
+        "review_path": str(review_path.resolve()) if review_path is not None else "",
+        "review_sha256": review_sha256,
     }
     updated["stage_approvals"] = approvals
     updated["updated_at"] = now_iso()
     return updated
+
+
+def stage_approval_error(
+    context: dict[str, Any],
+    stage: str,
+    campaign_id: str | None = None,
+    pack_id: str | None = None,
+) -> str | None:
+    approval = (context.get("stage_approvals") or {}).get(str(stage)) or {}
+    if not approval.get("approved"):
+        return f"stage {stage} is not approved"
+    if campaign_id is not None and approval.get("campaign_id") != campaign_id:
+        return (
+            f"stage {stage} approval belongs to another campaign/pack: "
+            f"{approval.get('campaign_id') or '-'} / {approval.get('pack_id') or '-'}"
+        )
+    if pack_id is not None and approval.get("pack_id") != pack_id:
+        return (
+            f"stage {stage} approval belongs to another campaign/pack: "
+            f"{approval.get('campaign_id') or '-'} / {approval.get('pack_id') or '-'}"
+        )
+    approved_review_path = str(approval.get("review_path") or "").strip()
+    approved_review_sha256 = str(approval.get("review_sha256") or "").strip()
+    if not approved_review_path or not approved_review_sha256:
+        return f"stage {stage} approval has no review checksum; approve the stage again through workflow_fast.py"
+    review_file = Path(approved_review_path)
+    if not review_file.exists():
+        return f"stage {stage} approved review is missing: {review_file}"
+    if file_sha256(review_file) != approved_review_sha256:
+        return f"stage {stage} review changed after approval; approve the stage again: {review_file}"
+    return None
 
 
 def stage_is_approved(
@@ -94,14 +138,7 @@ def stage_is_approved(
     campaign_id: str | None = None,
     pack_id: str | None = None,
 ) -> bool:
-    approval = (context.get("stage_approvals") or {}).get(str(stage)) or {}
-    if not approval.get("approved"):
-        return False
-    if campaign_id is not None and approval.get("campaign_id") != campaign_id:
-        return False
-    if pack_id is not None and approval.get("pack_id") != pack_id:
-        return False
-    return True
+    return stage_approval_error(context, stage, campaign_id=campaign_id, pack_id=pack_id) is None
 
 
 def keyword_score(keyword: str) -> int:
@@ -229,16 +266,9 @@ def detect_context(args: argparse.Namespace) -> tuple[dict[str, Any], dict[str, 
 
 
 def approve_context(args: argparse.Namespace) -> dict[str, Any]:
-    existing = load_context(args.context)
-    context = approve_stage(
-        existing,
-        str(args.stage),
-        campaign_id=args.campaign or existing.get("campaign_id") or "",
-        pack_id=args.pack or existing.get("pack_id") or "",
-        notes=args.notes or "",
+    raise ValueError(
+        "direct approval is disabled; use workflow_fast.py approve so the required review is applied, rebuilt, and checksummed"
     )
-    write_json(args.context, context)
-    return context
 
 
 def print_context(context: dict[str, Any]) -> None:
@@ -324,7 +354,7 @@ def build_parser() -> argparse.ArgumentParser:
     detect_parser.add_argument("--quest", type=int, default=None)
     detect_parser.add_argument("--task", type=int, default=None)
 
-    approve_parser = subparsers.add_parser("approve", help="Record a human approval for a workflow stage.")
+    approve_parser = subparsers.add_parser("approve", help="Deprecated: use workflow_fast.py approve so review is applied and rebuilt.")
     approve_parser.add_argument("--stage", required=True, help="Approved stage number, for example 3.")
     approve_parser.add_argument("--campaign", default="")
     approve_parser.add_argument("--pack", default="")
@@ -357,11 +387,9 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"context written: {args.context}")
             return 0 if detection.get("mode") else 2
         if args.command == "approve":
-            context = approve_context(args)
-            print_context(context)
-            print(f"stage approved: {args.stage}")
-            print(f"context written: {args.context}")
-            return 0
+            print("direct approval is disabled because it bypasses review application and rebuild")
+            print("use: python src/workflow_fast.py approve --stage <N> --campaign <campaign_id> --pack <pack_id>")
+            return 1
         if args.command == "clear":
             context = default_context()
             context["source"] = "cleared"

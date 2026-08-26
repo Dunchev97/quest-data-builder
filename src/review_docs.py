@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import zipfile
 from pathlib import Path
 from typing import Any
 
@@ -23,6 +24,7 @@ STAGE_REVIEW_FILES = {
     "5": "stage5_review.md",
     "6": "stage6_review.xlsx",
 }
+EDITABLE_TEXT_REVIEW_STAGES = ("1", "2", "3", "4", "5")
 
 
 def read_text(path: Path) -> str:
@@ -53,6 +55,49 @@ def normalize_stage(stage: str | int) -> str:
 def review_path(campaign_id: str, pack_id: str, stage: str | int, campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR) -> Path:
     stage_text = normalize_stage(stage)
     return pack_dir(campaign_id, pack_id, campaigns_dir) / REVIEW_DIR / STAGE_REVIEW_FILES[stage_text]
+
+
+def missing_review_stages(
+    campaign_id: str,
+    pack_id: str,
+    stages: tuple[str, ...] = EDITABLE_TEXT_REVIEW_STAGES,
+    campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR,
+) -> list[str]:
+    missing: list[str] = []
+    for stage in stages:
+        path = review_path(campaign_id, pack_id, stage, campaigns_dir)
+        if not review_file_is_usable(path, stage):
+            missing.append(stage)
+    return missing
+
+
+def review_file_is_usable(path: Path, stage: str | int) -> bool:
+    stage_text = normalize_stage(stage)
+    if not path.exists() or path.stat().st_size == 0:
+        return False
+    if stage_text == "6":
+        return zipfile.is_zipfile(path)
+    try:
+        text = path.read_text(encoding="utf-8")
+    except UnicodeError:
+        return False
+    if stage_text in {"1", "2", "3", "4"}:
+        return "## Квесты" in text and re.search(r"^###\s+\d+\.", text, re.MULTILINE) is not None
+    fields = parse_stage5_review(text)
+    return all(fields.values())
+
+
+def required_reviews_error(
+    campaign_id: str,
+    pack_id: str,
+    stages: tuple[str, ...] = EDITABLE_TEXT_REVIEW_STAGES,
+    campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR,
+) -> str | None:
+    missing = missing_review_stages(campaign_id, pack_id, stages=stages, campaigns_dir=campaigns_dir)
+    if not missing:
+        return None
+    paths = ", ".join(str(review_path(campaign_id, pack_id, stage, campaigns_dir)) for stage in missing)
+    return f"required review files are missing, empty, or have no parsed content for stages {', '.join(missing)}: {paths}"
 
 
 def pack_artifact(campaign_id: str, pack_id: str, filename: str, campaigns_dir: Path) -> Path:
@@ -147,9 +192,26 @@ def parse_stage1_source(text: str) -> dict[str, Any]:
     quest_text = quests_match.group(1).strip() if quests_match else ""
     quest_pattern = re.compile(r"^\s*(\d+)\.\s*(.+?)\s*$", re.MULTILINE)
     matches = list(quest_pattern.finditer(quest_text))
+    legacy_headers = False
+    if not matches:
+        quest_pattern = re.compile(
+            r"^(?!Суть задания\s*:|Конец этапа)([^\n:]+):\s*([^\n]+)\s*$",
+            re.MULTILINE,
+        )
+        matches = [
+            match
+            for match in quest_pattern.finditer(quest_text)
+            if re.match(r"\s*Суть задания\s*:", quest_text[match.end() :], re.IGNORECASE)
+        ]
+        legacy_headers = True
     for index, match in enumerate(matches):
         end = matches[index + 1].start() if index + 1 < len(matches) else len(quest_text)
-        header = match.group(2).strip()
+        if legacy_headers:
+            character = match.group(1).strip()
+            title = match.group(2).strip()
+            header = f"{character}: {title}"
+        else:
+            header = match.group(2).strip()
         body = quest_text[match.end() : end].strip()
         character = ""
         title = header
@@ -158,7 +220,7 @@ def parse_stage1_source(text: str) -> dict[str, Any]:
         summary_match = re.search(r"Суть задания:\s*(.*)", body, re.S)
         quests.append(
             {
-                "number": match.group(1),
+                "number": str(index + 1) if legacy_headers else match.group(1),
                 "title": title,
                 "character": character,
                 "summary": compact(summary_match.group(1) if summary_match else body),
@@ -247,9 +309,24 @@ def parse_stage2_source(text: str) -> list[dict[str, str]]:
     quests: list[dict[str, str]] = []
     header_pattern = re.compile(r"^\s*(\d+)\.\s*(.+?)\s*$", re.MULTILINE)
     matches = list(header_pattern.finditer(text))
+    if not matches:
+        header_pattern = re.compile(
+            r"^(?!Суть(?: задания)?\s*:|Старт\s*:|Завершение\s*:|Конец этапа)([^\n:]+):\s*([^\n]+)\s*$",
+            re.MULTILINE,
+        )
+        matches = [
+            match
+            for match in header_pattern.finditer(text)
+            if re.match(r"\s*Суть(?: задания)?\s*:", text[match.end() :], re.IGNORECASE)
+        ]
     for index, match in enumerate(matches):
         end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
-        header = match.group(2).strip()
+        if match.lastindex == 2 and not match.group(1).isdigit():
+            character = match.group(1).strip()
+            title = match.group(2).strip()
+            header = f"{character}: {title}"
+        else:
+            header = match.group(2).strip()
         body = text[match.end() : end].strip()
         character = ""
         title = header
@@ -954,10 +1031,18 @@ def render_stage6_review(campaign_id: str, pack_id: str, campaigns_dir: Path) ->
     return "\n".join(lines)
 
 
-def write_review_doc(campaign_id: str, pack_id: str, stage: str | int, campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR) -> Path:
+def write_review_doc(
+    campaign_id: str,
+    pack_id: str,
+    stage: str | int,
+    campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR,
+    overwrite: bool = False,
+) -> Path:
     stage_text = normalize_stage(stage)
     target = review_path(campaign_id, pack_id, stage_text, campaigns_dir)
     pack = pack_dir(campaign_id, pack_id, campaigns_dir)
+    if stage_text != "6" and target.exists() and target.stat().st_size > 0 and not overwrite:
+        return target
     if stage_text == "1":
         content = render_stage1_review(parse_stage1_source(read_text(pack / "stage1_story.txt")))
     elif stage_text == "2":
@@ -975,6 +1060,10 @@ def write_review_doc(campaign_id: str, pack_id: str, stage: str | int, campaigns
         if not target.exists():
             raise FileNotFoundError(f"stage 6 workbook not found: {target}. Run stage6 first.")
         return target
+    if stage_text in {"1", "2", "3", "4"} and re.search(r"^###\s+\d+\.", content, re.MULTILINE) is None:
+        raise ValueError(f"stage {stage_text} review has no parsed quests; fix the machine source before review generation")
+    if stage_text == "5" and not all(parse_stage5_review(content).values()):
+        raise ValueError("stage 5 review has empty required fields")
     write_text(target, content)
     return target
 
@@ -984,6 +1073,8 @@ def apply_review_doc(campaign_id: str, pack_id: str, stage: str | int, campaigns
     source = review_path(campaign_id, pack_id, stage_text, campaigns_dir)
     if not source.exists():
         raise FileNotFoundError(f"review document not found: {source}")
+    if source.stat().st_size == 0:
+        raise ValueError(f"review document is empty: {source}")
     pack = pack_dir(campaign_id, pack_id, campaigns_dir)
     text = read_text(source)
     if stage_text == "1":
@@ -1017,10 +1108,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--pack", required=True)
     parser.add_argument("--stage", required=True)
     parser.add_argument("--campaigns-dir", type=Path, default=DEFAULT_CAMPAIGNS_DIR)
+    parser.add_argument("--force", action="store_true", help="Overwrite an existing text review document.")
     args = parser.parse_args(argv)
     try:
         if args.command == "write":
-            path = write_review_doc(args.campaign, args.pack, args.stage, args.campaigns_dir)
+            path = write_review_doc(args.campaign, args.pack, args.stage, args.campaigns_dir, overwrite=args.force)
             print(f"review written: {path}")
         else:
             path = apply_review_doc(args.campaign, args.pack, args.stage, args.campaigns_dir)

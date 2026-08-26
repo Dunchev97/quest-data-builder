@@ -51,17 +51,29 @@ python src/workflow_context.py show
 python src/workflow_context.py set --mode quest_generation --campaign <campaign_id> --pack <pack_id> --stage <stage>
 ```
 
-Записать approval:
-
-```bash
-python src/workflow_context.py approve --stage <stage> --campaign <campaign_id> --pack <pack_id>
-```
-
-Быстрый вариант approval:
+Записать approval можно только через review-aware wrapper:
 
 ```bash
 python src/workflow_fast.py approve --stage <stage> --campaign <campaign_id> --pack <pack_id>
 ```
+
+Прямой `workflow_context.py approve` отключен: он обходил применение review, пересборку и validation.
+
+## Единственная Папка Для Ручных Правок
+
+Человек вручную правит только файлы внутри:
+
+```text
+campaigns/<campaign_id>/<pack_id>/review/
+```
+
+- Stage 1-5: `stage1_review.md` ... `stage5_review.md`.
+- Stage 6: `stage6_review.xlsx`.
+- Все остальные файлы pack — машинные source/build/validation артефакты. Человеку не нужно и не следует править их вручную.
+- Approval Stage 1-5 применяет соответствующий review обратно в machine source, пересобирает и валидирует производные артефакты, затем сохраняет SHA-256 review.
+- Если review изменился после approval, следующий gate откажет в работе до повторного approval.
+- Approval выполняется строго по порядку Stage 1 → 2 → 3 → 4 → 5; Stage 6 проверяет всю цепочку, а не только последний gate.
+- Существующий review не перезаписывается автоматически. Осознанная замена требует `review --force` или `stage6 --force-review`.
 
 ## Быстрый Маршрут
 
@@ -72,6 +84,10 @@ python src/workflow_fast.py approve --stage <stage> --campaign <campaign_id> --p
 ```bash
 python src/workflow_fast.py status --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py interactive-objects --campaign <campaign_id> --pack <pack_id> --select chest_1 --select help_1
+python src/workflow_fast.py review --stage 1 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 1 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py review --stage 2 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 2 --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py stage3 --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
 python src/workflow_fast.py context --campaign <campaign_id> --pack <pack_id>
@@ -118,6 +134,12 @@ generated_quests.csv
 generated_actions.csv
 generated_actions.summary.json
 quest_<campaign_id>_accomplished.xlsx
+review/stage1_review.md
+review/stage2_review.md
+review/stage3_review.md
+review/stage4_review.md
+review/stage5_review.md
+review/stage6_review.xlsx
 ```
 
 Campaign-level files:
@@ -152,6 +174,8 @@ campaigns/<campaign_id>/resource_table.summary.json
 - валидирует task objects;
 - валидирует quest group;
 - проверяет approval gates;
+- автоматически создает review Stage 3-6 и запрещает переходы без обязательных review;
+- применяет ручные изменения только из `review/`, пересобирает Stage 3-5 и хранит контрольную сумму утвержденного review;
 - экспортирует CSV;
 - экспортирует CSV интерактивных объектов по `data/interactive_object_templates.json`;
 - экспортирует actions CSV для персонажей, Give и HOG search;
@@ -180,16 +204,19 @@ Codex выполняет один этап за раз и останавлива
 Технические gates:
 
 ```bash
-python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
-python src/workflow_context.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>
-python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 1 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 2 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
 ```
 
 Скрипты должны отказываться работать, если gate отсутствует:
 
-- `build_context_pack.py` по умолчанию не требует approval stage 3; старый строгий режим доступен через `--require-stage3-approval`.
+- `workflow_fast.py context` всегда требует действующий approval Stage 3 и неизмененный `stage3_review.md`.
 - `build_quest_group.py` требует approval stage 4.
 - `export_csv.py` требует approval stage 5.
+- `workflow_fast.py stage6` дополнительно требует полный семантически непустой комплект review и действующую цепочку approval Stage 1-5.
 
 ## Workflow 1-6
 
@@ -232,9 +259,15 @@ Result resources выбранных объектов используются к
 
 ```text
 campaigns/<campaign_id>/<pack_id>/stage1_story.txt
+campaigns/<campaign_id>/<pack_id>/review/stage1_review.md
 ```
 
-После показа результата нужен approval пользователя.
+`stage1_story.txt` — машинный source. Перед показом результата обязательно создать `stage1_review.md`; пользователь правит только его:
+
+```bash
+python src/workflow_fast.py review --stage 1 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 1 --campaign <campaign_id> --pack <pack_id>
+```
 
 ### Stage 2 - Реплики
 
@@ -244,9 +277,15 @@ campaigns/<campaign_id>/<pack_id>/stage1_story.txt
 
 ```text
 campaigns/<campaign_id>/<pack_id>/stage2_story.txt
+campaigns/<campaign_id>/<pack_id>/review/stage2_review.md
 ```
 
-После показа результата нужен approval пользователя.
+`stage2_story.txt` — машинный source. Перед показом результата обязательно создать `stage2_review.md`; пользователь правит только его:
+
+```bash
+python src/workflow_fast.py review --stage 2 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 2 --campaign <campaign_id> --pack <pack_id>
+```
 
 ### Stage 3 - План Квестов И Task Templates
 
@@ -269,6 +308,8 @@ campaigns/<campaign_id>/<pack_id>/stage2_story.txt
 ```bash
 python src/workflow_fast.py stage3 --campaign <campaign_id> --pack <pack_id>
 ```
+
+Команда автоматически создает `review/stage3_review.md`. Если файл уже существует, он сохраняется без перезаписи ручных правок.
 
 Основные выходы:
 
@@ -313,7 +354,7 @@ campaigns/<campaign_id>/<pack_id>/context_pack.json
 campaigns/<campaign_id>/<pack_id>/context_pack.preview.md
 ```
 
-`build_context_pack.py` запускается без отдельного approval stage 3. Это техническая подготовка перед stage 4; процессный approval stage 3 всё равно нужен перед переходом к творческому заполнению.
+`workflow_fast.py context` запускается только после действующего approval Stage 3. Если `stage3_review.md` изменен после approval, context pack не собирается до повторного approval.
 
 ### Stage 4 - Task Choices And Filled Tasks
 
@@ -337,6 +378,8 @@ campaigns/<campaign_id>/<pack_id>/filled_tasks.preview.md
 python src/workflow_fast.py fill --campaign <campaign_id> --pack <pack_id>
 ```
 
+Команда автоматически создает `review/stage4_review.md`. Пользователь проверяет и правит только этот review; approval применяет его в `task_choices.json`, заново собирает `filled_tasks.json` и запускает validation.
+
 Нужно показать пользователю `task_choices`, собранные `filled_tasks` и validation summary. После approval записать:
 
 ```bash
@@ -352,6 +395,8 @@ python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <p
 ```bash
 python src/workflow_fast.py quest-group --campaign <campaign_id> --pack <pack_id>
 ```
+
+Команда автоматически создает `review/stage5_review.md`. Пользователь правит только review; approval применяет его в `quest_group_choices.json`, заново собирает `quest_group.json` и запускает validation.
 
 Выход:
 
@@ -373,7 +418,7 @@ campaigns/<campaign_id>/<pack_id>/quest_group.preview.md
 После approval пользователя записать:
 
 ```bash
-python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
 ```
 
 ### Stage 6 - CSV Export
@@ -385,6 +430,8 @@ python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack
 ```bash
 python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>
 ```
+
+Команда отказывается работать, если отсутствует или не содержит распознанных данных хотя бы один файл `stage1_review.md`-`stage5_review.md`, если не утвержден любой Stage 1-5 или соответствующий review изменился после approval. Результат создается как `review/stage6_review.xlsx`; это единственный Excel-файл pack, который человек правит вручную. Существующий workbook по умолчанию защищен от перезаписи; намеренная замена требует `--force-review`.
 
 Stage 6 работает инкрементально: если `resource_table.csv` / `resource_table.summary.json` свежее всех `filled_tasks.json`, `context_pack.json` и `interactive_objects.json` campaign, таблица ресурсов не пересобирается. Interactive-object CSV тоже пропускаются, если они свежее `interactive_objects.json`. Для ручной полной пересборки используй отдельные fallback-команды `resource-table` и `interactive-objects --export`.
 
@@ -461,7 +508,9 @@ campaigns/<campaign_id>/resource_table.summary.json
 
 CSV не создается, если:
 
-- approval stage 5 отсутствует;
+- отсутствует или пуст хотя бы один review Stage 1-5;
+- отсутствует любой approval Stage 1-5;
+- любой `stage1_review.md`-`stage5_review.md` изменен после approval;
 - validation stage 4 содержит errors;
 - validation stage 5 содержит errors;
 - `interactive_objects.json` есть и заполнен, но в нем неизвестный template id или противоречивые данные. Пустой файл выбора не должен жестко блокировать нестандартные сценарии;

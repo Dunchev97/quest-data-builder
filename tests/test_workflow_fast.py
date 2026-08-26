@@ -11,6 +11,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from src import workflow_fast
+from src.workflow_context import file_sha256
 
 
 STAGE3_ONE_DIALOG = """
@@ -27,6 +28,41 @@ Tasks:
 congratulation: "Done."
 Character: Helper
 """
+
+
+def approved_stage_record(stage: str, campaign_id: str, pack_id: str, review_path: Path) -> dict[str, object]:
+    review_path.parent.mkdir(parents=True, exist_ok=True)
+    if not review_path.exists():
+        review_path.write_text(f"stage {stage} review", encoding="utf-8")
+    return {
+        "approved": True,
+        "campaign_id": campaign_id,
+        "pack_id": pack_id,
+        "review_path": str(review_path.resolve()),
+        "review_sha256": file_sha256(review_path),
+    }
+
+
+def write_usable_review(review_path: Path, stage: int) -> None:
+    review_path.parent.mkdir(parents=True, exist_ok=True)
+    if stage == 5:
+        content = """# Контрольный документ. Этап 5
+
+## Quest group
+
+Название: Проверка
+Описание: Описание.
+Успех: Успех.
+Провал: Провал.
+"""
+    else:
+        content = f"""# Контрольный документ. Этап {stage}
+
+## Квесты
+
+### 1. Проверка
+"""
+    review_path.write_text(content, encoding="utf-8")
 
 
 class WorkflowFastTests(unittest.TestCase):
@@ -71,6 +107,7 @@ class WorkflowFastTests(unittest.TestCase):
             self.assertEqual(exit_code, 0)
             self.assertTrue((pack_dir / "quest_plan.json").exists())
             self.assertTrue((pack_dir / "quest_plan.resolved.json").exists())
+            self.assertTrue((pack_dir / "review" / "stage3_review.md").exists())
             resolved = json.loads((pack_dir / "quest_plan.resolved.json").read_text(encoding="utf-8"))
             self.assertEqual(resolved["summary"]["issues"], 0)
             self.assertEqual(resolved["quests"][0]["tasks"][0]["task_template_id"], "TT-001")
@@ -103,7 +140,7 @@ class WorkflowFastTests(unittest.TestCase):
                 ]
             )
 
-            self.assertEqual(exit_code, 0)
+            self.assertEqual(exit_code, 1)
 
     def test_quest_group_fast_command_reads_choices_file(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -145,11 +182,12 @@ class WorkflowFastTests(unittest.TestCase):
                         "campaign_id": "Event_2026",
                         "pack_id": "pack_001",
                         "stage_approvals": {
-                            "4": {
-                                "approved": True,
-                                "campaign_id": "Event_2026",
-                                "pack_id": "pack_001",
-                            }
+                            "4": approved_stage_record(
+                                "4",
+                                "Event_2026",
+                                "pack_001",
+                                pack_dir / "review" / "stage4_review.md",
+                            )
                         },
                     }
                 ),
@@ -172,6 +210,7 @@ class WorkflowFastTests(unittest.TestCase):
 
             self.assertEqual(exit_code, 0)
             self.assertTrue((pack_dir / "quest_group.json").exists())
+            self.assertTrue((pack_dir / "review" / "stage5_review.md").exists())
 
     def test_interactive_objects_fast_command_writes_selection_preview(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -259,6 +298,100 @@ class WorkflowFastTests(unittest.TestCase):
             data = json.loads((pack_dir / "quest_group_choices.json").read_text(encoding="utf-8"))
             self.assertEqual(data["title"], "Новый заголовок")
 
+    def test_review_command_preserves_manual_edits_without_force(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            campaigns_dir = Path(temp_dir) / "campaigns"
+            pack_dir = campaigns_dir / "Event_2026" / "pack_001"
+            pack_dir.mkdir(parents=True)
+            choices_path = pack_dir / "quest_group_choices.json"
+            choices_path.write_text(
+                json.dumps(
+                    {
+                        "title": "Первый заголовок",
+                        "description": "Описание.",
+                        "description_complete": "Успех.",
+                        "description_spoil": "Провал.",
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            base_args = [
+                "review",
+                "--stage",
+                "5",
+                "--campaign",
+                "Event_2026",
+                "--pack",
+                "pack_001",
+                "--campaigns-dir",
+                str(campaigns_dir),
+            ]
+            self.assertEqual(workflow_fast.main(base_args), 0)
+            review_path = pack_dir / "review" / "stage5_review.md"
+            review_path.write_text(
+                review_path.read_text(encoding="utf-8").replace("Первый заголовок", "Ручная правка"),
+                encoding="utf-8",
+            )
+            choices = json.loads(choices_path.read_text(encoding="utf-8"))
+            choices["title"] = "Новый machine source"
+            choices_path.write_text(json.dumps(choices, ensure_ascii=False), encoding="utf-8")
+
+            self.assertEqual(workflow_fast.main(base_args), 0)
+            self.assertIn("Ручная правка", review_path.read_text(encoding="utf-8"))
+            self.assertEqual(workflow_fast.main([*base_args, "--force"]), 0)
+            self.assertIn("Новый machine source", review_path.read_text(encoding="utf-8"))
+
+    def test_approve_refuses_missing_review(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            context_path = root / "active_context.json"
+            exit_code = workflow_fast.main(
+                [
+                    "approve",
+                    "--stage",
+                    "1",
+                    "--campaign",
+                    "Event_2026",
+                    "--pack",
+                    "pack_001",
+                    "--campaigns-dir",
+                    str(root / "campaigns"),
+                    "--context",
+                    str(context_path),
+                ]
+            )
+
+            self.assertEqual(exit_code, 1)
+            self.assertFalse(context_path.exists())
+
+    def test_approve_refuses_out_of_order_stage(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            campaigns_dir = root / "campaigns"
+            context_path = root / "active_context.json"
+            review_path = campaigns_dir / "Event_2026" / "pack_001" / "review" / "stage2_review.md"
+            write_usable_review(review_path, 2)
+
+            exit_code = workflow_fast.main(
+                [
+                    "approve",
+                    "--stage",
+                    "2",
+                    "--campaign",
+                    "Event_2026",
+                    "--pack",
+                    "pack_001",
+                    "--campaigns-dir",
+                    str(campaigns_dir),
+                    "--context",
+                    str(context_path),
+                ]
+            )
+
+            self.assertEqual(exit_code, 1)
+            self.assertFalse(context_path.exists())
+
     def test_approve_applies_existing_review_before_marking_stage(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
@@ -276,6 +409,41 @@ class WorkflowFastTests(unittest.TestCase):
                     },
                     ensure_ascii=False,
                     indent=2,
+                ),
+                encoding="utf-8",
+            )
+            (pack_dir / "filled_tasks.json").write_text(
+                json.dumps(
+                    {
+                        "quests": [
+                            {
+                                "classname_quests": "Event_2026_Story_1",
+                                "title_quest": "Проверка",
+                                "tasks": [],
+                            }
+                        ]
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            prior_approvals: dict[str, object] = {}
+            for prior_stage in range(1, 5):
+                prior_review_path = pack_dir / "review" / f"stage{prior_stage}_review.md"
+                write_usable_review(prior_review_path, prior_stage)
+                prior_approvals[str(prior_stage)] = approved_stage_record(
+                    str(prior_stage),
+                    "Event_2026",
+                    "pack_001",
+                    prior_review_path,
+                )
+            context_path.write_text(
+                json.dumps(
+                    {
+                        "campaign_id": "Event_2026",
+                        "pack_id": "pack_001",
+                        "stage_approvals": prior_approvals,
+                    }
                 ),
                 encoding="utf-8",
             )
@@ -319,8 +487,11 @@ class WorkflowFastTests(unittest.TestCase):
             self.assertEqual(approve_code, 0)
             data = json.loads((pack_dir / "quest_group_choices.json").read_text(encoding="utf-8"))
             context = json.loads(context_path.read_text(encoding="utf-8"))
+            quest_group = json.loads((pack_dir / "quest_group.json").read_text(encoding="utf-8"))
             self.assertEqual(data["title"], "Новый заголовок")
+            self.assertEqual(quest_group["title"], "Новый заголовок")
             self.assertTrue(context["stage_approvals"]["5"]["approved"])
+            self.assertEqual(context["stage_approvals"]["5"]["review_sha256"], file_sha256(review_path))
 
     def test_stage6_exports_review_workbook_without_csv_files(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -419,17 +590,23 @@ class WorkflowFastTests(unittest.TestCase):
                 campaign_dir / "generated_interactive_objects_mixer_1.csv",
             ):
                 stale_csv.write_text("stale", encoding="utf-8")
+            for stage in range(1, 6):
+                review_path = pack_dir / "review" / f"stage{stage}_review.md"
+                write_usable_review(review_path, stage)
+            stage5_review_path = pack_dir / "review" / "stage5_review.md"
             context_path.write_text(
                 json.dumps(
                     {
                         "campaign_id": "Event_2026",
                         "pack_id": "pack_001",
                         "stage_approvals": {
-                            "5": {
-                                "approved": True,
-                                "campaign_id": "Event_2026",
-                                "pack_id": "pack_001",
-                            }
+                            str(stage): approved_stage_record(
+                                str(stage),
+                                "Event_2026",
+                                "pack_001",
+                                pack_dir / "review" / f"stage{stage}_review.md",
+                            )
+                            for stage in range(1, 6)
                         },
                     }
                 ),
@@ -514,6 +691,53 @@ class WorkflowFastTests(unittest.TestCase):
             )
             quest_values = [str(value) for row in workbook["КВЕСТЫ"].iter_rows(values_only=True) for value in row if value]
             self.assertIn("Проверочная группа", quest_values)
+
+    def test_stage6_refuses_incomplete_review_set(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            pack_dir = root / "campaigns" / "Event_2026" / "pack_001"
+            pack_dir.mkdir(parents=True)
+            exit_code = workflow_fast.main(
+                [
+                    "stage6",
+                    "--campaign",
+                    "Event_2026",
+                    "--pack",
+                    "pack_001",
+                    "--campaigns-dir",
+                    str(root / "campaigns"),
+                    "--context",
+                    str(root / "active_context.json"),
+                ]
+            )
+            self.assertEqual(exit_code, 1)
+
+    def test_stage6_preserves_existing_workbook_without_force(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            pack_dir = root / "campaigns" / "Event_2026" / "pack_001"
+            review_dir = pack_dir / "review"
+            review_dir.mkdir(parents=True)
+            for stage in range(1, 6):
+                write_usable_review(review_dir / f"stage{stage}_review.md", stage)
+            workbook_path = review_dir / "stage6_review.xlsx"
+            workbook_path.write_bytes(b"manual workbook edits")
+
+            exit_code = workflow_fast.main(
+                [
+                    "stage6",
+                    "--campaign",
+                    "Event_2026",
+                    "--pack",
+                    "pack_001",
+                    "--campaigns-dir",
+                    str(root / "campaigns"),
+                    "--context",
+                    str(root / "active_context.json"),
+                ]
+            )
+            self.assertEqual(exit_code, 1)
+            self.assertEqual(workbook_path.read_bytes(), b"manual workbook edits")
 
 
 if __name__ == "__main__":

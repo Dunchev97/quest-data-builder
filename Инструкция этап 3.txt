@@ -6,6 +6,8 @@
 
 Превратить сюжетные квесты из этапов 1-2 в план игровых заданий. Для каждого квеста выбрать 3 task template ID, которые по смыслу подходят к description и congratulation.
 
+`python src/workflow_fast.py stage3 ...` автоматически создает `review/stage3_review.md`. Человек правит только review. `workflow_fast.py approve --stage 3 ...` применяет его в `stage3_quests.txt`, заново собирает `quest_plan*.json`, валидирует результат и сохраняет checksum review.
+
 ## Что делает ИИ
 
 - Читает `title_quest`, `description`, `congratulation`, `Character` из этапа 2.

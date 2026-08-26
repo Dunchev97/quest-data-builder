@@ -117,21 +117,23 @@ python src/update_campaign_memory.py MeatballRain_2026 --pack pack_002 --from-ou
 | Этап | Что Делает | Главный Результат | Approval |
 | --- | --- | --- | --- |
 | Перед 1 | Выбор интерактивных объектов | `interactive_objects.json` | не нужен, но нужен выбор пользователя |
-| 1 | Сюжетная структура pack | `stage1_story.txt` | нужен |
-| 2 | Реплики начала/завершения | `stage2_story.txt` | нужен |
-| 3 | План квестов и task templates | `stage3_quests.txt`, `quest_plan*.json` | нужен |
+| 1 | Сюжетная структура pack | `review/stage1_review.md` | нужен |
+| 2 | Реплики начала/завершения | `review/stage2_review.md` | нужен |
+| 3 | План квестов и task templates | `review/stage3_review.md` | нужен |
 | 3.1 | Context pack для ИИ | `context_pack.json` | не нужен |
-| 4 | Task choices, filled task objects + validation | `task_choices.json`, `filled_tasks.json`, `filled_tasks.validation.json` | нужен |
-| 5 | Quest group pack | `quest_group.json` | нужен |
-| 6 | CSV export | `generated_quests.csv`, `generated_actions.csv`, `generated_interactive_objects_*.csv` | запускается только после approval stage 5 |
+| 4 | Task choices, filled task objects + validation | `review/stage4_review.md` | нужен |
+| 5 | Quest group pack | `review/stage5_review.md` | нужен |
+| 6 | Финальная таблица | `review/stage6_review.xlsx` | запускается только после approval stage 5 |
 
 Технические gates:
 
 ```bash
-python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
-python src/workflow_context.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>
-python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>
+python src/workflow_fast.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
 ```
+
+Человек вручную правит только `campaigns/<campaign_id>/<pack_id>/review/`. Approval применяет review к машинным артефактам, пересобирает этап и сохраняет контрольную сумму; прямой `workflow_context.py approve` отключен.
 
 ## Основные Команды Этапов
 

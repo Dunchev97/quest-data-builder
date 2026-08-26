@@ -15,7 +15,7 @@ try:
         candidate_is_used_by_campaign,
         generated_sequence_offsets_for_json,
     )
-    from .workflow_context import DEFAULT_CONTEXT_PATH, load_context, stage_is_approved
+    from .workflow_context import DEFAULT_CONTEXT_PATH, load_context, stage_approval_error
 except ImportError:
     from campaigns import (
         DEFAULT_CAMPAIGNS_DIR,
@@ -24,7 +24,7 @@ except ImportError:
         candidate_is_used_by_campaign,
         generated_sequence_offsets_for_json,
     )
-    from workflow_context import DEFAULT_CONTEXT_PATH, load_context, stage_is_approved
+    from workflow_context import DEFAULT_CONTEXT_PATH, load_context, stage_approval_error
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -829,21 +829,12 @@ def stage3_approval_error(
     context = load_context(context_path)
     expected_campaign_id = campaign_id or context.get("campaign_id") or ""
     expected_pack_id = pack_id or context.get("pack_id") or ""
-    if stage_is_approved(
+    return stage_approval_error(
         context,
         REQUIRED_APPROVAL_STAGE,
         campaign_id=expected_campaign_id,
         pack_id=expected_pack_id,
-    ):
-        return None
-
-    approval = (context.get("stage_approvals") or {}).get(REQUIRED_APPROVAL_STAGE) or {}
-    if approval.get("approved"):
-        return (
-            "stage 3 approval belongs to another campaign/pack: "
-            f"{approval.get('campaign_id') or '-'} / {approval.get('pack_id') or '-'}"
-        )
-    return "stage 3 approval is missing"
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -963,7 +954,7 @@ def main(argv: list[str] | None = None) -> int:
             print("Сначала покажи пользователю результат этапа 3 и получи явный апрув в чате.")
             print(
                 "Затем запиши апрув командой: "
-                "python src/workflow_context.py approve --stage 3 "
+                "python src/workflow_fast.py approve --stage 3 "
                 "--campaign <campaign_id> --pack <pack_id>"
             )
             return 1

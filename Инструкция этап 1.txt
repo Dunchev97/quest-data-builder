@@ -147,3 +147,5 @@
 Правило human approval gate:
 
 Этап 1 выполняется отдельно. После результата этапа 1 нужно остановиться, показать пользователю общий сюжет, персонажей и список квестов, затем ждать явный апрув в чате. Нельзя сразу переходить к этапу 2, 3, 4 или 5 без апрува пользователя.
+
+Перед показом создать `campaigns/<campaign_id>/<pack_id>/review/stage1_review.md` командой `python src/workflow_fast.py review --stage 1 --campaign <campaign_id> --pack <pack_id>`. Человек правит только review, не `stage1_story.txt`. Approval записывать только через `python src/workflow_fast.py approve --stage 1 ...`.
