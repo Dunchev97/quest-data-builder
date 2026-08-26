@@ -1,0 +1,38 @@
+{
+  "campaign_id": "AutumnEquinox_2026",
+  "pack_id": "pack_001",
+  "manifest": "C:\\Users\\USER\\Desktop\\квесты\\quest-data-builder-main\\campaigns\\AutumnEquinox_2026\\interactive_objects.json",
+  "selected_count": 2,
+  "sheets_written": [
+    {
+      "template_id": "help_1",
+      "object_id": "help_1",
+      "result_resource": "AutumnEquinox_2026_HELP_1_R_Opener",
+      "sheet": "ИНТЕРАКТИВ HELP",
+      "rows": 37
+    },
+    {
+      "template_id": "exchanger",
+      "object_id": "exchanger",
+      "result_resource": "AutumnEquinox_2026_Exchanger_R_1",
+      "sheet": "ИНТЕРАКТИВ Exchanger",
+      "rows": 38
+    }
+  ],
+  "files_written": [
+    {
+      "template_id": "help_1",
+      "object_id": "help_1",
+      "result_resource": "AutumnEquinox_2026_HELP_1_R_Opener",
+      "sheet": "ИНТЕРАКТИВ HELP",
+      "rows": 37
+    },
+    {
+      "template_id": "exchanger",
+      "object_id": "exchanger",
+      "result_resource": "AutumnEquinox_2026_Exchanger_R_1",
+      "sheet": "ИНТЕРАКТИВ Exchanger",
+      "rows": 38
+    }
+  ]
+}

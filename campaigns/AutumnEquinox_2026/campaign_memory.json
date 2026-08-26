@@ -1,0 +1,1485 @@
+{
+  "version": 1,
+  "campaign_id": "AutumnEquinox_2026",
+  "created_at": "2026-08-26",
+  "updated_at": "2026-08-26T13:24:48.687401+00:00",
+  "packs": {
+    "pack_001": {
+      "pack_id": "pack_001",
+      "updated_at": "2026-08-26T13:24:48.693431+00:00",
+      "filled_tasks": "C:\\Users\\USER\\Desktop\\квесты\\quest-data-builder-main\\campaigns\\AutumnEquinox_2026\\pack_001\\filled_tasks.json",
+      "context_pack": "C:\\Users\\USER\\Desktop\\квесты\\quest-data-builder-main\\campaigns\\AutumnEquinox_2026\\pack_001\\context_pack.json",
+      "tasks_found": 48,
+      "selected_candidates_found": 32,
+      "quest_group": "C:\\Users\\USER\\Desktop\\квесты\\quest-data-builder-main\\campaigns\\AutumnEquinox_2026\\pack_001\\quest_group.json",
+      "quest_group_validation": "C:\\Users\\USER\\Desktop\\квесты\\quest-data-builder-main\\campaigns\\AutumnEquinox_2026\\pack_001\\quest_group.validation.json",
+      "interactive_objects": "C:\\Users\\USER\\Desktop\\квесты\\quest-data-builder-main\\campaigns\\AutumnEquinox_2026\\interactive_objects.json"
+    }
+  },
+  "used_candidate_ids": {
+    "collection_drop:EmptyMoneyBagCollection3:EmptyMoneyBag:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "task_number": 2,
+      "task_template_id": "TT-028",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "garbage:OracleBook": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "task_number": 3,
+      "task_template_id": "TT-030",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "garbage:SmashedEarthenwareTeaPot": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "task_number": 4,
+      "task_template_id": "TT-025",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "collection_drop:Garbage_MakeupCollection5:Garbage_Makeup:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "task_number": 5,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "garbage:BottleWithNote": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "task_number": 6,
+      "task_template_id": "TT-021",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "collection_drop:BirchLeafCollection3:BirchLeaf:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-026",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "flower:FlowerBlueRose": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_3",
+      "task_number": 9,
+      "task_template_id": "TT-017",
+      "domain": "flower",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "garbage:BrokenPipe": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_4",
+      "task_number": 11,
+      "task_template_id": "TT-029",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "flower:FlowerMagazine9_Plumeria": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "task_number": 13,
+      "task_template_id": "TT-018",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "collection_drop:GarbageCupCoffeeCollection2:GarbageCupCoffee:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-026",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "flower:FlowerSeaBuckthorn": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-016",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "garbage:TurbidWater": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_6",
+      "task_number": 17,
+      "task_template_id": "TT-020",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "gr_garbage:SamovarBoot:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_6",
+      "task_number": 18,
+      "task_template_id": "TT-014",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "gr_garbage:ArmorOfSnail:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_7",
+      "task_number": 20,
+      "task_template_id": "TT-013",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "flower:FlowerKissTulip": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_8",
+      "task_number": 22,
+      "task_template_id": "TT-023",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "flower:FlowerDahlia": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_8",
+      "task_number": 24,
+      "task_template_id": "TT-017",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "garbage:BrokenJug": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_9",
+      "task_number": 26,
+      "task_template_id": "TT-030",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "collection_drop:SamovarBootCollection5:SamovarBoot:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_9",
+      "task_number": 27,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "flower:FlowerLaysDill": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_10",
+      "task_number": 28,
+      "task_template_id": "TT-018",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "flower:FlowerElewen": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_10",
+      "task_number": 29,
+      "task_template_id": "TT-022",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "flower:FlowerFuchsia": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_10",
+      "task_number": 30,
+      "task_template_id": "TT-016",
+      "domain": "flower",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "collection_drop:BrokenBarrelCollection3:BrokenBarrel:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_11",
+      "task_number": 32,
+      "task_template_id": "TT-027",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "garbage:FlapOfTissue": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "task_number": 35,
+      "task_template_id": "TT-020",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "collection_drop:SnowPatternCollection3:SnowPattern:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "task_number": 36,
+      "task_template_id": "TT-028",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "collection_drop:BigHome_Garbage_Nursery_MugNotShedding_Collection2:BigHome_Garbage_Nursery_MugNotShedding:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_13",
+      "task_number": 38,
+      "task_template_id": "TT-026",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "gr_garbage:FeatherRaffles:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "task_number": 40,
+      "task_template_id": "TT-015",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "garbage:DeadLeaf": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "task_number": 41,
+      "task_template_id": "TT-021",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "collection_drop:CandyWrapperCollection3:CandyWrapper:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "task_number": 42,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "gr_garbage:OrangeSkin:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_15",
+      "task_number": 44,
+      "task_template_id": "TT-013",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "flower:FlowerFive": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_16",
+      "task_number": 46,
+      "task_template_id": "TT-019",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    }
+  },
+  "used_task_templates": {
+    "TT-001": {
+      "pack_id": "pack_001",
+      "task_template_name": "Диалог",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "TT-028": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-030": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт мусора дома",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-025": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на мусор дома",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "TT-011": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+      "uses": 3,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-021": {
+      "pack_id": "pack_001",
+      "task_template_name": "Уборка конкретного мусора дома",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-003": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG в мире",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "TT-026": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+      "uses": 3,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-017": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с цветов дома",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "TT-012": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить FA (экшен на площади у друга)",
+      "uses": 3,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-029": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт мусора в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "TT-034": {
+      "pack_id": "pack_001",
+      "task_template_name": "Фото предмета",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-018": {
+      "pack_id": "pack_001",
+      "task_template_name": "Сбор цветов дома (зависит от времени роста)",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-016": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с цветов в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-004": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG на локации",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "TT-020": {
+      "pack_id": "pack_001",
+      "task_template_name": "Уборка конкретного мусора в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-014": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с конкретного мусора в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "TT-008": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить ASK",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-013": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с мусора в локации дома",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-002": {
+      "pack_id": "pack_001",
+      "task_template_name": "Крафт",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-023": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на цветок дома (зависит от времени роста)",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "TT-032": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт цветка дома (зависит от времени роста)",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "TT-006": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG в виде скрытого предмета",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-022": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на цветок в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-009": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить PER",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-027": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка задом наперед на коллекцию (зависит от редкости)",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-033": {
+      "pack_id": "pack_001",
+      "task_template_name": "Передача предмета",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-005": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG в локациях дома",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-019": {
+      "pack_id": "pack_001",
+      "task_template_name": "Сбор цветов в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "TT-015": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с конкретного мусора дома",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    }
+  },
+  "used_garbage": {
+    "OracleBook": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "task_number": 3,
+      "task_template_id": "TT-030",
+      "classname": "OracleBook",
+      "title": "Книга с гаданиями",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "SmashedEarthenwareTeaPot": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "task_number": 4,
+      "task_template_id": "TT-025",
+      "classname": "SmashedEarthenwareTeaPot",
+      "title": "Разбитая чашка",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "BottleWithNote": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "task_number": 6,
+      "task_template_id": "TT-021",
+      "classname": "BottleWithNote",
+      "title": "Бутылка с запиской",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "BrokenPipe": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_4",
+      "task_number": 11,
+      "task_template_id": "TT-029",
+      "classname": "BrokenPipe",
+      "title": "Сломанная дудка",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "TurbidWater": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_6",
+      "task_number": 17,
+      "task_template_id": "TT-020",
+      "classname": "TurbidWater",
+      "title": "Мутная вода",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "SamovarBoot": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_6",
+      "task_number": 18,
+      "task_template_id": "TT-014",
+      "classname": "SamovarBoot",
+      "title": "Сапог от самовара ",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "ArmorOfSnail": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_7",
+      "task_number": 20,
+      "task_template_id": "TT-013",
+      "classname": "ArmorOfSnail",
+      "title": "Панцирь улитки",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "BrokenJug": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_9",
+      "task_number": 26,
+      "task_template_id": "TT-030",
+      "classname": "BrokenJug",
+      "title": "Разбитый кувшин",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "FlapOfTissue": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "task_number": 35,
+      "task_template_id": "TT-020",
+      "classname": "FlapOfTissue",
+      "title": "Лоскут ткани",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "FeatherRaffles": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "task_number": 40,
+      "task_template_id": "TT-015",
+      "classname": "FeatherRaffles",
+      "title": "Гусиное перо",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "DeadLeaf": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "task_number": 41,
+      "task_template_id": "TT-021",
+      "classname": "DeadLeaf",
+      "title": "Засохший листочек",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "OrangeSkin": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_15",
+      "task_number": 44,
+      "task_template_id": "TT-013",
+      "classname": "OrangeSkin",
+      "title": "Апельсиновая корка",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    }
+  },
+  "used_collections": {
+    "EmptyMoneyBagCollection3": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "task_number": 2,
+      "task_template_id": "TT-028",
+      "classname": "EmptyMoneyBagCollection3",
+      "title": "Амбарная книга",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "Garbage_MakeupCollection5": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "task_number": 5,
+      "task_template_id": "TT-011",
+      "classname": "Garbage_MakeupCollection5",
+      "title": "Маска из меда",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "BirchLeafCollection3": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-026",
+      "classname": "BirchLeafCollection3",
+      "title": "Полотенце",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "GarbageCupCoffeeCollection2": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-026",
+      "classname": "GarbageCupCoffeeCollection2",
+      "title": "Кофейное дерево",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "SamovarBootCollection5": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_9",
+      "task_number": 27,
+      "task_template_id": "TT-011",
+      "classname": "SamovarBootCollection5",
+      "title": "Лапоть",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "BrokenBarrelCollection3": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_11",
+      "task_number": 32,
+      "task_template_id": "TT-027",
+      "classname": "BrokenBarrelCollection3",
+      "title": "Трубка",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "SnowPatternCollection3": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "task_number": 36,
+      "task_template_id": "TT-028",
+      "classname": "SnowPatternCollection3",
+      "title": "Месяц в шаре",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "BigHome_Garbage_Nursery_MugNotShedding_Collection2": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_13",
+      "task_number": 38,
+      "task_template_id": "TT-026",
+      "classname": "BigHome_Garbage_Nursery_MugNotShedding_Collection2",
+      "title": "Первый локон",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "CandyWrapperCollection3": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "task_number": 42,
+      "task_template_id": "TT-011",
+      "classname": "CandyWrapperCollection3",
+      "title": "Золотая нива",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    }
+  },
+  "used_flowers": {
+    "FlowerBlueRose": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_3",
+      "task_number": 9,
+      "task_template_id": "TT-017",
+      "classname": "FlowerBlueRose",
+      "title": "Синяя роза",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "FlowerMagazine9_Plumeria": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "task_number": 13,
+      "task_template_id": "TT-018",
+      "classname": "FlowerMagazine9_Plumeria",
+      "title": "Плюмерия",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "FlowerSeaBuckthorn": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-016",
+      "classname": "FlowerSeaBuckthorn",
+      "title": "Облепиха",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "FlowerKissTulip": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_8",
+      "task_number": 22,
+      "task_template_id": "TT-023",
+      "classname": "FlowerKissTulip",
+      "title": "Тюльпан \"Поцелуй солнца\"",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "FlowerDahlia": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_8",
+      "task_number": 24,
+      "task_template_id": "TT-017",
+      "classname": "FlowerDahlia",
+      "title": "Георгин",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "FlowerLaysDill": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_10",
+      "task_number": 28,
+      "task_template_id": "TT-018",
+      "classname": "FlowerLaysDill",
+      "title": "Укропчик",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "FlowerElewen": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_10",
+      "task_number": 29,
+      "task_template_id": "TT-022",
+      "classname": "FlowerElewen",
+      "title": "Ландыш",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "FlowerFuchsia": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_10",
+      "task_number": 30,
+      "task_template_id": "TT-016",
+      "classname": "FlowerFuchsia",
+      "title": "Фуксия",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "FlowerFive": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_16",
+      "task_number": 46,
+      "task_template_id": "TT-019",
+      "classname": "FlowerFive",
+      "title": "Роза",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    }
+  },
+  "used_locations": {
+    "Лавка": {
+      "code": "12",
+      "title": "Лавка",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "task_number": 2,
+      "uses": 3,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Конюшня": {
+      "code": "7",
+      "title": "Конюшня",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "task_number": 2,
+      "uses": 4,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Трюм": {
+      "code": "73",
+      "title": "Трюм",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "task_number": 2,
+      "uses": 3,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Гадальня": {
+      "code": "38",
+      "title": "Гадальня",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "task_number": 3,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "Чародейная": {
+      "code": "91",
+      "title": "Чародейная",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "task_number": 3,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "Мастерская": {
+      "code": "3",
+      "title": "Мастерская",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "task_number": 4,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "Стеклодувня": {
+      "code": "42",
+      "title": "Стеклодувня",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "task_number": 4,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "Комната красоты": {
+      "code": "89",
+      "title": "Комната красоты",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "task_number": 5,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "Обзорная": {
+      "code": "184",
+      "title": "Обзорная",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "task_number": 6,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "Палуба": {
+      "code": "72",
+      "title": "Палуба",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "task_number": 6,
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Омут": {
+      "code": "58",
+      "title": "Омут",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_3",
+      "task_number": 8,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "Банька": {
+      "code": "9",
+      "title": "Банька",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_3",
+      "task_number": 8,
+      "uses": 4,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Кухня": {
+      "code": "86",
+      "title": "Кухня",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "task_number": 14,
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Комната искусств": {
+      "code": "93",
+      "title": "Комната искусств",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "task_number": 14,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "Океанариум": {
+      "code": "78",
+      "title": "Океанариум",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_6",
+      "task_number": 17,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "Озеро девичьих слез": {
+      "code": "21",
+      "title": "Озеро девичьих слез",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_7",
+      "task_number": 20,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "Пещера": {
+      "code": "37",
+      "title": "Пещера",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_7",
+      "task_number": 20,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "Хижина Чинга": {
+      "code": "14",
+      "title": "Хижина Чинга",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_9",
+      "task_number": 26,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Светлица": {
+      "code": "4",
+      "title": "Светлица",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "task_number": 35,
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Рукодельня": {
+      "code": "5",
+      "title": "Рукодельня",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "task_number": 35,
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Бальная зала": {
+      "code": "81",
+      "title": "Бальная зала",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "task_number": 36,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Покои Метелицы": {
+      "code": "83",
+      "title": "Покои Метелицы",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "task_number": 36,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Детская": {
+      "code": "222",
+      "title": "Детская",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_13",
+      "task_number": 38,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Опочивальня": {
+      "code": "33",
+      "title": "Опочивальня",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "task_number": 40,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Кузница": {
+      "code": "8",
+      "title": "Кузница",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "task_number": 41,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "Двор Чинга": {
+      "code": "15",
+      "title": "Двор Чинга",
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_15",
+      "task_number": 44,
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    }
+  },
+  "used_generated_assets": {
+    "AutumnEquinox_2026_Character_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "field": "helper",
+      "title": "Дед Домовед",
+      "uses": 5,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "task_number": 1,
+      "task_template_id": "TT-001"
+    },
+    "AutumnEquinox_2026_Character_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "field": "helper",
+      "title": "Баба Зина",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_HOG_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_3",
+      "task_number": 7,
+      "task_template_id": "TT-003",
+      "title": "Найди Обрывки карты Домовятии",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_GR_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_3",
+      "task_number": 9,
+      "task_template_id": "TT-017",
+      "title": "Получи Синяя метка на карте",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_Character_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_4",
+      "field": "helper",
+      "title": "Капитан",
+      "uses": 3,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "task_number": 12,
+      "task_template_id": "TT-034"
+    },
+    "AutumnEquinox_2026_FA_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_4",
+      "task_number": 10,
+      "task_template_id": "TT-012",
+      "title": "Получи Сигнальный флажок друга",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_Character_4": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "field": "helper",
+      "title": "Чинг",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_GR_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-016",
+      "title": "Получи Янтарная нить для дорожного узла",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_Character_5": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_6",
+      "field": "helper",
+      "title": "Водяной",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_HOG_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_6",
+      "task_number": 16,
+      "task_template_id": "TT-004",
+      "title": "Найди Старая бутылочная почта",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_GR_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_6",
+      "task_number": 18,
+      "task_template_id": "TT-014",
+      "title": "Найди Пробка с речной меткой",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_Character_6": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_7",
+      "field": "helper",
+      "title": "Леший",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_ASK_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_7",
+      "task_number": 19,
+      "task_template_id": "TT-008",
+      "title": "Попроси у друзей Столярные скобы",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_GR_4": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_7",
+      "task_number": 20,
+      "task_template_id": "TT-013",
+      "title": "Найди Угловая накладка для дубового стола",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_R_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_7",
+      "task_number": 21,
+      "task_template_id": "TT-002",
+      "title": "Создай Дубовое продолжение праздничного стола",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_Character_7": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_8",
+      "field": "helper",
+      "title": "Метелица",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_GR_5": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_8",
+      "task_number": 24,
+      "task_template_id": "TT-017",
+      "title": "Получи Иней на георгине",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.692435+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.692435+00:00"
+    },
+    "AutumnEquinox_2026_Character_8": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_9",
+      "field": "helper",
+      "title": "Хозяйка Медной горы",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_HOG_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_9",
+      "task_number": 25,
+      "task_template_id": "TT-006",
+      "title": "Найди Медные детали самовара",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_Character_9": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_10",
+      "field": "helper",
+      "title": "Баба-яга",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_GR_6": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_10",
+      "task_number": 30,
+      "task_template_id": "TT-016",
+      "title": "Получи Пряная цветочная пыльца",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_Character_10": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_11",
+      "field": "helper",
+      "title": "Кощей",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_PER_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_11",
+      "task_number": 31,
+      "task_template_id": "TT-009",
+      "title": "Попроси у друзей Именные бирки для сундука",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_Give_33": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_11",
+      "task_number": 33,
+      "task_template_id": "TT-033",
+      "title": "Передай Сундук забытых сокровищ",
+      "field": "icon",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_Character_11": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "field": "helper",
+      "title": "Алёнушка",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_HOG_4": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "task_number": 34,
+      "task_template_id": "TT-005",
+      "title": "Найди Лоскутки со всей Домовятии",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_Character_12": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_13",
+      "field": "helper",
+      "title": "Несмеяна",
+      "uses": 1,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_FA_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_13",
+      "task_number": 37,
+      "task_template_id": "TT-012",
+      "title": "Получи Записанный голос друга",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_Character_13": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "field": "helper",
+      "title": "Все вместе",
+      "uses": 3,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_GR_7": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "task_number": 40,
+      "task_template_id": "TT-015",
+      "title": "Найди Мягкая набивка для лавки",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_ASK_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_15",
+      "task_number": 43,
+      "task_template_id": "TT-008",
+      "title": "Попроси у друзей Фитили для гирлянды золотых огней",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_GR_8": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_15",
+      "task_number": 44,
+      "task_template_id": "TT-013",
+      "title": "Найди Цитрусовое масло для фонарей",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_R_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_15",
+      "task_number": 45,
+      "task_template_id": "TT-002",
+      "title": "Создай Гирлянда золотых огней",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    },
+    "AutumnEquinox_2026_FA_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "AutumnEquinox_2026_Story_16",
+      "task_number": 47,
+      "task_template_id": "TT-012",
+      "title": "Получи Праздничное приветствие",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-08-26T13:24:48.693431+00:00",
+      "last_seen_at": "2026-08-26T13:24:48.693431+00:00"
+    }
+  }
+}

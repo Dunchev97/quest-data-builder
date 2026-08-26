@@ -1,0 +1,445 @@
+{
+  "summary": {
+    "quests_found": 16,
+    "tasks_found": 48,
+    "valid_tasks": 48,
+    "errors": 0,
+    "warnings": 0
+  },
+  "tasks": [
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "quest_number": 1,
+      "task_number": 1,
+      "task_template_id": "TT-001",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "quest_number": 1,
+      "task_number": 2,
+      "task_template_id": "TT-028",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "quest_number": 1,
+      "task_number": 3,
+      "task_template_id": "TT-030",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "quest_number": 2,
+      "task_number": 4,
+      "task_template_id": "TT-025",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "quest_number": 2,
+      "task_number": 5,
+      "task_template_id": "TT-011",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "quest_number": 2,
+      "task_number": 6,
+      "task_template_id": "TT-021",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_3",
+      "quest_number": 3,
+      "task_number": 7,
+      "task_template_id": "TT-003",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_3",
+      "quest_number": 3,
+      "task_number": 8,
+      "task_template_id": "TT-026",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_3",
+      "quest_number": 3,
+      "task_number": 9,
+      "task_template_id": "TT-017",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_4",
+      "quest_number": 4,
+      "task_number": 10,
+      "task_template_id": "TT-012",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_4",
+      "quest_number": 4,
+      "task_number": 11,
+      "task_template_id": "TT-029",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_4",
+      "quest_number": 4,
+      "task_number": 12,
+      "task_template_id": "TT-034",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "quest_number": 5,
+      "task_number": 13,
+      "task_template_id": "TT-018",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "quest_number": 5,
+      "task_number": 14,
+      "task_template_id": "TT-026",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "quest_number": 5,
+      "task_number": 15,
+      "task_template_id": "TT-016",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_6",
+      "quest_number": 6,
+      "task_number": 16,
+      "task_template_id": "TT-004",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_6",
+      "quest_number": 6,
+      "task_number": 17,
+      "task_template_id": "TT-020",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_6",
+      "quest_number": 6,
+      "task_number": 18,
+      "task_template_id": "TT-014",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_7",
+      "quest_number": 7,
+      "task_number": 19,
+      "task_template_id": "TT-008",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_7",
+      "quest_number": 7,
+      "task_number": 20,
+      "task_template_id": "TT-013",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_7",
+      "quest_number": 7,
+      "task_number": 21,
+      "task_template_id": "TT-002",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_8",
+      "quest_number": 8,
+      "task_number": 22,
+      "task_template_id": "TT-023",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_8",
+      "quest_number": 8,
+      "task_number": 23,
+      "task_template_id": "TT-032",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_8",
+      "quest_number": 8,
+      "task_number": 24,
+      "task_template_id": "TT-017",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_9",
+      "quest_number": 9,
+      "task_number": 25,
+      "task_template_id": "TT-006",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_9",
+      "quest_number": 9,
+      "task_number": 26,
+      "task_template_id": "TT-030",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_9",
+      "quest_number": 9,
+      "task_number": 27,
+      "task_template_id": "TT-011",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_10",
+      "quest_number": 10,
+      "task_number": 28,
+      "task_template_id": "TT-018",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_10",
+      "quest_number": 10,
+      "task_number": 29,
+      "task_template_id": "TT-022",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_10",
+      "quest_number": 10,
+      "task_number": 30,
+      "task_template_id": "TT-016",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_11",
+      "quest_number": 11,
+      "task_number": 31,
+      "task_template_id": "TT-009",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_11",
+      "quest_number": 11,
+      "task_number": 32,
+      "task_template_id": "TT-027",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_11",
+      "quest_number": 11,
+      "task_number": 33,
+      "task_template_id": "TT-033",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "quest_number": 12,
+      "task_number": 34,
+      "task_template_id": "TT-005",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "quest_number": 12,
+      "task_number": 35,
+      "task_template_id": "TT-020",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "quest_number": 12,
+      "task_number": 36,
+      "task_template_id": "TT-028",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_13",
+      "quest_number": 13,
+      "task_number": 37,
+      "task_template_id": "TT-012",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_13",
+      "quest_number": 13,
+      "task_number": 38,
+      "task_template_id": "TT-026",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_13",
+      "quest_number": 13,
+      "task_number": 39,
+      "task_template_id": "TT-019",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "quest_number": 14,
+      "task_number": 40,
+      "task_template_id": "TT-015",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "quest_number": 14,
+      "task_number": 41,
+      "task_template_id": "TT-021",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "quest_number": 14,
+      "task_number": 42,
+      "task_template_id": "TT-011",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_15",
+      "quest_number": 15,
+      "task_number": 43,
+      "task_template_id": "TT-008",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_15",
+      "quest_number": 15,
+      "task_number": 44,
+      "task_template_id": "TT-013",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_15",
+      "quest_number": 15,
+      "task_number": 45,
+      "task_template_id": "TT-002",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_16",
+      "quest_number": 16,
+      "task_number": 46,
+      "task_template_id": "TT-019",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_16",
+      "quest_number": 16,
+      "task_number": 47,
+      "task_template_id": "TT-012",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_16",
+      "quest_number": 16,
+      "task_number": 48,
+      "task_template_id": "TT-034",
+      "status": "ok",
+      "errors": 0,
+      "warnings": 0
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

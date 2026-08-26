@@ -1,0 +1,12 @@
+{
+  "campaign_id": "AutumnEquinox_2026",
+  "entities": 14,
+  "entities_without_actions": 12,
+  "dialog_actions": 1,
+  "search_actions": 4,
+  "give_actions": 1,
+  "current_pack_id": "pack_001",
+  "packs_scanned": [
+    "pack_001"
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "quests": [
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_1",
+      "tasks": [
+        {"task_number": 1, "dialogue_replica": "Домовёнок, на снимке вся наша старая компания. Помоги рассмотреть лица и прочитать обещание на обороте — пора снова собрать друзей.", "person": "Дед Домовед"},
+        {"task_number": 2, "selected_candidate_id": "collection_drop:EmptyMoneyBagCollection3:EmptyMoneyBag:home", "choice_reason": "Амбарная книга напоминает старую адресную книгу Деда и подходит для поиска по силуэту."},
+        {"task_number": 3, "selected_candidate_id": "garbage:OracleBook", "choice_reason": "Старая книга с гаданиями визуально поддерживает поиски пожелтевшей записной книжки среди вещей."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_2",
+      "tasks": [
+        {"task_number": 4, "selected_candidate_id": "garbage:SmashedEarthenwareTeaPot", "riddle": "Синий цветик на боку, ручка прячется в пыли. Чашку старую найди — к тёплой встрече принеси.", "choice_reason": "Разбитая чашка прямо связана с чашкой бабы Зины и домашним чаепитием."},
+        {"task_number": 5, "selected_candidate_id": "collection_drop:Garbage_MakeupCollection5:Garbage_Makeup:home", "choice_reason": "Маска из мёда поддерживает деталь о двух ложках мёда и заботе Деда о Зине."},
+        {"task_number": 6, "selected_candidate_id": "garbage:BottleWithNote", "choice_reason": "Бутылка с запиской тематически продолжает первое неловкое приглашение, не повторяя источник чашки."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_3",
+      "tasks": [
+        {"task_number": 7, "item_title": "Обрывки карты Домовятии", "choice_reason": "HOG посвящён поиску выцветших адресов, марок и памятных пометок для общей карты."},
+        {"task_number": 8, "selected_candidate_id": "collection_drop:BirchLeafCollection3:BirchLeaf:home", "riddle": "На дороге не лежу, но края земли свяжу. Мягким полотном явлюсь — в карту старую вплетусь.", "choice_reason": "Полотенце из берёзной коллекции напоминает полотно карты и связано с лесной меткой Лешего."},
+        {"task_number": 9, "selected_candidate_id": "flower:FlowerBlueRose", "item_title": "Синяя метка на карте", "choice_reason": "Синяя роза перекликается с чашкой Зины и становится заметной цветовой меткой на карте."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_4",
+      "tasks": [
+        {"task_number": 10, "item_title": "Сигнальный флажок друга", "choice_reason": "Дружеские действия дают флажки для передачи приглашения Капитану."},
+        {"task_number": 11, "selected_candidate_id": "garbage:BrokenPipe", "choice_reason": "Сломанная дудка напоминает сигнальный свисток и подходит к морской системе оповещения."},
+        {"task_number": 12, "person": "Капитан", "choice_reason": "Фотография поднятого сигнала подтверждает, что Капитан прочитал приглашение и взял курс на праздник."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_5",
+      "tasks": [
+        {"task_number": 13, "selected_candidate_id": "flower:FlowerMagazine9_Plumeria", "choice_reason": "Плюмерия подходит жаркому африканскому климату и ярким дарам Чинга."},
+        {"task_number": 14, "selected_candidate_id": "collection_drop:GarbageCupCoffeeCollection2:GarbageCupCoffee:home", "riddle": "В знойной тени оно растёт, душистый дар в зерне несёт. Для дальней дружеской дороги найди зелёные чертоги.", "choice_reason": "Кофейное дерево предметно связано с жарким климатом и ароматными гостинцами."},
+        {"task_number": 15, "selected_candidate_id": "flower:FlowerSeaBuckthorn", "item_title": "Янтарная нить для дорожного узла", "choice_reason": "Оранжевые ягоды облепихи визуально напоминают солнечные бусины для тёплого дорожного узла."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_6",
+      "tasks": [
+        {"task_number": 16, "item_title": "Старая бутылочная почта", "choice_reason": "HOG посвящён поиску нужного приглашения среди бутылок и записок, принесённых течением."},
+        {"task_number": 17, "selected_candidate_id": "garbage:TurbidWater", "choice_reason": "Мутная вода мешает разобрать речную почту и должна быть убрана у друзей."},
+        {"task_number": 18, "selected_candidate_id": "gr_garbage:SamovarBoot:guest", "item_title": "Пробка с речной меткой", "choice_reason": "Сапог от самовара связан с будущим чаепитием, а ресурс переосмыслен как заметная пробка для нужной бутылки."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_7",
+      "tasks": [
+        {"task_number": 19, "item_title": "Столярные скобы", "choice_reason": "Друзья передают крепёж для соединения дубовых досок праздничного стола."},
+        {"task_number": 20, "selected_candidate_id": "gr_garbage:ArmorOfSnail:home", "item_title": "Угловая накладка для дубового стола", "choice_reason": "Прочный панцирь станет угловой накладкой — непосредственной деталью дубового продолжения праздничного стола."},
+        {"task_number": 21, "item_title": "Дубовое продолжение праздничного стола", "choice_reason": "Итог крафта — физическая секция стола из упавшего памятного дуба."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_8",
+      "tasks": [
+        {"task_number": 22, "selected_candidate_id": "flower:FlowerKissTulip", "riddle": "Чашей алою горю, первый холод не люблю. На прямой зелёной ножке жду тепла у края дорожки.", "choice_reason": "Тюльпан «Поцелуй солнца» создаёт контраст первому инею и помогает удержать осеннее тепло."},
+        {"task_number": 23, "selected_candidate_id": "flower:FlowerBlueRose", "choice_reason": "Синяя роза по силуэту поддерживает холодную палитру Метелицы."},
+        {"task_number": 24, "selected_candidate_id": "flower:FlowerDahlia", "item_title": "Иней на георгине", "choice_reason": "Георгин — узнаваемый осенний цветок, на котором уместно собрать декоративный первый иней."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_9",
+      "tasks": [
+        {"task_number": 25, "item_title": "Медные детали самовара", "choice_reason": "HOG собирает краник, ручки и элементы старого самовара для бережной реставрации."},
+        {"task_number": 26, "selected_candidate_id": "garbage:BrokenJug", "choice_reason": "Разбитый кувшин относится к старой посуде и подходит для силуэтного поиска среди утвари."},
+        {"task_number": 27, "selected_candidate_id": "collection_drop:SamovarBootCollection5:SamovarBoot:home", "choice_reason": "Лапоть из самоварной коллекции поддерживает русский бытовой колорит и историю старого самовара."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_10",
+      "tasks": [
+        {"task_number": 28, "selected_candidate_id": "flower:FlowerLaysDill", "choice_reason": "Укропчик связан с душистыми травами и кулинарным экспериментом Бабы-яги."},
+        {"task_number": 29, "selected_candidate_id": "flower:FlowerElewen", "riddle": "Белый колокольчик мал, аромат в росе собрал. У друзей меня сорви — старый запах оживи.", "choice_reason": "Ландыш выбран как ярко пахнущий цветок для загадки о восстановлении аромата."},
+        {"task_number": 30, "selected_candidate_id": "flower:FlowerFuchsia", "item_title": "Пряная цветочная пыльца", "choice_reason": "Фуксия даёт выразительный цветочный ресурс для новой ароматной смеси пирога."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_11",
+      "tasks": [
+        {"task_number": 31, "item_title": "Именные бирки для сундука", "choice_reason": "Именные бирки крепятся к отделениям сундука забытых сокровищ и помогают Кощею распределить памятные вещи по владельцам."},
+        {"task_number": 32, "selected_candidate_id": "collection_drop:BrokenBarrelCollection3:BrokenBarrel:home", "reverse_clue_title": "Не свисток и не рожок — капитанский дымный дружок", "choice_reason": "Трубка прямо соответствует капитанской трубке из сундука забытых вещей."},
+        {"task_number": 33, "item_title": "Сундук забытых сокровищ", "person": "Кощей", "choice_reason": "Кощею передают подготовленный сундук, чтобы он торжественно вернул вещи старым владельцам."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_12",
+      "tasks": [
+        {"task_number": 34, "item_title": "Лоскутки со всей Домовятии", "choice_reason": "HOG собирает ткани разных краёв для единой праздничной скатерти."},
+        {"task_number": 35, "selected_candidate_id": "garbage:FlapOfTissue", "choice_reason": "Лоскут ткани напрямую соответствует рукодельной теме квеста."},
+        {"task_number": 36, "selected_candidate_id": "collection_drop:SnowPatternCollection3:SnowPattern:guest", "choice_reason": "Месяц в шаре даёт серебристый узор Метелицы для одного из участков общей скатерти."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_13",
+      "tasks": [
+        {"task_number": 37, "item_title": "Записанный голос друга", "choice_reason": "Дружеские действия собирают отдельные голоса для восстановления общей песни."},
+        {"task_number": 38, "selected_candidate_id": "collection_drop:BigHome_Garbage_Nursery_MugNotShedding_Collection2:BigHome_Garbage_Nursery_MugNotShedding:home", "riddle": "Первым в памяти живу, нежной прядкою плыву. Детства тонкий завиток среди песенных дорог.", "choice_reason": "Первый локон символизирует сохранённую память и подходит загадке о голосах прошлого."},
+        {"task_number": 39, "selected_candidate_id": "flower:FlowerFuchsia", "choice_reason": "Яркая фуксия поддерживает оживление Несмеяны и радостное возвращение песни."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_14",
+      "tasks": [
+        {"task_number": 40, "selected_candidate_id": "gr_garbage:FeatherRaffles:home", "item_title": "Мягкая набивка для лавки", "choice_reason": "Гусиные перья превращаются в мягкую набивку для сиденья бабы Зины."},
+        {"task_number": 41, "selected_candidate_id": "garbage:DeadLeaf", "choice_reason": "Засохшие листья убирают перед установкой лавки во дворе."},
+        {"task_number": 42, "selected_candidate_id": "collection_drop:CandyWrapperCollection3:CandyWrapper:home", "choice_reason": "«Золотая нива» поддерживает осенний славянский узор и украшение лавки у праздничного стола."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_15",
+      "tasks": [
+        {"task_number": 43, "item_title": "Фитили для гирлянды золотых огней", "choice_reason": "Фитили станут непосредственной частью каждого плетёного фонаря в гирлянде золотых огней."},
+        {"task_number": 44, "selected_candidate_id": "gr_garbage:OrangeSkin:home", "item_title": "Цитрусовое масло для фонарей", "choice_reason": "Апельсиновая кожура служит источником душистого масла для тёплых золотых огней."},
+        {"task_number": 45, "item_title": "Гирлянда золотых огней", "choice_reason": "Итог крафта объединяет фитили и ароматное масло в праздничное освещение двора."}
+      ]
+    },
+    {
+      "classname_quests": "AutumnEquinox_2026_Story_16",
+      "tasks": [
+        {"task_number": 46, "selected_candidate_id": "flower:FlowerFive", "choice_reason": "Розы у друзей подходят для украшения общего стола и новой фотографии."},
+        {"task_number": 47, "item_title": "Праздничное приветствие", "choice_reason": "Дружеские действия символизируют приглашение всех к столу перед общим снимком."},
+        {"task_number": 48, "person": "Дед Домовед", "choice_reason": "Финальное фото фиксирует возвращение компании и новое начало отношений Деда с Зиной."}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "campaign_id": "AutumnEquinox_2026",
+  "packs": [
+    "pack_001"
+  ],
+  "blocks": [
+    "HOG",
+    "GR ассет",
+    "GR способы получения",
+    "GR ПАКЕТЫ",
+    "ASK",
+    "ASK пост экшен",
+    "ASK ПАКЕТЫ",
+    "PER",
+    "PER пост экшен",
+    "PER ПАКЕТЫ",
+    "R ассет",
+    "Рецепты 4 ингридиента",
+    "FA ассет",
+    "FA Пакеты"
+  ],
+  "hogs": 4,
+  "resources": {
+    "ASK": 2,
+    "PER": 1,
+    "GR": 8,
+    "FG": 0,
+    "FA": 3,
+    "R": 2
+  },
+  "interactive_recipe_ingredients": [
+    "AutumnEquinox_2026_Exchanger_R_1",
+    "AutumnEquinox_2026_HELP_1_R_Opener"
+  ],
+  "warnings": []
+}
