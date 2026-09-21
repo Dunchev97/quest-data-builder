@@ -1,0 +1,4 @@
+interface:
+  display_name: "Proto"
+  short_description: "Build compact proto dev-table templates"
+  default_prompt: "Use $proto to turn these prototypes into a compact converter-ready table."
