@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "campaign_id": "VelesNight_2026",
+  "status": "theme_selection_only",
+  "selected_objects": [
+    {
+      "template_id": "FunCollection_4",
+      "source_workbook": "docs/FunCollection/FunCollection_4.xlsx",
+      "source_sheet": "conf",
+      "neutral_title": "Тыковка",
+      "neutral_classname": "VelesNight_2026_INVITE",
+      "bad_state_title": "Летучий хулаган",
+      "bad_state_classname": "VelesNight_2026_INVITE_Fake",
+      "good_state_title": "Летучий милашка",
+      "good_state_classname": "VelesNight_2026_INVITE_Real",
+      "quest_recipe_ingredient": false,
+      "pending": [
+        "feeding_resource",
+        "collection_rewards_10",
+        "negative_effects",
+        "location_tag",
+        "tech_quest",
+        "window_texts",
+        "export_with_explicit_INVITE_classname_mapping"
+      ]
+    }
+  ]
+}

@@ -4,9 +4,9 @@ Classname quests: VelesNight_2026_Story_1
 title_quest: Снова Велесова ночь
 № quest: 1
 № task: 1 2 3
-Task template ID: TT-004 / TT-015 / TT-021
-Task template name: HOG на локации / GR с конкретного мусора дома / Уборка конкретного мусора дома
-Task type: HOG clean_debris location / get_asset GR garbage classname / garbage classname
+Task template ID: TT-001 / TT-013 / TT-021
+Task template name: Диалог / GR с мусора в локации дома / Уборка конкретного мусора дома
+Task type: action dialog / get_asset GR garbage location_tags / garbage classname
 description: "Помоги собрать завязки и крепления оберегов. Заодно уберём мусор, чтобы к приходу гостей двор был чистым."
 Tasks:
 [пусто на этом этапе]
@@ -17,9 +17,9 @@ Classname quests: VelesNight_2026_Story_2
 title_quest: Нарядный хозяин
 № quest: 2
 № task: 4 5 6
-Task template ID: TT-011 / TT-028 / TT-033
-Task template name: Получить элемент коллекции (зависит от редкости) / Силуэт элемент коллекции (зависит от редкости) / Передача предмета
-Task type: get_asset Collection / get_asset Collection is_silhouette / action give
+Task template ID: TT-015 / TT-008 / TT-033
+Task template name: GR с конкретного мусора дома / Получить ASK / Передача предмета
+Task type: get_asset GR garbage classname / get_asset ASK / action give
 description: "Подбери выброшенные инструменты и принеси мне. На земле оставлять нельзя — растеряем."
 Tasks:
 [пусто на этом этапе]
@@ -30,9 +30,9 @@ Classname quests: VelesNight_2026_Story_3
 title_quest: Телега без возницы
 № quest: 3
 № task: 7 8 9
-Task template ID: TT-006 / TT-015 / TT-030
-Task template name: HOG в виде скрытого предмета / GR с конкретного мусора дома / Силуэт мусора  дома
-Task type: HOG clean_debris hidden_object / get_asset GR garbage classname / garbage classname is_silhouette
+Task template ID: TT-005 / TT-015 / TT-011
+Task template name: HOG в локациях дома / GR с конкретного мусора дома / Получить элемент коллекции (зависит от редкости)
+Task type: HOG clean_debris home_locations / get_asset GR garbage classname / get_asset Collection
 description: "Найди деревянные упоры и что-нибудь тяжёлое под колесо. Я пока телегу придержу!"
 Tasks:
 [пусто на этом этапе]
@@ -43,9 +43,9 @@ Classname quests: VelesNight_2026_Story_4
 title_quest: Гости ходят кругами
 № quest: 4
 № task: 10 11 12
-Task template ID: TT-015 / TT-025 / TT-015
-Task template name: GR с конкретного мусора дома / Загадка на мусор дома / GR с конкретного мусора дома
-Task type: get_asset GR garbage classname / garbage classname mystery / get_asset GR garbage classname
+Task template ID: TT-028 / TT-021 / TT-013
+Task template name: Силуэт элемент коллекции (зависит от редкости) / Уборка конкретного мусора дома / GR с мусора в локации дома
+Task type: get_asset Collection is_silhouette / garbage classname / get_asset GR garbage location_tags
 description: "Помоги убрать обломки с дороги. И под лавку загляни: оттуда завязки торчат, надо проверить, что там лежит."
 Tasks:
 [пусто на этом этапе]
@@ -56,9 +56,9 @@ Classname quests: VelesNight_2026_Story_5
 title_quest: Беглец из Нави
 № quest: 5
 № task: 13 14 15
-Task template ID: TT-005 / TT-006 / TT-007
-Task template name: HOG в локациях дома / HOG в виде скрытого предмета / HOG поиск истинного среди ложного
-Task type: HOG clean_debris home_locations / HOG clean_debris hidden_object / HOG clean_debris true_among_false
+Task template ID: TT-025 / TT-026 / TT-027
+Task template name: Загадка на мусор дома / Загадка на коллекцию (зависит от редкости) / Загадка задом наперед на коллекцию (зависит от редкости)
+Task type: garbage classname mystery / get_asset Collection mystery / get_asset Collection reverse_mystery
 description: "Осмотри двор у дома и за сараем. По следам проверь, не осталось ли там кого-нибудь из гостей, и вернись ко мне."
 Tasks:
 [пусто на этом этапе]
@@ -69,9 +69,9 @@ Classname quests: VelesNight_2026_Story_6
 title_quest: Верная дорога
 № quest: 6
 № task: 16 17 18
-Task template ID: TT-008 / TT-015 / TT-002
-Task template name: Получить ASK / GR с конкретного мусора дома / Крафт
-Task type: get_asset ASK / get_asset GR garbage classname / get_and_decrease_asset craft
+Task template ID: TT-013 / TT-009 / TT-002
+Task template name: GR с мусора в локации дома / Получить PER / Крафт
+Task type: get_asset GR garbage location_tags / get_asset PER / get_and_decrease_asset craft
 description: "Собери крепёжные детали и подготовь крепления для указателей. Поставим их на прежние места."
 Tasks:
 [пусто на этом этапе]
@@ -82,9 +82,9 @@ Classname quests: VelesNight_2026_Story_7
 title_quest: Королева взаперти
 № quest: 7
 № task: 19 20 21
-Task template ID: TT-006 / TT-007 / TT-006
-Task template name: HOG в виде скрытого предмета / HOG поиск истинного среди ложного / HOG в виде скрытого предмета
-Task type: HOG clean_debris hidden_object / HOG clean_debris true_among_false / HOG clean_debris hidden_object
+Task template ID: TT-007 / TT-028 / TT-011
+Task template name: HOG поиск истинного среди ложного / Силуэт элемент коллекции (зависит от редкости) / Получить элемент коллекции (зависит от редкости)
+Task type: HOG clean_debris true_among_false / get_asset Collection is_silhouette / get_asset Collection
 description: "Осмотри заграждённые окна снаружи. Найди то, к которому Домовед сможет подойти, и покажи мне."
 Tasks:
 [пусто на этом этапе]
@@ -95,9 +95,9 @@ Classname quests: VelesNight_2026_Story_8
 title_quest: Бунт инструментов
 № quest: 8
 № task: 22 23 24
-Task template ID: TT-011 / TT-028 / TT-015
-Task template name: Получить элемент коллекции (зависит от редкости) / Силуэт элемент коллекции (зависит от редкости) / GR с конкретного мусора дома
-Task type: get_asset Collection / get_asset Collection is_silhouette / get_asset GR garbage classname
+Task template ID: TT-014 / TT-016 / TT-021
+Task template name: GR с конкретного мусора в гостях / GR с цветов в гостях / Уборка конкретного мусора дома
+Task type: get_asset GR in_guest garbage classname / get_asset GR in_guest flower / garbage classname
 description: "Нужны крепкие верёвки. Найди их и выбери целые связки — порванные эту стражу не удержат."
 Tasks:
 [пусто на этом этапе]
@@ -108,9 +108,9 @@ Classname quests: VelesNight_2026_Story_9
 title_quest: Лестница для Домоведа
 № quest: 9
 № task: 25 26 27
-Task template ID: TT-004 / TT-011 / TT-028
-Task template name: HOG на локации / Получить элемент коллекции (зависит от редкости) / Силуэт элемент коллекции (зависит от редкости)
-Task type: HOG clean_debris location / get_asset Collection / get_asset Collection is_silhouette
+Task template ID: TT-015 / TT-017 / TT-011
+Task template name: GR с конкретного мусора дома / GR с цветов дома / Получить элемент коллекции (зависит от редкости)
+Task type: get_asset GR garbage classname / get_asset GR flower / get_asset Collection
 description: "Найди принадлежности для лестницы и опорные бруски. Подготовим всё у боковой стены."
 Tasks:
 [пусто на этом этапе]
@@ -121,9 +121,9 @@ Classname quests: VelesNight_2026_Story_10
 title_quest: Зина, отойди от окна!
 № quest: 10
 № task: 28 29 30
-Task template ID: TT-015 / TT-028 / TT-021
-Task template name: GR с конкретного мусора дома / Силуэт элемент коллекции (зависит от редкости) / Уборка конкретного мусора дома
-Task type: get_asset GR garbage classname / get_asset Collection is_silhouette / garbage classname
+Task template ID: TT-006 / TT-030 / TT-021
+Task template name: HOG в виде скрытого предмета / Силуэт мусора  дома / Уборка конкретного мусора дома
+Task type: HOG clean_debris hidden_object / garbage classname is_silhouette / garbage classname
 description: "Найди деревянные клинья для лестницы и убери солому с места спуска. Нельзя, чтобы под ногами скользило."
 Tasks:
 [пусто на этом этапе]
@@ -134,9 +134,9 @@ Classname quests: VelesNight_2026_Story_11
 title_quest: Барину пора домой
 № quest: 11
 № task: 31 32 33
-Task template ID: TT-009 / TT-015 / TT-002
-Task template name: Получить PER / GR с конкретного мусора дома / Крафт
-Task type: get_asset PER / get_asset GR garbage classname / get_and_decrease_asset craft
+Task template ID: TT-014 / TT-008 / TT-002
+Task template name: GR с конкретного мусора в гостях / Получить ASK / Крафт
+Task type: get_asset GR in_guest garbage classname / get_asset ASK / get_and_decrease_asset craft
 description: "Подготовь крепления для оберегов, которые нашли под лавкой. Домовед вернёт их на ограду."
 Tasks:
 [пусто на этом этапе]
@@ -147,9 +147,9 @@ Classname quests: VelesNight_2026_Story_12
 title_quest: Один Дед — и хватит
 № quest: 12
 № task: 34 35 36
-Task template ID: TT-021 / TT-006 / TT-011
-Task template name: Уборка конкретного мусора дома / HOG в виде скрытого предмета / Получить элемент коллекции (зависит от редкости)
-Task type: garbage classname / HOG clean_debris hidden_object / get_asset Collection
+Task template ID: TT-030 / TT-021 / TT-034
+Task template name: Силуэт мусора  дома / Уборка конкретного мусора дома / Фото предмета
+Task type: garbage classname is_silhouette / garbage classname / action post_photo
 description: "Помоги убрать остатки связок и вернуть инструменты на места. Доски с двери я сниму сам."
 Tasks:
 [пусто на этом этапе]

@@ -12,8 +12,8 @@ Issues: 0
 
 | № | Template ID | Template name | Task type |
 |---|-------------|---------------|-----------|
-| 1 | `TT-004` | HOG на локации | `HOG clean_debris location` |
-| 2 | `TT-015` | GR с конкретного мусора дома | `get_asset GR garbage classname` |
+| 1 | `TT-001` | Диалог | `action dialog` |
+| 2 | `TT-013` | GR с мусора в локации дома | `get_asset GR garbage location_tags` |
 | 3 | `TT-021` | Уборка конкретного мусора дома | `garbage classname` |
 
 Description: Помоги собрать завязки и крепления оберегов. Заодно уберём мусор, чтобы к приходу гостей двор был чистым.
@@ -28,8 +28,8 @@ Congratulation: Всё собрали, спасибо. Крепления отл
 
 | № | Template ID | Template name | Task type |
 |---|-------------|---------------|-----------|
-| 4 | `TT-011` | Получить элемент коллекции (зависит от редкости) | `get_asset Collection` |
-| 5 | `TT-028` | Силуэт элемент коллекции (зависит от редкости) | `get_asset Collection is_silhouette` |
+| 4 | `TT-015` | GR с конкретного мусора дома | `get_asset GR garbage classname` |
+| 5 | `TT-008` | Получить ASK | `get_asset ASK` |
 | 6 | `TT-033` | Передача предмета | `action give` |
 
 Description: Подбери выброшенные инструменты и принеси мне. На земле оставлять нельзя — растеряем.
@@ -44,9 +44,9 @@ Congratulation: Всё на месте. Уберу инструменты в д�
 
 | № | Template ID | Template name | Task type |
 |---|-------------|---------------|-----------|
-| 7 | `TT-006` | HOG в виде скрытого предмета | `HOG clean_debris hidden_object` |
+| 7 | `TT-005` | HOG в локациях дома | `HOG clean_debris home_locations` |
 | 8 | `TT-015` | GR с конкретного мусора дома | `get_asset GR garbage classname` |
-| 9 | `TT-030` | Силуэт мусора  дома | `garbage classname is_silhouette` |
+| 9 | `TT-011` | Получить элемент коллекции (зависит от редкости) | `get_asset Collection` |
 
 Description: Найди деревянные упоры и что-нибудь тяжёлое под колесо. Я пока телегу придержу!
 
@@ -60,9 +60,9 @@ Congratulation: Упоры подошли. Можно отпустить кол�
 
 | № | Template ID | Template name | Task type |
 |---|-------------|---------------|-----------|
-| 10 | `TT-015` | GR с конкретного мусора дома | `get_asset GR garbage classname` |
-| 11 | `TT-025` | Загадка на мусор дома | `garbage classname mystery` |
-| 12 | `TT-015` | GR с конкретного мусора дома | `get_asset GR garbage classname` |
+| 10 | `TT-028` | Силуэт элемент коллекции (зависит от редкости) | `get_asset Collection is_silhouette` |
+| 11 | `TT-021` | Уборка конкретного мусора дома | `garbage classname` |
+| 12 | `TT-013` | GR с мусора в локации дома | `get_asset GR garbage location_tags` |
 
 Description: Помоги убрать обломки с дороги. И под лавку загляни: оттуда завязки торчат, надо проверить, что там лежит.
 
@@ -76,9 +76,9 @@ Congratulation: Дорожка свободна. А найденные связ�
 
 | № | Template ID | Template name | Task type |
 |---|-------------|---------------|-----------|
-| 13 | `TT-005` | HOG в локациях дома | `HOG clean_debris home_locations` |
-| 14 | `TT-006` | HOG в виде скрытого предмета | `HOG clean_debris hidden_object` |
-| 15 | `TT-007` | HOG поиск истинного среди ложного | `HOG clean_debris true_among_false` |
+| 13 | `TT-025` | Загадка на мусор дома | `garbage classname mystery` |
+| 14 | `TT-026` | Загадка на коллекцию (зависит от редкости) | `get_asset Collection mystery` |
+| 15 | `TT-027` | Загадка задом наперед на коллекцию (зависит от редкости) | `get_asset Collection reverse_mystery` |
 
 Description: Осмотри двор у дома и за сараем. По следам проверь, не осталось ли там кого-нибудь из гостей, и вернись ко мне.
 
@@ -92,8 +92,8 @@ Congratulation: Обход закончен. Теперь можно занят�
 
 | № | Template ID | Template name | Task type |
 |---|-------------|---------------|-----------|
-| 16 | `TT-008` | Получить ASK | `get_asset ASK` |
-| 17 | `TT-015` | GR с конкретного мусора дома | `get_asset GR garbage classname` |
+| 16 | `TT-013` | GR с мусора в локации дома | `get_asset GR garbage location_tags` |
+| 17 | `TT-009` | Получить PER | `get_asset PER` |
 | 18 | `TT-002` | Крафт | `get_and_decrease_asset craft` |
 
 Description: Собери крепёжные детали и подготовь крепления для указателей. Поставим их на прежние места.
@@ -108,9 +108,9 @@ Congratulation: Крепления готовы, можно закреплять
 
 | № | Template ID | Template name | Task type |
 |---|-------------|---------------|-----------|
-| 19 | `TT-006` | HOG в виде скрытого предмета | `HOG clean_debris hidden_object` |
-| 20 | `TT-007` | HOG поиск истинного среди ложного | `HOG clean_debris true_among_false` |
-| 21 | `TT-006` | HOG в виде скрытого предмета | `HOG clean_debris hidden_object` |
+| 19 | `TT-007` | HOG поиск истинного среди ложного | `HOG clean_debris true_among_false` |
+| 20 | `TT-028` | Силуэт элемент коллекции (зависит от редкости) | `get_asset Collection is_silhouette` |
+| 21 | `TT-011` | Получить элемент коллекции (зависит от редкости) | `get_asset Collection` |
 
 Description: Осмотри заграждённые окна снаружи. Найди то, к которому Домовед сможет подойти, и покажи мне.
 
@@ -124,9 +124,9 @@ Congratulation: Вижу, какое окно ты выбрал. До этой �
 
 | № | Template ID | Template name | Task type |
 |---|-------------|---------------|-----------|
-| 22 | `TT-011` | Получить элемент коллекции (зависит от редкости) | `get_asset Collection` |
-| 23 | `TT-028` | Силуэт элемент коллекции (зависит от редкости) | `get_asset Collection is_silhouette` |
-| 24 | `TT-015` | GR с конкретного мусора дома | `get_asset GR garbage classname` |
+| 22 | `TT-014` | GR с конкретного мусора в гостях | `get_asset GR in_guest garbage classname` |
+| 23 | `TT-016` | GR с цветов в гостях | `get_asset GR in_guest flower` |
+| 24 | `TT-021` | Уборка конкретного мусора дома | `garbage classname` |
 
 Description: Нужны крепкие верёвки. Найди их и выбери целые связки — порванные эту стражу не удержат.
 
@@ -140,9 +140,9 @@ Congratulation: Эти выдержат. Давай сюда, пока я гра
 
 | № | Template ID | Template name | Task type |
 |---|-------------|---------------|-----------|
-| 25 | `TT-004` | HOG на локации | `HOG clean_debris location` |
-| 26 | `TT-011` | Получить элемент коллекции (зависит от редкости) | `get_asset Collection` |
-| 27 | `TT-028` | Силуэт элемент коллекции (зависит от редкости) | `get_asset Collection is_silhouette` |
+| 25 | `TT-015` | GR с конкретного мусора дома | `get_asset GR garbage classname` |
+| 26 | `TT-017` | GR с цветов дома | `get_asset GR flower` |
+| 27 | `TT-011` | Получить элемент коллекции (зависит от редкости) | `get_asset Collection` |
 
 Description: Найди принадлежности для лестницы и опорные бруски. Подготовим всё у боковой стены.
 
@@ -156,8 +156,8 @@ Congratulation: Всё принесли. Поставлю лестницу на 
 
 | № | Template ID | Template name | Task type |
 |---|-------------|---------------|-----------|
-| 28 | `TT-015` | GR с конкретного мусора дома | `get_asset GR garbage classname` |
-| 29 | `TT-028` | Силуэт элемент коллекции (зависит от редкости) | `get_asset Collection is_silhouette` |
+| 28 | `TT-006` | HOG в виде скрытого предмета | `HOG clean_debris hidden_object` |
+| 29 | `TT-030` | Силуэт мусора  дома | `garbage classname is_silhouette` |
 | 30 | `TT-021` | Уборка конкретного мусора дома | `garbage classname` |
 
 Description: Найди деревянные клинья для лестницы и убери солому с места спуска. Нельзя, чтобы под ногами скользило.
@@ -172,8 +172,8 @@ Congratulation: Клинья на месте, внизу чисто. Тепер�
 
 | № | Template ID | Template name | Task type |
 |---|-------------|---------------|-----------|
-| 31 | `TT-009` | Получить PER | `get_asset PER` |
-| 32 | `TT-015` | GR с конкретного мусора дома | `get_asset GR garbage classname` |
+| 31 | `TT-014` | GR с конкретного мусора в гостях | `get_asset GR in_guest garbage classname` |
+| 32 | `TT-008` | Получить ASK | `get_asset ASK` |
 | 33 | `TT-002` | Крафт | `get_and_decrease_asset craft` |
 
 Description: Подготовь крепления для оберегов, которые нашли под лавкой. Домовед вернёт их на ограду.
@@ -188,9 +188,9 @@ Congratulation: Крепления подошли, обереги держатс
 
 | № | Template ID | Template name | Task type |
 |---|-------------|---------------|-----------|
-| 34 | `TT-021` | Уборка конкретного мусора дома | `garbage classname` |
-| 35 | `TT-006` | HOG в виде скрытого предмета | `HOG clean_debris hidden_object` |
-| 36 | `TT-011` | Получить элемент коллекции (зависит от редкости) | `get_asset Collection` |
+| 34 | `TT-030` | Силуэт мусора  дома | `garbage classname is_silhouette` |
+| 35 | `TT-021` | Уборка конкретного мусора дома | `garbage classname` |
+| 36 | `TT-034` | Фото предмета | `action post_photo` |
 
 Description: Помоги убрать остатки связок и вернуть инструменты на места. Доски с двери я сниму сам.
 
