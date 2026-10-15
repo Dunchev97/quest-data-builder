@@ -797,14 +797,19 @@ def craft_ingredients_lines(
     classname = str(quest.get("classname_quests") or "")
     tasks = list(quest.get("tasks", []))
     ingredients: list[tuple[str, str]] = []
-    for task in tasks[1:3]:
+    for task in tasks:
+        template_id = str(task.get("task_template_id") or "")
+        if template_id not in {"TT-008", "TT-009", "TT-011", "TT-013", "TT-014", "TT-015", "TT-016", "TT-017", "TT-026", "TT-027", "TT-028"}:
+            continue
         task_number = task.get("task_number")
         choice = choices_by_key.get((classname, task_number), {}) if isinstance(task_number, int) else {}
-        title = display_item_for_review(choice, task)
-        template_id = str(task.get("task_template_id") or "")
+        title = resource_title_for_review(choice, task, None) or str(task.get("resource_title") or "")
         suffix = "ASK" if template_id == "TT-008" else "PER" if template_id == "TT-009" else "GR"
+        ingredient_classname = str((task.get("task_object") or {}).get("classname") or suffix)
         if title:
-            ingredients.append((title, suffix))
+            ingredients.append((title, ingredient_classname))
+        if len(ingredients) == 2:
+            break
     ingredients.extend(selected_interactive_ingredients(campaign_id, campaigns_dir))
     lines = ["Ингредиенты:"]
     for index, (title, classname_or_kind) in enumerate(ingredients[:4], start=1):
@@ -848,7 +853,10 @@ def render_stage4_review(campaign_id: str, pack_id: str, campaigns_dir: Path) ->
                 lines.append(f"Название: {resource_title_for_review(choice, task, selected)}")
                 lines.append(f"В тексте задания: {task_text_item_for_review(choice, task, selected)}")
                 task_text_line_written = True
-                lines.extend(craft_ingredients_lines(quest, choices_by_key, campaign_id, campaigns_dir))
+                if template_id == "TT-002":
+                    lines.extend(craft_ingredients_lines(quest, choices_by_key, campaign_id, campaigns_dir))
+                elif choice.get("person"):
+                    lines.append(f"Персонаж в действии: {choice['person']}")
             elif template_id in {"TT-008", "TT-009"}:
                 lines.append(f"Название: {resource_title_for_review(choice, task, selected)}")
                 lines.append(f"Предмет: {display_item_for_review(choice, task)}")
@@ -899,6 +907,7 @@ def parse_stage4_review(text: str, current_choices: dict[str, Any], context_pack
                     "Предмет",
                     "В тексте задания",
                     "Тэги локаций",
+                    "Стандартные кандидаты",
                     "Выбранный кандидат",
                     "Кандидаты",
                     "Загадка",
@@ -951,7 +960,18 @@ def parse_stage4_review(text: str, current_choices: dict[str, Any], context_pack
             if "В тексте задания" in fields:
                 value = fields["В тексте задания"].strip().rstrip(".")
                 value_text = upper_first(value) if value else ""
+                updated_name = resource_title_for_review(task, context_task, selected)
+                name_changed = updated_name.casefold() != original_name.casefold()
+                real_item_changed = selected_id != original_selected_id and str(context_task.get("task_template_id") or task.get("task_template_id") or "") not in {"TT-013", "TT-014", "TT-015", "TT-016", "TT-017"}
                 if value_text and value_text.casefold() != original_task_text.casefold():
+                    task["item_title_accusative"] = value_text
+                elif real_item_changed and candidate_title(selected):
+                    task["item_title_accusative"] = upper_first(simple_nominative_to_accusative(candidate_title(selected)))
+                elif subject_nominative and subject_nominative.casefold() != display_item_for_review(original_task, context_task).casefold():
+                    task["item_title_accusative"] = upper_first(simple_nominative_to_accusative(subject_nominative))
+                elif name_changed and updated_name:
+                    task["item_title_accusative"] = upper_first(simple_nominative_to_accusative(updated_name))
+                elif value_text:
                     task["item_title_accusative"] = value_text
                 elif subject_nominative:
                     task["item_title_accusative"] = upper_first(simple_nominative_to_accusative(subject_nominative))

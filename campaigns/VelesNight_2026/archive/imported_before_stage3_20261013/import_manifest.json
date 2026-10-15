@@ -1,0 +1,22 @@
+{
+  "campaign_id": "VelesNight_2026",
+  "pack_id": "pack_001",
+  "file_sha256": {
+    "stage1_story.txt": "b0288aa83e4ca915fd3a85776bb6609c02520c4d81d3c5f329552b6868d34dbf",
+    "stage2_story.txt": "c61b6df9c176fd829c6f69bfd768a385853f5fe725e747b9cf2805097f7258f3",
+    "stage3_quests.txt": "ccb7cb61cd57964526443d5cf5a4feeca32549a6cd82387ebce26c387398ca4a",
+    "context_pack.json": "322d26606290dc735dc818bfc428d69509a7562a9c29088450cff515365ce3ec",
+    "context_pack.preview.md": "945de023f3f2b569c6f9bd80b78d908fede53a1f5d467cf44adb95ee0c92a362",
+    "task_choices.json": "a56ec9506a3b5b0f18844e35a4f25a4c6dd1fc18e02eb1c630f4e40c297d4d4b",
+    "filled_tasks.json": "301b0d6beb071a5d229c7df6c952b207fd6353760c52d08b21524364757e38df",
+    "filled_tasks.validation.json": "205fe732b3a5493aee12ebaacde516906c2812f43aca3826b5c086cb8f81b7f1",
+    "quest_group.json": "e8f35e3401ce06469f1c8d3bae1cd81ca3000796b8c3e7fe3bf4eff096e26008",
+    "quest_group.validation.json": "0ef5621fa763f5d65c06902102ebe017f6ba0b41acc948b04dfd8127e5a41b21",
+    "quest_VelesNight_2026_accomplished.xlsx": "fe77c5527a8c2d78aa65fb9112841fe7d376395c55583282cb73c5d8c91ebeda",
+    "00_README.md": "6b2d7209eadde2f96192da846a5e21d75913bd3b2c3fbc8b9be843ed5df1c487"
+  },
+  "approved_review_copied_byte_for_byte": [
+    "stage1_review.md",
+    "stage2_review.md"
+  ]
+}

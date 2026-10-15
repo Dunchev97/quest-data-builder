@@ -721,7 +721,7 @@ def build_task_object(
         title = hog_title(choice, item_title)
         if template_id == "TT-005":
             locations = location_text_from_choice_or_candidate(context_quest, choice, selected)
-            hint = f"{title}. Они могут быть в {locations}."
+            hint = f"{title}. Места поиска: {locations}."
         else:
             hint = str(choice.get("hint") or f"{title}.").strip()
             if hint and not hint.endswith("."):
@@ -914,7 +914,7 @@ def build_task_object(
             "go_to_location": [{"classname": item_classname}],
             "amount": task_amount(choice, defaults),
             "title": title,
-            "hint": f"Передай {item_accusative(item_title, choice)} персонажу {person}. Он находится на {location_title}.",
+            "hint": f"Передай {item_accusative(item_title, choice)} персонажу {person}. Место передачи: {location_title}.",
             "identifier": "",
         }
 

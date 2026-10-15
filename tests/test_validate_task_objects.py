@@ -114,6 +114,50 @@ def filled_tasks(*tasks: dict[str, object]) -> dict[str, object]:
 
 
 class ValidateTaskObjectsTests(unittest.TestCase):
+    def test_generated_give_hint_keeps_female_recipient_and_exact_location_title(self) -> None:
+        from src.build_filled_tasks import build_filled_tasks
+
+        context = {"location_catalog": [{"code": "3", "title": "Мастерская", "tags": ["home"]}], "quests": [{
+            "classname_quests": "Event_2026_Story_1", "quest_number": 1, "character": "Баба Зина", "tasks": [{
+                "task_number": 1, "task_template_id": "TT-033", "task_template_name": "Передача предмета",
+                "task_type": "action give", "candidate_domain": None, "candidates": [],
+            }],
+        }]}
+        choices = {"quests": [{"classname_quests": "Event_2026_Story_1", "tasks": [{
+            "task_number": 1, "item_title": "Инструменты", "person": "Бабе Зине", "person_nominative": "Баба Зина",
+            "location_title": "Мастерская", "choice_reason": "Передаём инструменты Зине, чтобы она вернула хозяйские вещи в дом.",
+        }]}]}
+        filled = build_filled_tasks(context, choices, templates())
+        hint = filled["quests"][0]["tasks"][0]["task_object"]["hint"]
+        self.assertIn("персонажу Бабе Зине", hint)
+        self.assertIn("Место передачи: Мастерская.", hint)
+        self.assertNotIn("Он находится", hint)
+        self.assertEqual(validate_filled_tasks(filled, context, templates())["summary"]["errors"], 0)
+
+    def test_hog_home_location_uses_index_catalog_and_rejects_unknown_or_world_location(self) -> None:
+        from src.build_filled_tasks import build_filled_tasks
+
+        context = {"location_catalog": [{"code": "3", "title": "Мастерская", "tags": ["home"]}], "quests": [{
+            "classname_quests": "Event_2026_Story_1", "quest_number": 1, "character": "Домовед", "tasks": [{
+                "task_number": 1, "task_template_id": "TT-005", "task_template_name": "HOG в локациях дома",
+                "task_type": "HOG clean_debris home_locations", "candidate_domain": None, "candidates": [],
+            }],
+        }]}
+        choices = {"quests": [{"classname_quests": "Event_2026_Story_1", "tasks": [{
+            "task_number": 1, "item_title": "Следы гостей", "location_title": "Мастерская",
+            "choice_reason": "Ищем следы гостей, которые задержались возле дома после аварии телеги.",
+        }]}]}
+        filled = build_filled_tasks(context, choices, templates())
+        self.assertIn("Места поиска: Мастерская.", filled["quests"][0]["tasks"][0]["task_object"]["hint"])
+        self.assertEqual(validate_filled_tasks(filled, context, templates())["summary"]["errors"], 0)
+        for title, tags in [("Выдуманный двор", ["home"]), ("Опушка", ["world"])]:
+            with self.subTest(title=title):
+                if "world" in tags:
+                    context["location_catalog"].append({"code": "27", "title": title, "tags": tags})
+                filled["quests"][0]["tasks"][0]["task_object"]["hint"] = f"Найди Следы гостей. Они могут быть в {title}."
+                validation = validate_filled_tasks(filled, context, templates())
+                self.assertIn("strict_hog_location_unknown", {error["code"] for error in validation["errors"]})
+
     def test_validates_good_garbage_collection_and_flower_tasks(self) -> None:
         validation = validate_filled_tasks(
             filled_tasks(

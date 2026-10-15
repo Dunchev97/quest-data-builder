@@ -126,6 +126,15 @@ def task(number: int, template_id: str, name: str, task_type: str, category: str
 
 
 class BuildContextPackTests(unittest.TestCase):
+    def test_hog_only_quest_keeps_indexed_locations_without_item_candidates(self) -> None:
+        context, emitted = build_context_pack(
+            resolved_plan([task(1, "TT-005", "HOG в локациях дома", "HOG clean_debris home_locations", "hog")]),
+            sample_quest_ready_index(), sample_drops(), {}, candidate_limit=1,
+        )
+        self.assertEqual(emitted, [])
+        self.assertEqual(context["quests"][0]["tasks"][0]["candidates"], [])
+        self.assertEqual(context["location_catalog"], [{"code": "loc1", "title": "Котельная", "tags": ["home", "boiler"]}])
+
     def test_avoids_repeating_candidates_inside_pack(self) -> None:
         context_pack, emitted = build_context_pack(
             resolved_plan(

@@ -706,7 +706,7 @@ def validate_location_references(
     if not hint:
         return []
 
-    requires_location = "Место поиска:" in hint or "Он находится" in hint or "она находится" in hint.lower()
+    requires_location = any(marker in hint for marker in ("Место поиска:", "Места поиска:", "Место передачи:", "Он находится")) or "она находится" in hint.lower()
     if not requires_location:
         return []
 
@@ -1119,7 +1119,10 @@ def validate_strict_stage4_templates(
                     title,
                 )
             )
-        expected_prefix = f"Найди {item}. Они могут быть в "
+        expected_prefix = f"Найди {item}. Места поиска: "
+        legacy_prefix = f"Найди {item}. Они могут быть в "
+        if hint.startswith(legacy_prefix):
+            expected_prefix = legacy_prefix
         if item and (not hint.startswith(expected_prefix) or not hint.endswith(".")):
             issues.append(
                 strict_text_issue(
@@ -1127,7 +1130,7 @@ def validate_strict_stage4_templates(
                     quest,
                     task,
                     "hint",
-                    f"Найди {item}. Они могут быть в [список домашних локаций].",
+                    f"Найди {item}. Места поиска: [список домашних локаций].",
                     hint,
                 )
             )
@@ -1392,21 +1395,21 @@ def validate_strict_stage4_templates(
     if template_id == "TT-033":
         if not title:
             issues.append(strict_text_issue("TT-033 title must fill '[Действие] [название предмета]'.", quest, task, "title", "[Действие] [название предмета]", title))
-        expected_prefix = ""
+        location_marker = "Место передачи: " if "Место передачи: " in hint else "Он находится на "
         expected_suffix = "."
-        if "Он находится на " not in hint or not hint.endswith(expected_suffix):
+        if location_marker not in hint or not hint.endswith(expected_suffix):
             issues.append(
                 strict_text_issue(
-                    "TT-033 hint must keep fixed location sentence: 'Он находится на [локация].'",
+                    "TT-033 hint must keep a fixed location sentence.",
                     quest,
                     task,
                     "hint",
-                    "[Инструкция как передать предмет]. Он находится на [локация].",
+                    "[Инструкция как передать предмет]. Место передачи: [локация].",
                     hint,
                 )
             )
         else:
-            location_text = hint.rsplit("Он находится на ", 1)[1][:-1].strip()
+            location_text = hint.rsplit(location_marker, 1)[1][:-1].strip()
             issues.extend(validate_location_text(location_text, allowed_location_titles, quest, task, "strict_give_location_unknown"))
 
     if template_id == "TT-034":
@@ -1751,6 +1754,7 @@ def validate_task(
     context_index: dict[tuple[str, int], dict[str, Any]],
     context_quest_index: dict[str, dict[str, Any]],
     templates: dict[str, dict[str, Any]],
+    location_catalog: list[dict[str, Any]] | None = None,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     issues: list[dict[str, Any]] = []
     template_id = task.get("task_template_id")
@@ -1824,6 +1828,12 @@ def validate_task(
     issues.extend(validate_generated_naming(task_object, template_id, quest, task))
     issues.extend(validate_generated_item_concreteness(task_object, template_id, quest, task))
     allowed_location_titles = context_quest_location_titles(context_quest_index.get(classname_quests))
+    if template_id in {"TT-001", "TT-003", "TT-004", "TT-005", "TT-006", "TT-007", "TT-033", "TT-034"}:
+        allowed_location_titles.update(
+            str(location["title"])
+            for location in location_catalog or []
+            if location.get("title") and (template_id != "TT-005" or "home" in (location.get("tags") or []))
+        )
     issues.extend(
         validate_location_references(
             task_object,
@@ -1864,7 +1874,7 @@ def validate_filled_tasks(
     all_issues: list[dict[str, Any]] = []
 
     for quest, task in build_filled_task_rows(filled_tasks):
-        result, issues = validate_task(quest, task, context_index, context_quest_index, templates)
+        result, issues = validate_task(quest, task, context_index, context_quest_index, templates, context_pack.get("location_catalog"))
         task_results.append(
             {
                 "classname_quests": quest.get("classname_quests"),

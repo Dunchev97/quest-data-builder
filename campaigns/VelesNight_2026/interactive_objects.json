@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "selected_objects": [
+    {
+      "template_id": "chest_1",
+      "object_title": "Сундук хозяйственных запасов",
+      "activation_resource_title": "Хозяйственный ключик",
+      "activation_resource_description": "Открывает сундук хозяйственных запасов дома или у друзей.",
+      "result_resource_title": "Крепёжная скоба",
+      "result_resource_description": "Надёжная скоба для хозяйственных креплений.",
+      "instruction_title": "Открывай сундук хозяйственным ключиком и получай крепёжные скобы."
+    },
+    {
+      "template_id": "help_1",
+      "object_title": "Узелок соседской помощи",
+      "activation_resource_title": "Соседский узелок",
+      "activation_resource_description": "Припасы, которыми друзья помогают собрать узелок соседской помощи.",
+      "result_resource_title": "Прочная бечёвка",
+      "result_resource_description": "Крепкая бечёвка для связок и хозяйственных креплений."
+    }
+  ]
+}

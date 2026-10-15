@@ -1,0 +1,635 @@
+{
+  "quests": [
+    {
+      "classname_quests": "VelesNight_2026_Story_1",
+      "title_quest": "Снова Велесова ночь",
+      "quest_number": 1,
+      "description": "Помоги собрать завязки и крепления оберегов. Заодно уберём мусор, чтобы к приходу гостей двор был чистым.",
+      "congratulation": "Всё собрали, спасибо. Крепления отложим — пригодятся, когда будем проверять ограду.",
+      "character": "Ведятя",
+      "helper": "VelesNight_2026_Character_1",
+      "tasks": [
+        {
+          "task_number": 1,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "Завязки и детали нужны для подготовки старой защиты перед приходом духов.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "VelesNight_2026_HOG_1",
+            "search_action": "search_VelesNight_2026_HOG_1",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "VelesNight_2026_HOG_1"
+              }
+            ],
+            "amount": 20,
+            "price": 20,
+            "title": "Найди Крепления оберегов",
+            "hint": "Найди Крепления оберегов. Место поиска: Мир. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          },
+          "resource_title": "Крепления оберегов"
+        },
+        {
+          "task_number": 2,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname",
+          "selected_candidate_id": "garbage:DeadLeaf",
+          "choice_reason": "Засохшие листья убирают при подготовке к празднику; источник — Кузница.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "DeadLeaf",
+            "amount": 20,
+            "price": 40,
+            "title": "Убери мусор Засохший листочек дома",
+            "hint": "Убери мусор Засохший листочек дома. Для этого просто кликни на нужный мусор дома. Место поиска: Трюм, Кузница.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_2",
+      "title_quest": "Нарядный хозяин",
+      "quest_number": 2,
+      "description": "Подбери выброшенные инструменты и принеси мне. На земле оставлять нельзя — растеряем.",
+      "congratulation": "Всё на месте. Уберу инструменты в дом, там целее будут.",
+      "character": "Баба Зина",
+      "helper": "VelesNight_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 3,
+          "task_template_id": "TT-006",
+          "task_template_name": "HOG в виде скрытого предмета",
+          "task_type": "HOG clean_debris hidden_object",
+          "selected_candidate_id": null,
+          "choice_reason": "Найденные инструменты возвращают из двора после того, как чужак выбросил их из дома.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "VelesNight_2026_HOG_2",
+            "amount": 1,
+            "price": 1,
+            "title": "Найди Дедовы инструменты",
+            "hint": "Найди Дедовы инструменты.",
+            "identifier": ""
+          },
+          "resource_title": "Дедовы инструменты"
+        },
+        {
+          "task_number": 4,
+          "task_template_id": "TT-033",
+          "task_template_name": "Передача предмета",
+          "task_type": "action give",
+          "selected_candidate_id": null,
+          "choice_reason": "Зина убирает подобранные инструменты в дом, где двойник позже их оживит.",
+          "task_object": {
+            "type": "action",
+            "action": "VelesNight_2026_Give_2_1_Give",
+            "icon": "VelesNight_2026_Give_2_1",
+            "go_to_location": [
+              {
+                "classname": "VelesNight_2026_Give_2_1"
+              }
+            ],
+            "amount": 1,
+            "title": "Передай Подобранные инструменты",
+            "hint": "Передай Подобранные инструменты персонажу Баба Зина. Он находится на Мир.",
+            "identifier": ""
+          },
+          "resource_title": "Подобранные инструменты"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_3",
+      "title_quest": "Телега без возницы",
+      "quest_number": 3,
+      "description": "Найди деревянные упоры и что-нибудь тяжёлое под колесо. Я пока телегу придержу!",
+      "congratulation": "Упоры подошли. Можно отпустить колесо — дальше телега не покатится.",
+      "character": "Дед Домовед",
+      "helper": "VelesNight_2026_Character_3",
+      "tasks": [
+        {
+          "task_number": 5,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "Дед подкладывает найденные упоры под колёса, чтобы остановить телегу.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "VelesNight_2026_HOG_3",
+            "search_action": "search_VelesNight_2026_HOG_3",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "VelesNight_2026_HOG_3"
+              }
+            ],
+            "amount": 20,
+            "price": 20,
+            "title": "Найди Деревянные упоры",
+            "hint": "Найди Деревянные упоры. Место поиска: Мир. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          },
+          "resource_title": "Деревянные упоры"
+        },
+        {
+          "task_number": 6,
+          "task_template_id": "TT-030",
+          "task_template_name": "Силуэт мусора дома",
+          "task_type": "garbage classname is_silhouette",
+          "selected_candidate_id": "garbage:Log",
+          "choice_reason": "Тяжёлое бревно годится как дополнительный упор для колеса телеги.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "Log",
+            "is_silhouette": 1,
+            "amount": 20,
+            "price": 40,
+            "title": "Угадай загаданный мусор и убери его дома",
+            "hint": "Угадай загаданный мусор и убери его дома",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_4",
+      "title_quest": "Гости ходят кругами",
+      "quest_number": 4,
+      "description": "Помоги убрать обломки с дороги. И под лавку загляни: оттуда завязки торчат, надо проверить, что там лежит.",
+      "congratulation": "Дорожка свободна. А найденные связки отложим отдельно — пусть Ведятя посмотрит.",
+      "character": "Куйгорож",
+      "helper": "VelesNight_2026_Character_4",
+      "tasks": [
+        {
+          "task_number": 7,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname",
+          "selected_candidate_id": "garbage:RustyNail",
+          "choice_reason": "Уборка гвоздей освобождает путь после повреждения указателей.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "RustyNail",
+            "amount": 20,
+            "price": 40,
+            "title": "Убери мусор Ржавый гвоздь дома",
+            "hint": "Убери мусор Ржавый гвоздь дома. Для этого просто кликни на нужный мусор дома. Место поиска: Котельная.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 8,
+          "task_template_id": "TT-007",
+          "task_template_name": "HOG поиск истинного среди ложного",
+          "task_type": "HOG clean_debris true_among_false",
+          "selected_candidate_id": null,
+          "choice_reason": "Под лавкой находят целые обереги: их снял чужак, телега не могла этого сделать.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "VelesNight_2026_HOG_4",
+            "amount": 1,
+            "price": 1,
+            "title": "Найди Снятые обереги",
+            "hint": "Найди Снятые обереги.",
+            "identifier": ""
+          },
+          "resource_title": "Снятые обереги"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_5",
+      "title_quest": "Беглец из Нави",
+      "quest_number": 5,
+      "description": "Осмотри двор у дома и за сараем. По следам проверь, не осталось ли там кого-нибудь из гостей, и вернись ко мне.",
+      "congratulation": "Обход закончен. Теперь можно заняться проводами, никого по двору искать не придётся.",
+      "character": "Королева Подземного Царства",
+      "helper": "VelesNight_2026_Character_5",
+      "tasks": [
+        {
+          "task_number": 9,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "Осмотр следов у дома и сарая помогает Королеве убедиться, что все задержавшиеся гости найдены.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "VelesNight_2026_HOG_5",
+            "search_action": "search_VelesNight_2026_HOG_5",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "VelesNight_2026_HOG_5"
+              }
+            ],
+            "amount": 20,
+            "price": 20,
+            "title": "Найди Следы гостей",
+            "hint": "Найди Следы гостей. Место поиска: Мир. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          },
+          "resource_title": "Следы гостей"
+        },
+        {
+          "task_number": 10,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "choice_reason": "Короткое подтверждение выполненного действия; сюжет и разговор героев остаются в сцене этого квеста.",
+          "task_object": {
+            "type": "action",
+            "icon": "VelesNight_2026_Character_5",
+            "action": "VelesNight_2026_Character_5_Dialog_1",
+            "title": "Поговори с Королевой Подземного Царства",
+            "hint": "Поговори с Королевой Подземного Царства. Для этого просто кликни на неё. Она находится в Мир.",
+            "go_to_location": [
+              {
+                "classname": "VelesNight_2026_Character_5"
+              }
+            ],
+            "identifier": ""
+          },
+          "dialogue_replica": "Обход закончен? Хорошо, теперь никто не останется без проводов."
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_6",
+      "title_quest": "Верная дорога",
+      "quest_number": 6,
+      "description": "Собери крепёжные детали и подготовь крепления для указателей. Поставим их на прежние места.",
+      "congratulation": "Крепления готовы, можно закреплять указатели. Проверю, всё ли крепко держится.",
+      "character": "Ведятя",
+      "helper": "VelesNight_2026_Character_1",
+      "tasks": [
+        {
+          "task_number": 11,
+          "task_template_id": "TT-015",
+          "task_template_name": "GR с конкретного мусора дома",
+          "task_type": "get_asset GR garbage classname",
+          "selected_candidate_id": "gr_garbage:RustyNail:home",
+          "choice_reason": "Из найденных деталей готовят крепления указателей, чтобы гости смогли уйти.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "VelesNight_2026_GR_1",
+            "icon": "VelesNight_2026_GR_1",
+            "amount": 15,
+            "price": 30,
+            "title": "Найди Ржавый гвоздь",
+            "hint": "Убирай мусор Ржавый гвоздь дома, чтобы найти. Место поиска: Котельная.",
+            "identifier": ""
+          },
+          "resource_title": "Крепёжные детали"
+        },
+        {
+          "task_number": 12,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Готовые крепления нужны Деду и Куйгорожу для восстановления дороги после телеги.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "VelesNight_2026_R_1",
+            "icon": "VelesNight_2026_R_1",
+            "amount": 1,
+            "title": "Создай Крепления указателей",
+            "go_to_location": [
+              {
+                "classname": "VelesNight_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          },
+          "resource_title": "Крепления указателей"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_7",
+      "title_quest": "Королева взаперти",
+      "quest_number": 7,
+      "description": "Осмотри заграждённые окна снаружи. Найди то, к которому Домовед сможет подойти, и покажи мне.",
+      "congratulation": "Вижу, какое окно ты выбрал. До этой ставни я изнутри дотянусь.",
+      "character": "Баба Зина",
+      "helper": "VelesNight_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 13,
+          "task_template_id": "TT-007",
+          "task_template_name": "HOG поиск истинного среди ложного",
+          "task_type": "HOG clean_debris true_among_false",
+          "selected_candidate_id": null,
+          "choice_reason": "Нужно выбрать окно, до которого Дед сможет добраться снаружи, а Зина — изнутри. Единственный доступный путь требует одной находки; количество сознательно отличается от среднего HOG.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "VelesNight_2026_HOG_6",
+            "amount": 1,
+            "price": 1,
+            "title": "Найди Доступное окно",
+            "hint": "Осмотри окна дома и найди то, к которому можно подойти. Зина поможет со своей стороны.",
+            "identifier": ""
+          },
+          "resource_title": "Доступное окно"
+        },
+        {
+          "task_number": 14,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "choice_reason": "Короткое подтверждение выполненного действия; сюжет и разговор героев остаются в сцене этого квеста.",
+          "task_object": {
+            "type": "action",
+            "icon": "VelesNight_2026_Character_2",
+            "action": "VelesNight_2026_Character_2_Dialog_2",
+            "title": "Поговори с Бабой Зиной",
+            "hint": "Поговори с Бабой Зиной. Для этого просто кликни на неё. Она находится в Мир.",
+            "go_to_location": [
+              {
+                "classname": "VelesNight_2026_Character_2"
+              }
+            ],
+            "identifier": ""
+          },
+          "dialogue_replica": "Я здесь, у ставни. Если нужно будет подтолкнуть её изнутри, позови."
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_8",
+      "title_quest": "Бунт инструментов",
+      "quest_number": 8,
+      "description": "Нужны крепкие верёвки. Найди их и выбери целые связки — порванные эту стражу не удержат.",
+      "congratulation": "Эти выдержат. Давай сюда, пока я грабли держу!",
+      "character": "Куйгорож",
+      "helper": "VelesNight_2026_Character_4",
+      "tasks": [
+        {
+          "task_number": 15,
+          "task_template_id": "TT-006",
+          "task_template_name": "HOG в виде скрытого предмета",
+          "task_type": "HOG clean_debris hidden_object",
+          "selected_candidate_id": null,
+          "choice_reason": "Верёвки позволяют Куйгорожу удержать ожившие инструменты и освободить подход к окну.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "VelesNight_2026_HOG_7",
+            "amount": 1,
+            "price": 1,
+            "title": "Найди Крепкие верёвки",
+            "hint": "Найди Крепкие верёвки.",
+            "identifier": ""
+          },
+          "resource_title": "Крепкие верёвки"
+        },
+        {
+          "task_number": 16,
+          "task_template_id": "TT-007",
+          "task_template_name": "HOG поиск истинного среди ложного",
+          "task_type": "HOG clean_debris true_among_false",
+          "selected_candidate_id": null,
+          "choice_reason": "Из целых и порванных связок выбирают те, которые выдержат дёргающиеся инструменты.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "VelesNight_2026_HOG_8",
+            "amount": 1,
+            "price": 1,
+            "title": "Найди Целые связки",
+            "hint": "Найди Целые связки.",
+            "identifier": ""
+          },
+          "resource_title": "Целые связки"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_9",
+      "title_quest": "Лестница для Домоведа",
+      "quest_number": 9,
+      "description": "Найди принадлежности для лестницы и опорные бруски. Подготовим всё у боковой стены.",
+      "congratulation": "Всё принесли. Поставлю лестницу на эти опоры, потом проверим её ещё раз.",
+      "character": "Дед Домовед",
+      "helper": "VelesNight_2026_Character_3",
+      "tasks": [
+        {
+          "task_number": 17,
+          "task_template_id": "TT-004",
+          "task_template_name": "HOG на локации",
+          "task_type": "HOG clean_debris location",
+          "selected_candidate_id": null,
+          "choice_reason": "Лестница есть в хозяйстве Деда; найденные принадлежности позволяют подготовить её к подъёму.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "VelesNight_2026_HOG_9",
+            "search_action": "search_VelesNight_2026_HOG_9",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "VelesNight_2026_HOG_9"
+              }
+            ],
+            "amount": 20,
+            "price": 20,
+            "title": "Найди Принадлежности для лестницы",
+            "hint": "Найди Принадлежности для лестницы. Место поиска: Мир. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          },
+          "resource_title": "Принадлежности"
+        },
+        {
+          "task_number": 18,
+          "task_template_id": "TT-015",
+          "task_template_name": "GR с конкретного мусора дома",
+          "task_type": "get_asset GR garbage classname",
+          "selected_candidate_id": "gr_garbage:Log:home",
+          "choice_reason": "Бруски подкладывают под лестницу, чтобы она не качалась, пока Дед поднимается к Зине.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "VelesNight_2026_GR_2",
+            "icon": "VelesNight_2026_GR_2",
+            "amount": 15,
+            "price": 30,
+            "title": "Найди Обгорелое бревно",
+            "hint": "Убирай мусор Обгорелое бревно дома, чтобы найти. Место поиска: Котельная.",
+            "identifier": ""
+          },
+          "resource_title": "Опорные бруски"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_10",
+      "title_quest": "Зина, отойди от окна!",
+      "quest_number": 10,
+      "description": "Найди деревянные клинья для лестницы и убери солому с места спуска. Нельзя, чтобы под ногами скользило.",
+      "congratulation": "Клинья на месте, внизу чисто. Теперь можно подниматься к окну.",
+      "character": "Баба Зина",
+      "helper": "VelesNight_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 19,
+          "task_template_id": "TT-006",
+          "task_template_name": "HOG в виде скрытого предмета",
+          "task_type": "HOG clean_debris hidden_object",
+          "selected_candidate_id": null,
+          "choice_reason": "Клинья дополнительно фиксируют уже установленную лестницу перед освобождением ставни.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "VelesNight_2026_HOG_10",
+            "amount": 1,
+            "price": 1,
+            "title": "Найди Деревянные клинья",
+            "hint": "Найди Деревянные клинья.",
+            "identifier": ""
+          },
+          "resource_title": "Деревянные клинья"
+        },
+        {
+          "task_number": 20,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname",
+          "selected_candidate_id": "garbage:StrawPinch",
+          "choice_reason": "Перед подъёмом Деда игрок убирает солому: в постановке это подготовка места для спуска. Домашний источник мусора отличается от двора и требует согласования размещения.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "StrawPinch",
+            "amount": 20,
+            "price": 40,
+            "title": "Убери мусор Щепотка соломы дома",
+            "hint": "Убери мусор Щепотка соломы дома. Для этого просто кликни на нужный мусор дома. Место поиска: Банька.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_11",
+      "title_quest": "Барину пора домой",
+      "quest_number": 11,
+      "description": "Подготовь крепления для оберегов, которые нашли под лавкой. Домовед вернёт их на ограду.",
+      "congratulation": "Крепления подошли, обереги держатся. Благодарю за помощь.",
+      "character": "Королева Подземного Царства",
+      "helper": "VelesNight_2026_Character_5",
+      "tasks": [
+        {
+          "task_number": 21,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "После спасения Зины Дед возвращает обереги на ограду; свежие крепления удерживают их на месте.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "VelesNight_2026_R_2",
+            "icon": "VelesNight_2026_R_2",
+            "amount": 1,
+            "title": "Создай Крепления оберегов",
+            "go_to_location": [
+              {
+                "classname": "VelesNight_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          },
+          "resource_title": "Крепления оберегов"
+        },
+        {
+          "task_number": 22,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "choice_reason": "Короткое подтверждение выполненного действия; сюжет и разговор героев остаются в сцене этого квеста.",
+          "task_object": {
+            "type": "action",
+            "icon": "VelesNight_2026_Character_5",
+            "action": "VelesNight_2026_Character_5_Dialog_3",
+            "title": "Поговори с Королевой Подземного Царства",
+            "hint": "Поговори с Королевой Подземного Царства. Для этого просто кликни на неё. Она находится в Мир.",
+            "go_to_location": [
+              {
+                "classname": "VelesNight_2026_Character_5"
+              }
+            ],
+            "identifier": ""
+          },
+          "dialogue_replica": "Крепления держатся. Больше ничего не нужно, я займусь беглецом."
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_12",
+      "title_quest": "Один Дед — и хватит",
+      "quest_number": 12,
+      "description": "Помоги убрать остатки связок и вернуть инструменты на места. Доски с двери я сниму сам.",
+      "congratulation": "Всё прибрали. Спасибо тебе — сегодня ты нас очень выручил.",
+      "character": "Дед Домовед",
+      "helper": "VelesNight_2026_Character_3",
+      "tasks": [
+        {
+          "task_number": 23,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname",
+          "selected_candidate_id": "garbage:YarnLump",
+          "choice_reason": "Дед снимает доски с двери в финальной постановке, а игрок убирает остатки связок. Дверь освобождают после ухода двойника.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "YarnLump",
+            "amount": 20,
+            "price": 40,
+            "title": "Убери мусор Комок спутавшейся пряжи дома",
+            "hint": "Убери мусор Комок спутавшейся пряжи дома. Для этого просто кликни на нужный мусор дома. Место поиска: Рукодельня.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 24,
+          "task_template_id": "TT-001",
+          "task_template_name": "Диалог",
+          "task_type": "action dialog",
+          "selected_candidate_id": null,
+          "choice_reason": "Короткое подтверждение выполненного действия; сюжет и разговор героев остаются в сцене этого квеста.",
+          "task_object": {
+            "type": "action",
+            "icon": "VelesNight_2026_Character_3",
+            "action": "VelesNight_2026_Character_3_Dialog_4",
+            "title": "Поговори с Дедом Домоведом",
+            "hint": "Поговори с Дедом Домоведом. Для этого просто кликни на него. Он находится в Мир.",
+            "go_to_location": [
+              {
+                "classname": "VelesNight_2026_Character_3"
+              }
+            ],
+            "identifier": ""
+          },
+          "dialogue_replica": "Работу закончили. Дальше мы с Зиной сами справимся."
+        }
+      ]
+    }
+  ]
+}
