@@ -31,7 +31,7 @@ class BuildActionsTableTests(unittest.TestCase):
                                     "task_type": "action dialog",
                                     "dialogue_replica": "Первая реплика.",
                                     "task_object": {
-                                        "icon": "Event_2026_Character_1",
+                                        "icon": "Event_2026_Character_1_1",
                                         "title": "Поговори с Мастером",
                                     },
                                 },
@@ -62,7 +62,7 @@ class BuildActionsTableTests(unittest.TestCase):
                                     "task_type": "action dialog",
                                     "dialogue_replica": "Вторая реплика.",
                                     "task_object": {
-                                        "icon": "Event_2026_Character_1",
+                                        "icon": "Event_2026_Character_1_1",
                                         "title": "Поговори с Мастером",
                                     },
                                 },
@@ -90,18 +90,18 @@ class BuildActionsTableTests(unittest.TestCase):
             self.assertEqual(summary["dialog_actions"], 1)
             self.assertEqual(summary["search_actions"], 0)
             self.assertEqual(summary["give_actions"], 1)
-            self.assertFalse(any("Event_2026_Character_1_Dialog_1" in row for row in flat_rows))
-            self.assertTrue(any("Event_2026_Character_1_Dialog_2" in row for row in flat_rows))
+            self.assertFalse(any("Event_2026_Character_1_1_Dialog_1" in row for row in flat_rows))
+            self.assertTrue(any("Event_2026_Character_1_1_Dialog_2" in row for row in flat_rows))
             self.assertTrue(any("action_Event_2026_Give_1_1_Give_1" in row for row in flat_rows))
             self.assertFalse(any("search_Event_2026_HOG_1" in row for row in flat_rows))
             self.assertTrue(any("active_quest=Event_2026_Story_2" in row for row in flat_rows))
-            entity_index = next(index for index, row in enumerate(rows) if len(row) > 3 and row[3] == "Event_2026_Character_1")
+            entity_index = next(index for index, row in enumerate(rows) if len(row) > 3 and row[3] == "Event_2026_Character_1_1")
             self.assertEqual(rows[entity_index][1], "/furniture/Fun/Fun13/Character/Fun13_Character_18.proto.js")
-            self.assertEqual(rows[entity_index][2], "/furniture/Fun/Event_2026/Character/Event_2026_Character_1.proto.js")
+            self.assertEqual(rows[entity_index][2], "/furniture/Event_2026/Character/Event_2026_Character_1_1.proto.js")
             self.assertNotIn("Event_2026_Give_1_1.proto.js", rows[entity_index][2])
 
             data_ids = [cell for row in rows for cell in row if isinstance(cell, int)]
-            self.assertEqual(data_ids, [125016, 125017, 125018])
+            self.assertEqual(data_ids, [])
             give_index = next(index for index, row in enumerate(rows) if len(row) > 1 and row[1] == "ЭКШЕНЫ Give")
             self.assertEqual(rows[give_index + 3][1], "/quest_action/Fun/Fun13/Fun13_Character_18_Give_1.proto.js")
 
@@ -130,7 +130,7 @@ class BuildActionsTableTests(unittest.TestCase):
                                     "task_type": "action dialog",
                                     "dialogue_replica": "Первая реплика.",
                                     "task_object": {
-                                        "icon": "Event_2026_Character_1",
+                                        "icon": "Event_2026_Character_1_1",
                                         "title": "Поговори с Мастером",
                                     },
                                 },
@@ -152,7 +152,7 @@ class BuildActionsTableTests(unittest.TestCase):
             self.assertEqual(summary["dialog_actions"], 1)
             self.assertEqual(summary["search_actions"], 1)
             self.assertTrue(any("money=2" in row for row in flat_rows))
-            self.assertEqual([cell for row in rows for cell in row if isinstance(cell, int)], [125016, 125017, 125018])
+            self.assertEqual([cell for row in rows for cell in row if isinstance(cell, int)], [])
 
     def test_exports_quest_helpers_without_actions(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -168,7 +168,7 @@ class BuildActionsTableTests(unittest.TestCase):
                             "classname_quests": "Event_2026_Story_1",
                             "quest_number": 1,
                             "character": "Наблюдатель",
-                            "helper": "Event_2026_Character_1",
+                            "helper": "Event_2026_Character_1_1",
                             "tasks": [
                                 {
                                     "task_number": 1,
@@ -187,9 +187,9 @@ class BuildActionsTableTests(unittest.TestCase):
             block_index = next(index for index, row in enumerate(rows) if len(row) > 1 and row[1] == "ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ")
             self.assertEqual(rows[block_index + 2][1:6], ["input", "output", "classname", "title", "id"])
             self.assertNotIn("behaviour.0.actions", rows[block_index + 2])
-            self.assertTrue(any(len(row) > 4 and row[3] == "Event_2026_Character_1" and row[4] == "Наблюдатель" for row in rows))
+            self.assertTrue(any(len(row) > 4 and row[3] == "Event_2026_Character_1_1" and row[4] == "Наблюдатель" for row in rows))
             self.assertEqual(rows[block_index + 3][1], "/furniture/Fun/Fun13/Character/Fun13_Character_23.proto.js")
-            self.assertEqual(rows[block_index + 3][5], 125015)
+            self.assertEqual(rows[block_index + 3][5], "")
             self.assertEqual(summary["entities_without_actions"], 1)
 
 

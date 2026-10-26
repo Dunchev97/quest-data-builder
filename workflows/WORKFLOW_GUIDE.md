@@ -68,7 +68,7 @@ campaigns/<campaign_id>/<pack_id>/review/
 ```
 
 - Stage 1-5: `stage1_review.md` ... `stage5_review.md`.
-- Stage 6: `stage6_review.xlsx`.
+- Stage 6: конечные `review/proto/*.xlsx`, по одному `conf` в файле.
 - Все остальные файлы pack — машинные source/build/validation артефакты. Человеку не нужно и не следует править их вручную.
 - Approval Stage 1-5 применяет соответствующий review обратно в machine source, пересобирает и валидирует производные артефакты, затем сохраняет SHA-256 review.
 - Если review изменился после approval, следующий gate откажет в работе до повторного approval.
@@ -98,7 +98,7 @@ python src/workflow_fast.py approve --stage 5 --campaign <campaign_id> --pack <p
 python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>
 ```
 
-`stage6` также автоматически пересобирает campaign-level таблицу ресурсов. Команда `resource-table` остается только как ручной fallback для отдельной пересборки/отладки, но в обычном workflow после Stage 6 ее запускать не нужно.
+`stage6` также автоматически агрегирует ресурсы campaign в `review/proto/<campaign_id>_resources.xlsx`. Команда `resource-table` остается только как ручной fallback для отдельной пересборки/отладки, но в обычном workflow после Stage 6 ее запускать не нужно.
 
 Старые низкоуровневые команды остаются fallback для отладки, но в обычном workflow их не нужно набирать вручную.
 
@@ -130,16 +130,15 @@ quest_group.json
 quest_group_choices.json
 quest_group.validation.json
 quest_group.preview.md
-generated_quests.csv
-generated_actions.csv
-generated_actions.summary.json
-quest_<campaign_id>_accomplished.xlsx
+review/proto/<campaign_id>_quests.xlsx
+review/proto/<campaign_id>_actions.xlsx
+review/proto/quest_<campaign_id>_accomplished.xlsx
 review/stage1_review.md
 review/stage2_review.md
 review/stage3_review.md
 review/stage4_review.md
 review/stage5_review.md
-review/stage6_review.xlsx
+review/proto/*.xlsx
 ```
 
 Campaign-level files:
@@ -147,10 +146,6 @@ Campaign-level files:
 ```text
 campaigns/<campaign_id>/interactive_objects.json
 campaigns/<campaign_id>/interactive_objects.preview.md
-campaigns/<campaign_id>/generated_interactive_objects_*.csv
-campaigns/<campaign_id>/generated_interactive_objects.summary.json
-campaigns/<campaign_id>/resource_table.csv
-campaigns/<campaign_id>/resource_table.summary.json
 ```
 
 `output/` - локальная временная витрина. Нельзя считать файлы из `output/` актуальными для campaign, если эти файлы не перенесены в папку pack. Для основного quest workflow предпочитай сразу писать постоянные артефакты в `campaigns/<campaign_id>/<pack_id>/`.
@@ -176,10 +171,10 @@ campaigns/<campaign_id>/resource_table.summary.json
 - проверяет approval gates;
 - автоматически создает review Stage 3-6 и запрещает переходы без обязательных review;
 - применяет ручные изменения только из `review/`, пересобирает Stage 3-5 и хранит контрольную сумму утвержденного review;
-- экспортирует CSV;
-- экспортирует CSV интерактивных объектов по `data/interactive_object_templates.json`;
-- экспортирует actions CSV для персонажей, Give и HOG search;
-- экспортирует campaign-level `resource_table.csv` по всем pack текущей campaign как обязательную часть Stage 6;
+- экспортирует обзор XLSX и отдельные conf-файлы;
+- экспортирует XLSX/conf интерактивных объектов по `data/interactive_object_templates.json`;
+- экспортирует actions XLSX/conf для персонажей, Give и HOG search;
+- агрегирует ресурсы всех pack campaign в `review/proto/<campaign_id>_resources.xlsx` как обязательную часть Stage 6;
 - обновляет campaign memory.
 - валидирует JSON результата pot description, если результат сохраняется.
 
@@ -410,9 +405,9 @@ campaigns/<campaign_id>/<pack_id>/quest_group.preview.md
 Важно:
 
 - `quest_group.json` привязан к pack, а не к `output/`.
-- Проверенный donor для quest group — `Night_2026`: `input` всегда `/quest_group/event/Night_2026_Story.proto.js`.
-- `output` строится как `/quest_group/event/<campaign_id>_Story.proto.js`; `pack_id` в classname не добавляется.
-- Служебные поля quest group: `id=125028`, `find=Night_2026`, `replace=<campaign_id>`.
+- Проверенный donor для quest group — `Night_2026`: `input` всегда `/quest_group/event/Night_2026/Night_2026_Story.proto.js`.
+- `output` строится как `/quest_group/event/<campaign_id>/<campaign_id>_Story.proto.js`; `pack_id` в classname не добавляется. Техническая группа лежит рядом: `<campaign_id>_Tech.proto.js`.
+- Служебные поля quest group: `id` пустой, `find=Night_2026`, `replace=<campaign_id>`.
 - Старый объект `extra` (`quest_reward_prewiew`, `description_condition`, `description_complete`) больше не входит в этот шаблон.
 
 После approval пользователя записать:
@@ -421,81 +416,70 @@ campaigns/<campaign_id>/<pack_id>/quest_group.preview.md
 python src/workflow_fast.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
 ```
 
-### Stage 6 - CSV Export
+### Stage 6 - Конечные XLSX/conf, список package и дополнение к станку
 
-Цель: технически развернуть утвержденные `quest_group.json` и `filled_tasks.json` в CSV, собрать отдельный CSV персонажей и quest actions, выгрузить CSV выбранных интерактивных объектов и обязательно пересобрать campaign-level таблицу ресурсов по всем pack текущей campaign.
+После ручной проверки основных таблиц обязательно выполнить подэтап **6.1 «Подключение диалогов»** по [DIALOGUE_WORKFLOW.md](DIALOGUE_WORKFLOW.md), используя `quest-dialog-proto` и `python src/workflow_fast.py dialogs`. Сценарий готовится на творческих этапах; техническое подключение выполняется после Stage 6. Команда `stage6` напоминает об этом шаге, но не запускает его до готовности реестра, утверждённых реплик и предоставленных ID. Финальная поставка включает подключённые разговоры и повторную проверку текущих XLSX.
 
-Быстрая команда:
+Обязательная защита GR от противоречий (21.10.2026): hint квеста и description ресурса должны совпадать с фактическими actions/assets/location_tags. При конкретном мусоре применять TT-014/TT-015, например `Убирай Ржавый гвоздь в гостях, чтобы найти. Место поиска: Котельная.` Старый TT-013 с конкретным кандидатом автоматически разрешается в правильный шаблон при сборке Stage 4. После изменения кандидата в stage4_review.md approval заново применяет choices и пересобирает filled_tasks; источник и mode должны обновить текст. Ручные XLSX Stage 6 автоматически не пересобирать. Для них проверять `src/gr_table_review.py <campaign_id> --tables-dir <актуальная папка>`; адресная правка только текстов — отдельный `--apply`. Эта проверка также обязательна в Stage 6 и при реальной конвертации пары quests/resources. Подробнее — раздел «GR: текст обязан совпадать с реальным выпадением» в `PROTO_EXPORT_WORKFLOW.md`.
+
+Всегда включать отдельный `MB_RECIPEMB_POTS_<campaign_id>.xlsx`: 3 MB + 3 recipe + 3 pot. Все `R_MB_N_Recipe.ingredients` равны первому `R_1_Recipe.ingredients` текущей campaign, без изменения порядка/количеств; названия могут быть тестовыми. Stage 6 создаёт файл через `src/mystery_rewards.py` до технической очистки. Существующий ручной файл не пересобирать; изменения ingredients применять адресно. Полный контракт — в `PROTO_EXPORT_WORKFLOW.md`, раздел «Обязательные мистери-боксы и горшочки».
+
+Дополнение пользователя от 20.10.2026: рядом с XLSX всегда создавать `<campaign_id>_shop_invisible_packages.txt` для ручного заполнения `shop_invisible.proto.js`. Сверху пути к `d:\domovoy\trunk\server\prototypes\context_shop\` и самому файлу магазина, далее все package из актуальных XLSX по одной строке `"<classname>",`, без дублей. Этот обязательный TXT — исключение из прежнего «только XLSX». Конечный conf writer обновляет его автоматически; после ручных правок использовать `workflow_fast.py package-list --campaign <id> --pack <pack> --tables-dir <актуальная папка>`. Сам магазин не редактировать. Полный контракт: `PROTO_EXPORT_WORKFLOW.md`, раздел «Список покупок для невидимого магазина».
+
+Дополнение пользователя от 21.10.2026: всегда создавать ещё `<campaign_id>_DayOfDomovoyCaldron.txt` в той же папке. Сверху путь к `d:\domovoy\trunk\server\prototypes\workbench\DayOfDomovoyCaldron.proto.js`, затем готовый объект для `extra.set`: campaign id/title/icon, `attention="Изготавливать можно"`, `conditions="active_quest_group=<campaign_id>_Tech"`, все рецепты из актуальных XLSX (включая MB и интерактивные объекты), без дублей. Не ограничивать список фиксированными номерами и не собирать donor input. Общий conf writer обновляет TXT автоматически; после ручных правок — `workflow_fast.py workbench-addition --campaign <id> --pack <pack> --tables-dir <актуальная папка>`. Станок и ручные таблицы не изменять. Для VelesNight_2026 читать рабочую папку первой и сохранять копию TXT рядом с репозиторными XLSX. Оба TXT — обязательные исключения из «только XLSX». Полный контракт — раздел «Дополнение к станку DayOfDomovoyCaldron» в `PROTO_EXPORT_WORKFLOW.md`.
+
+Пустые `id` и `tasks.N.identifier` относятся к первичной выдаче на проверку. После сообщения пользователя со свободными proto/task ID выполнять отдельное назначение через `src/proto_ids.py` в текущих ручных XLSX. Не регенерировать pack; сохранять уже назначенные значения. Проверка всей назначенной поставки — `validate_proto_exports.py --assigned-ids`. Правила уникальности и команды: `PROTO_EXPORT_WORKFLOW.md`, раздел «Назначение предоставленных пользователем ID».
+
+Согласовано 19.10.2026: вся конечная выдача находится в `campaigns/<campaign_id>/<pack_id>/review/proto/`, в каждом XLSX один лист `conf`. Подробный контракт: `workflows/PROTO_EXPORT_WORKFLOW.md`.
 
 ```bash
 python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>
 ```
 
-Команда отказывается работать, если отсутствует или не содержит распознанных данных хотя бы один файл `stage1_review.md`-`stage5_review.md`, если не утвержден любой Stage 1-5 или соответствующий review изменился после approval. Результат создается как `review/stage6_review.xlsx`; это единственный Excel-файл pack, который человек правит вручную. Существующий workbook по умолчанию защищен от перезаписи; намеренная замена требует `--force-review`.
+Команда проверяет действующие approval/review Stage 1–5 и validation, затем сразу создаёт `<campaign_id>_quests.xlsx`, `<campaign_id>_actions.xlsx`, `<campaign_id>_resources.xlsx`, `<campaign_id>_interactive_<mechanic>.xlsx`, `quest_<campaign_id>_accomplished.xlsx` и учитывает выбранные FunCollection, например `<campaign_id>_funcollection_4.xlsx`, в этой же папке. После них создаёт `<campaign_id>_technical_quests.xlsx` с технической группой и Tech_1/Tech_2. Очистка Tech_2 берётся из текущих XLSX всех pack: все собственные ресурсы, персонажи, HOG, интерактивы и состояния/эффекты потех. Все identifier задач и id при первичной генерации пустые для последующего назначения пользователем; имена самих прототипов заполнены. Срок события `spoil_conditions` требует заполнения до импорта. Детали и отдельная команда добавления технической таблицы — в `PROTO_EXPORT_WORKFLOW.md`. Ресурсы агрегируют все pack campaign. Необходимая campaign memory обновляется.
 
-Stage 6 работает инкрементально: если `resource_table.csv` / `resource_table.summary.json` свежее всех `filled_tasks.json`, `context_pack.json` и `interactive_objects.json` campaign, таблица ресурсов не пересобирается. Interactive-object CSV тоже пропускаются, если они свежее `interactive_objects.json`. Для ручной полной пересборки используй отдельные fallback-команды `resource-table` и `interactive-objects --export`.
+CSV, ZIP, manifests, validation_report, экспортные summary JSON и дополнительный многолистовой обзор не создаются. Результаты обязательных проверок выводятся в консоль. Технические временные данные проверки разрешены только в `output/`, когда они действительно нужны.
 
-Stage 6 читает из:
+Пользователь сейчас вручную проверяет конечные XLSX. Не перезаписывать их. После его сообщения о завершении закрепить подтверждённые исправления в генераторах, шаблонах, документации и проверках. После проверки таблиц оформить скилл создания квестов. `stage6 --force` допустим только для намеренной регенерации; FunCollection сохраняется даже при общем force. Старый `stage6-split` оставлен для миграции старого обзора и не создаёт manifest.
 
-```text
-campaigns/<campaign_id>/<pack_id>/filled_tasks.json
-campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json
-campaigns/<campaign_id>/<pack_id>/quest_group.json
-campaigns/<campaign_id>/<pack_id>/quest_group.validation.json
-campaigns/<campaign_id>/interactive_objects.json
-```
+`<campaign_id>_actions.xlsx` содержит actions текущего pack и всех helper-персонажей, включая блок `ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ`. Для каждого персонажа нужен свой `ml` блок; нумерация учитывает предыдущие pack campaign.
 
-И пишет:
-
-```text
-campaigns/<campaign_id>/<pack_id>/generated_quests.csv
-campaigns/<campaign_id>/<pack_id>/generated_actions.csv
-campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
-campaigns/<campaign_id>/<pack_id>/quest_<campaign_id>_accomplished.xlsx
-campaigns/<campaign_id>/generated_interactive_objects_*.csv
-campaigns/<campaign_id>/generated_interactive_objects.summary.json
-campaigns/<campaign_id>/resource_table.csv
-campaigns/<campaign_id>/resource_table.summary.json
-```
-
-`generated_actions.csv` содержит только actions текущего pack. Для нумерации `Dialog_N` и `Give_N` код просматривает предыдущие pack-и campaign, чтобы не создавать дубли. Персонажи, которые используются квестами как helper, но не имеют экшенов в текущем pack, все равно пишутся в этот же CSV отдельным блоком `ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ` без колонки/параметра `behaviour.0.actions`.
-
-Контракт листа `КВЕСТЫ` в `stage6_review.xlsx`:
+Контракт `<campaign_id>_quests.xlsx` / `conf`:
 
 - quest group использует `ml`; quest использует `sl`; task использует `ml`. Значения `temp`, `temp_01`, `temp_02` в этом листе запрещены;
 - у quest group и quest нет колонок `extra.*`; вместо них используются `id`, `find`, `replace`;
-- quest N берет `input` из `/quest/event/Night_2026/Night_2026_Story_N.proto.js`, а новый `output` — `/quest/<campaign_id>/story_N/<campaign_id>_Story_N.proto.js`;
+- quest N берет `input` из `/quest/event/Night_2026/Night_2026_Story_N.proto.js`, а новый `output` — `/quest/event/<campaign_id>/<campaign_id>_Story_N.proto.js`; все Story и Tech квесты лежат прямо в папке campaign внутри `event`, без подкаталогов `story_N` или `tech`;
 - каждый task quest N берет и `input`, и `output` из нового output этого quest, а не из `Night_2026`;
-- `id` quest N равен `125028 + N`, `find=Night_2026`, `replace=<campaign_id>`;
+- `id` quest N при первичной генерации пустой, `find=Night_2026`, `replace=<campaign_id>`; после отдельного назначения пользователя содержит выделенный proto id;
 - для `TT-033` использовать classname `<campaign_id>_Give_<character_number>_<give_number>`, а не classname на основе глобального `task_number`.
 
-Контракт листа `ЭКШЕНЫ` в `stage6_review.xlsx`:
+Контракт `<campaign_id>_actions.xlsx` / `conf`:
 
 - entity/furniture блоки используют `ml`, action блоки используют `sl`; значения `temp`, `temp_01`, `temp_02` запрещены;
-- начиная с `125015` сначала резервируется диапазон ID для всех персонажей в исходном порядке; строки персонажей без экшенов сохраняют свои зарезервированные ID, action-enabled версии получают новые ID после этого диапазона, а затем ID получают action строки; из-за переноса персонажа между блоками пропуски допустимы, continuation-строки массива `behaviour.0.actions` отдельный `id` не получают;
+  - `id` всех персонажей, квестов, quest group и action оставлять пустыми; ID не резервировать и не назначать;
 - персонажи без экшенов берут `input` из `/furniture/Fun/Fun13/Character/Fun13_Character_23.proto.js`, персонажи с экшенами — из `/furniture/Fun/Fun13/Character/Fun13_Character_18.proto.js`;
 - Give action берет `input` из `/quest_action/Fun/Fun13/Fun13_Character_18_Give_1.proto.js`;
 - у `TT-033` identifier action строится от classname предмета `Give_*`, а action добавляется в `behaviour.0.actions` персонажа-получателя из `person`/`hint`; отдельная furniture-сущность с classname предмета не создается;
-- лист закрепляется через `freeze_panes=A4`.
+- строки листа не закреплять (общее правило пользователя от 19.10.2026).
 
-Контракт листа `РЕСУРСЫ` в `stage6_review.xlsx`:
+Контракт `<campaign_id>_resources.xlsx` / `conf`:
 
 - все ресурсные блоки используют `sl`; значения `temp`, `temp_01`, `temp_02` запрещены;
 - `id` всегда остается пустым, даже если в файле-доноре есть числовые ID;
 - поля, объявленные как `int`, записываются в XLSX числами, а не строками;
-- лист закрепляется через `freeze_panes=A76`.
+- строки листа не закреплять.
 
-Контракт листа `ИНТЕРАКТИВ Story_RandomRecipe` в `stage6_review.xlsx`:
+Контракт `<campaign_id>_interactive_story_randomrecipe.xlsx` / `conf`:
 
 - все блоки используют `sl`, числовые поля записываются числами;
 - GR probability по умолчанию равна `35`;
 - обе объектные колонки `id` и все остальные `id` остаются пустыми;
 - финальная колонка `id` после `price_elements.7.price` обязательна;
-- лист закрепляется через `freeze_panes=A22`.
+- строки листа не закреплять.
 
 Контракт дополнительного `quest_<campaign_id>_accomplished.xlsx`:
 
-- файл создается всегда при Stage 6 в папке текущего pack;
+- файл создаётся всегда при Stage 6 в `review/proto/` текущего pack;
 - лист называется `conf` и содержит один блок `quest_<campaign_id>_Story_accomplished`;
 - одна строка создается для каждого `classname_quests` из `filled_tasks.json`, без ручного списка и пропусков;
 - тип блока `sl`, donor `/post_action/quest_Night_2026_Story_1_accomplished.proto.js`;
@@ -504,9 +488,9 @@ campaigns/<campaign_id>/resource_table.summary.json
 - `clicks_limit=5` и `life_time=43200` записываются числами, `id` остается пустым;
 - `freeze_panes` не используется.
 
-`resource_table.csv` на Stage 6 не является отдельным ручным шагом: `workflow_fast.py stage6` собирает его вместе с остальными CSV на уровне `campaigns/<campaign_id>/`, читая все `campaigns/<campaign_id>/pack_*` и используя структуру из `docs/resource_table_template.csv` / `workflows/RESOURCE_TABLE_WORKFLOW.md`.
+`<campaign_id>_resources.xlsx` на Stage 6 собирается автоматически вместе с остальными conf-файлами по всем `pack_*`. CSV не создавать. Проверка и ограничения конвертера описаны в `workflows/PROTO_EXPORT_WORKFLOW.md`.
 
-CSV не создается, если:
+Экспорт не создаётся, если:
 
 - отсутствует или пуст хотя бы один review Stage 1-5;
 - отсутствует любой approval Stage 1-5;
@@ -516,7 +500,7 @@ CSV не создается, если:
 - `interactive_objects.json` есть и заполнен, но в нем неизвестный template id или противоречивые данные. Пустой файл выбора не должен жестко блокировать нестандартные сценарии;
 - validation-файл устарел относительно входного JSON.
 
-`workflow_fast.py stage6` после успешного CSV сам обновляет campaign memory. Если использовался низкоуровневый `export_csv.py`, обновить память отдельно:
+`workflow_fast.py stage6` после успешного экспорта сам обновляет campaign memory. Если использовался низкоуровневый `export_csv.py`, обновить память отдельно:
 
 ```bash
 python src/update_campaign_memory.py <campaign_id> --pack <pack_id>
@@ -583,9 +567,9 @@ docs/resource_table_template.csv
 Основные правила:
 
 - по умолчанию читать все pack-артефакты из `campaigns/<campaign_id>/pack_*`;
-- писать CSV для всей campaign в `campaigns/<campaign_id>/resource_table.csv`;
-- в обычном quest workflow таблицу ресурсов собирает `python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>` вместе с остальными CSV; отдельная команда `python src/workflow_fast.py resource-table --campaign <campaign_id>` нужна только для ручной пересборки/отладки;
-- даже при ручном фильтре по pack сохранять итоговый файл на уровне campaign, если пользователь явно не указал другой `--output-csv`;
+- писать XLSX для всей campaign в `campaigns/<campaign_id>/<pack_id>/review/proto/<campaign_id>_resources.xlsx`;
+- в обычном quest workflow XLSX/conf ресурсов собирает `python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>` вместе с остальными XLSX; отдельная команда `python src/workflow_fast.py resource-table --campaign <campaign_id> --pack <pack_id>` нужна только для ручной пересборки/отладки;
+- даже при ручном фильтре по входным pack сохранять итоговый XLSX в `review/proto/` текущего pack, если пользователь явно не указал другой `--output-xlsx`;
 - создавать только блоки ресурсов, которые реально есть;
 - для recipe craft брать 1-й и 2-й ингредиенты из соседних resource tasks, а 3-й и 4-й - из выбранных интерактивных `_R_` ресурсов campaign по кругу: 1-й craft = объекты 1+2, 2-й craft = 3+4, если 4-го нет = 3+1;
 - отделять блоки минимум одной пустой строкой;

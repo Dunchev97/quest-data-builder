@@ -8,6 +8,11 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+try:
+    from .quest_naming import normalize_character_references
+except ImportError:
+    from quest_naming import normalize_character_references
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CAMPAIGNS_DIR = PROJECT_ROOT / "campaigns"
@@ -24,7 +29,6 @@ SEARCH_TEMPLATE_INPUT = "/quest_action/Fun/Fun10/search_Fun10_HOG_1.proto.js"
 GIVE_TEMPLATE_INPUT = "/quest_action/Fun/Fun13/Fun13_Character_18_Give_1.proto.js"
 FURNITURE_WITHOUT_ACTIONS_TEMPLATE_INPUT = "/furniture/Fun/Fun13/Character/Fun13_Character_23.proto.js"
 FURNITURE_WITH_ACTIONS_TEMPLATE_INPUT = "/furniture/Fun/Fun13/Character/Fun13_Character_18.proto.js"
-ACTIONS_REFERENCE_FIRST_ID = 125015
 
 
 @dataclass
@@ -115,11 +119,11 @@ def extract_person_from_hint(hint: str) -> str:
 
 
 def entity_output_path(campaign_id: str, classname: str) -> str:
-    return f"/furniture/Fun/{campaign_id}/Character/{classname}.proto.js"
+    return f"/furniture/{campaign_id}/Character/{normalize_character_references(classname,campaign_id)}.proto.js"
 
 
 def action_output_path(campaign_id: str, identifier: str) -> str:
-    return f"/quest_action/Fun/{campaign_id}/{identifier}.proto.js"
+    return f"/quest_action/{campaign_id}/{normalize_character_references(identifier,campaign_id)}.proto.js"
 
 
 def action_kind(template_id: str, task_type: str, task_object: dict[str, Any]) -> str | None:
@@ -254,6 +258,7 @@ def build_actions(
         return entity_rows[classname]
 
     for pack_id, quest in iter_campaign_quests(campaign_dir):
+        quest = normalize_character_references(quest,campaign_id)
         helper = quest_helper_classname(quest)
         helper_title = safe_text(quest.get("character")) or helper
         if helper:
@@ -262,6 +267,8 @@ def build_actions(
                 register_entity(helper, helper_title)
 
     for pack_id, quest, task in iter_campaign_tasks(campaign_dir):
+        quest = normalize_character_references(quest,campaign_id)
+        task = normalize_character_references(task,campaign_id)
         quest_classname = safe_text(quest.get("classname_quests"))
         if not quest_classname:
             continue
@@ -357,16 +364,7 @@ def build_actions(
             continue
 
     rows: list[list[Any]] = []
-    next_id = ACTIONS_REFERENCE_FIRST_ID
-
-    def take_reference_id() -> int:
-        nonlocal next_id
-        value = next_id
-        next_id += 1
-        return value
-
     entities_sorted = sorted(entity_rows.values(), key=lambda item: item.order)
-    reserved_entity_ids = {item.classname: take_reference_id() for item in entities_sorted}
     groups: dict[int, list[EntityRow]] = {}
     for item in entities_sorted:
         groups.setdefault(len(item.actions), []).append(item)
@@ -375,9 +373,9 @@ def build_actions(
         group_rows = groups[count]
         if count == 0:
             rows.append(["", "ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ"])
-            rows.append(["ml", "string", "string", "string", "string", "int", "", "", "", ""])
-            rows.append(["", "input", "output", "classname", "title", "id", "", "", "", ""])
             for entity in group_rows:
+                rows.append(["ml", "string", "string", "string", "string", "int", "", "", "", ""])
+                rows.append(["", "input", "output", "classname", "title", "id", "", "", "", ""])
                 rows.append(
                     [
                         "",
@@ -385,19 +383,20 @@ def build_actions(
                         entity_output_path(campaign_id, entity.classname),
                         entity.classname,
                         entity.title,
-                        reserved_entity_ids[entity.classname],
+                        "",
                         "",
                         "",
                         "",
                         "",
                     ]
                 )
+                rows.append([])
             rows.append([])
             continue
         rows.append(["", f"ПЕРСОНАЖИ с {count} " + ("ЭКШЕНОМ" if count == 1 else "ЭКШЕНАМИ")])
-        rows.append(["ml", "string", "string", "string", "string", "array", "int", "", "", ""])
-        rows.append(["", "input", "output", "classname", "title", "behaviour.0.actions", "id", "", "", ""])
         for entity in group_rows:
+            rows.append(["ml", "string", "string", "string", "string", "array", "int", "", "", ""])
+            rows.append(["", "input", "output", "classname", "title", "behaviour.0.actions", "id", "", "", ""])
             for action_index, action in enumerate(entity.actions):
                 if action_index == 0:
                     rows.append(
@@ -408,7 +407,7 @@ def build_actions(
                             entity.classname,
                             entity.title,
                             action.action_id,
-                            take_reference_id(),
+                            "",
                             "",
                             "",
                             "",
@@ -416,6 +415,7 @@ def build_actions(
                     )
                 else:
                     rows.append(["", "", "", "", "", action.action_id, "", "", "", ""])
+            rows.append([])
         rows.append([])
 
     if dialog_rows:
@@ -447,7 +447,7 @@ def build_actions(
                     row.icon_mc,
                     row.title,
                     row.text,
-                    take_reference_id(),
+                    "",
                 ]
             )
         rows.append([])
@@ -466,7 +466,7 @@ def build_actions(
                     "money=2",
                     "Fun10_HOG_1",
                     row.replace,
-                    take_reference_id(),
+                    "",
                     "",
                     "",
                 ]
@@ -488,7 +488,7 @@ def build_actions(
                     row.icon,
                     row.conditions,
                     row.open_price,
-                    take_reference_id(),
+                    "",
                     "",
                 ]
             )

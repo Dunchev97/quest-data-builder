@@ -10,7 +10,7 @@ from unittest.mock import patch
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.export_csv import export_filled_tasks_to_csv, main
+from src.export_csv import export_filled_tasks_to_csv, iter_csv_rows, make_proto_path, main
 
 
 def write_json(path: Path, value: object) -> None:
@@ -69,8 +69,8 @@ def sample_filled_tasks() -> dict[str, object]:
 
 def sample_quest_group() -> dict[str, object]:
     return {
-        "input": "/quest_group/event/Night_2026_Story.proto.js",
-        "output": "/quest_group/event/Event_2026_Story.proto.js",
+        "input": "/quest_group/event/Night_2026/Night_2026_Story.proto.js",
+        "output": "/quest_group/event/Event_2026/Event_2026_Story.proto.js",
         "title": "Проверочный переполох",
         "description": "Герои проверяют запуск квестового пака.",
         "description_complete": "Пак проверен, все задачи готовы.",
@@ -98,9 +98,9 @@ class ExportCsvTests(unittest.TestCase):
             self.assertEqual(rows[0][1], "Квест группа")
             self.assertEqual(rows[1][:10], ["ml", "string", "string", "string", "string", "string", "string", "int", "replace", ""])
             self.assertEqual(rows[2][1:10], ["input", "output", "title", "description", "description_complete", "description_spoil", "id", "find", "replace"])
-            self.assertEqual(rows[3][1], "/quest_group/event/Night_2026_Story.proto.js")
-            self.assertEqual(rows[3][2], "/quest_group/event/Event_2026_Story.proto.js")
-            self.assertEqual(rows[3][7:10], ["125028", "Night_2026", "Event_2026"])
+            self.assertEqual(rows[3][1], "/quest_group/event/Night_2026/Night_2026_Story.proto.js")
+            self.assertEqual(rows[3][2], "/quest_group/event/Event_2026/Event_2026_Story.proto.js")
+            self.assertEqual(rows[3][7:10], ["", "Night_2026", "Event_2026"])
 
             quest_row_index = next(index for index, row in enumerate(rows) if row[1] == "Квест 2")
             self.assertEqual(rows[quest_row_index + 1][:10], ["sl", "string", "string", "string", "string", "string", "string", "int", "replace", ""])
@@ -108,15 +108,15 @@ class ExportCsvTests(unittest.TestCase):
             self.assertEqual(rows[quest_row_index + 3][3], "Проверка")
             self.assertEqual(rows[quest_row_index + 3][4], "Описание квеста.")
             self.assertEqual(rows[quest_row_index + 3][5], "Поздравление квеста.")
-            self.assertEqual(rows[quest_row_index + 3][6], "Event_2026_Character_1")
-            self.assertEqual(rows[quest_row_index + 3][7:10], ["125030", "Night_2026", "Event_2026"])
+            self.assertEqual(rows[quest_row_index + 3][6], "Event_2026_Character_1_1")
+            self.assertEqual(rows[quest_row_index + 3][7:10], ["", "Night_2026", "Event_2026"])
             self.assertEqual(rows[quest_row_index + 3][1], "/quest/event/Night_2026/Night_2026_Story_2.proto.js")
-            self.assertEqual(rows[quest_row_index + 3][2], "/quest/Event_2026/story_2/Event_2026_Story_2.proto.js")
+            self.assertEqual(rows[quest_row_index + 3][2], "/quest/event/Event_2026/Event_2026_Story_2.proto.js")
             self.assertEqual(rows[quest_row_index + 5][1], "Таск 1")
             self.assertEqual(rows[quest_row_index + 5][2], "Уборка конкретного мусора в гостях")
             self.assertEqual(rows[quest_row_index + 7][3], "tasks.0")
-            self.assertEqual(rows[quest_row_index + 8][1], "/quest/Event_2026/story_2/Event_2026_Story_2.proto.js")
-            self.assertEqual(rows[quest_row_index + 8][2], "/quest/Event_2026/story_2/Event_2026_Story_2.proto.js")
+            self.assertEqual(rows[quest_row_index + 8][1], "/quest/event/Event_2026/Event_2026_Story_2.proto.js")
+            self.assertEqual(rows[quest_row_index + 8][2], "/quest/event/Event_2026/Event_2026_Story_2.proto.js")
             self.assertEqual(rows[quest_row_index + 8][3], "type")
             self.assertEqual(rows[quest_row_index + 8][4], "garbage")
             dialog_header = next(row for row in rows if row[1] == "Таск 2" and row[2] == "Диалог")
@@ -125,6 +125,23 @@ class ExportCsvTests(unittest.TestCase):
             self.assertTrue(any(row[3] == "go_to_location" and "Event_2026_Character_1" in row[4] for row in rows))
             self.assertFalse(any(cell.startswith("temp") for row in rows for cell in row))
             self.assertFalse(any(cell.startswith("extra.") for row in rows for cell in row))
+
+    def test_all_quests_and_task_updates_share_the_campaign_event_folder(self):
+        from src.fill_tasks import make_proto_path as legacy_proto_path
+        for number in (1, 2, 12):
+            with self.subTest(number=number):
+                classname = f"VelesNight_2026_Story_{number}"
+                expected = f"/quest/event/VelesNight_2026/{classname}.proto.js"
+                quest = {"classname_quests": classname, "classname": classname,
+                         "quest_number": number, "tasks": [{"task_object": {"type": "action"}}]}
+                self.assertEqual(make_proto_path(quest), expected)
+                self.assertEqual(legacy_proto_path(quest), expected)
+                rows = iter_csv_rows([quest])
+                paths = [(row[1], row[2]) for row in rows if isinstance(row[1], str)
+                         and row[1].endswith(".proto.js")]
+                self.assertEqual(paths, [
+                    (f"/quest/event/Night_2026/Night_2026_Story_{number}.proto.js", expected),
+                    (expected, expected)])
 
     def test_cli_refuses_validation_errors(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

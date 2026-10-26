@@ -308,6 +308,18 @@ def run_quest_group(args: argparse.Namespace) -> int:
     return 0 if summary["errors"] == 0 else 2
 
 
+def run_stage6_split(args: argparse.Namespace) -> int:
+    campaign_id, pack_id = resolve_ids(args)
+    source = pack_artifact(campaign_id, pack_id, STAGE6_REVIEW_XLSX, args.campaigns_dir)
+    try:
+        result = export_xlsx.split_stage6_workbook(source, campaign_id=campaign_id, force=args.force)
+    except (OSError, ValueError) as exc:
+        print(str(exc))
+        return 2
+    print(f"conf tables written: {len(result['files'])} ({source.parent / 'proto'})")
+    return 0
+
+
 def run_stage6(args: argparse.Namespace) -> int:
     campaign_id, pack_id = resolve_ids(args)
     input_path = pack_artifact(campaign_id, pack_id, FILLED_TASKS, args.campaigns_dir)
@@ -315,18 +327,10 @@ def run_stage6(args: argparse.Namespace) -> int:
     quest_group_path = pack_artifact(campaign_id, pack_id, QUEST_GROUP, args.campaigns_dir)
     quest_group_validation_path = pack_artifact(campaign_id, pack_id, QUEST_GROUP_VALIDATION, args.campaigns_dir)
     workbook_path = pack_artifact(campaign_id, pack_id, STAGE6_REVIEW_XLSX, args.campaigns_dir)
-    accomplished_path = pack_artifact(
-        campaign_id,
-        pack_id,
-        export_xlsx.accomplished_workbook_name(campaign_id),
-        args.campaigns_dir,
-    )
-    actions_summary_path = pack_artifact(campaign_id, pack_id, GENERATED_ACTIONS_SUMMARY, args.campaigns_dir)
-    resource_table_summary_path = args.campaigns_dir / campaign_id / RESOURCE_TABLE_SUMMARY
+    proto_dir = workbook_path.parent / "proto"
     campaign_interactive_manifest_path = args.campaigns_dir / campaign_id / INTERACTIVE_OBJECTS
     pack_interactive_manifest_path = pack_artifact(campaign_id, pack_id, INTERACTIVE_OBJECTS, args.campaigns_dir)
     interactive_manifest_path = campaign_interactive_manifest_path if campaign_interactive_manifest_path.exists() else pack_interactive_manifest_path
-    interactive_summary_path = args.campaigns_dir / campaign_id / GENERATED_INTERACTIVE_OBJECTS_SUMMARY
 
     reviews_error = review_docs.required_reviews_error(campaign_id, pack_id, campaigns_dir=args.campaigns_dir)
     if reviews_error is not None:
@@ -334,9 +338,9 @@ def run_stage6(args: argparse.Namespace) -> int:
         print("Create and approve review documents for stages 1-5 first.")
         return 1
 
-    if workbook_path.exists() and workbook_path.stat().st_size > 0 and not args.force_review:
-        print(f"XLSX was not created: stage 6 review already exists and may contain manual edits: {workbook_path}")
-        print("Pass --force-review only when replacing the reviewed workbook intentionally.")
+    if (any(proto_dir.glob("*.xlsx")) or workbook_path.exists()) and not args.force_review:
+        print(f"XLSX was not created: stage 6 tables already exist and may contain manual edits: {proto_dir}")
+        print("Use the existing conf files for review; pass --force only to regenerate intentionally.")
         return 1
 
     approval_context = load_context(args.context)
@@ -359,27 +363,38 @@ def run_stage6(args: argparse.Namespace) -> int:
             quest_group_validation_path,
             allow_stale=args.allow_stale_validation,
         )
-        result = export_xlsx.build_stage6_review_workbook(
+        result = export_xlsx.build_stage6_tables(
             campaign_id=campaign_id,
             pack_id=pack_id,
             campaigns_dir=args.campaigns_dir,
-            output_xlsx=workbook_path,
             interactive_manifest_path=interactive_manifest_path,
+            force=args.force_review,
         )
-        accomplished_summary = export_xlsx.build_accomplished_workbook(
-            campaign_id=campaign_id,
-            pack_id=pack_id,
-            campaigns_dir=args.campaigns_dir,
-            output_xlsx=accomplished_path,
-        )
+        try:
+            from .fun_collection_tables import ensure_selected_tables
+        except ImportError:
+            from fun_collection_tables import ensure_selected_tables
+        fun_tables = ensure_selected_tables(campaign_id, pack_id, args.campaigns_dir)
+        try:
+            from .mystery_rewards import ensure as ensure_mystery_rewards
+        except ImportError:
+            from mystery_rewards import ensure as ensure_mystery_rewards
+        mystery_table = ensure_mystery_rewards(campaign_id, proto_dir)
+        try:
+            from .technical_quest_tables import build as build_technical_table
+        except ImportError:
+            from technical_quest_tables import build as build_technical_table
+        technical_table = build_technical_table(campaign_id, pack_id, args.campaigns_dir,
+                                               force=args.force_review)
+        try:
+            from .gr_table_review import validate as validate_gr_text
+        except ImportError:
+            from gr_table_review import validate as validate_gr_text
+        validate_gr_text(campaign_id, proto_dir)
         summary = result["quest_summary"]
         actions_summary = result["actions_summary"]
         resource_summary = result["resource_summary"]
         interactive_summary = result["interactive_summary"]
-        workbook_summary = result["workbook"]
-        actions_table_builder.write_json(actions_summary_path, actions_summary)
-        resource_table_builder.write_json(resource_table_summary_path, resource_summary)
-        interactive_objects_builder.write_json(interactive_summary_path, interactive_summary)
         memory = update_memory_from_pack(campaign_id, pack_id, args.campaigns_dir)
         removed_csv = []
         for path in stage6_legacy_csv_outputs(campaign_id, pack_id, args.campaigns_dir):
@@ -390,8 +405,11 @@ def run_stage6(args: argparse.Namespace) -> int:
         print(str(exc))
         return 2
 
-    print(f"xlsx review written: {workbook_path}")
-    print(f"accomplished table written: {accomplished_path} (quests={accomplished_summary['quests']})")
+    print(f"final XLSX tables: {len(result['files']) + len(fun_tables) + 2} ({proto_dir})")
+    print(f"mystery boxes, recipes and pots: {mystery_table}")
+    print(f"invisible shop package list: {proto_dir / (campaign_id + '_shop_invisible_packages.txt')}")
+    print(f"workbench recipe addition: {proto_dir / (campaign_id + '_DayOfDomovoyCaldron.txt')}")
+    print(f"technical cleanup: assets={technical_table['assets']} stuff={technical_table['stuff']}")
     print(f"quest rows written: {summary['rows_written']}")
     print(
         "actions sheet written: "
@@ -400,32 +418,86 @@ def run_stage6(args: argparse.Namespace) -> int:
     )
     print(
         "interactive object sheets written: "
-        f"{len(interactive_summary['sheets_written'])} "
-        f"(summary={interactive_summary_path})"
+        f"{len(interactive_summary['sheets_written'])}"
     )
     print(f"memory updated: used_garbage={len(memory.get('used_garbage', {}))} used_flowers={len(memory.get('used_flowers', {}))}")
     print(f"resource sheet written: blocks={len(resource_summary['blocks'])} warnings={len(resource_summary['warnings'])}")
     if removed_csv:
         print(f"legacy csv removed: {len(removed_csv)}")
-    print("sheets: " + " | ".join(item["name"] for item in workbook_summary["sheets"]))
+    print('Next required step: Stage 6.1 dialogs after manual review; workflow_fast.py dialogs --help.')
+    return 0
+
+
+def run_package_list(args: argparse.Namespace) -> int:
+    campaign_id, pack_id = resolve_ids(args)
+    try:
+        from .package_list import build
+    except ImportError:
+        from package_list import build
+    folder = args.tables_dir or pack_artifact(campaign_id,pack_id,"review/proto",args.campaigns_dir)
+    try:
+        result = build(campaign_id, folder)
+    except (ValueError, OSError) as exc:
+        print(str(exc))
+        return 1
+    print(f"package list written: {result['txt']} ({result['packages']} packages)")
+    return 0
+
+
+def run_dialogs(args: argparse.Namespace) -> int:
+    """Stage 6.1 edits reviewed tables independently of their original generation gates."""
+    try:
+        from .dialogue_pipeline import execute
+    except ImportError:
+        from dialogue_pipeline import execute
+    campaign_id, pack_id = resolve_ids(args)
+    result = execute(campaign_id, pack_id, campaigns_dir=args.campaigns_dir,
+                     game_root=args.game_root, tables_dir=args.tables_dir,
+                     plan_path=args.plan, characters_path=args.characters,
+                     proto_start=args.proto_start, task_start=args.task_start,
+                     apply=args.apply, output_dir=args.output_dir, node=args.node)
+    print(f"stage 6.1: {result['mode']}; dialogs={result['dialogs']} replicas={result['replicas']}")
+    print(f"tasks: added={result['added_tasks']} existing={result['existing_tasks']}")
+    print(f"converter: {result['converter']}; changed files: {result['changed_files']}")
+    print(f"candidate and backups: {result['candidate']}")
+    print(f"next proto ID: {result['next_proto_id']}; next task ID: {result['next_task_id']}")
+    return 0
+
+
+def run_workbench_addition(args: argparse.Namespace) -> int:
+    campaign_id, pack_id = resolve_ids(args)
+    try:
+        from .workbench_addition import build
+    except ImportError:
+        from workbench_addition import build
+    folder = args.tables_dir or pack_artifact(campaign_id,pack_id,"review/proto",args.campaigns_dir)
+    try:
+        result = build(campaign_id, folder, title=args.title)
+    except (ValueError, OSError) as exc:
+        print(str(exc))
+        return 1
+    print(f"workbench addition written: {result['txt']} ({result['recipes']} recipes)")
     return 0
 
 
 def run_resource_table(args: argparse.Namespace) -> int:
-    campaign_id, _ = resolve_ids(args, require_pack=False)
-    output_csv = args.output_csv or args.campaigns_dir / campaign_id / "resource_table.csv"
-    summary_json = args.summary_json or args.campaigns_dir / campaign_id / "resource_table.summary.json"
+    campaign_id, pack_id = resolve_ids(args)
+    output_path = args.output_csv or args.output_xlsx or pack_artifact(campaign_id,pack_id,f"review/proto/{campaign_id}_resources.xlsx",args.campaigns_dir)
     rows, summary = resource_table_builder.build_resource_table(campaign_id, campaigns_dir=args.campaigns_dir, pack_ids=args.pack_filter)
     try:
-        resource_table_builder.write_csv(output_csv, rows)
-        resource_table_builder.write_json(summary_json, summary)
-    except PermissionError as exc:
-        print(f"could not write resource table: {output_csv}")
-        print("Close the file in Excel/Sheets sync or pass --output-csv to write another copy.")
+        if output_path.exists() and not args.force:
+            raise FileExistsError(f"Preserving existing resource table: {output_path}; use --force to regenerate intentionally")
+        if args.output_csv:  # legacy opt-in only; normal quest work never writes CSV
+            resource_table_builder.write_csv(output_path, rows)
+        else:
+            export_xlsx.write_workbook(output_path,[export_xlsx.WorkbookSheet("conf",rows,"resource_table")],campaign_id=campaign_id)
+        if args.summary_json:
+            resource_table_builder.write_json(args.summary_json, summary)
+    except (OSError, ValueError) as exc:
+        print(f"could not write resource table: {output_path}")
         print(str(exc))
         return 3
-    print(f"resource table written: {output_csv}")
-    print(f"summary written: {summary_json}")
+    print(f"resource table written: {output_path}")
     print(f"blocks: {len(summary['blocks'])} warnings: {len(summary['warnings'])}")
     return 0 if not summary["warnings"] else 2
 
@@ -435,7 +507,6 @@ def run_interactive_objects(args: argparse.Namespace) -> int:
     campaign_dir_path = args.campaigns_dir / campaign_id
     manifest_path = campaign_dir_path / INTERACTIVE_OBJECTS
     preview_path = campaign_dir_path / INTERACTIVE_OBJECTS_PREVIEW
-    summary_path = campaign_dir_path / GENERATED_INTERACTIVE_OBJECTS_SUMMARY
 
     if args.select:
         manifest = interactive_objects_builder.default_manifest(args.select)
@@ -451,13 +522,11 @@ def run_interactive_objects(args: argparse.Namespace) -> int:
         validation = interactive_objects_builder.write_preview(campaign_id, pack_id, manifest_path, preview_path)
         export_summary = None
         if args.export:
-            export_summary = interactive_objects_builder.build_interactive_objects_files(
-                campaign_id=campaign_id,
-                pack_id=pack_id,
-                manifest_path=manifest_path,
-                output_dir=campaign_dir_path,
-                summary_path=summary_path,
-            )
+            if not pack_id:
+                raise ValueError("pack_id is required for XLSX export; pass --pack")
+            sheets, _ = export_xlsx.build_interactive_sheets(campaign_id,pack_id,manifest_path)
+            export_summary = export_xlsx.write_conf_tables(
+                pack_artifact(campaign_id,pack_id,"review/proto",args.campaigns_dir),sheets,campaign_id=campaign_id,force=args.force)
     except (OSError, ValueError, FileNotFoundError) as exc:
         print(str(exc))
         return 2
@@ -466,8 +535,7 @@ def run_interactive_objects(args: argparse.Namespace) -> int:
     print(f"errors: {validation['summary']['errors']}")
     print(f"preview written: {preview_path}")
     if export_summary is not None:
-        print(f"interactive object csv written: {len(export_summary['files_written'])} files")
-        print(f"summary written: {summary_path}")
+        print(f"interactive object XLSX tables written: {len(export_summary)}")
     return 0 if validation["summary"]["errors"] == 0 else 2
 
 
@@ -567,17 +635,19 @@ def run_status(args: argparse.Namespace) -> int:
         (QUEST_GROUP_CHOICES, False),
         (QUEST_GROUP, True),
         (QUEST_GROUP_VALIDATION, True),
-        (GENERATED_ACTIONS_SUMMARY, True),
-        (STAGE6_REVIEW_XLSX, True),
-        (export_xlsx.accomplished_workbook_name(campaign_id), True),
+        (f"review/proto/{campaign_id}_quests.xlsx", True),
+        (f"review/proto/{campaign_id}_actions.xlsx", True),
+        (f"review/proto/{campaign_id}_resources.xlsx", True),
+        (f"review/proto/{campaign_id}_technical_quests.xlsx", True),
+        (f"review/proto/MB_RECIPEMB_POTS_{campaign_id}.xlsx", True),
+        ("review/proto/" + export_xlsx.accomplished_workbook_name(campaign_id), True),
     ]
     print(f"campaign: {campaign_id}")
     print(f"pack: {pack_id}")
     campaign_files = [
         (INTERACTIVE_OBJECTS, False),
         (INTERACTIVE_OBJECTS_PREVIEW, False),
-        (GENERATED_INTERACTIVE_OBJECTS_SUMMARY, False),
-        (RESOURCE_TABLE_SUMMARY, False),
+        ('dialogue_characters.json', True),
     ]
     for filename, required in campaign_files:
         path = args.campaigns_dir / campaign_id / filename
@@ -593,6 +663,8 @@ def run_status(args: argparse.Namespace) -> int:
         else:
             status = "missing" if required else "optional-missing"
         print(f"{filename}: {status}")
+    dialog_plan = pack_artifact(campaign_id, pack_id, 'dialogue_plan.json', args.campaigns_dir)
+    print(f"stage 6.1 dialog plan: {'configured' if dialog_plan.is_file() else 'missing'}")
     review_root = pack_artifact(campaign_id, pack_id, REVIEW_DIR, args.campaigns_dir)
     missing_reviews = 0
     for stage, filename in review_docs.STAGE_REVIEW_FILES.items():
@@ -642,18 +714,51 @@ def build_parser() -> argparse.ArgumentParser:
     quest_group_parser.add_argument("--output-classname", default="")
     quest_group_parser.set_defaults(func=run_quest_group)
 
-    stage6_parser = subparsers.add_parser("stage6", help="Export CSV and update campaign memory.")
+    split_parser = subparsers.add_parser("stage6-split", help="Split the existing reviewed XLSX into single-conf files.")
+    add_pack_options(split_parser)
+    split_parser.add_argument("--force", action="store_true", help="Intentionally replace existing conf exports.")
+    split_parser.set_defaults(func=run_stage6_split)
+
+    package_parser = subparsers.add_parser("package-list", help="Refresh the copy-ready shop_invisible package TXT from current XLSX.")
+    add_pack_options(package_parser)
+    package_parser.add_argument("--tables-dir",type=Path,default=None,help="Explicit folder containing the user's current manual XLSX.")
+    package_parser.set_defaults(func=run_package_list)
+
+    workbench_parser = subparsers.add_parser("workbench-addition", help="Refresh the DayOfDomovoyCaldron TXT from all recipes in current XLSX.")
+    add_pack_options(workbench_parser)
+    workbench_parser.add_argument("--tables-dir",type=Path,default=None,help="Folder containing the user's current manual XLSX.")
+    workbench_parser.add_argument("--title",default=None,help="Optional display title; defaults to the reviewed Story group title.")
+    workbench_parser.set_defaults(func=run_workbench_addition)
+
+    stage6_parser = subparsers.add_parser("stage6", help="Create final XLSX/conf and shop/workbench TXT; update campaign memory.")
     add_pack_options(stage6_parser)
     stage6_parser.add_argument("--allow-stale-validation", action="store_true")
     stage6_parser.add_argument(
-        "--force-review",
+        "--force", "--force-review",
+        dest="force_review",
         action="store_true",
-        help="Intentionally overwrite an existing stage6_review.xlsx.",
+        help="Intentionally regenerate existing final XLSX tables (selected FunCollection files are preserved).",
     )
     stage6_parser.set_defaults(func=run_stage6)
 
-    resource_table_parser = subparsers.add_parser("resource-table", help="Build campaign resource_table.csv.")
+    dialogs_parser = subparsers.add_parser('dialogs', help='Stage 6.1: attach reviewed dialogs; preview by default.')
+    add_pack_options(dialogs_parser)
+    dialogs_parser.add_argument('--game-root', type=Path, required=True)
+    dialogs_parser.add_argument('--tables-dir', type=Path)
+    dialogs_parser.add_argument('--characters', type=Path, help='Campaign dialogue_characters.json override.')
+    dialogs_parser.add_argument('--plan', type=Path, help='Pack dialogue_plan.json override.')
+    dialogs_parser.add_argument('--proto-start', type=int)
+    dialogs_parser.add_argument('--task-start')
+    dialogs_parser.add_argument('--node', default='node')
+    dialogs_parser.add_argument('--output-dir', type=Path, help='Empty folder for candidates and backups.')
+    dialogs_parser.add_argument('--apply', action='store_true', help='Apply the verified candidate to reviewed files.')
+    dialogs_parser.set_defaults(func=run_dialogs)
+
+    resource_table_parser = subparsers.add_parser("resource-table", help="Build final resources.xlsx from all campaign packs.")
     resource_table_parser.add_argument("--campaign", default="", help="Campaign id. Defaults to active_context.")
+    resource_table_parser.add_argument("--pack",default="",help="Pack whose review/proto receives resources.xlsx.")
+    resource_table_parser.add_argument("--output-xlsx",type=Path,default=None)
+    resource_table_parser.add_argument("--force",action="store_true")
     resource_table_parser.add_argument("--pack-filter", action="append", default=None, help="Optional pack filter. Repeatable.")
     resource_table_parser.add_argument("--campaigns-dir", type=Path, default=DEFAULT_CAMPAIGNS_DIR)
     resource_table_parser.add_argument("--context", type=Path, default=DEFAULT_CONTEXT_PATH)
@@ -661,10 +766,11 @@ def build_parser() -> argparse.ArgumentParser:
     resource_table_parser.add_argument("--summary-json", type=Path, default=None)
     resource_table_parser.set_defaults(func=run_resource_table)
 
-    interactive_parser = subparsers.add_parser("interactive-objects", help="Validate selected interactive objects and optionally export their CSV files.")
+    interactive_parser = subparsers.add_parser("interactive-objects", help="Validate selected interactive objects and optionally export final XLSX files.")
     add_pack_options(interactive_parser)
     interactive_parser.add_argument("--select", action="append", default=None, help="Template id to write into interactive_objects.json. Repeatable.")
-    interactive_parser.add_argument("--export", action="store_true", help="Also export generated_interactive_objects_*.csv.")
+    interactive_parser.add_argument("--export", action="store_true", help="Also export XLSX/conf to the current pack review/proto.")
+    interactive_parser.add_argument("--force",action="store_true")
     interactive_parser.set_defaults(func=run_interactive_objects)
 
     approve_parser = subparsers.add_parser("approve", help="Approve a workflow stage in active_context.")

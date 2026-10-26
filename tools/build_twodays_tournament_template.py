@@ -108,7 +108,7 @@ def style_sheet(ws) -> None:
         if cell.value:
             cell.fill = HEADER_FILL
             cell.font = Font(bold=True)
-    ws.freeze_panes = "A4"
+    ws.freeze_panes = None
 
 
 def write_table(
@@ -564,7 +564,7 @@ def build_brief(path: Path) -> None:
         cell.font = Font(bold=True)
     for col, width in {"A": 34, "B": 56, "C": 56, "D": 86}.items():
         ws.column_dimensions[col].width = width
-    ws.freeze_panes = "A2"
+    ws.freeze_panes = None
 
     object_ws = wb.create_sheet("02_Objects_Text")
     object_ws.append(["object_key", "field", "new_value", "source_value", "notes"])

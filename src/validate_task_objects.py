@@ -7,6 +7,11 @@ from pathlib import Path
 from typing import Any
 
 try:
+    from .gr_sources import effective_template_id, garbage_hint
+except ImportError:
+    from gr_sources import effective_template_id, garbage_hint
+
+try:
     from .campaigns import (
         DEFAULT_CAMPAIGNS_DIR,
         campaign_memory_path as campaign_memory_path_for,
@@ -1269,6 +1274,10 @@ def validate_strict_stage4_templates(
             )
 
     if template_id == "TT-013":
+        if effective_template_id(template_id, selected_candidate) != template_id:
+            issues.append(issue("error", "gr_source_template_mismatch",
+                                "Concrete garbage GR must use TT-014 (guest) or TT-015 (home), not TT-013.",
+                                quest, task))
         item = title_item_text(title)
         if not title.startswith("Найди ") or not item:
             issues.append(
@@ -1300,7 +1309,6 @@ def validate_strict_stage4_templates(
 
     if template_id in {"TT-014", "TT-015"} and selected_candidate:
         item = title_item_text(title)
-        mode_text = "в гостях" if template_id == "TT-014" else "дома"
         location_text = selected_location_text(selected_candidate)
         expected_title_prefix = "Найди "
         if not title.startswith(expected_title_prefix) or not item:
@@ -1314,11 +1322,13 @@ def validate_strict_stage4_templates(
                     title,
                 )
             )
+        mode = "guest" if template_id == "TT-014" else "home"
+        if selected_candidate.get("mode") not in (None, mode):
+            issues.append(issue("error", "gr_source_mode_mismatch", "GR source home/guest mode contradicts its template.", quest, task))
         if location_text:
-            expected_prefix = "Убирай мусор "
-            expected_suffix = f" {mode_text}, чтобы найти. Место поиска: {location_text}."
-            if not hint.startswith(expected_prefix) or not hint.endswith(expected_suffix):
-                issues.append(strict_text_issue(f"{template_id} hint must keep the fixed text and full location list.", quest, task, "hint", f"Убирай мусор [garbage title] {mode_text}, чтобы найти. Место поиска: {location_text}.", hint))
+            expected_hint = garbage_hint(selected_candidate.get("garbage_title"), mode, location_text)
+            issues.extend(validate_exact_text(task_object, quest, task, "hint", expected_hint,
+                                              f"{template_id} hint must name the actual garbage source, mode and locations."))
 
     if template_id == "TT-017":
         flower_title = candidate_title_for_template(template_id, selected_candidate)
@@ -1781,7 +1791,8 @@ def validate_task(
         context_task = context_index.get((classname_quests, task_number))
     if context_task is None:
         issues.append(issue("error", "context_task_not_found", "Task was not found in context_pack.", quest, task))
-    elif context_task.get("task_template_id") != template_id:
+    elif effective_template_id(context_task.get("task_template_id"),
+                               candidate_by_id(context_task, task.get("selected_candidate_id"))) != template_id:
         issues.append(
             issue(
                 "error",
@@ -1789,7 +1800,8 @@ def validate_task(
                 "Task template ID differs from context_pack.",
                 quest,
                 task,
-                expected=context_task.get("task_template_id"),
+                expected=effective_template_id(context_task.get("task_template_id"),
+                                               candidate_by_id(context_task, task.get("selected_candidate_id"))),
                 actual=template_id,
             )
         )

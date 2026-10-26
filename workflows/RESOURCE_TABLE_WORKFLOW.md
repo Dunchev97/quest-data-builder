@@ -1,6 +1,6 @@
 # Resource Table Workflow
 
-Workflow для подготовки CSV-таблицы ресурсов по всей campaign: по всем pack внутри `campaigns/<campaign_id>/`.
+Workflow для подготовки XLSX/conf таблицы ресурсов по всей campaign: по всем pack внутри `campaigns/<campaign_id>/`.
 
 ## Когда Включать
 
@@ -20,14 +20,10 @@ python src/workflow_context.py detect --text "<запрос пользовате
 Команда сборки:
 
 ```bash
-python src/workflow_fast.py resource-table --campaign <campaign_id>
+python src/workflow_fast.py resource-table --campaign <campaign_id> --pack <pack_id>
 ```
 
-Низкоуровневый fallback для отладки:
-
-```bash
-python src/build_resource_table.py <campaign_id>
-```
+По умолчанию создаётся только `review/proto/<campaign_id>_resources.xlsx`, один лист `conf`, без CSV и summary JSON. Существующий файл защищён до намеренного `--force`. Низкоуровневый старый CSV CLI не использовать в обычном quest workflow. Блоки CSV-донора ниже описывают входной эталон структуры, а не формат конечной выдачи.
 
 `workspace/active_context.json` локальный и не коммитится.
 
@@ -57,20 +53,15 @@ C:/Users/user/Downloads/Fun12_Res.csv
 
 ## Выход
 
-Основной выход для всей campaign:
+Единственный конечный файл, рядом с остальными таблицами текущего pack:
 
 ```text
-campaigns/<campaign_id>/resource_table.csv
-campaigns/<campaign_id>/resource_table.summary.json
+campaigns/<campaign_id>/<pack_id>/review/proto/<campaign_id>_resources.xlsx
 ```
 
-Если пользователь явно попросил только один pack:
+Содержимое по умолчанию агрегирует **все** pack campaign. Явный `--pack-filter` меняет набор входных pack, но не место итогового XLSX. `--output-xlsx` нужен только для явно выбранного другого пути. Не создавать `resource_table.csv` и `resource_table.summary.json`; результаты проверки выводить в консоль.
 
-```text
-campaigns/<campaign_id>/<pack_id>/resource_table.csv
-```
-
-CSV должен сохранять блочный формат:
+XLSX/conf сохраняет блочный формат:
 
 1. строка названия блока;
 2. строка типов;
@@ -362,4 +353,4 @@ ingredients=asset=CucumberFestival_2026_ASK_1:1+asset=CucumberFestival_2026_GR_1
 - recipe conditions имеют `+` между условиями;
 - recipe ingredients содержат 4 ингредиента;
 - `id` пустой во всех строках;
-- в `stage6_review.xlsx` лист `РЕСУРСЫ` имеет `freeze_panes=A76`.
+- `review/proto/<campaign_id>_resources.xlsx` содержит единственный лист `conf`, строки не закреплять; после сохранения он заново открыт и проверен.

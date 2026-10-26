@@ -22,7 +22,7 @@ STAGE_REVIEW_FILES = {
     "3": "stage3_review.md",
     "4": "stage4_review.md",
     "5": "stage5_review.md",
-    "6": "stage6_review.xlsx",
+    "6": "proto",
 }
 EDITABLE_TEXT_REVIEW_STAGES = ("1", "2", "3", "4", "5")
 
@@ -76,7 +76,12 @@ def review_file_is_usable(path: Path, stage: str | int) -> bool:
     if not path.exists() or path.stat().st_size == 0:
         return False
     if stage_text == "6":
-        return zipfile.is_zipfile(path)
+        if path.is_dir():
+            campaign_id = path.parents[2].name
+            required = {f"{campaign_id}_quests.xlsx", f"{campaign_id}_actions.xlsx", f"{campaign_id}_resources.xlsx", f"quest_{campaign_id}_accomplished.xlsx", f"{campaign_id}_technical_quests.xlsx", f"MB_RECIPEMB_POTS_{campaign_id}.xlsx"}
+            tables = [p for p in path.glob("*.xlsx") if not p.name.startswith("~$")]
+            return required.issubset({p.name for p in tables}) and all(zipfile.is_zipfile(p) for p in tables)
+        return zipfile.is_zipfile(path)  # existing legacy overviews remain readable
     try:
         text = path.read_text(encoding="utf-8")
     except UnicodeError:
@@ -1078,7 +1083,7 @@ def write_review_doc(
         content = render_stage5_review(read_json(source_path) if source_path.exists() else {})
     else:
         if not target.exists():
-            raise FileNotFoundError(f"stage 6 workbook not found: {target}. Run stage6 first.")
+            raise FileNotFoundError(f"stage 6 conf tables not found: {target}. Run stage6 first.")
         return target
     if stage_text in {"1", "2", "3", "4"} and re.search(r"^###\s+\d+\.", content, re.MULTILINE) is None:
         raise ValueError(f"stage {stage_text} review has no parsed quests; fix the machine source before review generation")

@@ -11,19 +11,27 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
 try:
-    from . import build_actions_table, build_resource_table, export_csv, interactive_objects
+    from . import build_actions_table, build_resource_table, export_csv, interactive_objects, converter_tables
     from .campaigns import DEFAULT_CAMPAIGNS_DIR, pack_dir
 except ImportError:
     import build_actions_table
     import build_resource_table
     import export_csv
     import interactive_objects
+    import converter_tables
     from campaigns import DEFAULT_CAMPAIGNS_DIR, pack_dir
 
 
 MAX_SHEET_NAME_LENGTH = 31
 STAGE6_WORKBOOK_NAME = "stage6_review.xlsx"
 ACCOMPLISHED_WORKBOOK_PATTERN = "quest_{campaign_id}_accomplished.xlsx"
+
+
+def campaign_workbook_name(campaign_id: str, filename: str) -> str:
+    """Every delivered table identifies its campaign, including standalone exports."""
+    if not campaign_id:
+        raise ValueError("campaign_id is required in final workbook filenames")
+    return filename if campaign_id in Path(filename).stem else f"{campaign_id}_{filename}"
 
 INTERACTIVE_SHEET_NAMES = {
     "chest_1": "ИНТЕРАКТИВ Chest",
@@ -51,8 +59,10 @@ class WorkbookSheet:
 
 
 def cell_value(value: Any) -> Any:
-    if value is None:
-        return ""
+    if value is None or value == "":
+        # The converter distinguishes null from an empty-string cell: only null
+        # terminates sl rows. An inline empty string starts a spurious update.
+        return None
     if isinstance(value, (dict, list)):
         return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
     return value
@@ -117,7 +127,7 @@ def style_sheet(ws) -> None:
     ws.page_setup.fitToHeight = 0
 
 
-def write_workbook(output_path: Path, sheets: list[WorkbookSheet]) -> dict[str, Any]:
+def write_workbook(output_path: Path, sheets: list[WorkbookSheet], *, campaign_id: str | None = None) -> dict[str, Any]:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     wb = Workbook()
     wb.remove(wb.active)
@@ -128,22 +138,22 @@ def write_workbook(output_path: Path, sheets: list[WorkbookSheet]) -> dict[str, 
         sheet_name = unique_sheet_name(sheet.name, used_names)
         ws = wb.create_sheet(title=sheet_name)
         max_columns = 0
-        for row in sheet.rows:
+        normalized_rows = converter_tables.normalize_rows(sheet.rows,campaign_id=campaign_id)
+        for row in normalized_rows:
             values = [cell_value(value) for value in row]
             max_columns = max(max_columns, len(values))
             ws.append(values)
-        if sheet.source in {"generated_quests", "generated_actions"}:
-            ws.freeze_panes = "A4"
-        elif sheet.source == "resource_table":
-            ws.freeze_panes = "A76"
-        elif sheet.name == INTERACTIVE_SHEET_NAMES["story_random_recipe"]:
-            ws.freeze_panes = "A22"
         style_sheet(ws)
+        ws.freeze_panes = None
+        converter_tables.prepare_sheet(ws)
+        errors = converter_tables.validate_sheet(ws,campaign_id=campaign_id)
+        if errors:
+            raise ValueError(f"{sheet.name}: " + "; ".join(errors))
         written_sheets.append(
             {
                 "name": sheet_name,
                 "source": sheet.source,
-                "rows": len(sheet.rows),
+                "rows": len(normalized_rows),
                 "columns": max_columns,
             }
         )
@@ -159,7 +169,51 @@ def write_workbook(output_path: Path, sheets: list[WorkbookSheet]) -> dict[str, 
                 if isinstance(value, str) and "????" in value:
                     raise ValueError(f"xlsx contains broken Cyrillic marker on sheet {ws.title}")
 
+    if campaign_id and expected_names == ["conf"]:
+        try:
+            from .package_list import build as build_package_list
+            from .workbench_addition import build as build_workbench_addition
+        except ImportError:
+            from package_list import build as build_package_list
+            from workbench_addition import build as build_workbench_addition
+        build_package_list(campaign_id, output_path.parent)
+        build_workbench_addition(campaign_id, output_path.parent)
     return {"xlsx": str(output_path), "sheets": written_sheets}
+
+
+def split_stage6_workbook(source: Path, output_dir: Path | None = None, *, campaign_id: str | None = None, force: bool = False) -> dict[str, Any]:
+    """Read the human-reviewed book; never regenerate its authored values."""
+    output_dir = output_dir or source.parent / "proto"
+    if campaign_id is None and source.parent.name == "review" and source.parent.parent.name.startswith("pack_"):
+        campaign_id = source.parents[2].name
+    if not campaign_id:
+        raise ValueError("campaign_id is required for prefixed conf filenames")
+    wb = load_workbook(source, data_only=False)
+    names = {"КВЕСТЫ": ("quests", "generated_quests"),
+             "ЭКШЕНЫ": ("actions", "generated_actions"),
+             "РЕСУРСЫ": ("resources", "resource_table")}
+    files = []
+    planned = []
+    for index, ws in enumerate(wb.worksheets, 1):
+        stem, kind = names.get(ws.title, (
+            "interactive_" + re.sub(r"[^a-z0-9]+", "_", ws.title.split(" ",1)[-1].lower()).strip("_"),
+            "interactive"))
+        stem = stem or f"sheet_{index}"
+        path = output_dir / campaign_workbook_name(campaign_id, f"{stem}.xlsx")
+        if path in [item[2] for item in planned]:
+            raise ValueError(f"Duplicate export filename for sheet {ws.title}: {path}")
+        if path.exists() and not force:
+            raise FileExistsError(f"Preserving existing conf table: {path}; use --force to replace it")
+        planned.append((ws,kind,path))
+    for ws, kind, path in planned:
+        result = write_workbook(path, [WorkbookSheet("conf", list(ws.values), kind)],campaign_id=campaign_id)
+        # Fresh conf files do not inherit frozen rows from the legacy master.
+        errors = converter_tables.validate(path)
+        if errors:
+            raise ValueError(f"{path}: {errors}")
+        files.append({"source_sheet":ws.title,"xlsx":str(path),"rows":result["sheets"][0]["rows"]})
+    wb.close()
+    return {"source":str(source),"files":files}
 
 
 def accomplished_workbook_name(campaign_id: str) -> str:
@@ -210,8 +264,8 @@ def build_accomplished_workbook(
     target = pack_dir(campaign_id, pack_id, campaigns_dir)
     filled_tasks = export_csv.read_json(target / "filled_tasks.json")
     rows = accomplished_rows(campaign_id, filled_tasks)
-    output_path = output_xlsx or target / accomplished_workbook_name(campaign_id)
-    workbook = write_workbook(output_path, [WorkbookSheet("conf", rows, "quest_accomplished")])
+    output_path = output_xlsx or target / "review" / "proto" / accomplished_workbook_name(campaign_id)
+    workbook = write_workbook(output_path, [WorkbookSheet("conf", rows, "quest_accomplished")],campaign_id=campaign_id)
     return {
         "xlsx": str(output_path),
         "quests": len(rows) - 3,
@@ -291,20 +345,24 @@ def build_interactive_sheets(
     return sheets, summary
 
 
-def build_stage6_review_workbook(
+def stage6_sheets_and_summaries(
     campaign_id: str,
     pack_id: str,
     campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR,
-    output_xlsx: Path | None = None,
     interactive_manifest_path: Path | None = None,
 ) -> dict[str, Any]:
     target = pack_dir(campaign_id, pack_id, campaigns_dir)
-    campaign_target = campaigns_dir / campaign_id
-    output_path = output_xlsx or target / "review" / STAGE6_WORKBOOK_NAME
 
     filled_tasks = export_csv.read_json(target / "filled_tasks.json")
     quest_group = export_csv.read_json(target / "quest_group.json")
     quest_rows, quest_summary = quest_rows_and_summary(filled_tasks, quest_group)
+    registry_path = campaigns_dir / campaign_id / 'dialogue_characters.json'
+    if registry_path.exists():
+        try:
+            from .dialogue_pipeline import load_registry, map_helper_rows
+        except ImportError:
+            from dialogue_pipeline import load_registry, map_helper_rows
+        map_helper_rows(quest_rows, load_registry(registry_path))
 
     actions_rows, actions_summary = build_actions_table.build_actions(
         campaign_id,
@@ -338,14 +396,62 @@ def build_stage6_review_workbook(
         )
         sheets.extend(interactive_sheets)
 
-    workbook_summary = write_workbook(output_path, sheets)
-    workbook_summary["campaign_id"] = campaign_id
-    workbook_summary["pack_id"] = pack_id
-    workbook_summary["campaign_dir"] = str(campaign_target)
     return {
-        "workbook": workbook_summary,
+        "sheets": sheets,
         "quest_summary": quest_summary,
         "actions_summary": actions_summary,
         "resource_summary": resource_summary,
         "interactive_summary": interactive_summary,
     }
+
+
+def build_stage6_review_workbook(
+    campaign_id: str,
+    pack_id: str,
+    campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR,
+    output_xlsx: Path | None = None,
+    interactive_manifest_path: Path | None = None,
+) -> dict[str, Any]:
+    """Legacy overview helper; normal Stage 6 writes final conf files directly."""
+    result = stage6_sheets_and_summaries(campaign_id,pack_id,campaigns_dir,interactive_manifest_path)
+    path = output_xlsx or pack_dir(campaign_id,pack_id,campaigns_dir)/"review"/STAGE6_WORKBOOK_NAME
+    result["workbook"] = write_workbook(path,result.pop("sheets"),campaign_id=campaign_id)
+    return result
+
+
+def build_stage6_tables(
+    campaign_id: str,
+    pack_id: str,
+    campaigns_dir: Path = DEFAULT_CAMPAIGNS_DIR,
+    interactive_manifest_path: Path | None = None,
+    *, force: bool = False,
+) -> dict[str, Any]:
+    """Create final XLSX and shop/workbench TXT; no overview, manifests, CSV or ZIP."""
+    result = stage6_sheets_and_summaries(campaign_id,pack_id,campaigns_dir,interactive_manifest_path)
+    target = pack_dir(campaign_id,pack_id,campaigns_dir)/"review"/"proto"
+    filled_tasks = export_csv.read_json(pack_dir(campaign_id,pack_id,campaigns_dir)/"filled_tasks.json")
+    result["sheets"].append(WorkbookSheet(Path(accomplished_workbook_name(campaign_id)).stem,accomplished_rows(campaign_id,filled_tasks),"quest_accomplished"))
+    result["files"] = write_conf_tables(target,result.pop("sheets"),campaign_id=campaign_id,force=force)
+    return result
+
+
+def write_conf_tables(target: Path, sheets: list[WorkbookSheet], *, campaign_id: str, force=False):
+    names = {"generated_quests":"quests","generated_actions":"actions","resource_table":"resources",
+             }
+    planned, used = [], set()
+    for sheet in sheets:
+        stem = names.get(sheet.source) or (sheet.name if sheet.source=="quest_accomplished" else "interactive_" + re.sub(r"[^a-z0-9]+","_",sheet.name.split(" ",1)[-1].lower()).strip("_"))
+        base, number = stem, 2
+        while stem in used:
+            stem, number = f"{base}_{number}", number+1
+        used.add(stem)
+        path = target/campaign_workbook_name(campaign_id,f"{stem}.xlsx")
+        if path.exists() and not force:
+            raise FileExistsError(f"Preserving manually editable table: {path}; use --force to regenerate intentionally")
+        planned.append((sheet,path))
+    files = []
+    for sheet,path in planned:
+        rows = sheet.rows
+        book = write_workbook(path,[WorkbookSheet("conf",rows,sheet.source)],campaign_id=campaign_id)
+        files.append({"xlsx":str(path),"source":sheet.source,"rows":book["sheets"][0]["rows"]})
+    return files

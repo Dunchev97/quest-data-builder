@@ -412,7 +412,7 @@ def chest_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     )
     instruction_title = clean_text(selection.get("instruction_title"))
 
-    object_types = ["sl", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int", "int", "replace"]
+    object_types = ["sl", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int", "replace"]
     object_headers = [
         "",
         "input",
@@ -565,7 +565,7 @@ def help_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "ОБЪЕКТ HELP_1_Home"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
         [
             "",
             "input",
@@ -580,7 +580,7 @@ def help_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
             "extra.window_spec.comment_1",
             "extra.window_spec.comment_2",
             "extra.window_spec.comment_3",
-            "extra.window_spec.comment_4",
+            "extra.window_spec.start_btn_title",
             "extra.window_spec.comment_4",
             "id",
         ],
@@ -608,7 +608,7 @@ def help_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "ОБЪЕКТ HELP_1_Guest"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int", "int"],
         [
             "",
             "input",
@@ -643,7 +643,7 @@ def help_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "АССЕТЫ Ресурсов HELP"],
-        ["temp_01", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "classname", "title", "meta_info", "id"],
         [
             [
@@ -669,7 +669,7 @@ def help_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "АССЕТЫ Ресурсов ASK"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "id"],
         [
             [
@@ -688,7 +688,7 @@ def help_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "ПОСТЭКШЕНЫ ASK и PER"],
-        ["temp_01", "string", "string", "string", "string", "string", "int", "int", "int", "int"],
+        ["sl", "string", "string", "string", "string", "string", "int", "int", "int", "int"],
         ["", "input", "output", "identifier", "title", "poster_reward", "clicks_limit", "life_time", "send_interval", "id"],
         [
             [
@@ -708,7 +708,7 @@ def help_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "ПАКЕТЫ ДЛЯ ПРОДАЖИ"],
-        ["temp_01", "string", "string", "string", "ignore", "string", "string", "int", "ignore", "string", "int"],
+        ["sl", "string", "string", "string", "ignore", "string", "string", "int", "ignore", "string", "int"],
         ["", "input", "output", "classname", "asset", "title", "reward", "price", "Количество ассетов", "stuff_icon", "id"],
         [
             [
@@ -755,7 +755,7 @@ def help_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "РЕЦЕПТ HELP_R_Opener"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "identifier", "reward", "tags.2", "ingredients", "id"],
         [
             [
@@ -804,7 +804,7 @@ def friend_action_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
     block(
         rows,
         ["", "ОБЪЕКТ доступности Story_FriendAction_1_Available"],
-        ["temp_01", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "int"],
         ["", "input", "output", "classname", "title", "id"],
         [
             [
@@ -820,7 +820,7 @@ def friend_action_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
     block(
         rows,
         ["", "ОБЪЕКТ Story_FriendAction_1"],
-        ["temp_01", "string", "string", "string", "string", "int", "int", "string", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "int", "int", "string", "string", "string", "string", "string", "string", "string", "int"],
         [
             "",
             "input",
@@ -861,7 +861,7 @@ def friend_action_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
     block(
         rows,
         ["", "АССЕТЫ ресурсов Story_FriendAction_1"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "classname", "title", "description", "meta_info", "id"],
         [
             [
@@ -889,7 +889,7 @@ def friend_action_rows(campaign_id: str, selection: dict[str, Any]) -> list[list
     block(
         rows,
         ["", "ПАКЕТЫ продажи ресурсов Story_FriendAction_1"],
-        ["temp_01", "string", "string", "string", "string", "string", "int", "ignore", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "int", "ignore", "string", "int"],
         ["", "input", "output", "classname", "title", "reward", "price", "Количество ассетов", "stuff_icon", "id"],
         [
             [
@@ -942,7 +942,7 @@ def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any
         block(
             rows,
             ["", "ОБЪЕКТ Generator РЕСУРСОВ"],
-            ["temp_01", "string", "string", "string", "string", "int"],
+            ["sl", "string", "string", "string", "string", "int"],
             ["", "input", "output", "classname", "title", "id"],
             [
                 [
@@ -960,7 +960,7 @@ def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any
     block(
         rows,
         ["", "ОБЪЕКТ Exchanger"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
         [
             "",
             "input",
@@ -969,10 +969,10 @@ def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any
             "title",
             "extra.hint_add_to_exchange",
             "extra.hint_get_asset",
-            "behaviour.title_mark_workbencg",
-            "behaviour.ingredient_description",
-            "behaviour.description_1",
-            "behaviour.description_2",
+            "behaviour.0.window_spec.title_mark_workbencg",
+            "behaviour.0.window_spec.ingredient_description",
+            "behaviour.0.window_spec.description_1",
+            "behaviour.0.window_spec.description_2",
             "id",
         ],
         [
@@ -1037,14 +1037,14 @@ def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any
     block(
         rows,
         ["", "АССЕТ Generator и Exchanger"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "classname", "title", "description", "meta_info", "id"],
         asset_rows,
     )
     block(
         rows,
         ["", "РЕЦПТ Exchanger"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "identifier", "reward", "ingredients", "conditions", "id"],
         [
             [
@@ -1070,8 +1070,8 @@ def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any
                 classname,
                 part_titles[index - 1],
                 f"asset={classname}:4",
-                "3",
-                "4",
+                3,
+                4,
                 classname,
                 "",
             ]
@@ -1085,8 +1085,8 @@ def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any
             result,
             result_title,
             f"asset={result}:1",
-            "15",
-            "1",
+            15,
+            1,
             result,
             "",
         ]
@@ -1094,7 +1094,7 @@ def exchanger_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any
     block(
         rows,
         ["", "ПАКЕТЫ ПРОДАЖИ РЕСУРСОВ Generator и Exchanger"],
-        ["temp_01", "string", "string", "string", "ignore", "string", "string", "int", "ignore", "string", "int"],
+        ["sl", "string", "string", "string", "ignore", "string", "string", "int", "ignore", "string", "int"],
         ["", "input", "output", "classname", "asset", "title", "reward", "price", "Количество ассетов", "stuff_icon", "id"],
         package_rows,
     )
@@ -1428,7 +1428,7 @@ def mixer_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "Mixer object"],
-        ["temp_01", "string", "string", "string", "string", "replace", "", "int", "int"],
+        ["sl", "string", "string", "string", "string", "replace", "", "int", "int"],
         ["", "input", "output", "classname", "title", "find", "replace", "limit", "id"],
         [
             [
@@ -1447,7 +1447,7 @@ def mixer_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "Mixer resources GR"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "replace", "", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "replace", "", "int"],
         ["", "input", "output", "classname", "title", "description", "meta_info", "find", "replace", "id"],
         [
             [
@@ -1491,7 +1491,7 @@ def mixer_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "Mixer global rewards"],
-        ["temp_01", "string", "string", "ignore", "array", "array", "int", "string", "string", "array", "array", "replace", "", "int"],
+        ["sl", "string", "string", "ignore", "array", "array", "int", "string", "string", "array", "array", "replace", "", "int"],
         ["", "input", "output", "file_name", "actions", "location_tags", "rand_reward.p", "rand_reward.asset", "conditions", "assets", "assets.2", "find", "replace", "id"],
         [
             [
@@ -1531,7 +1531,7 @@ def mixer_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "Mixer resources ASK"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "string", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "string", "int"],
         ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "id"],
         [
             [
@@ -1550,7 +1550,7 @@ def mixer_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "Post action ASK Mixer"],
-        ["temp_01", "string", "string", "string", "ignore", "string", "string", "int", "int", "int", "int"],
+        ["sl", "string", "string", "string", "ignore", "string", "string", "int", "int", "int", "int"],
         ["", "input", "output", "identifier", "classname", "title", "poster_reward", "clicks_limit", "life_time", "send_interval", "id"],
         [
             [
@@ -1571,7 +1571,7 @@ def mixer_rows(campaign_id: str, selection: dict[str, Any]) -> list[list[Any]]:
     block(
         rows,
         ["", "Mixer packages"],
-        ["temp_01", "string", "string", "string", "string", "string", "string", "int", "int"],
+        ["sl", "string", "string", "string", "string", "string", "string", "int", "int"],
         ["", "input", "output", "classname", "title", "stuff_icon", "reward", "price", "id"],
         [
             [

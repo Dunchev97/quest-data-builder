@@ -70,7 +70,7 @@
 - `price_elements_amount`, веса `price_elements.*.p`, GR probability, параметры post action и числа пакетов записываются как числа, а не строки.
 - Для `GR_1..GR_4` значение `rand_reward.p` по умолчанию равно `35`.
 - В объектном блоке сохраняются обе колонки `id`, включая финальную колонку после `price_elements.7.price`; значения всех `id` остаются пустыми.
-- Лист `ИНТЕРАКТИВ Story_RandomRecipe` в `stage6_review.xlsx` закрепляется через `freeze_panes=A22`.
+- Строки таблицы `ИНТЕРАКТИВ Story_RandomRecipe` не закреплять: прежнее правило A22 отменено пользователем 19.10.2026.
 
 ## `mixer_1` / `Story_Mixer`
 

@@ -19,13 +19,13 @@
         "После этапа 1 нужно показать пользователю сюжетную структуру и ждать явный апрув.",
         "После этапа 2 нужно показать реплики начала/завершения и ждать явный апрув.",
         "После этапа 3 нужно показать выбранные шаблоны тасков и ждать явный апрув.",
-        "После апрува этапа 3 нужно записать gate командой python src/workflow_context.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>.",
+        "После апрува этапа 3 нужно записать gate командой python src/workflow_fast.py approve --stage 3 --campaign <campaign_id> --pack <pack_id>.",
         "build_context_pack.py собирает context_pack без отдельного approval stage 3; это техническая подготовка перед этапом 4.",
         "После этапа 3.1 отдельный апрув не нужен; перед этапом 4 нужно просмотреть context_pack/кандидатов.",
         "После этапа 4 нужно показать task_choices, filled_tasks/валидацию и ждать явный апрув.",
-        "После апрува этапа 4 нужно записать gate командой python src/workflow_context.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>.",
+        "После апрува этапа 4 нужно записать gate командой python src/workflow_fast.py approve --stage 4 --campaign <campaign_id> --pack <pack_id>.",
         "Этап 5 создает campaigns/<campaign_id>/<pack_id>/quest_group.json по контексту всех квестов pack и требует отдельного апрува пользователя.",
-        "После апрува этапа 5 нужно записать gate командой python src/workflow_context.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>.",
+        "После апрува этапа 5 нужно записать gate командой python src/workflow_fast.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>.",
         "Этап 6 и CSV запускать только после апрува этапа 5; quest_group.json берется из папки того же pack.",
         "Нельзя выполнять все этапы нового pack подряд без человеческой проверки."
       ],
@@ -341,6 +341,27 @@
         "python src/workflow_context.py list-modes",
         "python src/workflow_context.py detect --text \"...\""
       ]
+    },
+    {
+      "id": "quest_dialogs",
+      "name_ru": "Подключение диалогов к quest pack",
+      "description_ru": "Подэтап 6.1 после ручной проверки XLSX: UI, экшены, разговорные таски и графический helper.",
+      "default_stage": "6",
+      "requires_context": [
+        "campaign_id",
+        "pack_id"
+      ],
+      "keywords_ru": [
+        "подключи диалоги",
+        "добавь диалоги",
+        "диалоги квестов",
+        "этап 6.1",
+        "stage 6.1"
+      ],
+      "entrypoints": [
+        "python src/workflow_fast.py dialogs --campaign <campaign_id> --pack <pack_id> --game-root <game_repo_root> --tables-dir <актуальные_XLSX>"
+      ],
+      "clarification_ru": "Прочитать dialogue_characters.json и dialogue_plan.json. Спрашивать только недостающие образы, эмоции, локацию и свободные ID. Рабочие XLSX не регенерировать. Контракт: workflows/DIALOGUE_WORKFLOW.md."
     }
   ]
 }

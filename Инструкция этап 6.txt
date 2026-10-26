@@ -1,124 +1,50 @@
-# ЭТАП 6: ПРЕОБРАЗОВАНИЕ В ФОРМАТ CSV
+# ЭТАП 6: XLSX/CONF ДЛЯ КОНВЕРТЕРА ПРОТОТИПОВ
 
-Этап 6 является техническим разворачиванием уже утвержденных данных:
+Этап 6 технически разворачивает утверждённые данные pack, сохраняя title, hint, classname, param, icon, выбранные игровые сущности и их нумерацию. Не переписывать сюжет или баланс при экспорте.
 
-- `campaigns/<campaign_id>/<pack_id>/quest_group.json` из этапа 5;
-- `campaigns/<campaign_id>/<pack_id>/filled_tasks.json` из этапа 4.
+Главный технический контракт: workflows/PROTO_EXPORT_WORKFLOW.md.
+Порядок работы и подробные контракты листов: workflows/WORKFLOW_GUIDE.md, раздел Stage 6.
+Использовать локальный скилл .agents/skills/proto/SKILL.md.
 
-Перед стартом этапа 6 нужен явный апрув этапа 5 в чате и technical gate:
+## Перед запуском
 
-```bash
-python src/workflow_fast.py approve --stage 5 --campaign <campaign_id> --pack <pack_id>
-```
+- Все review/stage1_review.md ... stage5_review.md существуют и семантически непусты.
+- Approval Stage 1–5 действуют по порядку, SHA-256 review не изменились.
+- filled_tasks.validation.json и quest_group.validation.json актуальны, errors=0.
+- Approval записывается только через workflow_fast.py approve, с применением review и пересборкой.
 
-## Обязательные проверки
+## Команды
 
-CSV можно создавать только если:
-
-- `campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json` существует;
-- `campaigns/<campaign_id>/<pack_id>/filled_tasks.validation.json` содержит `errors = 0`;
-- `campaigns/<campaign_id>/<pack_id>/quest_group.validation.json` существует;
-- `campaigns/<campaign_id>/<pack_id>/quest_group.validation.json` содержит `errors = 0`;
-- validation-файлы не устарели относительно входных JSON;
-- для того же `campaign_id/pack_id` записана вся цепочка approval Stage 1-5;
-- существуют и непусты все `review/stage1_review.md`-`review/stage5_review.md`;
-- ни один `review/stage1_review.md`-`review/stage5_review.md` не менялся после соответствующего approval.
-
-Финальный результат — `review/stage6_review.xlsx`. Это единственный файл Stage 6 для ручных правок человека. Повторный Stage 6 не перезаписывает существующий workbook без явного `--force-review`.
-
-Если валидация нашла ошибки, этап 6 должен остановиться:
-
-- ошибки в task object возвращают работу на этап 4;
-- ошибки в quest group возвращают работу на этап 5.
-
-## Что делает этап 6
-
-Этап 6 не должен творчески переписывать данные.
-
-Он только разворачивает данные в CSV:
-
-1. Верхний блок `Квест группа` из `quest_group.json`.
-2. Затем quest-блок каждого квеста из `filled_tasks.json`.
-3. Затем task-блоки каждого квеста из `task_object`.
-4. Отдельно создаёт `generated_actions.csv` для персонажей, диалогов, HOG search и Give actions.
-5. Вместе с остальными CSV создаёт campaign-level `resource_table.csv` и `resource_table.summary.json`: таблица собирает ресурсы по всем `campaigns/<campaign_id>/pack_*` и строится по шаблону `docs/resource_table_template.csv` / правилам `workflows/RESOURCE_TABLE_WORKFLOW.md`.
-
-В `generated_actions.csv` должны попадать не только персонажи с диалогом/Give, но и персонажи-helper без экшенов. Для них нужен отдельный блок `ПЕРСОНАЖИ БЕЗ ЭКШЕНОВ`; в этом блоке не писать колонку/параметр `behaviour.0.actions`.
-
-Нельзя на этапе 6:
-
-- менять `title`;
-- менять `hint`;
-- менять `classname`, `param`, `icon`;
-- менять location title после фраз `Место поиска:` или `Он находится`;
-- перенумеровывать generated-сущности;
-- заменять мусор, цветок, коллекцию или выбранного кандидата;
-- переписывать квестовую группу.
-
-## Блок квестовой группы
-
-В начале CSV должен быть блок:
-
-```csv
-;Квест группа;;;;;;Перечислить квесты текущей квест группы награды которых будут отображены на странице журнала.;Условие старта квеста на странице журанала;Текст на странице журанала после завршения квеста.
-ml;string;string;string;string;string;string;array_of_values;string;string
-;input;output;title;description;description_complete;description_spoil;extra.quest_reward_prewiew;extra.description_condition;extra.description_complete
-;/quest_group/fun/Fun13_Story_1.proto.js;/quest_group/fun/Fun14_Story_1.proto.js;...;...;...;...;;...;...
-;;;;;;;
-;;;;;;;
-```
-
-`extra.quest_reward_prewiew` оставляется тремя пустыми строками.
-
-## Quest-блоки
-
-Для каждого квеста нужен отдельный quest-блок, а под ним его задачи:
-
-```text
-Квест 1
-  Таск 1
-  Таск 2
-  Таск 3
-
-Квест 2
-  Таск 1
-  Таск 2
-  Таск 3
-```
-
-Номера в заголовках задач CSV локальные внутри квеста. Даже если во входном `filled_tasks.json` `task_number` идет глобально как `4`, `5`, `6`, в блоке второго квеста CSV должен писать `Таск 1`, `Таск 2`, `Таск 3`, а поля остаются `tasks.0`, `tasks.1`, `tasks.2`.
-
-Quest-блок должен идти перед task-блоками:
-
-```csv
-;Квест 1;;;;;;
-sl;string;string;string;string;string;string;string
-;input;output;title;description;congratulation;helper;extra.sequence_icon
-;/quest/generated/Labor_2025/story_1/Labor_2025_Story_1.proto.js;/quest/generated/Labor_2025/story_1/Labor_2025_Story_1.proto.js;Потерянный мангал;...;...;Labor_2025_Character_1;MagazinePage_Labor_2025_QuestIcon_1
-```
-
-## CLI
-
-```bash
 python src/workflow_fast.py stage6 --campaign <campaign_id> --pack <pack_id>
-```
 
-Stage 6 работает инкрементально: `resource_table.csv` и interactive-object CSV пропускаются, если они уже свежее входных файлов. Это нормальное ускорение; отдельные команды `resource-table` и `interactive-objects --export` нужны только для ручной принудительной пересборки или отладки.
+Для уже исправленного человеком обзора:
 
-Скрипт по умолчанию берет `filled_tasks.json` и `quest_group.json` из папки текущего pack и пишет CSV туда же:
+python src/workflow_fast.py stage6-split --campaign <campaign_id> --pack <pack_id>
 
-```text
-campaigns/<campaign_id>/<pack_id>/generated_quests.csv
-campaigns/<campaign_id>/<pack_id>/generated_actions.csv
-campaigns/<campaign_id>/<pack_id>/generated_actions.summary.json
-campaigns/<campaign_id>/generated_interactive_objects_*.csv
-campaigns/<campaign_id>/generated_interactive_objects.summary.json
-campaigns/<campaign_id>/resource_table.csv
-campaigns/<campaign_id>/resource_table.summary.json
-```
+Существующий обзор защищён до --force-review; готовые conf-файлы — до stage6-split --force. Перезапись допустима только намеренно. Ручные правки conf обратно в обзор не переносятся.
 
-`generated_actions.csv` содержит только actions текущего pack. Для нумерации `Dialog_N` и `Give_N` код просматривает предыдущие pack-и campaign, чтобы не дублировать идентификаторы.
+## Результат
 
-`resource_table.csv` на этапе 6 не запускать отдельным обязательным шагом после CSV: `workflow_fast.py stage6` сам решает, нужно ли пересобирать его по времени изменения входных файлов, и кладет файл на уровень campaign.
+- review/proto/ — единственная папка конечных XLSX; отдельный многолистовой обзор не создаётся.
+- review/proto/<campaign_id>_quests.xlsx, <campaign_id>_actions.xlsx, <campaign_id>_resources.xlsx, <campaign_id>_interactive_<mechanic>.xlsx — отдельные файлы, ровно один лист conf в каждом.
+- review/proto/quest_<campaign_id>_accomplished.xlsx — отдельный conf, по строке на каждый quest.
+- Только необходимая campaign memory; экспортные summary JSON не создаются.
+- Отдельная таблица выбранной потехи, например campaigns/<campaign_id>/<pack_id>/review/proto/<campaign_id>_funcollection_4.xlsx. Её не включать в quest craft ingredients; существующие ручные правки сохранять.
 
-После `python src/workflow_fast.py stage6` память campaign уже обновлена автоматически. Если использовался низкоуровневый `export_csv.py`, отдельно запусти `python src/update_campaign_memory.py <campaign_id> --pack <pack_id>`.
+Создавать только конечные XLSX/conf в review/proto/. CSV, ZIP, bundle_manifest.json, manifest.json, validation_report.json, экспортные summary JSON и дополнительный обзор не создавать. Результаты проверки выводить в консоль.
+
+## Структура
+
+- Quest group: ml, donor /quest_group/event/Night_2026/Night_2026_Story.proto.js, id пустой, find=Night_2026, replace=<campaign_id>. Не использовать старые extra.* и array_of_values.
+- Quest N: sl, donor /quest/event/Night_2026/Night_2026_Story_N.proto.js, output /quest/event/<campaign_id>/<campaign_id>_Story_N.proto.js, id пустой при первичной генерации. Все Story и Tech квесты campaign лежат прямо в /quest/event/<campaign_id>/, без отдельных папок story_N или tech.
+- Сразу после quest — по одному ml/object блоку для tasks.0, tasks.1 и т.д. Input/output обоих task указывают на новый output текущего quest. Номера в заголовках task локальны внутри quest.
+- Каждый персонаж — отдельный ml блок, continuation actions без B/C и нового id. Персонажей без экшенов не пропускать.
+- Каждый output с replace — отдельный блок: в sl конвертер применяет замены только для первой строки.
+- Только sl/ml и поддерживаемые string/int/array/object/ignore/replace. Object и replace требуют объединений, описанных в PROTO_EXPORT_WORKFLOW.md.
+- Ресурсы агрегировать по всем pack campaign; числа писать Excel-числами, id оставлять пустым. Пустой id наследует ID донора; производственные ID назначает разработчик перед импортом.
+
+## Проверка
+
+Открыть итоговые файлы заново, запустить validator скилла proto и src/validate_proto_exports.py с настоящим конвертером, реальными донорами и изолированным output. Проверить число output и сохранение заданных полей в JSON. Изменения кода/шаблонов проверять полным python -m unittest discover -s tests.
+
+Пользователь проверяет эти XLSX вручную. После его сообщения о завершении закрепить подтверждённые правки в генераторах/шаблонах/документации, проверить в тестовом output/ и затем оформить скилл создания квестов. Не перезаписывать ручной эталон.

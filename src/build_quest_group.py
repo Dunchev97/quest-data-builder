@@ -27,8 +27,7 @@ QUEST_GROUP_VALIDATION_NAME = "quest_group.validation.json"
 QUEST_GROUP_PREVIEW_NAME = "quest_group.preview.md"
 FILLED_TASKS_JSON_NAME = "filled_tasks.json"
 QUEST_REFERENCE_CAMPAIGN_ID = "Night_2026"
-QUEST_GROUP_REFERENCE_ID = 125028
-QUEST_GROUP_INPUT_PATH = f"/quest_group/event/{QUEST_REFERENCE_CAMPAIGN_ID}_Story.proto.js"
+QUEST_GROUP_INPUT_PATH = f"/quest_group/event/{QUEST_REFERENCE_CAMPAIGN_ID}/{QUEST_REFERENCE_CAMPAIGN_ID}_Story.proto.js"
 QUEST_GROUP_PATH_PREFIX = "/quest_group/event"
 REQUIRED_APPROVAL_STAGE = "4"
 
@@ -86,7 +85,7 @@ def infer_output_path(filled_tasks: dict[str, Any], output_classname: str | None
         campaign_id = campaign_id.split("_Story_", 1)[0]
     if campaign_id.endswith("_Story"):
         campaign_id = campaign_id[: -len("_Story")]
-    return f"{QUEST_GROUP_PATH_PREFIX}/{campaign_id}_Story.proto.js"
+    return f"{QUEST_GROUP_PATH_PREFIX}/{campaign_id}/{campaign_id}_Story.proto.js"
 
 
 def quest_group_classname(campaign_id: str | None = None, pack_id: str | None = None) -> str | None:
@@ -115,7 +114,7 @@ def build_quest_group(
         "description": description,
         "description_complete": description_complete,
         "description_spoil": description_spoil,
-        "id": QUEST_GROUP_REFERENCE_ID,
+        "id": None,
         "find": QUEST_REFERENCE_CAMPAIGN_ID,
         "replace": campaign_id,
     }
@@ -144,7 +143,7 @@ def issue(severity: str, code: str, message: str, **extra: Any) -> dict[str, Any
 
 def validate_quest_group(quest_group: dict[str, Any]) -> dict[str, Any]:
     issues: list[dict[str, Any]] = []
-    for field_name in ("input", "output", "title", "description", "description_complete", "description_spoil", "id", "find", "replace"):
+    for field_name in ("input", "output", "title", "description", "description_complete", "description_spoil", "find", "replace"):
         if quest_group.get(field_name) in (None, "", []):
             issues.append(issue("error", "missing_quest_group_field", f"quest_group is missing field: {field_name}", field=field_name))
 
@@ -160,23 +159,23 @@ def validate_quest_group(quest_group: dict[str, Any]) -> dict[str, Any]:
         )
 
     output = str(quest_group.get("output") or "")
-    if not output.startswith(f"{QUEST_GROUP_PATH_PREFIX}/") or not output.endswith(".proto.js"):
+    if not output.startswith(f"{QUEST_GROUP_PATH_PREFIX}/") or len(output.removeprefix(f"{QUEST_GROUP_PATH_PREFIX}/").split("/")) != 2 or not output.endswith(".proto.js"):
         issues.append(
             issue(
                 "error",
                 "quest_group_output_path_invalid",
-                "quest_group.output must look like /quest_group/event/<campaign_id>_Story.proto.js.",
+                "quest_group.output must look like /quest_group/event/<campaign_id>/<campaign_id>_Story.proto.js.",
                 actual=quest_group.get("output"),
             )
         )
 
-    if quest_group.get("id") != QUEST_GROUP_REFERENCE_ID:
+    if quest_group.get("id") not in (None, ""):
         issues.append(
             issue(
                 "error",
-                "quest_group_reference_id_mismatch",
-                "quest_group.id must match the Night_2026 donor row.",
-                expected=QUEST_GROUP_REFERENCE_ID,
+                "quest_group_id_not_blank",
+                "quest_group.id must be blank; donor IDs are never assigned to new tables.",
+                expected=None,
                 actual=quest_group.get("id"),
             )
         )
@@ -192,7 +191,8 @@ def validate_quest_group(quest_group: dict[str, Any]) -> dict[str, Any]:
             )
         )
 
-    expected_output = f"{QUEST_GROUP_PATH_PREFIX}/{quest_group.get('replace') or ''}_Story.proto.js"
+    campaign_id = quest_group.get('replace') or ''
+    expected_output = f"{QUEST_GROUP_PATH_PREFIX}/{campaign_id}/{campaign_id}_Story.proto.js"
     if output != expected_output:
         issues.append(
             issue(

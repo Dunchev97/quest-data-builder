@@ -2,13 +2,1123 @@
   "version": 1,
   "campaign_id": "VelesNight_2026",
   "created_at": "2026-10-15T08:32:06.694133+00:00",
-  "updated_at": "2026-10-15T08:32:06.694133+00:00",
-  "packs": {},
-  "used_candidate_ids": {},
-  "used_task_templates": {},
-  "used_garbage": {},
-  "used_collections": {},
-  "used_flowers": {},
-  "used_locations": {},
-  "used_generated_assets": {}
+  "updated_at": "2026-10-19T06:30:42.514258+00:00",
+  "packs": {
+    "pack_001": {
+      "pack_id": "pack_001",
+      "updated_at": "2026-10-19T06:30:42.547259+00:00",
+      "filled_tasks": "D:\\quest-data-builder\\campaigns\\VelesNight_2026\\pack_001\\filled_tasks.json",
+      "context_pack": "D:\\quest-data-builder\\campaigns\\VelesNight_2026\\pack_001\\context_pack.json",
+      "tasks_found": 36,
+      "selected_candidates_found": 26,
+      "quest_group": "D:\\quest-data-builder\\campaigns\\VelesNight_2026\\pack_001\\quest_group.json",
+      "quest_group_validation": "D:\\quest-data-builder\\campaigns\\VelesNight_2026\\pack_001\\quest_group.validation.json",
+      "interactive_objects": "D:\\quest-data-builder\\campaigns\\VelesNight_2026\\interactive_objects.json"
+    }
+  },
+  "used_candidate_ids": {
+    "gr_garbage:YarnLump:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_1",
+      "task_number": 1,
+      "task_template_id": "TT-013",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "gr_garbage:RustyNail:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_1",
+      "task_number": 2,
+      "task_template_id": "TT-013",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "garbage:BrokenBasketForNeedlework": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_1",
+      "task_number": 3,
+      "task_template_id": "TT-021",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "gr_garbage:Chips:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_2",
+      "task_number": 4,
+      "task_template_id": "TT-015",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "flower:FlowerSeven": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-019",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "collection_drop:WagonWheelCollection4:WagonWheel:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_3",
+      "task_number": 9,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "collection_drop:Garbage_TornStrapCollection1:Garbage_TornStrap:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_4",
+      "task_number": 10,
+      "task_template_id": "TT-028",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "garbage:BrokenBank": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_4",
+      "task_number": 11,
+      "task_template_id": "TT-020",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "garbage:Ashes": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_4",
+      "task_number": 12,
+      "task_template_id": "TT-029",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "garbage:FoxTrail": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_5",
+      "task_number": 13,
+      "task_template_id": "TT-025",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "collection_drop:MirrorFragmentCollection1:MirrorFragment:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-026",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "collection_drop:TrowelCollection1:Trowel:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-027",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "flower:FlowerTwo": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_6",
+      "task_number": 16,
+      "task_template_id": "TT-016",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "collection_drop:ChipsCollection3:Chips:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_7",
+      "task_number": 20,
+      "task_template_id": "TT-028",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "flower:FlowerTen": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_7",
+      "task_number": 21,
+      "task_template_id": "TT-031",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "collection_drop:Garbage_TornStrapCollection3:Garbage_TornStrap:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_8",
+      "task_number": 22,
+      "task_template_id": "TT-028",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "flower:FlowerMagazine6_TerryMallow": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_8",
+      "task_number": 23,
+      "task_template_id": "TT-031",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "garbage:FlapOfTissue": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_8",
+      "task_number": 24,
+      "task_template_id": "TT-029",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "garbage:Anvil": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_9",
+      "task_number": 26,
+      "task_template_id": "TT-020",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "collection_drop:ChipsCollection4:Chips:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_9",
+      "task_number": 27,
+      "task_template_id": "TT-011",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "flower:FlowerDahlia": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_10",
+      "task_number": 28,
+      "task_template_id": "TT-022",
+      "domain": "flower",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "garbage:StrawPinch": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_10",
+      "task_number": 29,
+      "task_template_id": "TT-024",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "collection_drop:ShardsCollection3:Shards:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_10",
+      "task_number": 30,
+      "task_template_id": "TT-026",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "gr_garbage:BigHome_Garbage_Nursery_Flags:guest": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_11",
+      "task_number": 31,
+      "task_template_id": "TT-014",
+      "domain": "gr_garbage",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "garbage:EmptySpoolOfThread": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_12",
+      "task_number": 34,
+      "task_template_id": "TT-029",
+      "domain": "garbage",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "collection_drop:ChipsCollection1:Chips:home": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_12",
+      "task_number": 35,
+      "task_template_id": "TT-028",
+      "domain": "collection_drop",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    }
+  },
+  "used_task_templates": {
+    "TT-013": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с мусора в локации дома",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "TT-021": {
+      "pack_id": "pack_001",
+      "task_template_name": "Уборка конкретного мусора дома",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "TT-015": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с конкретного мусора дома",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "TT-008": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить ASK",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-002": {
+      "pack_id": "pack_001",
+      "task_template_name": "Крафт",
+      "uses": 3,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-005": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG в локациях дома",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-019": {
+      "pack_id": "pack_001",
+      "task_template_name": "Сбор цветов в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "TT-011": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-028": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+      "uses": 4,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-020": {
+      "pack_id": "pack_001",
+      "task_template_name": "Уборка конкретного мусора в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-029": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт мусора в гостях",
+      "uses": 3,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-025": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на мусор дома",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "TT-026": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-027": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка задом наперед на коллекцию (зависит от редкости)",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "TT-016": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с цветов в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "TT-009": {
+      "pack_id": "pack_001",
+      "task_template_name": "Получить PER",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-031": {
+      "pack_id": "pack_001",
+      "task_template_name": "Силуэт цветка в гостях",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-003": {
+      "pack_id": "pack_001",
+      "task_template_name": "HOG в мире",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-022": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на цветок в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-024": {
+      "pack_id": "pack_001",
+      "task_template_name": "Загадка на мусор в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-014": {
+      "pack_id": "pack_001",
+      "task_template_name": "GR с конкретного мусора в гостях",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "TT-034": {
+      "pack_id": "pack_001",
+      "task_template_name": "Фото предмета",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    }
+  },
+  "used_garbage": {
+    "YarnLump": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_1",
+      "task_number": 1,
+      "task_template_id": "TT-013",
+      "classname": "YarnLump",
+      "title": "Комок спутавшейся пряжи",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "RustyNail": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_1",
+      "task_number": 2,
+      "task_template_id": "TT-013",
+      "classname": "RustyNail",
+      "title": "Ржавый гвоздь",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "BrokenBasketForNeedlework": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_1",
+      "task_number": 3,
+      "task_template_id": "TT-021",
+      "classname": "BrokenBasketForNeedlework",
+      "title": "Сломанная корзиночка для рукоделия",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "Chips": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_2",
+      "task_number": 4,
+      "task_template_id": "TT-015",
+      "classname": "Chips",
+      "title": "Стружка",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "BrokenBank": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_4",
+      "task_number": 11,
+      "task_template_id": "TT-020",
+      "classname": "BrokenBank",
+      "title": "Разбитая банка",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "Ashes": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_4",
+      "task_number": 12,
+      "task_template_id": "TT-029",
+      "classname": "Ashes",
+      "title": "Пепел",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "FoxTrail": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_5",
+      "task_number": 13,
+      "task_template_id": "TT-025",
+      "classname": "FoxTrail",
+      "title": "След от лисьей лапки",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "FlapOfTissue": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_8",
+      "task_number": 24,
+      "task_template_id": "TT-029",
+      "classname": "FlapOfTissue",
+      "title": "Лоскут ткани",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "Anvil": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_9",
+      "task_number": 26,
+      "task_template_id": "TT-020",
+      "classname": "Anvil",
+      "title": "Наковаленка",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "StrawPinch": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_10",
+      "task_number": 29,
+      "task_template_id": "TT-024",
+      "classname": "StrawPinch",
+      "title": "Щепотка соломы",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "BigHome_Garbage_Nursery_Flags": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_11",
+      "task_number": 31,
+      "task_template_id": "TT-014",
+      "classname": "BigHome_Garbage_Nursery_Flags",
+      "title": "Флажки",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "EmptySpoolOfThread": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_12",
+      "task_number": 34,
+      "task_template_id": "TT-029",
+      "classname": "EmptySpoolOfThread",
+      "title": "Пустая катушка для ниток",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    }
+  },
+  "used_collections": {
+    "WagonWheelCollection4": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_3",
+      "task_number": 9,
+      "task_template_id": "TT-011",
+      "classname": "WagonWheelCollection4",
+      "title": "Бочка с водой",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "Garbage_TornStrapCollection1": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_4",
+      "task_number": 10,
+      "task_template_id": "TT-028",
+      "classname": "Garbage_TornStrapCollection1",
+      "title": "Текстильный ремешок",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "MirrorFragmentCollection1": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_5",
+      "task_number": 14,
+      "task_template_id": "TT-026",
+      "classname": "MirrorFragmentCollection1",
+      "title": "Зеркальце",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "TrowelCollection1": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_5",
+      "task_number": 15,
+      "task_template_id": "TT-027",
+      "classname": "TrowelCollection1",
+      "title": "Песок",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "ChipsCollection3": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_7",
+      "task_number": 20,
+      "task_template_id": "TT-028",
+      "classname": "ChipsCollection3",
+      "title": "Струбцина",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "Garbage_TornStrapCollection3": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_8",
+      "task_number": 22,
+      "task_template_id": "TT-028",
+      "classname": "Garbage_TornStrapCollection3",
+      "title": "Кожаный ремешок",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "ChipsCollection4": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_9",
+      "task_number": 27,
+      "task_template_id": "TT-011",
+      "classname": "ChipsCollection4",
+      "title": "Киянка",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "ShardsCollection3": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_10",
+      "task_number": 30,
+      "task_template_id": "TT-026",
+      "classname": "ShardsCollection3",
+      "title": "Глиняный чайник",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "ChipsCollection1": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_12",
+      "task_number": 35,
+      "task_template_id": "TT-028",
+      "classname": "ChipsCollection1",
+      "title": "Стамеска",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    }
+  },
+  "used_flowers": {
+    "FlowerSeven": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_3",
+      "task_number": 8,
+      "task_template_id": "TT-019",
+      "classname": "FlowerSeven",
+      "title": "Мак",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "FlowerTwo": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_6",
+      "task_number": 16,
+      "task_template_id": "TT-016",
+      "classname": "FlowerTwo",
+      "title": "Ирис",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "FlowerTen": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_7",
+      "task_number": 21,
+      "task_template_id": "TT-031",
+      "classname": "FlowerTen",
+      "title": "Колокольчики",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "FlowerMagazine6_TerryMallow": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_8",
+      "task_number": 23,
+      "task_template_id": "TT-031",
+      "classname": "FlowerMagazine6_TerryMallow",
+      "title": "Мальва махровая",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "FlowerDahlia": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_10",
+      "task_number": 28,
+      "task_template_id": "TT-022",
+      "classname": "FlowerDahlia",
+      "title": "Георгин",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    }
+  },
+  "used_locations": {
+    "Рукодельня": {
+      "code": "5",
+      "title": "Рукодельня",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_1",
+      "task_number": 1,
+      "uses": 4,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "Котельная": {
+      "code": "65",
+      "title": "Котельная",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_1",
+      "task_number": 2,
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "Светлица": {
+      "code": "4",
+      "title": "Светлица",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_1",
+      "task_number": 3,
+      "uses": 4,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "Мастерская": {
+      "code": "3",
+      "title": "Мастерская",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_2",
+      "task_number": 4,
+      "uses": 6,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "Гараж": {
+      "code": "43",
+      "title": "Гараж",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_2",
+      "task_number": 4,
+      "uses": 5,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "Голубятня": {
+      "code": "94",
+      "title": "Голубятня",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_2",
+      "task_number": 4,
+      "uses": 4,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "Село": {
+      "code": "25",
+      "title": "Село",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_3",
+      "task_number": 9,
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "Комната за часами": {
+      "code": "90",
+      "title": "Комната за часами",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_4",
+      "task_number": 10,
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "Погребок": {
+      "code": "10",
+      "title": "Погребок",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_4",
+      "task_number": 11,
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "Стеклодувня": {
+      "code": "42",
+      "title": "Стеклодувня",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_4",
+      "task_number": 11,
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "Курятник": {
+      "code": "32",
+      "title": "Курятник",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_5",
+      "task_number": 13,
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "Поляна": {
+      "code": "36",
+      "title": "Поляна",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_5",
+      "task_number": 13,
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "Гадальня": {
+      "code": "38",
+      "title": "Гадальня",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_5",
+      "task_number": 14,
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "Искристое озеро": {
+      "code": "80",
+      "title": "Искристое озеро",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_5",
+      "task_number": 14,
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "Конюшня": {
+      "code": "7",
+      "title": "Конюшня",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_9",
+      "task_number": 26,
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "Кузница": {
+      "code": "8",
+      "title": "Кузница",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_9",
+      "task_number": 26,
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "Банька": {
+      "code": "9",
+      "title": "Банька",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_10",
+      "task_number": 29,
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "Океанариум": {
+      "code": "78",
+      "title": "Океанариум",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_10",
+      "task_number": 30,
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "Форт из одеял": {
+      "code": "223",
+      "title": "Форт из одеял",
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_11",
+      "task_number": 31,
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    }
+  },
+  "used_generated_assets": {
+    "VelesNight_2026_Character_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_1",
+      "field": "helper",
+      "title": "Ведятя",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "VelesNight_2026_GR_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_1",
+      "task_number": 1,
+      "task_template_id": "TT-013",
+      "title": "Найди Завязки",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "VelesNight_2026_GR_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_1",
+      "task_number": 2,
+      "task_template_id": "TT-013",
+      "title": "Найди Железные крючки",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "VelesNight_2026_Character_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_2",
+      "field": "helper",
+      "title": "Баба Зина",
+      "uses": 3,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "VelesNight_2026_GR_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_2",
+      "task_number": 4,
+      "task_template_id": "TT-015",
+      "title": "Найди Инструменты",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "VelesNight_2026_ASK_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_2",
+      "task_number": 5,
+      "task_template_id": "TT-008",
+      "title": "Попроси у друзей Бечёвку",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "VelesNight_2026_R_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_2",
+      "task_number": 6,
+      "task_template_id": "TT-002",
+      "title": "Создай Ящик плотника",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "VelesNight_2026_Character_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_3",
+      "field": "helper",
+      "title": "Дед Домовед",
+      "uses": 5,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "task_number": 36,
+      "task_template_id": "TT-034"
+    },
+    "VelesNight_2026_HOG_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_3",
+      "task_number": 7,
+      "task_template_id": "TT-005",
+      "title": "Найди Деревянные упоры",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "VelesNight_2026_Character_4": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_4",
+      "field": "helper",
+      "title": "Куйгорож",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "VelesNight_2026_Character_5": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_5",
+      "field": "helper",
+      "title": "Королева Подземного Царства",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "VelesNight_2026_GR_4": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_6",
+      "task_number": 16,
+      "task_template_id": "TT-016",
+      "title": "Получи Завязки",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.546259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.546259+00:00"
+    },
+    "VelesNight_2026_PER_1": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_6",
+      "task_number": 17,
+      "task_template_id": "TT-009",
+      "title": "Попроси у друзей Колышки",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "VelesNight_2026_R_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_6",
+      "task_number": 18,
+      "task_template_id": "TT-002",
+      "title": "Создай Крепёж указателей",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "VelesNight_2026_HOG_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_7",
+      "task_number": 19,
+      "task_template_id": "TT-005",
+      "title": "Найди Щуп",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "VelesNight_2026_HOG_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_9",
+      "task_number": 25,
+      "task_template_id": "TT-003",
+      "title": "Найди Бруски",
+      "field": "param",
+      "uses": 1,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "VelesNight_2026_GR_5": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_11",
+      "task_number": 31,
+      "task_template_id": "TT-014",
+      "title": "Найди Тканевые полоски для оберегов",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "VelesNight_2026_ASK_2": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_11",
+      "task_number": 32,
+      "task_template_id": "TT-008",
+      "title": "Попроси у друзей Проволоку",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    },
+    "VelesNight_2026_R_3": {
+      "pack_id": "pack_001",
+      "classname_quests": "VelesNight_2026_Story_11",
+      "task_number": 33,
+      "task_template_id": "TT-002",
+      "title": "Создай Крепёж",
+      "field": "classname",
+      "uses": 2,
+      "first_seen_at": "2026-10-19T06:30:42.547259+00:00",
+      "last_seen_at": "2026-10-19T06:30:42.547259+00:00"
+    }
+  }
 }
