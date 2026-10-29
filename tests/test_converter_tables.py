@@ -12,6 +12,43 @@ from src.workflow_context import file_sha256
 
 
 class ConverterTablesTests(unittest.TestCase):
+    def test_standalone_fun_outputs_cannot_keep_a_foreign_donor_directory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'Fun14_FunCollection_7.xlsx'
+            wb = Workbook()
+            ws = wb.active
+            ws.title = 'conf'
+            ws.append(['sl', 'string', 'string', 'string'])
+            ws.append([None, 'input', 'output', 'classname'])
+            donor = '/asset_package/HeavenlyExotic/Fun13_Item_Package.proto.js'
+            ws.append([None, donor, '/asset_package/HeavenlyExotic/Fun14_Item_Package.proto.js',
+                       'Fun14_Item_Package'])
+            wb.save(path)
+            self.assertTrue(any('output directory' in e for e in converter_tables.validate(path)))
+            for output in ('/asset_package/Fun14/Fun14_Item_Package.proto.js',
+                           '/asset_package/Fun/Fun14/Fun14_Item_Package.proto.js',
+                           '/post_action/ask_for_Fun14_Item.proto.js'):
+                with self.subTest(output=output):
+                    ws['C3'] = output
+                    wb.save(path)
+                    self.assertEqual(converter_tables.validate(path), [])
+                    self.assertEqual(ws['B3'].value, donor)
+            ws['C3'] = '/post_action/ask_for_Fun13_Item.proto.js'
+            wb.save(path)
+            self.assertTrue(any('campaign prefix' in e for e in converter_tables.validate(path)))
+            wb.close()
+
+    def test_fun7_package_template_outputs_use_the_target_event_directory(self):
+        templates = json.loads(fun_collection_tables.TEMPLATES.read_text(encoding='utf-8'))['templates']
+        template = next(t for t in templates if t['id'] == 'FunCollection_7')
+        packages = [row for block in template['blocks'] for row in block.get('rows', [])
+                    if row.get('output', '').startswith('/asset_package/')]
+        self.assertEqual(len(packages), 3)
+        for row in packages:
+            output = row['output'].replace('{prefix}', 'Fun14')
+            self.assertEqual(Path(output).parent.as_posix(), '/asset_package/Fun14')
+            self.assertTrue(row['input'].startswith('/asset_package/Fun/Fun10/'))
+
     def test_task_cannot_read_a_stale_path_after_quest_output_is_moved(self):
         wb = Workbook()
         ws = wb.active

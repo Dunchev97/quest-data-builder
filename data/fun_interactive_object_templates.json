@@ -1206,7 +1206,7 @@
           "rows": [
             {
               "input": "/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js",
-              "output": "/asset_package/HeavenlyExotic/{prefix}_FunCollection_7_ASK_1_Package.proto.js",
+              "output": "/asset_package/{prefix}/{prefix}_FunCollection_7_ASK_1_Package.proto.js",
               "classname": "{prefix}_FunCollection_7_ASK_1_Package",
               "title": "{ask_resource_title}",
               "stuff_icon": "{prefix}_FunCollection_7_ASK_1",
@@ -1215,7 +1215,7 @@
             },
             {
               "input": "/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js",
-              "output": "/asset_package/HeavenlyExotic/{prefix}_FunCollection_7_GR_1_Package.proto.js",
+              "output": "/asset_package/{prefix}/{prefix}_FunCollection_7_GR_1_Package.proto.js",
               "classname": "{prefix}_FunCollection_7_GR_1_Package",
               "title": "{ingredient_a_title}",
               "stuff_icon": "{prefix}_FunCollection_7_GR_1",
@@ -1224,7 +1224,7 @@
             },
             {
               "input": "/asset_package/Fun/Fun10/resource/Fun10_GR_10_Package.proto.js",
-              "output": "/asset_package/HeavenlyExotic/{prefix}_FunCollection_7_GR_2_Package.proto.js",
+              "output": "/asset_package/{prefix}/{prefix}_FunCollection_7_GR_2_Package.proto.js",
               "classname": "{prefix}_FunCollection_7_GR_2_Package",
               "title": "{ingredient_b_title}",
               "stuff_icon": "{prefix}_FunCollection_7_GR_2",

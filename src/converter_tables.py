@@ -114,7 +114,7 @@ def prepare_sheet(ws):
                 ws.merge_cells(start_row=rr, end_row=rr, start_column=c, end_column=c + 1)
 
 
-def validate_sheet(ws, *, campaign_id=None, assigned_ids=False):
+def validate_sheet(ws, *, campaign_id=None, assigned_ids=False, output_prefix=None):
     errors = []
     blocks = [r for r in range(1, ws.max_row + 1) if ws.cell(r, 1).value not in (None, "")]
     for r in blocks:
@@ -146,6 +146,12 @@ def validate_sheet(ws, *, campaign_id=None, assigned_ids=False):
                 value = ws.cell(rr,c).value
                 if not isinstance(value,str) or not value.startswith("/") or not value.endswith(".proto.js") or ".." in Path(value).parts:
                     errors.append(f"row {rr}: invalid prototype path in column {c}")
+                elif c == 3 and output_prefix:
+                    directories = value.strip("/").split("/")[1:-1]
+                    if output_prefix not in value:
+                        errors.append(f"row {rr}: output must contain campaign prefix {output_prefix!r}")
+                    elif directories and output_prefix not in directories:
+                        errors.append(f"row {rr}: output directory must contain campaign prefix {output_prefix!r}")
         c, seen, gap = 4, set(), False
         while c <= ws.max_column:
             typ, key = ws.cell(r,c).value, ws.cell(r+1,c).value
@@ -207,8 +213,14 @@ def validate(path, *, assigned_ids=False):
     if wb.sheetnames != ["conf"]:
         errors.append(f"expected exactly one sheet conf, got {wb.sheetnames}")
     campaign_id = path.parents[2].name if path.parent.name == "proto" and path.parent.parent.name == "review" else None
+    # Standalone potekha tables also carry their campaign in the filename.
+    # A current filename inside an old donor folder still converts successfully,
+    # but creates the prototype in the wrong event directory.
+    fun_prefix = re.match(r"^(Fun\d+)(?:_|$)", path.stem)
+    output_prefix = fun_prefix.group(1) if fun_prefix else None
     for ws in wb:
-        errors.extend(f"{ws.title}: {error}" for error in validate_sheet(ws,campaign_id=campaign_id,assigned_ids=assigned_ids))
+        errors.extend(f"{ws.title}: {error}" for error in validate_sheet(
+            ws, campaign_id=campaign_id, assigned_ids=assigned_ids, output_prefix=output_prefix))
     wb.close()
     if assigned_ids and not errors:
         try:
