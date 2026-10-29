@@ -94,6 +94,17 @@ def assert_subset(actual,expected,label):
         raise ValueError(f'{label}: expected {expected!r}, got {actual!r}')
 
 
+def replacement_audit_text(value):
+    """Graphic aliases are allowed to keep the donor's view_classname."""
+    def mechanics(item):
+        if isinstance(item, dict):
+            return {key: mechanics(child) for key, child in item.items() if key != 'view_classname'}
+        if isinstance(item, list):
+            return [mechanics(child) for child in item]
+        return item
+    return json.dumps(mechanics(value), ensure_ascii=False)
+
+
 def run(files, converter, prototypes, sandbox, node='node', *, assigned_ids=False):
     files = [Path(p).resolve() for p in files]
     for file in files:
@@ -178,7 +189,7 @@ def run(files, converter, prototypes, sandbox, node='node', *, assigned_ids=Fals
                     raise ValueError(f'{output}: field {key} lost during conversion') from None
                 assert_subset(converted,value,f'{output}:{key}')
                 checked_fields += 1
-            text = json.dumps(actual,ensure_ascii=False)
+            text = replacement_audit_text(actual)
             for old,new in replacements:
                 if old != new and old not in new and old in text:
                     raise ValueError(f'{output}: donor reference {old!r} survived replacement')

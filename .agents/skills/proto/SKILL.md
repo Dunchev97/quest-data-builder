@@ -44,7 +44,7 @@ Rules:
 
 - Column B is always `input`; column C is always `output`.
 - Columns B/C are `tech`; columns D onward are proto `update`.
-- Use donor proto path in `input` and target proto path in `output`.
+- For a new prototype use its real donor path in `input` and target path in `output`. Reviewed existing prototypes may use `input = output` when the user promotes them to self-referencing templates; validate that every input already exists.
 - Use paths relative to `server/prototypes`, usually like `/collection/...` or `/seed/...`.
 - Use base type names in the sheet: `string`, `int`, `array`, `object`, `ignore`, `replace`.
 - Do not write `ml_string` or `sl_string`; the converter adds the prefix for `ml` and `sl`.
@@ -225,9 +225,17 @@ Task block rules:
 4. Build the parser table itself as the primary artifact.
 5. Put the final XLSX parser sheet first and name it `conf`.
 6. Use donor paths in `input`, target paths in `output`, and update columns D onward.
-7. Replace stale donor names in target values; donor names may remain in `input` only.
+7. Replace stale donor names in mechanics and target values. Preserve explicitly reused `view_classname` graphic aliases; donor inputs and find cells also keep their source names.
 8. Keep related nested data inside the same compact block where converter encoding allows it.
 9. Reopen and validate the XLSX before reporting.
+
+## Reviewed Fun14 Templates
+
+For audited potekha templates in `quest-data-builder`, read [references/fun14-reviewed.md](references/fun14-reviewed.md). The preferred seven XLSX live in `docs/FunCollection/Fun14/`, indexed by `data/fun_interactive_object_templates.json:reviewed_templates`; this reference takes precedence over historical parameterized blocks.
+
+Use `src/reviewed_proto_templates.py` for a new prefix. A reviewed base has `input = output`; a new event initially keeps the existing Fun14 input and gets its own output. Do not invent a self-input that does not exist yet. Preserve assigned IDs in reviewed working files; reusable reference copies and newly instantiated files have blank IDs.
+
+When explicitly converting reviewed inputs to outputs, back up the files, compare full JSON before/after with the actual converter, then run the same updates twice to check stability. Leave the game's prototype tree unchanged unless its update was separately requested.
 
 ## Helper Scripts
 
@@ -264,7 +272,7 @@ Before finalizing:
 - Assert every task block is `ml; string; string; object` with update key `tasks.N`.
 - In initial authoring mode assert every id cell is blank. After the user supplies free proto/task IDs and explicitly requests assignment, use the strict `--assigned-ids` mode: all prototype IDs and task identifiers must be present and unique across the delivery. The validator has no --allow-id bypass.
 - Assert no mojibake or `????`.
-- Assert stale donor identifiers are absent from target values except donor `input` paths or explicit `replace` blocks.
+- Assert stale donor identifiers are absent from mechanics and target values except donor `input`, explicit `replace` blocks and deliberately reused `view_classname`. The view exception does not exempt reward/asset/conditions/stuff_icon fields from review.
 - For quest delivery, run `src/validate_proto_exports.py` against the actual converter and real donors in an isolated directory. Verify every intended field survives JSON serialization, not just the exit code.
 
 ## Report
@@ -282,6 +290,7 @@ Return:
 - One `ml` block creates exactly one prototype. Repeat the block for each entity; only continuation B/C cells remain blank.
 - One `sl` block with `replace` also needs one input row: replacement state is reset by the converter after its first update.
 - Blank cells must be actual null cells, not inline empty strings or formulas returning an empty string. Otherwise `sl` may read a phantom input row and fail with EISDIR.
+- `ml array`, `ml object` and `ml replace` stop at the first empty item/key/pair in their own columns. When another array in the compact block is longer, put new replace pairs before the first empty pair, not after the last array row.
 - Use Excel numeric cells for int fields. Runtime button text such as `extra.open_now_btn_window` is string.
 - Array dot paths require an index: `behaviour.0.window_spec.description_1`. JS silently drops properties written onto an array without its index during JSON serialization.
 - A blank id cell inherits the donor id; it does not erase it. Keep the requested empty cells, and reserve/assign production IDs separately before game import.

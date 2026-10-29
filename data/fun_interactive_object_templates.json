@@ -1,18 +1,89 @@
 {
-  "version": 1,
+  "version": 2,
   "scope": "non_quest_fun_interactive_objects",
   "notes": [
-    "Templates are derived from project-local docs/FunCollection/*.xlsx donors. Only the conf sheet is authoritative for FunCollection templates.",
+    "Prefer reviewed_templates and docs/FunCollection/Fun14/*.xlsx for promoted families; only conf is authoritative. templates[].blocks retain historical parameterized layouts for existing adapters.",
     "FunCollection templates are for potekha mechanics, not quest interactive object selection.",
     "Workbench is kept as a separate template because it is not a FunCollection potekha object."
   ],
   "common_placeholders": {
-    "prefix": "Current event prefix, for example Fun13.",
+    "prefix": "Current event prefix, for example Fun15.",
     "source_prefix": "Donor prefix used in input paths, for example Fun12.",
     "collection_number": "FunCollection number.",
-    "tech_quest": "Technical weekly quest classname, usually {prefix}_Tech_Weekly_{collection_number}.",
+    "tech_quest": "Explicit technical weekly quest classname; do not infer the week from collection_number.",
     "location_tag": "Location tag for global_reward rows.",
     "collection_rewards": "Exactly 10 CL reward titles in thematic order."
+  },
+  "reviewed_templates": {
+    "Exchanger": {
+      "source_file": "docs/FunCollection/Fun14/Fun14_Exchanger.xlsx",
+      "source_prefix": "Fun14",
+      "prototype_count": 19,
+      "self_referencing": true,
+      "id_policy": "blank"
+    },
+    "FunCollection_3": {
+      "source_file": "docs/FunCollection/Fun14/Fun14_FunCollection_3.xlsx",
+      "source_prefix": "Fun14",
+      "prototype_count": 14,
+      "self_referencing": true,
+      "id_policy": "blank"
+    },
+    "FunCollection_4": {
+      "source_file": "docs/FunCollection/Fun14/Fun14_FunCollection_4.xlsx",
+      "source_prefix": "Fun14",
+      "prototype_count": 23,
+      "self_referencing": true,
+      "id_policy": "blank"
+    },
+    "FunCollection_5": {
+      "source_file": "docs/FunCollection/Fun14/Fun14_FunCollection_5.xlsx",
+      "source_prefix": "Fun14",
+      "prototype_count": 21,
+      "self_referencing": true,
+      "id_policy": "blank"
+    },
+    "FunCollection_7": {
+      "source_file": "docs/FunCollection/Fun14/Fun14_FunCollection_7.xlsx",
+      "source_prefix": "Fun14",
+      "prototype_count": 25,
+      "self_referencing": true,
+      "id_policy": "blank"
+    },
+    "FunCollection_8": {
+      "source_file": "docs/FunCollection/Fun14/Fun14_FunCollection_8.xlsx",
+      "source_prefix": "Fun14",
+      "prototype_count": 65,
+      "self_referencing": true,
+      "id_policy": "blank"
+    },
+    "workbench_single": {
+      "source_file": "docs/FunCollection/Fun14/Fun14_Workbench.xlsx",
+      "source_prefix": "Fun14",
+      "prototype_count": 1,
+      "self_referencing": true,
+      "id_policy": "blank"
+    }
+  },
+  "reviewed_reference_settings": {
+    "scope": "Fun14 reference only; confirm locations and weeks for each new event",
+    "placement_location_id": 411,
+    "weekly_quests": {
+      "FunCollection_7": 1,
+      "FunCollection_3": 2,
+      "FunCollection_4": 3,
+      "FunCollection_8": 4,
+      "FunCollection_5": 5
+    },
+    "locations": {
+      "Fun14_loc_1": 411,
+      "Fun14_loc_2": 412,
+      "Fun14_loc_3": 413,
+      "Fun14_loc_4": 414,
+      "Fun14_loc_5": 415,
+      "Fun14_loc_6": 416,
+      "Fun14_loc_7": 418
+    }
   },
   "templates": [
     {

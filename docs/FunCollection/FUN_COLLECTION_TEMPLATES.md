@@ -1,6 +1,26 @@
 # FunCollection Templates
 
-Эти шаблоны нужны для генерации интерактивных объектов Потех/Сказаний по любой теме. Источник структуры - только лист `conf` в файлах `docs/FunCollection/FunCollection_*.xlsx`.
+Эти шаблоны нужны для генерации интерактивных объектов Потех/Сказаний по любой теме. Источник структуры — лист `conf`. Для проверенных семейств приоритет имеют `data/fun_interactive_object_templates.json:reviewed_templates` и файлы `docs/FunCollection/Fun14/*.xlsx`.
+
+## Проверенные Эталоны Fun14
+
+| template_id | XLSX в `docs/FunCollection/Fun14/` | Прототипов |
+|---|---|---:|
+| Exchanger | Fun14_Exchanger.xlsx | 19 |
+| FunCollection_3 | Fun14_FunCollection_3.xlsx | 14 |
+| FunCollection_4 | Fun14_FunCollection_4.xlsx | 23 |
+| FunCollection_5 | Fun14_FunCollection_5.xlsx | 21 |
+| FunCollection_7 | Fun14_FunCollection_7.xlsx | 25 |
+| FunCollection_8 | Fun14_FunCollection_8.xlsx | 65 |
+| workbench_single | Fun14_Workbench.xlsx | 1 |
+
+Эталонные копии имеют пустые ID и `input = output` на существующие Fun14-прототипы. В рабочих XLSX пользователя ID сохранены. Для новой темы команда `src/reviewed_proto_templates.py <template_id> --prefix <new_prefix> --output <path.xlsx>` создаёт копию с реальными Fun14 input и новыми output. Названия, визуал, локации и условия затем заполняются по новому дизайну.
+
+Исправления эталонов: `FunCollection_3` содержит дополнительный GR_1, его выпадение и пакет; `FunCollection_4_REAL` напрямую выдаёт десять CL с весами `20,20,20,20,15,15,3,3,2,2`, а MB_1 сохранён неиспользуемым; у ресурса дарения FC5 преобразование — объект с ключом `asset`; FC7 использует рецепт 5/7/3 и лимит 8; FC8 сохраняет 30 ключиков и доступ на 5 минут.
+
+Для Fun14 размещение — 411, GR-теги сохранены с новыми названиями мест. Недельная карта: `FC7→1`, `FC3→2`, `FC4→3`, `FC8→4`, `FC5→5`. Это конфигурация Fun14; для нового события не выводить неделю из номера коллекции и согласовать новую карту. Полная карта мест и правила проверки — в `workflows/FUN_INTERACTIVE_OBJECT_WORKFLOW.md`.
+
+Описания исторических вариантов ниже сохраняются для семейства без нового эталона и старых параметризованных адаптеров. При наличии проверенного XLSX его структура имеет приоритет.
 
 Не использовать вкладки `Способы`, `Значения` и файлы из `Downloads` как источник правды. Они могут быть старым черновиком.
 
@@ -18,10 +38,10 @@
 
 Codex обязан:
 
-- брать структуру из `docs/FunCollection/<template_id>.xlsx`, лист `conf`;
+- брать структуру из `reviewed_templates[template_id].source_file`, а при отсутствии нового эталона — из `docs/FunCollection/<template_id>.xlsx`, лист `conf`;
 - сохранять порядок блоков и заголовки колонок как в donor;
-- менять `output`, `classname`, `file_name`, `identifier`, `reward`, `ingredients`, `conditions`, `view_classname`, `stuff_icon`, `pack_asset` на целевой `prefix`;
-- оставлять `input` donor-путями;
+- менять `output`, `classname`, `file_name`, `identifier`, `reward`, `ingredients`, `conditions`, `stuff_icon`, `pack_asset` на целевой `prefix`; `view_classname` сохранять при повторном использовании старой графики;
+- оставлять `input` существующими donor-путями; `input = output` использовать для утверждённых существующих прототипов;
 - оставлять `id` пустым, если пользователь не дал конкретные id;
 - всегда создавать ровно 10 `CL`-ресурсов, если шаблон коллекционный;
 - не подставлять `lawn` или другой дефолт вместо `location_tag`, если пользователь/контекст дал конкретную локацию;
@@ -145,7 +165,7 @@ Codex обязан:
 **CSV-блоки листа `conf`:**
 
 - `Ресурсы FunCollection_5`: 10 `CL` + `GR_2_2` + `GR_1`.
-- `Ресурс дарения FunCollection_5`: `GR_2_1` с `transformation_to_other_asset_while_gifting=<GR_2_2>`.
+- `Ресурс дарения FunCollection_5`: `GR_2_1` с `transformation_to_other_asset_while_gifting.asset=<GR_2_2>`; итоговое значение — объект `{"asset":"..."}`, не строка.
 - `Способ получения ресурса анлока FunCollection_5`: global_reward для `GR_1`.
 - `Способ получения ресурса дарения FunCollection_5`: global_reward для `GR_2_1`.
 - `Пакеты продажи ресурсов FunCollection_5`: packages для `GR_2_2` и `GR_1`.

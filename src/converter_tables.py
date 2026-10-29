@@ -186,6 +186,14 @@ def validate_sheet(ws, *, campaign_id=None, assigned_ids=False, output_prefix=No
                         errors.append(f"row {rr}: {typ} pair in column {c} must be merged")
                 if typ == "replace" and [ws.cell(r+1,cc).value for cc in (c,c+1)] != ["find", "replace"]:
                     errors.append(f"row {r}: replace requires find/replace headers")
+                if typ == 'replace' and directive == 'ml':
+                    stopped = False
+                    for rr in data_rows:
+                        pair = [ws.cell(rr, cc).value for cc in (c, c + 1)]
+                        if not all(v not in (None, '') for v in pair):
+                            stopped = True
+                        elif stopped:
+                            errors.append(f"row {rr}: replace entry after a gap will be ignored by the converter")
             for rr in data_rows:
                 value = ws.cell(rr,c).value
                 if key == "id" and value not in (None, "") and not assigned_ids:

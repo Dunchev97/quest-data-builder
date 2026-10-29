@@ -39,7 +39,7 @@
 - `workflows/POT_DESCRIPTION_WORKFLOW.md` - workflow описания горшков по картинке.
 - `workflows/RESOURCE_TABLE_WORKFLOW.md` - workflow XLSX/conf таблицы ресурсов для дева.
 - `workflows/FUN_INTERACTIVE_OBJECT_WORKFLOW.md` - workflow potekha/FunCollection интерактивных объектов и отдельного Workbench.
-- `docs/FunCollection/FUN_COLLECTION_TEMPLATES.md` - понятные шаблоны FunCollection по exact ID; структура снимается только с листа `conf` в `docs/FunCollection/*.xlsx`.
+- `docs/FunCollection/FUN_COLLECTION_TEMPLATES.md` - шаблоны FunCollection по exact ID. Проверенные Fun14-семейства из `data/fun_interactive_object_templates.json:reviewed_templates` и `docs/FunCollection/Fun14/*.xlsx` приоритетнее исторических XLSX; читать только `conf`. Для новой копии использовать `src/reviewed_proto_templates.py`.
 - `docs/QUEST_INTERACTIVE_OBJECT_TEMPLATES.md` - понятные шаблоны quest interactive objects, включая `mixer_1` / `Story_Mixer`; структура `Story_Mixer` снята с `raw/examples/Story_Mixer.xlsx`.
 - `data/fun_interactive_object_templates.json` - машинные шаблоны для генерации FunCollection/Workbench объектов по теме.
 - `workflows/workflow_modes.json` - ключевики и режимы для `workflow_context.py`.

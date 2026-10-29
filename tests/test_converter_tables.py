@@ -7,11 +7,33 @@ from zipfile import ZipFile
 from openpyxl import Workbook, load_workbook
 
 from src import converter_tables, export_xlsx, fun_collection_tables
-from src.validate_proto_exports import expected_updates, run, table_paths
+from src.validate_proto_exports import expected_updates, replacement_audit_text, run, table_paths
 from src.workflow_context import file_sha256
 
 
 class ConverterTablesTests(unittest.TestCase):
+    def test_replacement_audit_keeps_only_the_explicit_graphic_alias_exception(self):
+        data = {'classname': 'Fun15_Item', 'view_classname': 'Fun13_Art',
+                'nested': [{'view_classname': 'Fun12_Art', 'asset': 'Fun13_WrongResource'}]}
+        audited = replacement_audit_text(data)
+        self.assertNotIn('Fun13_Art', audited)
+        self.assertNotIn('Fun12_Art', audited)
+        self.assertIn('Fun13_WrongResource', audited)
+        self.assertEqual(data['view_classname'], 'Fun13_Art')
+
+    def test_replace_after_a_gap_is_rejected_even_inside_a_long_reward_array(self):
+        wb = Workbook()
+        ws = wb.active
+        for row in [['ml', 'string', 'string', 'array', 'replace', None],
+                    [None, 'input', 'output', 'rand_reward.one_of', 'find', 'replace'],
+                    [None, '/a.proto.js', '/b.proto.js', '{"asset":"One"}', 'Old', 'New'],
+                    [None, None, None, '{"asset":"Two"}', None, None],
+                    [None, None, None, None, 'Source', 'Target']]:
+            ws.append(row)
+        converter_tables.prepare_sheet(ws)
+        errors = converter_tables.validate_sheet(ws)
+        self.assertTrue(any('replace entry after a gap' in e for e in errors))
+
     def test_standalone_fun_outputs_cannot_keep_a_foreign_donor_directory(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'Fun14_FunCollection_7.xlsx'

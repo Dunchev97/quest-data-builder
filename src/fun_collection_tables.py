@@ -1,4 +1,7 @@
-"""Build the exact FunCollection_4 template, separately from quest craft objects."""
+"""Legacy parameterized FunCollection_4 adapter for existing quest selections.
+
+New audited potekha workbooks are instantiated by reviewed_proto_templates.py.
+"""
 from __future__ import annotations
 
 import argparse
