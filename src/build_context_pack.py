@@ -703,6 +703,11 @@ def build_context_pack(
     }
 
     context_pack = {
+        "location_catalog": [
+            {"code": str(location.get("code") or code), "title": location["title"], "tags": list(location.get("tags") or [])}
+            for code, location in quest_ready_index.get("quest_ready_locations", {}).items()
+            if location.get("title")
+        ],
         "quests": context_quests,
         "issues": issues,
         "summary": {

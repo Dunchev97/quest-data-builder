@@ -29,6 +29,11 @@ def write_json(path: Path, value: Any) -> None:
 
 def file_sha256(path: Path) -> str:
     digest = hashlib.sha256()
+    if path.is_dir():
+        for table in sorted(p for p in path.glob("*.xlsx") if not p.name.startswith("~$")):
+            digest.update(table.name.encode("utf-8") + b"\0")
+            digest.update(bytes.fromhex(file_sha256(table)))
+        return digest.hexdigest()
     with path.open("rb") as source:
         for chunk in iter(lambda: source.read(1024 * 1024), b""):
             digest.update(chunk)

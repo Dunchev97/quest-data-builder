@@ -17,6 +17,54 @@ def write_json(path: Path, value: object) -> None:
 
 
 class ReviewDocsTests(unittest.TestCase):
+    def test_give_review_shows_recipient_without_inventing_a_craft_recipe(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            campaigns_dir = Path(tmp)
+            pack_dir = campaigns_dir / "Event_2026" / "pack_001"
+            quest = {"classname_quests": "Event_2026_Story_1", "title_quest": "Инструменты", "tasks": [{
+                "task_number": 1, "task_template_id": "TT-033", "task_template_name": "Передача предмета",
+            }]}
+            write_json(pack_dir / "context_pack.json", {"quests": [quest]})
+            write_json(pack_dir / "task_choices.json", {"quests": [{"classname_quests": "Event_2026_Story_1", "tasks": [{
+                "task_number": 1, "item_title": "Подобранные инструменты", "person": "Бабе Зине",
+            }]}]})
+            text = review_docs.render_stage4_review("Event_2026", "pack_001", campaigns_dir)
+            self.assertIn("Персонаж в действии: Бабе Зине", text)
+            self.assertNotIn("Ингредиенты:", text)
+
+    def test_unchanged_gr_review_keeps_resource_name_instead_of_garbage_source(self) -> None:
+        choices = {"quests": [{"classname_quests": "Event_2026_Story_1", "tasks": [{
+            "task_number": 1, "task_template_id": "TT-015", "item_title": "Деревянные клинья",
+            "item_title_accusative": "Деревянные клинья", "selected_candidate_id": "gr_garbage:Chips:home",
+        }]}]}
+        context = {"quests": [{"classname_quests": "Event_2026_Story_1", "tasks": [{
+            "task_number": 1, "task_template_id": "TT-015", "candidates": [{
+                "candidate_id": "gr_garbage:Chips:home", "garbage_classname": "Chips", "garbage_title": "Стружка",
+            }],
+        }]}]}
+        review = """# Контрольный документ. Этап 4
+## Квесты
+### 1. Клинья
+#### 1.1. GR с конкретного мусора дома
+Название: Деревянные клинья
+В тексте задания: Деревянные клинья
+Выбранный кандидат: Стружка.Chips
+"""
+        parsed = review_docs.parse_stage4_review(review, choices, context)
+        self.assertEqual(parsed["quests"][0]["tasks"][0]["item_title_accusative"], "Деревянные клинья")
+
+    def test_craft_last_review_lists_inputs_and_never_uses_craft_output_as_ingredient(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            quest = {"classname_quests": "Event_2026_Story_1", "tasks": [
+                {"task_number": 1, "task_template_id": "TT-008", "resource_title": "Крепёжные шнуры", "task_object": {"classname": "Event_2026_ASK_1"}},
+                {"task_number": 2, "task_template_id": "TT-015", "resource_title": "Крепёжные детали", "task_object": {"classname": "Event_2026_GR_1"}},
+                {"task_number": 3, "task_template_id": "TT-002", "resource_title": "Крепления указателей", "task_object": {"classname": "Event_2026_R_1"}},
+            ]}
+            lines = review_docs.craft_ingredients_lines(quest, {}, "Event_2026", Path(tmp))
+            self.assertIn("Ингредиент 1 - Крепёжные шнуры.Event_2026_ASK_1", lines)
+            self.assertIn("Ингредиент 2 - Крепёжные детали.Event_2026_GR_1", lines)
+            self.assertNotIn("Event_2026_R_1", "\n".join(lines))
+
     def test_stage4_short_title_keeps_head_noun(self) -> None:
         self.assertEqual(review_docs.short_stage4_title("розовую мерную ложечку"), "Розовая ложечка")
         self.assertEqual(review_docs.short_stage4_title("приличное зелье первого впечатления"), "Приличное зелье")
@@ -477,6 +525,9 @@ class ReviewDocsTests(unittest.TestCase):
             self.assertIn("HOG в локациях дома - rnd_old_home,rnd_new_home,rnd_big_home", review)
             self.assertIn("HOG в мире - rnd_world", review)
             self.assertIn("HOG на даче - farm_room", review)
+            original_choices = json.loads((pack_dir / "task_choices.json").read_text(encoding="utf-8"))
+            parsed = review_docs.parse_stage4_review(review, original_choices, {"quests": [quest]})
+            self.assertEqual(parsed["quests"][0]["tasks"][0]["location_tags"], "rnd_old_home,rnd_new_home,rnd_big_home")
 
     def test_stage5_review_reads_wrapped_quest_group_choices(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

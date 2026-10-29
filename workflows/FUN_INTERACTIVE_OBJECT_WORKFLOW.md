@@ -48,6 +48,8 @@ docs/FunCollection/FunCollection_9.xlsx
 - `prefix` брать текущий, например `Fun13`; не оставлять `Fun12`, если это не donor/input path.
 - `input` оставлять донорским path из примера.
 - `output`, `classname`, `file_name`, `identifier`, `asset`, `stuff_icon`, `rand_reward.asset`, `pack_asset` строить с текущим `prefix`.
+- В `output` менять и папку события: например, `/asset_package/HeavenlyExotic/Fun14_*.proto.js` недопустим, нужен `/asset_package/Fun14/Fun14_*.proto.js`. Донорский `input` сохранять. Семейства без папок события, например `/post_action/ask_for_Fun14_*.proto.js`, остаются в корне своего семейства.
+- Для самостоятельных таблиц `Fun<N>_*.xlsx` validator проверяет prefix не только в имени output, но и в папке события, когда у семейства указаны подпапки.
 - `id` оставлять пустым, если пользователь не дал конкретный id.
 - `collection_rewards` всегда содержит 10 CL-наград.
 - Тексты писать в стиле Домовят: тепло, предметно, без формального "необходимо/требуется".
@@ -363,3 +365,13 @@ docs/FunCollection/FunCollection_9.xlsx
 - `pack_asset=<classname>_Package` совпадает с package classname.
 - `find/replace` строки оставлены там, где они были у донора.
 - Workbench не попал в FunCollection CSV.
+
+## Проверенный экспорт FunCollection_4
+
+Генератор: `python src/fun_collection_tables.py <campaign_id> --pack <pack_id>`. Читает выбранный exact ID и тему из `fun_interactive_objects.selection.json`, строит 3 состояния, GR, 10 CL, пакет, global_reward и 6 негативных эффектов. Результат — `campaigns/<campaign_id>/<pack_id>/review/proto/<campaign_id>_funcollection_4.xlsx`, ровно один `conf`; существующий файл защищён до `--force`.
+
+Обязательный технический контракт: `workflows/PROTO_EXPORT_WORKFLOW.md`. Директивы `temp_01` из старых donor XLSX заменяются на поддерживаемые `sl`/`ml`. Для каждого `sl` с replace нужен отдельный блок. Текст окна хранить в `extra.description_window`, popup — отдельно в `extra.pop_up_message`. При пользовательском INVITE classname сначала переименовывать GR/CL, затем семейство состояний, затем общий prefix. Негативные эффекты очищать от обоих donor prefix Fun12/Fun10.
+
+Место появления, location_tag и tech_quest могут оставаться на ручное заполнение только по явному указанию пользователя. Поля обязательно присутствуют, отмечаются комментариями и не считаются подтверждёнными существующими сущностями. После ручных правок повторяется dry run настоящим конвертером.
+
+Конечный результат для пользователя — только XLSX/conf в `review/proto/` pack, рядом со всеми остальными таблицами. CSV, ZIP, manifests и отдельные отчётные JSON не создавать. Ручные правки этой версии сохранять и по завершении ревью закреплять в генераторе и правилах.

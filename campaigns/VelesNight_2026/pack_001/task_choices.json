@@ -1,0 +1,327 @@
+{
+  "quests": [
+    {
+      "classname_quests": "VelesNight_2026_Story_1",
+      "tasks": [
+        {
+          "task_number": 1,
+          "selected_candidate_id": "gr_garbage:YarnLump:home",
+          "item_title": "Завязки",
+          "item_title_accusative": "Завязки",
+          "choice_reason": "В Рукодельне при уборке отбираем целые завязки среди спутанной пряжи. Это конкретные шнурки для подготовки оберегов, о которых просит Ведятя.",
+          "title_accusative": "завязки"
+        },
+        {
+          "task_number": 2,
+          "selected_candidate_id": "gr_garbage:RustyNail:home",
+          "item_title": "Железные крючки",
+          "item_title_accusative": "Железные крючки",
+          "choice_reason": "В Котельной при уборке находим железные крючки для оберегов. В первом задании собираем завязки, во втором — металлические детали; это разные принадлежности для одной подготовки.",
+          "title_accusative": "железные крючки"
+        },
+        {
+          "task_number": 3,
+          "selected_candidate_id": "garbage:BrokenBasketForNeedlework",
+          "title_accusative": "сломанную корзиночку",
+          "title_plural": "Сломанную корзиночку",
+          "choice_reason": "После отбора завязок убираем сломанную корзиночку для рукоделия: повреждённая тара больше не нужна для хранения подготовленных принадлежностей.",
+          "item_title_accusative": "Сломанную корзиночку"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_2",
+      "tasks": [
+        {
+          "task_number": 4,
+          "selected_candidate_id": "gr_garbage:Chips:home",
+          "item_title": "Инструменты",
+          "item_title_accusative": "Инструменты",
+          "choice_reason": "Разбираем стружку и подбираем оставленные инструменты. Они нужны для Ящика плотника, который Зина уберёт в дом; источник связан с обычной работой инструментами.",
+          "title_accusative": "инструменты"
+        },
+        {
+          "task_number": 5,
+          "item_title": "Бечёвка",
+          "item_title_accusative": "Бечёвку",
+          "choice_reason": "Бечёвка нужна, чтобы закрепить инструменты в Ящике плотника и обвязать его перед переноской. Это материал для итогового предмета крафта.",
+          "item_title_nominative": "Бечёвка",
+          "title_accusative": "бечёвку"
+        },
+        {
+          "task_number": 6,
+          "item_title": "Ящик плотника",
+          "item_title_accusative": "Ящик плотника",
+          "craft_title": "Ящик плотника",
+          "choice_reason": "Собираем Ящик плотника для подобранных инструментов. Бечёвка закрепляет содержимое, а Зина сможет убрать всё вместе в дом; отдельного задания на передачу в плане нет.",
+          "title_accusative": "ящик плотника"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_3",
+      "tasks": [
+        {
+          "task_number": 7,
+          "item_title": "Деревянный упор",
+          "item_title_accusative": "Деревянные упоры",
+          "location_titles": [
+            "Мастерская",
+            "Гараж"
+          ],
+          "choice_reason": "Ищем деревянные упоры для остановки телеги. Мастерская и Гараж — реальные домашние локации из кандидатов этого квеста, а установка упоров остаётся сюжетной сценой.",
+          "item_title_nominative": "Деревянный упор",
+          "location_tags": "rnd_old_home,rnd_new_home,rnd_big_home",
+          "title_accusative": "деревянные упоры"
+        },
+        {
+          "task_number": 8,
+          "selected_candidate_id": "flower:FlowerSeven",
+          "title_accusative": "мак",
+          "choice_reason": "Ярким маком можно отметить место остановки телеги, чтобы его было видно остальным. Цветы служат только заметной меткой; колесо удерживают деревянные упоры и тяжёлая бочка.",
+          "item_title_accusative": "Мак"
+        },
+        {
+          "task_number": 9,
+          "selected_candidate_id": "collection_drop:WagonWheelCollection4:WagonWheel:home",
+          "title_accusative": "бочку",
+          "choice_reason": "Бочка с водой — тяжёлый предмет для дополнительного упора у телеги. Коллекционный предмет и его связь с Колесом от телеги подтверждены context pack.",
+          "item_title_accusative": "Бочку"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_4",
+      "tasks": [
+        {
+          "task_number": 10,
+          "selected_candidate_id": "collection_drop:Garbage_TornStrapCollection1:Garbage_TornStrap:home",
+          "choice_reason": "Текстильный ремешок — тканевая завязка, которую можно сравнить с найденными связками. Силуэт предлагает опознать конкретную принадлежность, не приписывая ей новых магических свойств."
+        },
+        {
+          "task_number": 11,
+          "selected_candidate_id": "garbage:BrokenBank",
+          "title_accusative": "разбитую банку",
+          "choice_reason": "Убираем разбитые банки у друзей: осколки мешают расчистке. Погребок и Стеклодувня — домашние локации; в гостевую задачу не попадает мусор из мировых локаций.",
+          "item_title_accusative": "Разбитую банку",
+          "title_plural": "Разбитую банку"
+        },
+        {
+          "task_number": 12,
+          "selected_candidate_id": "garbage:Ashes",
+          "choice_reason": "Пепел — остатки мусора, которые убираем с пути при расчистке. В этом задании его опознают по силуэту; найденные сюжетные связки Ведятя осматривает отдельно в сцене."
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_5",
+      "tasks": [
+        {
+          "task_number": 13,
+          "selected_candidate_id": "garbage:FoxTrail",
+          "riddle": "Рыжий хвост мелькнул вдали,\nМягкий знак остался в пыли.\nНе ладонь его кладёт —\nКто-то мимо нас пройдёт.",
+          "choice_reason": "След от лисьей лапки — реальный след для осмотра, о котором просит Королева. Задание не утверждает, что этот след оставил дух; обнаружение беглеца остаётся событием сцены.",
+          "item_title_accusative": "След"
+        },
+        {
+          "task_number": 14,
+          "selected_candidate_id": "collection_drop:MirrorFragmentCollection1:MirrorFragment:home",
+          "riddle": "Я без красок, без пера\nПокажу тебя с утра.\nУлыбнёшься мне в ответ —\nУлыбнётся твой портрет.",
+          "choice_reason": "Зеркальце пригодится для осмотра плохо видных углов и обратной стороны вещей. Оно помогает обычному обходу, а способности обнаруживать духов ему не приписываются."
+        },
+        {
+          "task_number": 15,
+          "selected_candidate_id": "collection_drop:TrowelCollection1:Trowel:home",
+          "reverse_clue_title": "косеп идйаН",
+          "choice_reason": "Песок позволяет разглядеть отпечатки при обходе. Обратная надпись читается как «Найди песок»; ответ — существующий коллекционный предмет из Мастерка."
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_6",
+      "tasks": [
+        {
+          "task_number": 16,
+          "selected_candidate_id": "flower:FlowerTwo",
+          "item_title": "Завязки",
+          "item_title_accusative": "Завязки",
+          "choice_reason": "При сборе ирисов у друзей получаем завязки для указателей. Это конкретный GR-материал будущих креплений, а цветы остаются предусмотренным шаблоном источником выпадения.",
+          "title_accusative": "завязки"
+        },
+        {
+          "task_number": 17,
+          "item_title": "Колышек",
+          "item_title_accusative": "Колышки",
+          "choice_reason": "Личные просьбы приносят колышки для креплений указателей. Они нужны вместе с гибкими завязками; после ASK в предыдущем крафтовом квесте здесь используется PER.",
+          "item_title_nominative": "Колышек",
+          "title_accusative": "колышки"
+        },
+        {
+          "task_number": 18,
+          "item_title": "Крепёж указателей",
+          "item_title_accusative": "Крепёж указателей",
+          "craft_title": "Крепёж указателей",
+          "choice_reason": "Собираем крепления из завязок и колышков. Они нужны для возвращения указателей на прежние места; сама установка и начало проводов гостей показываются сценой SC-06-A.",
+          "title_accusative": "крепёж указателей"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_7",
+      "tasks": [
+        {
+          "task_number": 19,
+          "item_title": "Щуп",
+          "item_title_accusative": "Щуп",
+          "location_titles": [
+            "Мастерская",
+            "Гараж"
+          ],
+          "choice_reason": "Деревянным щупом можно проверить зазор у ставни снаружи, не снимая заграждение заранее. Его ищем в реальных домашних локациях; выбор доступного окна остаётся сценой.",
+          "item_title_nominative": "Щуп",
+          "location_tags": "rnd_old_home,rnd_new_home,rnd_big_home",
+          "title_accusative": "щуп"
+        },
+        {
+          "task_number": 20,
+          "selected_candidate_id": "collection_drop:ChipsCollection3:Chips:guest",
+          "choice_reason": "Струбцина нужна для временной фиксации расшатанной доски при осмотре окна. Это инструмент для обследования заграждения; спасение Зины и освобождение окна ещё не происходят."
+        },
+        {
+          "task_number": 21,
+          "selected_candidate_id": "flower:FlowerTen",
+          "choice_reason": "Колокольчиками можно пометить выбранное окно, чтобы Зина узнала его изнутри. Силуэт цветка — вспомогательная задача; ответ Зины и показ окна остаются в SC-07-B."
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_8",
+      "tasks": [
+        {
+          "task_number": 22,
+          "selected_candidate_id": "collection_drop:Garbage_TornStrapCollection3:Garbage_TornStrap:guest",
+          "choice_reason": "Кожаный ремешок — дополнительная прочная обвязка для инструментов. Он поддерживает просьбу Куйгорожа о целых связках, а источник доступен у друзей в домашней локации."
+        },
+        {
+          "task_number": 23,
+          "selected_candidate_id": "flower:FlowerMagazine6_TerryMallow",
+          "choice_reason": "Цветками мальвы можно отметить уже проверенные целые связки, чтобы не перепутать их с порванными. Удерживают инструменты верёвки и ремешок; цветы не заменяют прочную обвязку."
+        },
+        {
+          "task_number": 24,
+          "selected_candidate_id": "garbage:FlapOfTissue",
+          "choice_reason": "Убираем ненужные лоскуты, чтобы не спутать их с целыми связками. Источник отличается от порванного ремешка часов, из которого выпадает коллекционная обвязка в первом задании."
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_9",
+      "tasks": [
+        {
+          "task_number": 25,
+          "item_title": "Брусок",
+          "item_title_accusative": "Бруски",
+          "choice_reason": "Ищем опорные бруски для установки лестницы. Шаблон TT-003 размещает поиск в Мире; клинья и подъём Домоведа остаются на следующем сюжетном шаге.",
+          "item_title_nominative": "Брусок",
+          "location_tags": "rnd_world",
+          "title_accusative": "бруски"
+        },
+        {
+          "task_number": 26,
+          "selected_candidate_id": "garbage:Anvil",
+          "title_accusative": "наковаленки",
+          "title_plural": "Наковаленки",
+          "choice_reason": "Убираем мешающую наковаленку, освобождая место для работы с опорными брусками. У выбранного предмета домашние локации Мастерская, Конюшня и Кузница; источник киянки в следующем задании другой.",
+          "item_title_accusative": "Наковаленки"
+        },
+        {
+          "task_number": 27,
+          "selected_candidate_id": "collection_drop:ChipsCollection4:Chips:home",
+          "title_accusative": "киянку",
+          "choice_reason": "Киянка нужна, чтобы подбить опорные бруски под лестницей. Это инструмент для подготовки опор; клинья и подъём Домоведа остаются в следующем квесте, а установка лестницы — в SC-09-A.",
+          "item_title_accusative": "Киянку"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_10",
+      "tasks": [
+        {
+          "task_number": 28,
+          "selected_candidate_id": "flower:FlowerDahlia",
+          "riddle": "Лепестки тесней сидят,\nСобрались в пышный наряд.\nОсень только настаёт —\nЭтот шар ещё цветёт.",
+          "choice_reason": "Крупным цветком георгина можно отметить подготовленное место спуска. Это вспомогательная метка: цветок не заменяет клинья и не удерживает лестницу.",
+          "item_title_accusative": "Георгин"
+        },
+        {
+          "task_number": 29,
+          "selected_candidate_id": "garbage:StrawPinch",
+          "riddle": "Сухие стебли золотые\nШуршат и колются, пустые.\nЗерно с них снято — не зевай,\nС дороги ворох убирай.",
+          "choice_reason": "Щепотка соломы — точное предметное соответствие просьбе Зины расчистить место спуска. У гостевого кандидата только домашняя Банька, без запрещённых мировых локаций.",
+          "item_title_accusative": "Щепотка соломы"
+        },
+        {
+          "task_number": 30,
+          "selected_candidate_id": "collection_drop:ShardsCollection3:Shards:guest",
+          "riddle": "Четыре грани, крепкий вид —\nНа мне опора устоит.\nДревесный ствол срубил топор,\nТеперь я годен для опор.",
+          "choice_reason": "В ручном ревью выбран Глиняный чайник. Загадка сохранена дословно из ревью, но описывает деревянный брус; это несоответствие требует отдельной правки текста или выбора предмета."
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_11",
+      "tasks": [
+        {
+          "task_number": 31,
+          "selected_candidate_id": "gr_garbage:BigHome_Garbage_Nursery_Flags:guest",
+          "item_title": "Тканевые полоски",
+          "item_title_accusative": "Тканевые полоски для оберегов",
+          "title_accusative": "тканевые полоски для оберегов",
+          "choice_reason": "При уборке флажков у друзей отбираем целые тканевые полоски. Это обвязка и составная часть предмета «Крепёж»: вместе с проволокой они удержат найденные обереги. Источник находится в домашнем Форте из одеял."
+        },
+        {
+          "task_number": 32,
+          "item_title": "Проволока",
+          "item_title_accusative": "Проволоку",
+          "choice_reason": "Проволока нужна для закрепления оберегов на ограде. Вместе с тканевыми полосками она входит в крепёж оберегов; после PER в предыдущем крафтовом квесте здесь используется ASK.",
+          "item_title_nominative": "Проволока",
+          "title_accusative": "проволоку"
+        },
+        {
+          "task_number": 33,
+          "item_title": "Крепёж",
+          "item_title_accusative": "Крепёж",
+          "craft_title": "Крепёж",
+          "choice_reason": "Создаём крепления для уже найденных оберегов. Их возвращение на ограду, прекращение чар и уход двойника остаются сценами SC-11-A/B/C/D, а не новыми заданиями про интерактивные объекты.",
+          "title_accusative": "крепёж"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_12",
+      "tasks": [
+        {
+          "task_number": 34,
+          "selected_candidate_id": "garbage:EmptySpoolOfThread",
+          "choice_reason": "Пустая катушка — остаток работы со связками. Её уборка завершает хозяйственные хлопоты после спасения и не повторяет источник коллекционной стамески."
+        },
+        {
+          "task_number": 35,
+          "selected_candidate_id": "collection_drop:ChipsCollection1:Chips:home",
+          "choice_reason": "Стамеска — конкретный инструмент, который возвращаем в хозяйство после суматохи. Её узнают по силуэту; доски с двери Дед снимает в сохранённой финальной сцене."
+        },
+        {
+          "task_number": 36,
+          "person": "Дед Домовед",
+          "person_nominative": "Дед Домовед",
+          "person_instrumental": "Дедом Домоведом",
+          "person_accusative": "Деда Домоведа",
+          "find_pronoun": "его",
+          "with_pronoun": "ним",
+          "location_title": "Светлица",
+          "choice_reason": "Фотографируемся с настоящим Дедом Домоведом на память после спасения. Светлица — реальная домашняя локация; фото не настраивает выдачу оленёнка или отдельный образ двойника."
+        }
+      ]
+    }
+  ]
+}

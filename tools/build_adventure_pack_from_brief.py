@@ -10,16 +10,21 @@ from typing import Any
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 
+try:
+    from .adventure_table_review import apply_windows, repair_quest, split_inputs
+except ImportError:
+    from adventure_table_review import apply_windows, repair_quest, split_inputs
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BRIEF = ROOT / "input" / "Adventure_master_brief.xlsx"
-TEMPLATE_DIR = ROOT / "skills" / "proto" / "assets" / "Adventure_template" / "split_xlsx"
+TEMPLATE_DIR = ROOT / ".agents" / "skills" / "proto" / "assets" / "Adventure_template" / "split_xlsx"
 OUT_ROOT = ROOT / "output"
 
 OLD_PREFIX = "Adventure_3_Sport_9"
 OLD_EVENT_FOLDER = "Adventure_3_Sport"
 OLD_MAIN_RESOURCE = "Adventure_GR_3"
-DIRECTIVES = {"sl", "ml", "temp_01", "temp_02"}
+DIRECTIVES = {"sl", "ml"}
 PROTO_ID_HEADERS = ("Последний id proto", "last_proto_id")
 TASK_ID_HEADERS = ("Последний id task", "last_task_id")
 REGULAR_QUEST_TASK_IDENTIFIER_COLUMNS = [
@@ -32,7 +37,7 @@ REGULAR_QUEST_TASK_IDENTIFIER_COLUMNS = [
     ("quest_task_3_restarter", 63, 7),
 ]
 PROTO_IDS_PER_ADVENTURE_PACK = 35
-TASK_IDS_PER_ADVENTURE_PACK = 13
+TASK_IDS_PER_ADVENTURE_PACK = 17
 
 HEADER_FILL = PatternFill("solid", fgColor="D9EAF7")
 TITLE_FILL = PatternFill("solid", fgColor="E2F0D9")
@@ -574,7 +579,20 @@ def source_workbook(family: str):
 
 def save_family(wb, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
+    for ws in wb:
+        ws.freeze_panes = None
+        split_inputs(ws)
     wb.save(path)
+    reopened = load_workbook(path, data_only=False)
+    try:
+        if reopened.sheetnames != ['conf']:
+            raise ValueError(f'{path}: expected one conf sheet')
+        for row in reopened.active:
+            for cell in row:
+                if isinstance(cell.value, str) and ('????' in cell.value or '\ufffd' in cell.value):
+                    raise ValueError(f'{path}!{cell.coordinate}: broken Unicode')
+    finally:
+        reopened.close()
 
 
 def apply_common_family(wb, mapping: dict[str, str]) -> None:
@@ -713,13 +731,14 @@ def build_trophy(data: dict[str, Any], mapping: dict[str, str], out_dir: Path) -
             3: family_path("trophy", data["event_folder"], rec["new_classname"]),
             4: rec["new_classname"],
             5: rec["title"],
-            6: "TrophyPet17_Sport_9",
-            7: rec["new_classname"],
+            6: "Pet17_Sport_9",
+            7: data['objects_by_kind']['pet']['new_classname'],
             8: None,
         },
     )
     ws.cell(2, 2).value = f"main - {rec['new_classname']}.proto.js"
     path = out_dir / "trophy.xlsx"
+    repair_quest(ws, rec['title'], data['task_ids'].next)
     apply_proto_ids(ws, data["proto_ids"])
     save_family(wb, path)
     return path
@@ -749,6 +768,7 @@ def build_quest_group(data: dict[str, Any], mapping: dict[str, str], out_dir: Pa
         current = parse_jsonish(ws.cell(8, 9).value, {})
         current["description"] = rule_description
         ws.cell(8, 9).value = compact_json(current)
+    apply_windows(ws)
     path = out_dir / "quest_group.xlsx"
     apply_proto_ids(ws, data["proto_ids"])
     save_family(wb, path)
@@ -831,6 +851,10 @@ def build_quest(data: dict[str, Any], mapping: dict[str, str], out_dir: Path, wa
             ws.cell(row, 5).value = values[key]
         ws.cell(start, 3).value = quest_family_path("quest", data["event_folder"], prefix, f"{prefix}_rewards.proto.js")
 
+    # Retain the historical six task + seven reward allocation order, then
+    # allocate the previously omitted root, general restarter and tech tasks.
+    repair_quest(ws, pet_title, data['task_ids'].next, main_resource=data['pack']['main_resource'])
+
     path = out_dir / "quest.xlsx"
     apply_proto_ids(ws, data["proto_ids"])
     save_family(wb, path)
@@ -908,7 +932,8 @@ def build_mystery_box(data: dict[str, Any], out_dir: Path) -> Path:
     ws.append([None, "input", "output", "classname", "title", "description", "price", "currency", "meta_info", "rand_reward", None, "id"])
     ws.merge_cells(start_row=3, start_column=10, end_row=3, end_column=11)
     ws.merge_cells(start_row=4, start_column=10, end_row=4, end_column=11)
-    for kind in ["box_1", "box_2", "box_3"]:
+    kinds = ["box_1", "box_2", "box_3"] if data.get('create_shared_resources') else ["box_2", "box_3"]
+    for kind in kinds:
         rec = data["objects_by_kind"][kind]
         extra = parse_kv(rec.get("extra_json_or_notes"))
         rand_reward = parse_jsonish(extra.get("rand_reward"), {})
@@ -1009,11 +1034,14 @@ def write_report(out_dir: Path, data: dict[str, Any], files: list[Path], warning
     return report
 
 
-def build_pack(brief: Path, pack_no: int, out_dir: Path | None = None) -> tuple[Path, list[Path], Path, list[str], list[str]]:
+def build_pack(brief: Path, pack_no: int, out_dir: Path | None = None, *, create_shared_resources: bool = False) -> tuple[Path, list[Path], Path, list[str], list[str]]:
     data = extract_pack_data(brief, pack_no)
+    data['create_shared_resources'] = create_shared_resources
     prefix = data["pack"]["new_prefix"]
     out_dir = out_dir or OUT_ROOT / f"{prefix}_pack_tables"
     out_dir.mkdir(parents=True, exist_ok=True)
+    if any(out_dir.glob('*.xlsx')):
+        raise FileExistsError(f'Reviewed XLSX already exist in {out_dir}; use a new output directory')
     mapping = build_mapping(data)
     warnings: list[str] = []
 
@@ -1026,9 +1054,10 @@ def build_pack(brief: Path, pack_no: int, out_dir: Path | None = None) -> tuple[
         build_quest_action(data, mapping, out_dir),
         build_quest_group(data, mapping, out_dir),
         build_trophy(data, mapping, out_dir),
-        build_quest_item(data, out_dir),
-        build_mystery_box(data, out_dir),
     ]
+    if create_shared_resources:
+        files.append(build_quest_item(data, out_dir))
+    files.append(build_mystery_box(data, out_dir))
     stale = validate_stale(files, mapping)
     report = write_report(out_dir, data, files, warnings, stale)
     return out_dir, files, report, warnings, stale
@@ -1039,9 +1068,12 @@ def main() -> None:
     parser.add_argument("--brief", type=Path, default=DEFAULT_BRIEF)
     parser.add_argument("--pack-no", type=int, default=1)
     parser.add_argument("--out-dir", type=Path)
+    parser.add_argument('--create-shared-resources', action='store_true',
+                        help='Only for first creation: include the shared GR quest_item and Box_1')
     args = parser.parse_args()
 
-    out_dir, files, report, warnings, stale = build_pack(args.brief, args.pack_no, args.out_dir)
+    out_dir, files, report, warnings, stale = build_pack(args.brief, args.pack_no, args.out_dir,
+                                                     create_shared_resources=args.create_shared_resources)
     print(out_dir)
     for path in files:
         print(path)

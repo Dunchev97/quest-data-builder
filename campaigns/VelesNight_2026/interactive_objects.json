@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "selected_objects": [
+    {
+      "template_id": "chest_1",
+      "object_id": "chest_1",
+      "mechanic_prefix": "Chest_1",
+      "object_title": "Магический фонарь",
+      "activation_resource_title": "Клубок заблудших дорог",
+      "result_resource_title": "Компас ночных троп",
+      "activation_resource_description": "Убирай мусор у друзей, чтобы найти Клубок заблудших дорог.",
+      "result_resource_description": "Можно получить из Магического фонаря дома или в гостях.",
+      "location_tags": "home"
+    },
+    {
+      "template_id": "exchanger",
+      "object_id": "exchanger",
+      "mechanic_prefix": "Exchanger",
+      "source_mode": "generator",
+      "location_title": "",
+      "exchanger_title": "Мистический пенек",
+      "generator_base_title": "Камни Велесовой ночи",
+      "generator_titles": [
+        "Камни Велесовой ночи",
+        "Камни Велесовой ночи",
+        "Камни Велесовой ночи",
+        "Камни Велесовой ночи",
+        "Камни Велесовой ночи"
+      ],
+      "part_group_title": "Дары Велесовой ночи",
+      "part_resource_titles": [
+        "Зов леса",
+        "Лунник",
+        "Лесной дух",
+        "Перо ночницы",
+        "Дар велесу"
+      ],
+      "result_resource_title": "Узелок памяти",
+      "result_resource_description": "Собери Зов леса, Лунник, Лесной дух, Перо ночницы и Дар велесу, чтобы получить Узелок памяти.",
+      "hint_add_to_exchange": "Нажми на Мистический пенек и открой вкладку «Обмен с друзьями». Выбери ресурс для обмена и нажми «Сохранить».",
+      "hint_get_asset": "Ищи дары среди Камней Велесовой ночи. Недостающими дарами можно обменяться с друзьями.",
+      "description_1": "Камни Велесовой ночи дают пять видов даров. Обменивайся с друзьями, чтобы собрать полный набор.",
+      "description_2": "Для Узелка памяти нужны все пять даров: Зов леса, Лунник, Лесной дух, Перо ночницы и Дар велесу."
+    }
+  ]
+}

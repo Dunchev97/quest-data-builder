@@ -66,7 +66,7 @@ def set_header_style(ws) -> None:
         cell.font = Font(bold=True)
         cell.fill = fill
         cell.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
-    ws.freeze_panes = "A2"
+    ws.freeze_panes = None
     ws.auto_filter.ref = ws.dimensions
 
 

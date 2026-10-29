@@ -7,6 +7,11 @@ from pathlib import Path
 from typing import Any
 
 try:
+    from .gr_sources import effective_template_id, garbage_hint
+except ImportError:
+    from gr_sources import effective_template_id, garbage_hint
+
+try:
     from .campaigns import (
         DEFAULT_CAMPAIGNS_DIR,
         campaign_memory_path as campaign_memory_path_for,
@@ -706,7 +711,7 @@ def validate_location_references(
     if not hint:
         return []
 
-    requires_location = "Место поиска:" in hint or "Он находится" in hint or "она находится" in hint.lower()
+    requires_location = any(marker in hint for marker in ("Место поиска:", "Места поиска:", "Место передачи:", "Он находится")) or "она находится" in hint.lower()
     if not requires_location:
         return []
 
@@ -1119,7 +1124,10 @@ def validate_strict_stage4_templates(
                     title,
                 )
             )
-        expected_prefix = f"Найди {item}. Они могут быть в "
+        expected_prefix = f"Найди {item}. Места поиска: "
+        legacy_prefix = f"Найди {item}. Они могут быть в "
+        if hint.startswith(legacy_prefix):
+            expected_prefix = legacy_prefix
         if item and (not hint.startswith(expected_prefix) or not hint.endswith(".")):
             issues.append(
                 strict_text_issue(
@@ -1127,7 +1135,7 @@ def validate_strict_stage4_templates(
                     quest,
                     task,
                     "hint",
-                    f"Найди {item}. Они могут быть в [список домашних локаций].",
+                    f"Найди {item}. Места поиска: [список домашних локаций].",
                     hint,
                 )
             )
@@ -1266,6 +1274,10 @@ def validate_strict_stage4_templates(
             )
 
     if template_id == "TT-013":
+        if effective_template_id(template_id, selected_candidate) != template_id:
+            issues.append(issue("error", "gr_source_template_mismatch",
+                                "Concrete garbage GR must use TT-014 (guest) or TT-015 (home), not TT-013.",
+                                quest, task))
         item = title_item_text(title)
         if not title.startswith("Найди ") or not item:
             issues.append(
@@ -1297,7 +1309,6 @@ def validate_strict_stage4_templates(
 
     if template_id in {"TT-014", "TT-015"} and selected_candidate:
         item = title_item_text(title)
-        mode_text = "в гостях" if template_id == "TT-014" else "дома"
         location_text = selected_location_text(selected_candidate)
         expected_title_prefix = "Найди "
         if not title.startswith(expected_title_prefix) or not item:
@@ -1311,11 +1322,13 @@ def validate_strict_stage4_templates(
                     title,
                 )
             )
+        mode = "guest" if template_id == "TT-014" else "home"
+        if selected_candidate.get("mode") not in (None, mode):
+            issues.append(issue("error", "gr_source_mode_mismatch", "GR source home/guest mode contradicts its template.", quest, task))
         if location_text:
-            expected_prefix = "Убирай мусор "
-            expected_suffix = f" {mode_text}, чтобы найти. Место поиска: {location_text}."
-            if not hint.startswith(expected_prefix) or not hint.endswith(expected_suffix):
-                issues.append(strict_text_issue(f"{template_id} hint must keep the fixed text and full location list.", quest, task, "hint", f"Убирай мусор [garbage title] {mode_text}, чтобы найти. Место поиска: {location_text}.", hint))
+            expected_hint = garbage_hint(selected_candidate.get("garbage_title"), mode, location_text)
+            issues.extend(validate_exact_text(task_object, quest, task, "hint", expected_hint,
+                                              f"{template_id} hint must name the actual garbage source, mode and locations."))
 
     if template_id == "TT-017":
         flower_title = candidate_title_for_template(template_id, selected_candidate)
@@ -1392,21 +1405,21 @@ def validate_strict_stage4_templates(
     if template_id == "TT-033":
         if not title:
             issues.append(strict_text_issue("TT-033 title must fill '[Действие] [название предмета]'.", quest, task, "title", "[Действие] [название предмета]", title))
-        expected_prefix = ""
+        location_marker = "Место передачи: " if "Место передачи: " in hint else "Он находится на "
         expected_suffix = "."
-        if "Он находится на " not in hint or not hint.endswith(expected_suffix):
+        if location_marker not in hint or not hint.endswith(expected_suffix):
             issues.append(
                 strict_text_issue(
-                    "TT-033 hint must keep fixed location sentence: 'Он находится на [локация].'",
+                    "TT-033 hint must keep a fixed location sentence.",
                     quest,
                     task,
                     "hint",
-                    "[Инструкция как передать предмет]. Он находится на [локация].",
+                    "[Инструкция как передать предмет]. Место передачи: [локация].",
                     hint,
                 )
             )
         else:
-            location_text = hint.rsplit("Он находится на ", 1)[1][:-1].strip()
+            location_text = hint.rsplit(location_marker, 1)[1][:-1].strip()
             issues.extend(validate_location_text(location_text, allowed_location_titles, quest, task, "strict_give_location_unknown"))
 
     if template_id == "TT-034":
@@ -1751,6 +1764,7 @@ def validate_task(
     context_index: dict[tuple[str, int], dict[str, Any]],
     context_quest_index: dict[str, dict[str, Any]],
     templates: dict[str, dict[str, Any]],
+    location_catalog: list[dict[str, Any]] | None = None,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     issues: list[dict[str, Any]] = []
     template_id = task.get("task_template_id")
@@ -1777,7 +1791,8 @@ def validate_task(
         context_task = context_index.get((classname_quests, task_number))
     if context_task is None:
         issues.append(issue("error", "context_task_not_found", "Task was not found in context_pack.", quest, task))
-    elif context_task.get("task_template_id") != template_id:
+    elif effective_template_id(context_task.get("task_template_id"),
+                               candidate_by_id(context_task, task.get("selected_candidate_id"))) != template_id:
         issues.append(
             issue(
                 "error",
@@ -1785,7 +1800,8 @@ def validate_task(
                 "Task template ID differs from context_pack.",
                 quest,
                 task,
-                expected=context_task.get("task_template_id"),
+                expected=effective_template_id(context_task.get("task_template_id"),
+                                               candidate_by_id(context_task, task.get("selected_candidate_id"))),
                 actual=template_id,
             )
         )
@@ -1824,6 +1840,12 @@ def validate_task(
     issues.extend(validate_generated_naming(task_object, template_id, quest, task))
     issues.extend(validate_generated_item_concreteness(task_object, template_id, quest, task))
     allowed_location_titles = context_quest_location_titles(context_quest_index.get(classname_quests))
+    if template_id in {"TT-001", "TT-003", "TT-004", "TT-005", "TT-006", "TT-007", "TT-033", "TT-034"}:
+        allowed_location_titles.update(
+            str(location["title"])
+            for location in location_catalog or []
+            if location.get("title") and (template_id != "TT-005" or "home" in (location.get("tags") or []))
+        )
     issues.extend(
         validate_location_references(
             task_object,
@@ -1864,7 +1886,7 @@ def validate_filled_tasks(
     all_issues: list[dict[str, Any]] = []
 
     for quest, task in build_filled_task_rows(filled_tasks):
-        result, issues = validate_task(quest, task, context_index, context_quest_index, templates)
+        result, issues = validate_task(quest, task, context_index, context_quest_index, templates, context_pack.get("location_catalog"))
         task_results.append(
             {
                 "classname_quests": quest.get("classname_quests"),

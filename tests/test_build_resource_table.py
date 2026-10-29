@@ -181,7 +181,7 @@ class BuildResourceTableTests(unittest.TestCase):
             ask_header_index = next(index for index, row in enumerate(rows) if row and row[1] == "ASK")
             recipe_data_index = next(index for index, row in enumerate(rows) if "Event_2026_R_1_Recipe" in row)
             recipe_header_index = recipe_data_index - 3
-            self.assertEqual([len(row) for row in rows[ask_header_index : ask_header_index + 4]], [10, 10, 10, 10])
+            self.assertEqual([len(row) for row in rows[ask_header_index : ask_header_index + 4]], [11, 11, 11, 11])
             self.assertEqual([len(row) for row in rows[recipe_header_index : recipe_header_index + 4]], [19, 19, 19, 19])
 
             type_rows = [row for row in rows if row and row[0] == "sl"]

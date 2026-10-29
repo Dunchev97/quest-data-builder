@@ -208,8 +208,7 @@ def compact_location_titles(locations: list[dict[str, Any]], limit: int = 3) -> 
 def make_proto_path(quest: dict[str, Any]) -> str:
     classname = quest.get("classname", "Quest")
     prefix = quest_prefix(classname)
-    quest_number = quest.get("quest_number") or 1
-    return f"/quest/generated/{prefix}/story_{quest_number}/{classname}.proto.js"
+    return f"/quest/event/{prefix}/{classname}.proto.js"
 
 
 def fill_quests(

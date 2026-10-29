@@ -28,6 +28,16 @@ def file_identifier(file_name, label):
     return nonempty_string(file_name[: -len(".proto.js")], f"{label} identifier")
 
 
+def needs_horizontal_flip(view_class, side, asset_facing):
+    """An unflipped left portrait must face right; a right portrait must face left."""
+    if side not in {"left", "right"}:
+        fail("character side must be left/right")
+    facing = asset_facing.get(view_class)
+    if facing not in {"left", "right"}:
+        fail(f"Missing asset_facing for {view_class}; ask which way the original asset faces")
+    return facing == side
+
+
 def build(brief):
     if not isinstance(brief, dict):
         fail("brief must be a JSON object")
@@ -57,10 +67,18 @@ def build(brief):
         for emotion, view_class in emotions.items():
             nonempty_string(emotion, f"character {index} emotion")
             nonempty_string(view_class, f"character {index} view_class")
+        asset_facing = character.get("asset_facing")
+        if not isinstance(asset_facing, dict):
+            fail(f"character {index} needs asset_facing by exact view_class; ask the user")
+        for view_class, facing in asset_facing.items():
+            nonempty_string(view_class, f"character {index} asset_facing view_class")
+            if facing not in {"left", "right"}:
+                fail(f"asset_facing for {view_class} must be left/right")
         initial = character.get("initial_emotion", "базовая")
         if initial not in emotions:
             fail(f"character {index} initial_emotion is not mapped")
-        characters[key] = {"name": name, "side": side, "emotions": emotions}
+        characters[key] = {"name": name, "side": side, "emotions": emotions,
+                           "asset_facing": asset_facing}
         states[key] = initial
         sides.add(side)
 
@@ -91,9 +109,11 @@ def build(brief):
         states[speaker] = emotion
         frame = {}
         for key, character in characters.items():
+            view_class = character["emotions"][states[key]]
+            flip = needs_horizontal_flip(view_class, character['side'], character['asset_facing'])
             frame[f"character_{character['side']}"] = {
-                "view_class": character["emotions"][states[key]],
-                "flip": "horizontal",
+                "view_class": view_class,
+                **({"flip": "horizontal"} if flip else {}),
                 "offset": {"x": 0, "y": 0},
                 "transition": TRANSITION.copy(),
             }

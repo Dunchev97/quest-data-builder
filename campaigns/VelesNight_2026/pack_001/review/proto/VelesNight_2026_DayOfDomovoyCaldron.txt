@@ -1,0 +1,18 @@
+d:\domovoy\trunk\server\prototypes\workbench\DayOfDomovoyCaldron.proto.js
+
+{
+  "id": "VelesNight_2026",
+  "attention": "Изготавливать можно",
+  "title": "Велесова ночь. Гость из Нави",
+  "icon": "VelesNight_2026_R_1",
+  "conditions": "active_quest_group=VelesNight_2026_Tech",
+  "recipes": [
+    "VelesNight_2026_Exchanger_R_1_Recipe",
+    "VelesNight_2026_R_1_Recipe",
+    "VelesNight_2026_R_2_Recipe",
+    "VelesNight_2026_R_3_Recipe",
+    "VelesNight_2026_R_MB_1_Recipe",
+    "VelesNight_2026_R_MB_2_Recipe",
+    "VelesNight_2026_R_MB_3_Recipe"
+  ]
+},

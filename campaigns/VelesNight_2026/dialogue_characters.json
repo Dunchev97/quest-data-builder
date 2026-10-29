@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "location": "Тёплые истории",
+  "characters": {
+    "1": {
+      "name": "Ведятя",
+      "classname": "VelesNight_2026_Character_1_1",
+      "view_class": "Veles_2024_Character_1",
+      "emotions": {},
+      "asset_facing": {"Veles_2024_Character_1": "right"},
+      "talk_title": "Поговори с Ведятей"
+    },
+    "3": {
+      "name": "Дед Домовед",
+      "classname": "VelesNight_2026_Character_3_1",
+      "view_class": "Oseniny_2026_Character_1",
+      "emotions": {
+        "радость": "Oseniny_2026_Character_1_Happy",
+        "грусть": "Oseniny_2026_Character_1_Sad"
+      },
+      "asset_facing": {
+        "Oseniny_2026_Character_1": "left",
+        "Oseniny_2026_Character_1_Happy": "left",
+        "Oseniny_2026_Character_1_Sad": "left"
+      },
+      "talk_title": "Поговори с Дедом Домоведом"
+    },
+    "2": {
+      "name": "Баба Зина",
+      "classname": "VelesNight_2026_Character_2_1",
+      "view_class": "Oseniny_2026_Character_2",
+      "emotions": {
+        "радость": "Oseniny_2026_Character_2_Happy",
+        "удивление": "Oseniny_2026_Character_2_Surprised"
+      },
+      "asset_facing": {
+        "Oseniny_2026_Character_2": "left",
+        "Oseniny_2026_Character_2_Happy": "left",
+        "Oseniny_2026_Character_2_Surprised": "left"
+      },
+      "talk_title": "Поговори с Зиной"
+    },
+    "6": {
+      "name": "Двойник Домоведа",
+      "classname": "VelesNight_2026_Character_6_1",
+      "view_class": "VelesNight_2026_Character_6_1",
+      "emotions": {},
+      "asset_facing": {"VelesNight_2026_Character_6_1": "left"},
+      "talk_title": "Поговори с двойником Домоведа"
+    },
+    "4": {
+      "name": "Куйгорож",
+      "classname": "VelesNight_2026_Character_4_1",
+      "view_class": "Veles_2024_Character_2",
+      "emotions": {},
+      "asset_facing": {"Veles_2024_Character_2": "right"},
+      "talk_title": "Поговори с Куйгорожем"
+    },
+    "5": {
+      "name": "Королева Подземного Царства",
+      "classname": "VelesNight_2026_Character_5_1",
+      "view_class": "Fun13_Character_14_2",
+      "emotions": {},
+      "asset_facing": {"Fun13_Character_14_2": "right"},
+      "talk_title": "Поговори с Королевой Подземного Царства"
+    }
+  }
+}

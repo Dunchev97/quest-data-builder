@@ -172,7 +172,7 @@ def build_summary(wb: Workbook, packs: dict[int, dict[str, Any]], out_root: Path
     }
     for col, width in widths.items():
         ws.column_dimensions[col].width = width
-    ws.freeze_panes = "A5"
+    ws.freeze_panes = None
     ws.sheet_view.showGridLines = False
     for row in ws.iter_rows():
         for cell in row:
@@ -218,7 +218,7 @@ def build_family_sheet(
         apply_source_column_widths(src_ws, ws)
         current_row += src_ws.max_row + 2
 
-    ws.freeze_panes = "A2"
+    ws.freeze_panes = None
     ws.sheet_view.showGridLines = False
     for col_idx in range(1, max_col_seen + 1):
         letter = get_column_letter(col_idx)

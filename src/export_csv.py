@@ -8,6 +8,11 @@ from pathlib import Path
 from typing import Any
 
 try:
+    from .quest_naming import normalize_character_references
+except ImportError:
+    from quest_naming import normalize_character_references
+
+try:
     from .workflow_context import DEFAULT_CONTEXT_PATH, load_context, stage_approval_error
 except ImportError:
     from workflow_context import DEFAULT_CONTEXT_PATH, load_context, stage_approval_error
@@ -36,7 +41,6 @@ DIALOGUE_REPLICA_KEYS = ("dialogue_replica", "dialogue", "replica", "dialogue_te
 DIALOGUE_HEADER_PREFIX = "РЕПЛИКА ДИАЛОГА: "
 REQUIRED_APPROVAL_STAGE = "5"
 QUEST_REFERENCE_CAMPAIGN_ID = "Night_2026"
-QUEST_GROUP_REFERENCE_ID = 125028
 
 
 def read_json(path: Path) -> Any:
@@ -84,11 +88,11 @@ def csv_value(value: Any) -> Any:
 def flatten_task(task_object: dict[str, Any]) -> list[tuple[str, Any]]:
     rows: list[tuple[str, Any]] = []
     for key, value in task_object.items():
-        if key in DIALOGUE_REPLICA_KEYS:
+        if key in DIALOGUE_REPLICA_KEYS or key == "identifier":
             continue
         rows.append((key, csv_value(value)))
-    if "identifier" not in task_object:
-        rows.append(("identifier", ""))
+    # Task identifiers are assigned by the user after reviewing the final XLSX.
+    rows.append(("identifier", ""))
     return rows
 
 
@@ -135,13 +139,13 @@ def append_quest_group_block(rows: list[list[Any]], quest_group: dict[str, Any])
         pad_row(
             [
                 "",
-                f"/quest_group/event/{find}_Story.proto.js",
-                f"/quest_group/event/{replace}_Story.proto.js",
+                f"/quest_group/event/{find}/{find}_Story.proto.js",
+                f"/quest_group/event/{replace}/{replace}_Story.proto.js",
                 quest_group.get("title") or "",
                 quest_group.get("description") or "",
                 quest_group.get("description_complete") or "",
                 quest_group.get("description_spoil") or "",
-                quest_group.get("id") or QUEST_GROUP_REFERENCE_ID,
+                "",
                 find,
                 replace,
             ]
@@ -179,17 +183,12 @@ def quest_number(quest: dict[str, Any], quest_index: int = 0) -> int:
 def make_proto_path(quest: dict[str, Any]) -> str:
     classname = quest_classname(quest)
     prefix = quest_prefix(classname)
-    number = quest_number(quest)
-    return f"/quest/{prefix}/story_{number}/{classname}.proto.js"
+    return f"/quest/event/{prefix}/{classname}.proto.js"
 
 
 def make_reference_proto_path(quest: dict[str, Any], quest_index: int = 0) -> str:
     number = quest_number(quest, quest_index)
     return f"/quest/event/{QUEST_REFERENCE_CAMPAIGN_ID}/{QUEST_REFERENCE_CAMPAIGN_ID}_Story_{number}.proto.js"
-
-
-def quest_reference_id(quest: dict[str, Any], quest_index: int = 0) -> int:
-    return QUEST_GROUP_REFERENCE_ID + quest_number(quest, quest_index)
 
 
 def task_object_from_entry(task_entry: dict[str, Any]) -> dict[str, Any]:
@@ -297,7 +296,7 @@ def append_quest_block(
                 quest_description(quest),
                 quest_congratulation(quest),
                 quest_helper(quest),
-                quest_reference_id(quest, quest_index),
+                "",
                 QUEST_REFERENCE_CAMPAIGN_ID,
                 quest_prefix(quest_classname(quest)),
             ]
@@ -365,6 +364,7 @@ def iter_csv_rows(quests: list[dict[str, Any]], quest_group: dict[str, Any] | No
     if quest_group is not None:
         append_quest_group_block(rows, quest_group)
     for quest_index, quest in enumerate(quests):
+        quest = normalize_character_references(quest,quest_prefix(quest_classname(quest)))
         output_proto_path = make_proto_path(quest)
         input_proto_path = make_reference_proto_path(quest, quest_index)
         append_quest_block(rows, quest, quest_index, input_proto_path, output_proto_path)

@@ -9,6 +9,11 @@ from pathlib import Path
 from typing import Any
 
 try:
+    from .gr_sources import candidate_mode, garbage_hint
+except ImportError:
+    from gr_sources import candidate_mode, garbage_hint
+
+try:
     from .interactive_objects import (
         INTERACTIVE_OBJECTS_NAME,
         InteractiveIngredient,
@@ -323,17 +328,17 @@ def package_input(kind: str) -> str:
 
 
 def gr_description(resource: Resource) -> str:
+    candidate = resource.candidate or {}
+    if candidate.get("garbage_classname"):
+        locations = ", ".join(str(loc["title"]) for loc in candidate.get("locations", []) if loc.get("title"))
+        return garbage_hint(candidate.get("garbage_title"), candidate_mode(candidate, resource.task_type), locations)
     if resource.hint:
         return ensure_period(resource.hint)
-    candidate = resource.candidate or {}
     if candidate.get("flower_title"):
         return (
             f"Собирай цветы {candidate['flower_title']} в гостях, чтобы найти. "
             "Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга."
         )
-    if candidate.get("garbage_title"):
-        guest = "в гостях" if "guest" in resource.task_type else "дома"
-        return f"Убирай мусор {candidate['garbage_title']} {guest}, чтобы найти."
     return ""
 
 
@@ -342,7 +347,7 @@ def gr_reward_action(resource: Resource) -> tuple[str, str, int]:
     task_type = resource.task_type
     if "take_crop_in_guest" in task_type or candidate.get("domain") == "flower":
         return "take_crop_in_guest", "/global_reward/Fun10/Fun11_GR_10.proto.js", 30
-    if "in_guest" in task_type:
+    if candidate_mode(candidate, task_type) == "guest":
         return "clean_garbage_in_guest", "/global_reward/Fun10/Fun11_GR_10.proto.js", 40 if candidate.get("garbage_classname") else 50
     return "clean_garbage", "/global_reward/Fun10/Fun11_GR_7.proto.js" if candidate.get("garbage_classname") else "/global_reward/Fun10/Fun11_GR_11.proto.js", 60 if candidate.get("garbage_classname") else 40
 
@@ -483,6 +488,14 @@ def build_rows(
     gr_way_rows = []
     for resource in by_kind["GR"]:
         action, input_path, probability = gr_reward_action(resource)
+        assets = gr_assets(resource)
+        location_tags = ""
+        if "location_tags" in resource.task_type and not assets:
+            location_tags = (resource.candidate or {}).get("location_tags")
+            if not location_tags:
+                raise ValueError(f"{resource.classname}: location-wide GR needs explicit location_tags")
+            if isinstance(location_tags, list):
+                location_tags = ",".join(location_tags)
         gr_way_rows.append(
             [
                 "",
@@ -490,11 +503,11 @@ def build_rows(
                 f"/global_reward/{campaign_id}/{resource.classname}.proto.js",
                 resource.classname,
                 action,
-                "",
+                location_tags,
                 probability,
                 resource.classname,
                 f"active_quest={resource.quest_classname}",
-                gr_assets(resource),
+                assets,
                 "",
                 "",
                 "",
@@ -522,8 +535,8 @@ def build_rows(
         block(
             rows,
             ["", title],
-            ["sl", "string", "string", "string", "string", "string", "string", "string", "string", "int"],
-            ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "conditions", "id"],
+            ["sl", "string", "string", "string", "string", "string", "string", "string", "string", "int", "string"],
+            ["", "input", "output", "classname", "view_classname", "title", "description", "meta_info", "conditions", "id", "tags.0"],
             [
                 [
                     "",
@@ -536,6 +549,7 @@ def build_rows(
                     f"pack_asset={resource.classname}_Package",
                     "",
                     "",
+                    campaign_id,
                 ]
                 for resource in by_kind[kind]
             ],

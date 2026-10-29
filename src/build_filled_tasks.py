@@ -7,6 +7,15 @@ from pathlib import Path
 from typing import Any
 
 try:
+    from .quest_naming import normalize_character_references
+    from .gr_sources import GARBAGE_GR_TEMPLATES, effective_template_id, garbage_hint, location_hint
+    from .task_text import simple_nominative_to_accusative
+except ImportError:
+    from quest_naming import normalize_character_references
+    from gr_sources import GARBAGE_GR_TEMPLATES, effective_template_id, garbage_hint, location_hint
+    from task_text import simple_nominative_to_accusative
+
+try:
     from .validate_task_objects import (
         COLLECTION_TEMPLATES,
         FIXED_TITLE_HINTS,
@@ -215,14 +224,14 @@ class BuildState:
     def character_classname(self, prefix: str, person: str, override: Any = None) -> str:
         override_text = str(override or "").strip()
         if override_text:
-            return override_text
+            return normalize_character_references(override_text,prefix)
         key = (prefix, person)
         if key not in self.characters:
-            self.characters[key] = self.next_generated(prefix, "Character")
+            self.characters[key] = self.next_generated(prefix, "Character") + "_1"
         return self.characters[key]
 
     def next_give_classname(self, prefix: str, character_classname: str) -> str:
-        match = re.fullmatch(rf"{re.escape(prefix)}_Character_(\d+)", character_classname)
+        match = re.fullmatch(rf"{re.escape(prefix)}_Character_(\d+)(?:_\d+)?", character_classname)
         character_number = int(match.group(1)) if match else 1
         key = (prefix, character_number)
         self.give_counters[key] = self.give_counters.get(key, 0) + 1
@@ -287,36 +296,6 @@ def short_resource_title(value: Any) -> str:
 
 def item_accusative_for_title(value: Any, choice: dict[str, Any] | None = None) -> str:
     return upper_first(item_accusative(value, choice))
-
-
-def simple_nominative_to_accusative(value: str) -> str:
-    words = value.strip().rstrip(".").split()
-    converted: list[str] = []
-    has_feminine_modifier = any(word.lower().endswith(("ая", "яя")) for word in words[:-1])
-    last_index = len(words) - 1
-    for index, word in enumerate(words):
-        lower = word.lower()
-        if lower.endswith("ая"):
-            converted.append(word[:-2] + "ую")
-        elif lower.endswith("яя"):
-            converted.append(word[:-2] + "юю")
-        elif index == last_index and (
-            lower.endswith("чка") or lower.endswith("жка") or lower.endswith("шка") or lower.endswith("щка")
-        ):
-            converted.append(word[:-1] + "у")
-        elif index == last_index and lower.endswith("ка"):
-            converted.append(word[:-1] + "у")
-        elif index == last_index and (lower.endswith("ля") or lower.endswith("ря")):
-            converted.append(word[:-1] + "ю")
-        elif index == last_index and lower.endswith("ия"):
-            converted.append(word[:-2] + "ию")
-        elif index == last_index and lower.endswith("а") and (len(words) == 1 or has_feminine_modifier):
-            converted.append(word[:-1] + "у")
-        elif index == last_index and lower.endswith("я") and (len(words) == 1 or has_feminine_modifier):
-            converted.append(word[:-1] + "ю")
-        else:
-            converted.append(word)
-    return " ".join(converted)
 
 
 def garbage_task_title(value: Any, choice: dict[str, Any] | None = None) -> str:
@@ -619,12 +598,14 @@ def generated_resource_object(
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
             "title": f"Найди {item_accusative_for_title(item_title, choice)}",
-            "hint": f"Убирай мусор в локации {location_text} дома, чтобы найти.",
+            "hint": location_hint(location_text),
             "identifier": "",
         }
     if template_id in {"TT-014", "TT-015"}:
-        garbage_title = garbage_task_title(candidate_title_for_template(template_id, selected), choice)
-        mode_text = "в гостях" if template_id == "TT-014" else "дома"
+        garbage_title = candidate_title_for_template(template_id, selected)
+        mode = "guest" if template_id == "TT-014" else "home"
+        if (selected or {}).get("mode") not in (None, mode):
+            raise ValueError(f"{template_id}: selected GR garbage mode contradicts the task template")
         location_text = location_text_from_choice_or_candidate(context_quest, choice, selected)
         return {
             "type": "get_asset",
@@ -633,7 +614,7 @@ def generated_resource_object(
             "amount": task_amount(choice, defaults),
             "price": task_price(choice, defaults),
             "title": f"Найди {item_accusative_for_title(item_title, choice)}",
-            "hint": f"Убирай мусор {garbage_title} {mode_text}, чтобы найти. Место поиска: {location_text}.",
+            "hint": garbage_hint(garbage_title, mode, location_text),
             "identifier": "",
         }
     if template_id in {"TT-016", "TT-017"}:
@@ -721,7 +702,7 @@ def build_task_object(
         title = hog_title(choice, item_title)
         if template_id == "TT-005":
             locations = location_text_from_choice_or_candidate(context_quest, choice, selected)
-            hint = f"{title}. Они могут быть в {locations}."
+            hint = f"{title}. Места поиска: {locations}."
         else:
             hint = str(choice.get("hint") or f"{title}.").strip()
             if hint and not hint.endswith("."):
@@ -914,7 +895,7 @@ def build_task_object(
             "go_to_location": [{"classname": item_classname}],
             "amount": task_amount(choice, defaults),
             "title": title,
-            "hint": f"Передай {item_accusative(item_title, choice)} персонажу {person}. Он находится на {location_title}.",
+            "hint": f"Передай {item_accusative(item_title, choice)} персонажу {person}. Место передачи: {location_title}.",
             "identifier": "",
         }
 
@@ -1012,6 +993,12 @@ def build_filled_tasks(
                 continue
 
             selected = selected_candidate(context_task, choice, issues)
+            requested_template_id = template_id
+            template_id = effective_template_id(template_id, selected)
+            if template_id != requested_template_id:
+                name, task_type = GARBAGE_GR_TEMPLATES[template_id]
+                context_task = {**context_task, "task_template_id": template_id,
+                                "task_template_name": name, "task_type": task_type}
             template = templates.get(template_id) if templates else None
             try:
                 task_object = build_task_object(context_quest, context_task, choice, selected, state, issues, template)
@@ -1037,6 +1024,8 @@ def build_filled_tasks(
                 "choice_reason": choice_reason(context_quest, template_id, choice, selected, task_object, craft_title),
                 "task_object": task_object,
             }
+            if template_id != requested_template_id:
+                filled_task["requested_task_template_id"] = requested_template_id
             if template_id in GENERATED_RESOURCE_TEMPLATE_IDS | CRAFT_ANCHOR_TEMPLATE_IDS | {"TT-003", "TT-004", "TT-005", "TT-006", "TT-007"}:
                 resource_title = resource_title_for_task(template_id, choice, selected, task_object)
                 if resource_title:

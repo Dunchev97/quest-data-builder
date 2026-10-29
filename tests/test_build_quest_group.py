@@ -48,13 +48,19 @@ class BuildQuestGroupTests(unittest.TestCase):
             description_spoil="Овощной дождь не остановлен, и переполох продолжается.",
         )
 
-        self.assertEqual(quest_group["input"], "/quest_group/event/Night_2026_Story.proto.js")
-        self.assertEqual(quest_group["output"], "/quest_group/event/Fun14_Story.proto.js")
-        self.assertEqual(quest_group["id"], 125028)
+        self.assertEqual(quest_group["input"], "/quest_group/event/Night_2026/Night_2026_Story.proto.js")
+        self.assertEqual(quest_group["output"], "/quest_group/event/Fun14/Fun14_Story.proto.js")
+        self.assertIsNone(quest_group["id"])
         self.assertEqual(quest_group["find"], "Night_2026")
         self.assertEqual(quest_group["replace"], "Fun14")
         self.assertNotIn("extra", quest_group)
         self.assertEqual(validate_quest_group(quest_group)["summary"]["errors"], 0)
+
+    def test_rejects_group_output_outside_its_campaign_folder(self):
+        quest_group = build_quest_group(sample_filled_tasks(), "Title", "Start", "Complete", "Spoil")
+        quest_group["output"] = "/quest_group/event/Fun14_Story.proto.js"
+        errors = validate_quest_group(quest_group)["errors"]
+        self.assertTrue(any(e["code"] == "quest_group_output_path_invalid" for e in errors))
 
     def test_rejects_legacy_extra_fields(self) -> None:
         quest_group = build_quest_group(
@@ -168,7 +174,7 @@ class BuildQuestGroupTests(unittest.TestCase):
             )
 
             self.assertEqual(validation["summary"]["errors"], 0)
-            self.assertEqual(quest_group["output"], "/quest_group/event/MeatballRain_2026_Story.proto.js")
+            self.assertEqual(quest_group["output"], "/quest_group/event/MeatballRain_2026/MeatballRain_2026_Story.proto.js")
             self.assertEqual(quest_group["replace"], "MeatballRain_2026")
 
     def test_cli_defaults_to_campaign_pack_outputs_when_campaign_pack_known(self) -> None:

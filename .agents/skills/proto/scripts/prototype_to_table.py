@@ -17,8 +17,8 @@ TITLE_FILL = PatternFill("solid", fgColor="E2F0D9")
 THIN = Side(style="thin", color="B7B7B7")
 BORDER = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
 
-PAIR_TYPES = {"object", "array_of_objects", "replace"}
-MULTILINE_TYPES = {"array", "array_of_values", "array_of_objects", "object", "replace"}
+PAIR_TYPES = {"object", "replace"}
+MULTILINE_TYPES = {"array", "object", "replace"}
 DEFAULT_SKIP_FIELDS = {"class", "group", "subgroup", "currency", "permit_sell", "tags", "meta_info", "price"}
 DEFAULT_FLATTEN_FIELDS = {"special_icon"}
 
@@ -333,7 +333,7 @@ def main() -> None:
     parser.add_argument("--target-proto", required=True, help="Target output path to write into the table output column.")
     parser.add_argument("--root", type=Path, default=None, help="Optional server/prototypes root for relative donor paths.")
     parser.add_argument("--title", default=None, help="Human section title for column B.")
-    parser.add_argument("--directive", choices=["auto", "sl", "ml", "temp_01", "temp_02"], default="auto")
+    parser.add_argument("--directive", choices=["auto", "sl", "ml"], default="auto")
     parser.add_argument(
         "--skip-fields",
         default="class,group,subgroup,currency,permit_sell,tags,meta_info,price",

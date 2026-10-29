@@ -1,0 +1,835 @@
+{
+  "quests": [
+    {
+      "classname_quests": "VelesNight_2026_Story_1",
+      "title_quest": "Снова Велесова ночь",
+      "quest_number": 1,
+      "description": "Помоги собрать завязки и крепления оберегов. Заодно уберём мусор, чтобы к приходу гостей двор был чистым.",
+      "congratulation": "Всё собрали, спасибо. Крепления отложим — пригодятся, когда будем проверять ограду.",
+      "character": "Ведятя",
+      "helper": "VelesNight_2026_Character_1",
+      "tasks": [
+        {
+          "task_number": 1,
+          "task_template_id": "TT-013",
+          "task_template_name": "GR с мусора в локации дома",
+          "task_type": "get_asset GR garbage location_tags",
+          "selected_candidate_id": "gr_garbage:YarnLump:home",
+          "choice_reason": "В Рукодельне при уборке отбираем целые завязки среди спутанной пряжи. Это конкретные шнурки для подготовки оберегов, о которых просит Ведятя.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "VelesNight_2026_GR_1",
+            "icon": "VelesNight_2026_GR_1",
+            "amount": 30,
+            "price": 40,
+            "title": "Найди Завязки",
+            "hint": "Убирай мусор в локации Рукодельня дома, чтобы найти.",
+            "identifier": ""
+          },
+          "resource_title": "Завязки"
+        },
+        {
+          "task_number": 2,
+          "task_template_id": "TT-013",
+          "task_template_name": "GR с мусора в локации дома",
+          "task_type": "get_asset GR garbage location_tags",
+          "selected_candidate_id": "gr_garbage:RustyNail:home",
+          "choice_reason": "В Котельной при уборке находим железные крючки для оберегов. В первом задании собираем завязки, во втором — металлические детали; это разные принадлежности для одной подготовки.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "VelesNight_2026_GR_2",
+            "icon": "VelesNight_2026_GR_2",
+            "amount": 30,
+            "price": 40,
+            "title": "Найди Железные крючки",
+            "hint": "Убирай мусор в локации Котельная дома, чтобы найти.",
+            "identifier": ""
+          },
+          "resource_title": "Железные крючки"
+        },
+        {
+          "task_number": 3,
+          "task_template_id": "TT-021",
+          "task_template_name": "Уборка конкретного мусора дома",
+          "task_type": "garbage classname",
+          "selected_candidate_id": "garbage:BrokenBasketForNeedlework",
+          "choice_reason": "После отбора завязок убираем сломанную корзиночку для рукоделия: повреждённая тара больше не нужна для хранения подготовленных принадлежностей.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "BrokenBasketForNeedlework",
+            "amount": 20,
+            "price": 40,
+            "title": "Убери мусор Сломанную корзиночку дома",
+            "hint": "Убери мусор Сломанную корзиночку дома. Для этого просто кликни на нужный мусор дома. Место поиска: Светлица, Рукодельня.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_2",
+      "title_quest": "Нарядный хозяин",
+      "quest_number": 2,
+      "description": "Подбери выброшенные инструменты и принеси мне. На земле оставлять нельзя — растеряем.",
+      "congratulation": "Всё на месте. Уберу инструменты в дом, там целее будут.",
+      "character": "Баба Зина",
+      "helper": "VelesNight_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 4,
+          "task_template_id": "TT-015",
+          "task_template_name": "GR с конкретного мусора дома",
+          "task_type": "get_asset GR garbage classname",
+          "selected_candidate_id": "gr_garbage:Chips:home",
+          "choice_reason": "Разбираем стружку и подбираем оставленные инструменты. Они нужны для Ящика плотника, который Зина уберёт в дом; источник связан с обычной работой инструментами.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "VelesNight_2026_GR_3",
+            "icon": "VelesNight_2026_GR_3",
+            "amount": 15,
+            "price": 30,
+            "title": "Найди Инструменты",
+            "hint": "Убирай мусор Стружка дома, чтобы найти. Место поиска: Мастерская, Гараж, Голубятня.",
+            "identifier": ""
+          },
+          "resource_title": "Инструменты"
+        },
+        {
+          "task_number": 5,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "selected_candidate_id": null,
+          "choice_reason": "Бечёвка нужна, чтобы закрепить инструменты в Ящике плотника и обвязать его перед переноской. Это материал для итогового предмета крафта.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "VelesNight_2026_ASK_1",
+            "icon": "VelesNight_2026_ASK_1",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей Бечёвку",
+            "hint": "Попроси у друзей или купи.",
+            "identifier": ""
+          },
+          "resource_title": "Бечёвка"
+        },
+        {
+          "task_number": 6,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Собираем Ящик плотника для подобранных инструментов. Бечёвка закрепляет содержимое, а Зина сможет убрать всё вместе в дом; отдельного задания на передачу в плане нет.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "VelesNight_2026_R_1",
+            "icon": "VelesNight_2026_R_1",
+            "amount": 1,
+            "title": "Создай Ящик плотника",
+            "go_to_location": [
+              {
+                "classname": "VelesNight_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          },
+          "resource_title": "Ящик плотника"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_3",
+      "title_quest": "Телега без возницы",
+      "quest_number": 3,
+      "description": "Найди деревянные упоры и что-нибудь тяжёлое под колесо. Я пока телегу придержу!",
+      "congratulation": "Упоры подошли. Можно отпустить колесо — дальше телега не покатится.",
+      "character": "Дед Домовед",
+      "helper": "VelesNight_2026_Character_3",
+      "tasks": [
+        {
+          "task_number": 7,
+          "task_template_id": "TT-005",
+          "task_template_name": "HOG в локациях дома",
+          "task_type": "HOG clean_debris home_locations",
+          "selected_candidate_id": null,
+          "choice_reason": "Ищем деревянные упоры для остановки телеги. Мастерская и Гараж — реальные домашние локации из кандидатов этого квеста, а установка упоров остаётся сюжетной сценой.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "VelesNight_2026_HOG_1",
+            "amount": 3,
+            "price": 30,
+            "title": "Найди Деревянные упоры",
+            "hint": "Найди Деревянные упоры. Места поиска: Мастерская, Гараж.",
+            "identifier": ""
+          },
+          "resource_title": "Деревянный упор"
+        },
+        {
+          "task_number": 8,
+          "task_template_id": "TT-019",
+          "task_template_name": "Сбор цветов в гостях",
+          "task_type": "action take_crop_in_guest",
+          "selected_candidate_id": "flower:FlowerSeven",
+          "choice_reason": "Ярким маком можно отметить место остановки телеги, чтобы его было видно остальным. Цветы служат только заметной меткой; колесо удерживают деревянные упоры и тяжёлая бочка.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerSeven",
+            "amount": 40,
+            "price": 20,
+            "title": "Собери Мак в гостях",
+            "hint": "Собирай Мак в гостях. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 9,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:WagonWheelCollection4:WagonWheel:home",
+          "choice_reason": "Бочка с водой — тяжёлый предмет для дополнительного упора у телеги. Коллекционный предмет и его связь с Колесом от телеги подтверждены context pack.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "WagonWheelCollection4",
+            "icon": "WagonWheelCollection4",
+            "amount": 10,
+            "price": 20,
+            "title": "Найди Бочку",
+            "hint": "Бочка с водой - элемент коллекции, выпадает при уборке мусора Колесо от телеги дома и в гостях. Место поиска: Село.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_4",
+      "title_quest": "Гости ходят кругами",
+      "quest_number": 4,
+      "description": "Помоги убрать обломки с дороги. И под лавку загляни: оттуда завязки торчат, надо проверить, что там лежит.",
+      "congratulation": "Дорожка свободна. А найденные связки отложим отдельно — пусть Ведятя посмотрит.",
+      "character": "Куйгорож",
+      "helper": "VelesNight_2026_Character_4",
+      "tasks": [
+        {
+          "task_number": 10,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette",
+          "selected_candidate_id": "collection_drop:Garbage_TornStrapCollection1:Garbage_TornStrap:home",
+          "choice_reason": "Текстильный ремешок — тканевая завязка, которую можно сравнить с найденными связками. Силуэт предлагает опознать конкретную принадлежность, не приписывая ей новых магических свойств.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "Garbage_TornStrapCollection1",
+            "icon": "Garbage_TornStrapCollection1",
+            "is_silhouette": 1,
+            "amount": 10,
+            "price": 20,
+            "title": "Угадай элемент коллекции",
+            "hint": "Угадай элемент коллекции и найди его дома или в гостях у друзей",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 11,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "selected_candidate_id": "garbage:BrokenBank",
+          "choice_reason": "Убираем разбитые банки у друзей: осколки мешают расчистке. Погребок и Стеклодувня — домашние локации; в гостевую задачу не попадает мусор из мировых локаций.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "BrokenBank",
+            "in_guest": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Убери мусор Разбитую банку в гостях",
+            "hint": "Убери мусор Разбитую банку в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Погребок, Стеклодувня.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 12,
+          "task_template_id": "TT-029",
+          "task_template_name": "Силуэт мусора в гостях",
+          "task_type": "garbage classname is_silhouette in_guest",
+          "selected_candidate_id": "garbage:Ashes",
+          "choice_reason": "Пепел — остатки мусора, которые убираем с пути при расчистке. В этом задании его опознают по силуэту; найденные сюжетные связки Ведятя осматривает отдельно в сцене.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "Ashes",
+            "is_silhouette": 1,
+            "amount": 40,
+            "price": 20,
+            "title": "Угадай загаданный мусор",
+            "hint": "Угадай загаданный мусор и убери его в гостях у друзей",
+            "identifier": "",
+            "in_guest": 1
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_5",
+      "title_quest": "Беглец из Нави",
+      "quest_number": 5,
+      "description": "Осмотри двор у дома и за сараем. По следам проверь, не осталось ли там кого-нибудь из гостей, и вернись ко мне.",
+      "congratulation": "Обход закончен. Теперь можно заняться проводами, никого по двору искать не придётся.",
+      "character": "Королева Подземного Царства",
+      "helper": "VelesNight_2026_Character_5",
+      "tasks": [
+        {
+          "task_number": 13,
+          "task_template_id": "TT-025",
+          "task_template_name": "Загадка на мусор дома",
+          "task_type": "garbage classname mystery",
+          "selected_candidate_id": "garbage:FoxTrail",
+          "choice_reason": "След от лисьей лапки — реальный след для осмотра, о котором просит Королева. Задание не утверждает, что этот след оставил дух; обнаружение беглеца остаётся событием сцены.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "FoxTrail",
+            "is_hide": 1,
+            "amount": 20,
+            "price": 40,
+            "title": "Загадка, мусор дома",
+            "hint": "Рыжий хвост мелькнул вдали, Мягкий знак остался в пыли. Не ладонь его кладёт — Кто-то мимо нас пройдёт.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 14,
+          "task_template_id": "TT-026",
+          "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection mystery",
+          "selected_candidate_id": "collection_drop:MirrorFragmentCollection1:MirrorFragment:home",
+          "choice_reason": "Зеркальце пригодится для осмотра плохо видных углов и обратной стороны вещей. Оно помогает обычному обходу, а способности обнаруживать духов ему не приписываются.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "MirrorFragmentCollection1",
+            "icon": "MirrorFragmentCollection1",
+            "is_hide": 1,
+            "amount": 10,
+            "price": 30,
+            "title": "Загадка, предмет из коллекции",
+            "hint": "Я без красок, без пера Покажу тебя с утра. Улыбнёшься мне в ответ — Улыбнётся твой портрет.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 15,
+          "task_template_id": "TT-027",
+          "task_template_name": "Загадка задом наперед на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection reverse_mystery",
+          "selected_candidate_id": "collection_drop:TrowelCollection1:Trowel:home",
+          "choice_reason": "Песок позволяет разглядеть отпечатки при обходе. Обратная надпись читается как «Найди песок»; ответ — существующий коллекционный предмет из Мастерка.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "TrowelCollection1",
+            "icon": "TrowelCollection1",
+            "is_silhouette": 1,
+            "amount": 10,
+            "price": 30,
+            "title": "косеп идйаН",
+            "hint": "Прочитай фразу задания задом наперед.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_6",
+      "title_quest": "Верная дорога",
+      "quest_number": 6,
+      "description": "Собери крепёжные детали и подготовь крепления для указателей. Поставим их на прежние места.",
+      "congratulation": "Крепления готовы, можно закреплять указатели. Проверю, всё ли крепко держится.",
+      "character": "Ведятя",
+      "helper": "VelesNight_2026_Character_1",
+      "tasks": [
+        {
+          "task_number": 16,
+          "task_template_id": "TT-016",
+          "task_template_name": "GR с цветов в гостях",
+          "task_type": "get_asset GR in_guest flower",
+          "selected_candidate_id": "flower:FlowerTwo",
+          "choice_reason": "При сборе ирисов у друзей получаем завязки для указателей. Это конкретный GR-материал будущих креплений, а цветы остаются предусмотренным шаблоном источником выпадения.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "VelesNight_2026_GR_4",
+            "icon": "VelesNight_2026_GR_4",
+            "amount": 80,
+            "price": 40,
+            "title": "Получи Завязки",
+            "hint": "Собирай цветы Ирис в гостях, чтобы найти. Чтобы собрать растение, кликни на горшок с нужным растением в гостях у друга",
+            "identifier": ""
+          },
+          "resource_title": "Завязки"
+        },
+        {
+          "task_number": 17,
+          "task_template_id": "TT-009",
+          "task_template_name": "Получить PER",
+          "task_type": "get_asset PER",
+          "selected_candidate_id": null,
+          "choice_reason": "Личные просьбы приносят колышки для креплений указателей. Они нужны вместе с гибкими завязками; после ASK в предыдущем крафтовом квесте здесь используется PER.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "VelesNight_2026_PER_1",
+            "icon": "VelesNight_2026_PER_1",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей Колышки",
+            "hint": "Отправь личные просьбы друзьям или купи.",
+            "identifier": ""
+          },
+          "resource_title": "Колышек"
+        },
+        {
+          "task_number": 18,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Собираем крепления из завязок и колышков. Они нужны для возвращения указателей на прежние места; сама установка и начало проводов гостей показываются сценой SC-06-A.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "VelesNight_2026_R_2",
+            "icon": "VelesNight_2026_R_2",
+            "amount": 1,
+            "title": "Создай Крепёж указателей",
+            "go_to_location": [
+              {
+                "classname": "VelesNight_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          },
+          "resource_title": "Крепёж указателей"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_7",
+      "title_quest": "Королева взаперти",
+      "quest_number": 7,
+      "description": "Осмотри заграждённые окна снаружи. Найди то, к которому Домовед сможет подойти, и покажи мне.",
+      "congratulation": "Вижу, какое окно ты выбрал. До этой ставни я изнутри дотянусь.",
+      "character": "Баба Зина",
+      "helper": "VelesNight_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 19,
+          "task_template_id": "TT-005",
+          "task_template_name": "HOG в локациях дома",
+          "task_type": "HOG clean_debris home_locations",
+          "selected_candidate_id": null,
+          "choice_reason": "Деревянным щупом можно проверить зазор у ставни снаружи, не снимая заграждение заранее. Его ищем в реальных домашних локациях; выбор доступного окна остаётся сценой.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "VelesNight_2026_HOG_2",
+            "amount": 3,
+            "price": 30,
+            "title": "Найди Щуп",
+            "hint": "Найди Щуп. Места поиска: Мастерская, Гараж.",
+            "identifier": ""
+          },
+          "resource_title": "Щуп"
+        },
+        {
+          "task_number": 20,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette",
+          "selected_candidate_id": "collection_drop:ChipsCollection3:Chips:guest",
+          "choice_reason": "Струбцина нужна для временной фиксации расшатанной доски при осмотре окна. Это инструмент для обследования заграждения; спасение Зины и освобождение окна ещё не происходят.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "ChipsCollection3",
+            "icon": "ChipsCollection3",
+            "is_silhouette": 1,
+            "amount": 10,
+            "price": 20,
+            "title": "Угадай элемент коллекции",
+            "hint": "Угадай элемент коллекции и найди его дома или в гостях у друзей",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 21,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette",
+          "selected_candidate_id": "flower:FlowerTen",
+          "choice_reason": "Колокольчиками можно пометить выбранное окно, чтобы Зина узнала его изнутри. Силуэт цветка — вспомогательная задача; ответ Зины и показ окна остаются в SC-07-B.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerTen",
+            "is_silhouette": 1,
+            "amount": 30,
+            "price": 10,
+            "title": "Угадай загаданный цветок",
+            "hint": "Угадай загаданный цветок и собери его в гостях у друга",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_8",
+      "title_quest": "Бунт инструментов",
+      "quest_number": 8,
+      "description": "Нужны крепкие верёвки. Найди их и выбери целые связки — порванные эту стражу не удержат.",
+      "congratulation": "Эти выдержат. Давай сюда, пока я грабли держу!",
+      "character": "Куйгорож",
+      "helper": "VelesNight_2026_Character_4",
+      "tasks": [
+        {
+          "task_number": 22,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette",
+          "selected_candidate_id": "collection_drop:Garbage_TornStrapCollection3:Garbage_TornStrap:guest",
+          "choice_reason": "Кожаный ремешок — дополнительная прочная обвязка для инструментов. Он поддерживает просьбу Куйгорожа о целых связках, а источник доступен у друзей в домашней локации.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "Garbage_TornStrapCollection3",
+            "icon": "Garbage_TornStrapCollection3",
+            "is_silhouette": 1,
+            "amount": 10,
+            "price": 20,
+            "title": "Угадай элемент коллекции",
+            "hint": "Угадай элемент коллекции и найди его дома или в гостях у друзей",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 23,
+          "task_template_id": "TT-031",
+          "task_template_name": "Силуэт цветка в гостях",
+          "task_type": "action take_crop_in_guest is_silhouette",
+          "selected_candidate_id": "flower:FlowerMagazine6_TerryMallow",
+          "choice_reason": "Цветками мальвы можно отметить уже проверенные целые связки, чтобы не перепутать их с порванными. Удерживают инструменты верёвки и ремешок; цветы не заменяют прочную обвязку.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerMagazine6_TerryMallow",
+            "is_silhouette": 1,
+            "amount": 30,
+            "price": 10,
+            "title": "Угадай загаданный цветок",
+            "hint": "Угадай загаданный цветок и собери его в гостях у друга",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 24,
+          "task_template_id": "TT-029",
+          "task_template_name": "Силуэт мусора в гостях",
+          "task_type": "garbage classname is_silhouette in_guest",
+          "selected_candidate_id": "garbage:FlapOfTissue",
+          "choice_reason": "Убираем ненужные лоскуты, чтобы не спутать их с целыми связками. Источник отличается от порванного ремешка часов, из которого выпадает коллекционная обвязка в первом задании.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "FlapOfTissue",
+            "is_silhouette": 1,
+            "amount": 40,
+            "price": 20,
+            "title": "Угадай загаданный мусор",
+            "hint": "Угадай загаданный мусор и убери его в гостях у друзей",
+            "identifier": "",
+            "in_guest": 1
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_9",
+      "title_quest": "Лестница для Домоведа",
+      "quest_number": 9,
+      "description": "Найди принадлежности для лестницы и опорные бруски. Подготовим всё у боковой стены.",
+      "congratulation": "Всё принесли. Поставлю лестницу на эти опоры, потом проверим её ещё раз.",
+      "character": "Дед Домовед",
+      "helper": "VelesNight_2026_Character_3",
+      "tasks": [
+        {
+          "task_number": 25,
+          "task_template_id": "TT-003",
+          "task_template_name": "HOG в мире",
+          "task_type": "HOG clean_debris world",
+          "selected_candidate_id": null,
+          "choice_reason": "Ищем опорные бруски для установки лестницы. Шаблон TT-003 размещает поиск в Мире; клинья и подъём Домоведа остаются на следующем сюжетном шаге.",
+          "task_object": {
+            "type": "action",
+            "action": "clean_debris",
+            "param": "VelesNight_2026_HOG_3",
+            "search_action": "search_VelesNight_2026_HOG_3",
+            "after_buy_actions": [
+              {
+                "do": "remove_stuff",
+                "classname": "VelesNight_2026_HOG_3"
+              }
+            ],
+            "amount": 15,
+            "price": 50,
+            "title": "Найди Бруски",
+            "hint": "Найди Бруски. Место поиска: Мир. Если найти все не удаётся, можно купить подсказку.",
+            "identifier": ""
+          },
+          "resource_title": "Брусок"
+        },
+        {
+          "task_number": 26,
+          "task_template_id": "TT-020",
+          "task_template_name": "Уборка конкретного мусора в гостях",
+          "task_type": "garbage classname in_guest",
+          "selected_candidate_id": "garbage:Anvil",
+          "choice_reason": "Убираем мешающую наковаленку, освобождая место для работы с опорными брусками. У выбранного предмета домашние локации Мастерская, Конюшня и Кузница; источник киянки в следующем задании другой.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "Anvil",
+            "in_guest": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Убери мусор Наковаленки в гостях",
+            "hint": "Убери мусор Наковаленки в гостях. Для этого просто кликни на нужный мусор в гостях у друга. Место поиска: Мастерская, Конюшня, Кузница.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 27,
+          "task_template_id": "TT-011",
+          "task_template_name": "Получить элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection",
+          "selected_candidate_id": "collection_drop:ChipsCollection4:Chips:home",
+          "choice_reason": "Киянка нужна, чтобы подбить опорные бруски под лестницей. Это инструмент для подготовки опор; клинья и подъём Домоведа остаются в следующем квесте, а установка лестницы — в SC-09-A.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "ChipsCollection4",
+            "icon": "ChipsCollection4",
+            "amount": 10,
+            "price": 20,
+            "title": "Найди Киянку",
+            "hint": "Киянка - элемент коллекции, выпадает при уборке мусора Стружка дома и в гостях. Место поиска: Мастерская, Гараж, Голубятня.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_10",
+      "title_quest": "Зина, отойди от окна!",
+      "quest_number": 10,
+      "description": "Найди деревянные клинья для лестницы и убери солому с места спуска. Нельзя, чтобы под ногами скользило.",
+      "congratulation": "Клинья на месте, внизу чисто. Теперь можно подниматься к окну.",
+      "character": "Баба Зина",
+      "helper": "VelesNight_2026_Character_2",
+      "tasks": [
+        {
+          "task_number": 28,
+          "task_template_id": "TT-022",
+          "task_template_name": "Загадка на цветок в гостях",
+          "task_type": "action take_crop_in_guest mystery",
+          "selected_candidate_id": "flower:FlowerDahlia",
+          "choice_reason": "Крупным цветком георгина можно отметить подготовленное место спуска. Это вспомогательная метка: цветок не заменяет клинья и не удерживает лестницу.",
+          "task_object": {
+            "type": "action",
+            "action": "take_crop_in_guest",
+            "param": "FlowerDahlia",
+            "is_hide": 1,
+            "amount": 60,
+            "price": 25,
+            "title": "Загадка, цветы в гостях у друга",
+            "hint": "Лепестки тесней сидят, Собрались в пышный наряд. Осень только настаёт — Этот шар ещё цветёт.",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 29,
+          "task_template_id": "TT-024",
+          "task_template_name": "Загадка на мусор в гостях",
+          "task_type": "garbage classname in_guest mystery",
+          "selected_candidate_id": "garbage:StrawPinch",
+          "choice_reason": "Щепотка соломы — точное предметное соответствие просьбе Зины расчистить место спуска. У гостевого кандидата только домашняя Банька, без запрещённых мировых локаций.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "StrawPinch",
+            "is_hide": 1,
+            "amount": 20,
+            "price": 20,
+            "title": "Загадка, мусор в гостях",
+            "hint": "Сухие стебли золотые Шуршат и колются, пустые. Зерно с них снято — не зевай, С дороги ворох убирай.",
+            "identifier": "",
+            "in_guest": 1
+          }
+        },
+        {
+          "task_number": 30,
+          "task_template_id": "TT-026",
+          "task_template_name": "Загадка на коллекцию (зависит от редкости)",
+          "task_type": "get_asset Collection mystery",
+          "selected_candidate_id": "collection_drop:ShardsCollection3:Shards:guest",
+          "choice_reason": "В ручном ревью выбран Глиняный чайник. Загадка сохранена дословно из ревью, но описывает деревянный брус; это несоответствие требует отдельной правки текста или выбора предмета.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "ShardsCollection3",
+            "icon": "ShardsCollection3",
+            "is_hide": 1,
+            "amount": 10,
+            "price": 30,
+            "title": "Загадка, предмет из коллекции",
+            "hint": "Четыре грани, крепкий вид — На мне опора устоит. Древесный ствол срубил топор, Теперь я годен для опор.",
+            "identifier": ""
+          }
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_11",
+      "title_quest": "Барину пора домой",
+      "quest_number": 11,
+      "description": "Подготовь крепления для оберегов, которые нашли под лавкой. Домовед вернёт их на ограду.",
+      "congratulation": "Крепления подошли, обереги держатся. Благодарю за помощь.",
+      "character": "Королева Подземного Царства",
+      "helper": "VelesNight_2026_Character_5",
+      "tasks": [
+        {
+          "task_number": 31,
+          "task_template_id": "TT-014",
+          "task_template_name": "GR с конкретного мусора в гостях",
+          "task_type": "get_asset GR in_guest garbage classname",
+          "selected_candidate_id": "gr_garbage:BigHome_Garbage_Nursery_Flags:guest",
+          "choice_reason": "При уборке флажков у друзей отбираем целые тканевые полоски. Это обвязка и составная часть предмета «Крепёж»: вместе с проволокой они удержат найденные обереги. Источник находится в домашнем Форте из одеял.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "VelesNight_2026_GR_5",
+            "icon": "VelesNight_2026_GR_5",
+            "amount": 40,
+            "price": 40,
+            "title": "Найди Тканевые полоски для оберегов",
+            "hint": "Убирай мусор Флажки в гостях, чтобы найти. Место поиска: Форт из одеял.",
+            "identifier": ""
+          },
+          "resource_title": "Тканевые полоски"
+        },
+        {
+          "task_number": 32,
+          "task_template_id": "TT-008",
+          "task_template_name": "Получить ASK",
+          "task_type": "get_asset ASK",
+          "selected_candidate_id": null,
+          "choice_reason": "Проволока нужна для закрепления оберегов на ограде. Вместе с тканевыми полосками она входит в крепёж оберегов; после PER в предыдущем крафтовом квесте здесь используется ASK.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "VelesNight_2026_ASK_2",
+            "icon": "VelesNight_2026_ASK_2",
+            "amount": 10,
+            "price": 20,
+            "title": "Попроси у друзей Проволоку",
+            "hint": "Попроси у друзей или купи.",
+            "identifier": ""
+          },
+          "resource_title": "Проволока"
+        },
+        {
+          "task_number": 33,
+          "task_template_id": "TT-002",
+          "task_template_name": "Крафт",
+          "task_type": "get_and_decrease_asset craft",
+          "selected_candidate_id": null,
+          "choice_reason": "Создаём крепления для уже найденных оберегов. Их возвращение на ограду, прекращение чар и уход двойника остаются сценами SC-11-A/B/C/D, а не новыми заданиями про интерактивные объекты.",
+          "task_object": {
+            "type": "get_and_decrease_asset",
+            "classname": "VelesNight_2026_R_3",
+            "icon": "VelesNight_2026_R_3",
+            "amount": 1,
+            "title": "Создай Крепёж",
+            "go_to_location": [
+              {
+                "classname": "VelesNight_2026_Workbench_1"
+              }
+            ],
+            "hint": "Для создания используй Станок.",
+            "identifier": ""
+          },
+          "resource_title": "Крепёж"
+        }
+      ]
+    },
+    {
+      "classname_quests": "VelesNight_2026_Story_12",
+      "title_quest": "Один Дед — и хватит",
+      "quest_number": 12,
+      "description": "Помоги убрать остатки связок и вернуть инструменты на места. Доски с двери я сниму сам.",
+      "congratulation": "Всё прибрали. Спасибо тебе — сегодня ты нас очень выручил.",
+      "character": "Дед Домовед",
+      "helper": "VelesNight_2026_Character_3",
+      "tasks": [
+        {
+          "task_number": 34,
+          "task_template_id": "TT-029",
+          "task_template_name": "Силуэт мусора в гостях",
+          "task_type": "garbage classname is_silhouette in_guest",
+          "selected_candidate_id": "garbage:EmptySpoolOfThread",
+          "choice_reason": "Пустая катушка — остаток работы со связками. Её уборка завершает хозяйственные хлопоты после спасения и не повторяет источник коллекционной стамески.",
+          "task_object": {
+            "type": "garbage",
+            "classname": "EmptySpoolOfThread",
+            "is_silhouette": 1,
+            "amount": 40,
+            "price": 20,
+            "title": "Угадай загаданный мусор",
+            "hint": "Угадай загаданный мусор и убери его в гостях у друзей",
+            "identifier": "",
+            "in_guest": 1
+          }
+        },
+        {
+          "task_number": 35,
+          "task_template_id": "TT-028",
+          "task_template_name": "Силуэт элемент коллекции (зависит от редкости)",
+          "task_type": "get_asset Collection is_silhouette",
+          "selected_candidate_id": "collection_drop:ChipsCollection1:Chips:home",
+          "choice_reason": "Стамеска — конкретный инструмент, который возвращаем в хозяйство после суматохи. Её узнают по силуэту; доски с двери Дед снимает в сохранённой финальной сцене.",
+          "task_object": {
+            "type": "get_asset",
+            "classname": "ChipsCollection1",
+            "icon": "ChipsCollection1",
+            "is_silhouette": 1,
+            "amount": 10,
+            "price": 20,
+            "title": "Угадай элемент коллекции",
+            "hint": "Угадай элемент коллекции и найди его дома или в гостях у друзей",
+            "identifier": ""
+          }
+        },
+        {
+          "task_number": 36,
+          "task_template_id": "TT-034",
+          "task_template_name": "Фото предмета",
+          "task_type": "action post_photo",
+          "selected_candidate_id": null,
+          "choice_reason": "Фотографируемся с настоящим Дедом Домоведом на память после спасения. Светлица — реальная домашняя локация; фото не настраивает выдачу оленёнка или отдельный образ двойника.",
+          "task_object": {
+            "type": "action",
+            "action": "post_photo",
+            "icon": "VelesNight_2026_Character_3",
+            "param": "VelesNight_2026_Character_3",
+            "go_to_location": [
+              {
+                "classname": "VelesNight_2026_Character_3"
+              }
+            ],
+            "amount": 1,
+            "title": "Сфотографируйся с Дедом Домоведом",
+            "hint": "Дед Домовед - персонаж, с которым нужно сфотографироваться. Найди его у себя на Светлица и нажми на иконку \"Сделать фотографию\" в правом верхнем углу. Наведи фокус на Деда Домоведа, сфотографируйся с ним и нажми \"Славненько\".",
+            "identifier": ""
+          }
+        }
+      ]
+    }
+  ]
+}

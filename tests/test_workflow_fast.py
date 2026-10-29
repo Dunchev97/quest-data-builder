@@ -493,7 +493,7 @@ class WorkflowFastTests(unittest.TestCase):
             self.assertTrue(context["stage_approvals"]["5"]["approved"])
             self.assertEqual(context["stage_approvals"]["5"]["review_sha256"], file_sha256(review_path))
 
-    def test_stage6_exports_review_workbook_without_csv_files(self) -> None:
+    def test_stage6_exports_only_final_conf_tables_in_one_folder(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             campaigns_dir = root / "campaigns"
@@ -522,7 +522,11 @@ class WorkflowFastTests(unittest.TestCase):
                             {
                                 "classname_quests": "Event_2026_Story_1",
                                 "title_quest": "Проверка",
-                                "tasks": [],
+                                "tasks": [
+                                    {"task_number":1,"task_type":"get_asset ASK","task_object":{"type":"get_asset","classname":"Event_2026_ASK_1","amount":2}},
+                                    {"task_number":2,"task_type":"get_asset PER","task_object":{"type":"get_asset","classname":"Event_2026_PER_1","amount":3}},
+                                    {"task_number":3,"task_type":"get_and_decrease_asset craft","task_object":{"type":"get_and_decrease_asset","classname":"Event_2026_R_1","amount":1}},
+                                ],
                             },
                             {
                                 "classname_quests": "Event_2026_Story_2",
@@ -543,8 +547,8 @@ class WorkflowFastTests(unittest.TestCase):
             (pack_dir / "quest_group.json").write_text(
                 json.dumps(
                     {
-                        "input": "/quest_group/event/Night_2026_Story.proto.js",
-                        "output": "/quest_group/event/Event_2026_Story.proto.js",
+                        "input": "/quest_group/event/Night_2026/Night_2026_Story.proto.js",
+                        "output": "/quest_group/event/Event_2026/Event_2026_Story.proto.js",
                         "title": "Проверочная группа",
                         "id": 125028,
                         "find": "Night_2026",
@@ -629,8 +633,9 @@ class WorkflowFastTests(unittest.TestCase):
 
             self.assertEqual(exit_code, 0)
             workbook_path = pack_dir / "review" / "stage6_review.xlsx"
-            accomplished_path = pack_dir / "quest_Event_2026_accomplished.xlsx"
-            self.assertTrue(workbook_path.exists())
+            proto_dir = pack_dir / "review" / "proto"
+            accomplished_path = proto_dir / "quest_Event_2026_accomplished.xlsx"
+            self.assertFalse(workbook_path.exists())
             self.assertTrue(accomplished_path.exists())
             self.assertFalse((pack_dir / "generated_quests.csv").exists())
             self.assertFalse((pack_dir / "generated_actions.csv").exists())
@@ -641,12 +646,24 @@ class WorkflowFastTests(unittest.TestCase):
             self.assertFalse((campaign_dir / "generated_interactive_objects_story_randomrecipe_1.csv").exists())
             self.assertFalse((campaign_dir / "generated_interactive_objects_mixer_1.csv").exists())
             self.assertFalse((campaign_dir / "resource_table.csv").exists())
-            self.assertTrue((pack_dir / "generated_actions.summary.json").exists())
-            self.assertTrue((campaign_dir / "generated_interactive_objects.summary.json").exists())
-            self.assertTrue((campaign_dir / "resource_table.summary.json").exists())
+            self.assertFalse((pack_dir / "generated_actions.summary.json").exists())
+            self.assertFalse((campaign_dir / "generated_interactive_objects.summary.json").exists())
+            self.assertFalse((campaign_dir / "resource_table.summary.json").exists())
             from openpyxl import load_workbook
 
-            workbook = load_workbook(workbook_path, data_only=False)
+            books = {p.name:load_workbook(p,data_only=False) for p in proto_dir.glob("*.xlsx")}
+            self.assertEqual(len(books),12)
+            self.assertTrue(all("Event_2026" in name for name in books))
+            self.assertTrue(all(book.sheetnames==["conf"] for book in books.values()))
+            self.assertTrue(all(p.suffix==".xlsx" or p.name in {"Event_2026_shop_invisible_packages.txt", "Event_2026_DayOfDomovoyCaldron.txt"} for p in proto_dir.iterdir()))
+            package_list = proto_dir / "Event_2026_shop_invisible_packages.txt"
+            self.assertTrue(package_list.is_file())
+            self.assertIn('"Event_2026_Chest_1_GR_1_Package",',package_list.read_text(encoding="utf-8"))
+            workbench_txt = proto_dir / "Event_2026_DayOfDomovoyCaldron.txt"
+            entry = json.loads(workbench_txt.read_text(encoding="utf-8").split("\n\n", 1)[1].rstrip()[:-1])
+            self.assertIn("Event_2026_R_1_Recipe", entry["recipes"])
+            self.assertIn("Event_2026_R_MB_3_Recipe", entry["recipes"])
+            self.assertIn("Event_2026_Exchanger_R_1_Recipe", entry["recipes"])
             accomplished = load_workbook(accomplished_path, data_only=False)
             self.assertEqual(accomplished.sheetnames, ["conf"])
             accomplished_sheet = accomplished["conf"]
@@ -664,33 +681,20 @@ class WorkflowFastTests(unittest.TestCase):
             self.assertTrue(all(accomplished_sheet.cell(row, 13).value is None for row in (4, 5)))
             self.assertTrue(all(isinstance(accomplished_sheet.cell(row, 11).value, int) for row in (4, 5)))
             self.assertTrue(all(isinstance(accomplished_sheet.cell(row, 12).value, int) for row in (4, 5)))
-            self.assertEqual(
-                workbook.sheetnames,
-                [
-                    "КВЕСТЫ",
-                    "ЭКШЕНЫ",
-                    "РЕСУРСЫ",
-                    "ИНТЕРАКТИВ Chest",
-                    "ИНТЕРАКТИВ HELP",
-                    "ИНТЕРАКТИВ Exchanger",
-                    "ИНТЕРАКТИВ Story_FriendAction",
-                    "ИНТЕРАКТИВ Story_RandomRecipe",
-                    "ИНТЕРАКТИВ Mixer",
-                ],
-            )
-            self.assertEqual(workbook["КВЕСТЫ"].freeze_panes, "A4")
-            self.assertEqual(workbook["ЭКШЕНЫ"].freeze_panes, "A4")
-            self.assertEqual(workbook["РЕСУРСЫ"].freeze_panes, "A76")
-            self.assertEqual(workbook["ИНТЕРАКТИВ Story_RandomRecipe"].freeze_panes, "A22")
-            self.assertTrue(
-                all(
-                    sheet.freeze_panes is None
-                    for sheet in workbook.worksheets[3:]
-                    if sheet.title != "ИНТЕРАКТИВ Story_RandomRecipe"
-                )
-            )
-            quest_values = [str(value) for row in workbook["КВЕСТЫ"].iter_rows(values_only=True) for value in row if value]
+            self.assertTrue(all(book.active.freeze_panes is None for book in books.values()))
+            quest_values = [str(value) for row in books["Event_2026_quests.xlsx"].active.iter_rows(values_only=True) for value in row if value]
             self.assertIn("Проверочная группа", quest_values)
+            for book in books.values(): book.close()
+            snapshots = {p:p.read_bytes() for p in proto_dir.glob("*.xlsx")}
+            again = workflow_fast.main(["stage6","--campaign","Event_2026","--pack","pack_001",
+                                        "--campaigns-dir",str(campaigns_dir),"--context",str(context_path)])
+            self.assertEqual(again,1)
+            self.assertTrue(all(p.read_bytes()==data for p,data in snapshots.items()))
+            common=["--campaign","Event_2026","--pack","pack_001","--campaigns-dir",str(campaigns_dir),"--context",str(context_path)]
+            self.assertEqual(workflow_fast.main(["resource-table",*common,"--force"]),0)
+            self.assertEqual(workflow_fast.main(["interactive-objects",*common,"--export","--force"]),0)
+            self.assertTrue(all(p.suffix==".xlsx" or p.name in {"Event_2026_shop_invisible_packages.txt", "Event_2026_DayOfDomovoyCaldron.txt"} for p in proto_dir.iterdir()))
+            self.assertFalse(list(campaign_dir.rglob("*.csv")))
 
     def test_stage6_refuses_incomplete_review_set(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
